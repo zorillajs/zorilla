@@ -104,5 +104,8 @@ jobs:
       - name: Install Playwright browsers
         run: cd packages/playwright-extra && pnpm playwright install
 
+      - name: Install Chrome for Puppeteer
+        run: pnpm dlx puppeteer browsers install chrome
+
       - name: Run tests
         run: pnpm test

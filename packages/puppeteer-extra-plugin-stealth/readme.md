@@ -84,10 +84,10 @@ If something new comes up or you experience a problem, please do your homework a
 <table class="image">
 <tr>
 
-  <td><figure class="image"><a href="./stealthtests/_results/headless-chromium-vanilla.js.png"><img src="./stealthtests/_results/_thumbs/headless-chromium-vanilla.js.png"></a><figcaption>Chromium + headless</figcaption></figure></td>
-  <td><figure class="image"><a href="./stealthtests/_results/headful-chromium-vanilla.js.png"><img src="./stealthtests/_results/_thumbs/headful-chromium-vanilla.js.png"></a><figcaption>Chromium + headful</figcaption></figure></td>
-  <td><figure class="image"><a href="./stealthtests/_results/headless-chrome-vanilla.js.png"><img src="./stealthtests/_results/_thumbs/headless-chrome-vanilla.js.png"></a><figcaption>Chrome + headless</figcaption></figure></td>
-  <td><figure class="image"><a href="./stealthtests/_results/headful-chrome-vanilla.js.png"><img src="./stealthtests/_results/_thumbs/headful-chrome-vanilla.js.png"></a><figcaption>Chrome + headful</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headless-chromium-vanilla.js.png"><img src="./test/stealth/_results/_thumbs/headless-chromium-vanilla.js.png"></a><figcaption>Chromium + headless</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headful-chromium-vanilla.js.png"><img src="./test/stealth/_results/_thumbs/headful-chromium-vanilla.js.png"></a><figcaption>Chromium + headful</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headless-chrome-vanilla.js.png"><img src="./test/stealth/_results/_thumbs/headless-chrome-vanilla.js.png"></a><figcaption>Chrome + headless</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headful-chrome-vanilla.js.png"><img src="./test/stealth/_results/_thumbs/headful-chrome-vanilla.js.png"></a><figcaption>Chrome + headful</figcaption></figure></td>
 
 </tr>
 </table>
@@ -97,17 +97,17 @@ If something new comes up or you experience a problem, please do your homework a
 <table class="image">
 <tr>
 
-  <td><figure class="image"><a href="./stealthtests/_results/headless-chromium-stealth.js.png"><img src="./stealthtests/_results/_thumbs/headless-chromium-stealth.js.png"></a><figcaption>Chromium + headless</figcaption></figure></td>
-  <td><figure class="image"><a href="./stealthtests/_results/headful-chromium-stealth.js.png"><img src="./stealthtests/_results/_thumbs/headful-chromium-stealth.js.png"></a><figcaption>Chromium + headful</figcaption></figure></td>
-  <td><figure class="image"><a href="./stealthtests/_results/headless-chrome-stealth.js.png"><img src="./stealthtests/_results/_thumbs/headless-chrome-stealth.js.png"></a><figcaption>Chrome + headless</figcaption></figure></td>
-  <td><figure class="image"><a href="./stealthtests/_results/headful-chrome-stealth.js.png"><img src="./stealthtests/_results/_thumbs/headful-chrome-stealth.js.png"></a><figcaption>Chrome + headful</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headless-chromium-stealth.js.png"><img src="./test/stealth/_results/_thumbs/headless-chromium-stealth.js.png"></a><figcaption>Chromium + headless</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headful-chromium-stealth.js.png"><img src="./test/stealth/_results/_thumbs/headful-chromium-stealth.js.png"></a><figcaption>Chromium + headful</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headless-chrome-stealth.js.png"><img src="./test/stealth/_results/_thumbs/headless-chrome-stealth.js.png"></a><figcaption>Chrome + headless</figcaption></figure></td>
+  <td><figure class="image"><a href="./test/stealth/_results/headful-chrome-stealth.js.png"><img src="./test/stealth/_results/_thumbs/headful-chrome-stealth.js.png"></a><figcaption>Chrome + headful</figcaption></figure></td>
 
 </tr>
 </table>
 
 > Note: The `MQ_SCREEN` test is broken on their page (will fail in regular Chrome as well).
 
-Tests have been done using [this test site](https://bot.sannysoft.com/) and [these scripts](./stealthtests/).
+Tests have been done using [this test site](https://bot.sannysoft.com/) and [these scripts](./test/stealth/).
 
 #### Improved reCAPTCHA v3 scores
 
@@ -180,7 +180,7 @@ is kept as flexibile as possible, to support quick testing and iterations.
 This plugin uses `puppeteer-extra`'s dependency system to only require
 code mods for evasions that have been enabled, to keep things modular and efficient.
 
-The `stealth` plugin is a convenience wrapper that requires multiple [evasion techniques](./evasions/)
+The `stealth` plugin is a convenience wrapper that requires multiple [evasion techniques](./src/evasions/)
 automatically and comes with defaults. You could also bypass the main module and require
 specific evasion plugins yourself, if you whish to do so (as they're standalone `puppeteer-extra` plugins):
 
@@ -193,7 +193,7 @@ puppeteer.use(ConsoleDebug())
 #### Contributing
 
 PRs are welcome, if you want to add a new evasion technique I suggest you
-look at the [template](./evasions/_template) to kickstart things.
+look at the [template](./src/evasions/_template) to kickstart things.
 
 #### Kudos
 
@@ -240,7 +240,7 @@ Type: **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global
 
 Get all available evasions.
 
-Please look into the [evasions directory](./evasions/) for an up to date list.
+Please look into the [evasions directory](./src/evasions/) for an up to date list.
 
 Example:
 

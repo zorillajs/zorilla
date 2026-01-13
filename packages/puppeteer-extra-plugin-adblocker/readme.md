@@ -116,4 +116,4 @@ remove the ads before.
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

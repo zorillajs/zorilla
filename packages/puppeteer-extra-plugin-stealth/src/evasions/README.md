@@ -9,4 +9,4 @@ import ConsoleDebug from '@zorilla/puppeteer-extra-plugin-stealth/evasions/conso
 puppeteer.use(ConsoleDebug())
 ```
 
-If you want to add a new evasion technique I suggest you look at the [template](./_template/) to kickstart things.
+If you want to add a new evasion technique I suggest you look at the [template](./_template/README.md) to kickstart things.

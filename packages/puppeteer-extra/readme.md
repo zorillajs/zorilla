@@ -49,7 +49,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
 })
 ```
 
-The above example uses the [`stealth`](/packages/puppeteer-extra-plugin-stealth) and [`adblocker`](/packages/puppeteer-extra-plugin-adblocker) plugin, which need to be installed as well:
+The above example uses the [`stealth`](../puppeteer-extra-plugin-stealth/README.md) and [`adblocker`](../puppeteer-extra-plugin-adblocker/README.md) plugin, which need to be installed as well:
 
 ```bash
 npm install @zorilla/puppeteer-extra-plugin-stealth uppeteer-extra-plugin-adblocker
@@ -97,7 +97,7 @@ puppeteer
 <details>
  <summary><strong>Playwright usage</strong></summary><br/>
 
-[`playright-extra`](/packages/playwright-extra) with plugin support is available as well.
+[`playright-extra`](../playwright-extra/README.md) with plugin support is available as well.
 
 </details>
 
@@ -211,7 +211,7 @@ import Recaptcha from '@zorilla/puppeteer-extra-plugin-recaptcha'
 <details>
  <summary><strong>Using with <code>chrome-aws-lambda</code></strong></summary><br/>
 
-> If you plan to use [chrome-aws-lambda](https://github.com/alixaxel/chrome-aws-lambda) with the [`stealth`](/packages/puppeteer-extra-plugin-stealth) plugin, you'll need to modify the default args to remove the
+> If you plan to use [chrome-aws-lambda](https://github.com/alixaxel/chrome-aws-lambda) with the [`stealth`](../puppeteer-extra-plugin-stealth/README.md) plugin, you'll need to modify the default args to remove the
 > `--disable-notifications` flag to pass all the tests.
 
 ```js
@@ -277,47 +277,47 @@ browser
 
 ## Plugins
 
-#### 🔥 [`puppeteer-extra-plugin-stealth`](/packages/puppeteer-extra-plugin-stealth)
+#### 🔥 [`puppeteer-extra-plugin-stealth`](../puppeteer-extra-plugin-stealth/README.md)
 
 - Applies various evasion techniques to make detection of puppeteer harder.
 
-#### 🏴 [`puppeteer-extra-plugin-recaptcha`](/packages/puppeteer-extra-plugin-recaptcha)
+#### 🏴 [`puppeteer-extra-plugin-recaptcha`](../puppeteer-extra-plugin-recaptcha/README.md)
 
 - Solves reCAPTCHAs and hCaptchas automatically, using a single line of code: `page.solveRecaptchas()`.
 
-#### [`puppeteer-extra-plugin-adblocker`](/packages/puppeteer-extra-plugin-adblocker)
+#### [`puppeteer-extra-plugin-adblocker`](../puppeteer-extra-plugin-adblocker/README.md)
 
 - Very fast & efficient blocker for ads and trackers. Reduces bandwidth & load times.
 
-#### [`puppeteer-extra-plugin-devtools`](/packages/puppeteer-extra-plugin-devtools)
+#### [`puppeteer-extra-plugin-devtools`](../puppeteer-extra-plugin-devtools/README.md)
 
 - Makes puppeteer browser debugging possible from anywhere.
 - Creates a secure tunnel to make the devtools frontend (**incl. screencasting**) accessible from the public internet
 
-#### [`puppeteer-extra-plugin-repl`](/packages/puppeteer-extra-plugin-repl)
+#### [`puppeteer-extra-plugin-repl`](../puppeteer-extra-plugin-repl/README.md)
 
 - Makes quick puppeteer debugging and exploration fun with an interactive REPL.
 
-#### [`puppeteer-extra-plugin-block-resources`](/packages/puppeteer-extra-plugin-block-resources)
+#### [`puppeteer-extra-plugin-block-resources`](../puppeteer-extra-plugin-block-resources/README.md)
 
 - Blocks resources (images, media, css, etc.) in puppeteer.
 - Supports all resource types, blocking can be toggled dynamically.
 
-#### [`puppeteer-extra-plugin-flash`](/packages/puppeteer-extra-plugin-flash)
+#### [`puppeteer-extra-plugin-flash`](../puppeteer-extra-plugin-flash/README.md)
 
 - Allows flash content to run on all sites without user interaction.
 
-#### [`puppeteer-extra-plugin-anonymize-ua`](/packages/puppeteer-extra-plugin-anonymize-ua)
+#### [`puppeteer-extra-plugin-anonymize-ua`](../puppeteer-extra-plugin-anonymize-ua/README.md)
 
 - Anonymizes the user-agent on all pages.
 - Supports dynamic replacing, so the browser version stays intact and recent.
 
-#### [`puppeteer-extra-plugin-user-preferences`](/packages/puppeteer-extra-plugin-user-preferences)
+#### [`puppeteer-extra-plugin-user-preferences`](../puppeteer-extra-plugin-user-preferences/README.md)
 
 - Allows setting custom Chrome/Chromium user preferences.
-- Has itself a plugin interface which is used by e.g. [`puppeteer-extra-plugin-font-size`](/packages/puppeteer-extra-plugin-font-size).
+- Has itself a plugin interface which is used by e.g. [`puppeteer-extra-plugin-font-size`](../puppeteer-extra-plugin-font-size/README.md).
 
-> Check out the [packages folder](/packages/) for more plugins.
+> Check out the [packages folder](../../README.md#plugins) for more plugins.
 
 ### Community Plugins
 
@@ -349,7 +349,7 @@ _Please note that they're hosted outside the main project and not under our cont
 <details>
  <summary><strong>Contributing</strong></summary><br/>
 
-PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](/packages/puppeteer-extra-plugin) base class to get going and check out the [existing plugins](./packages/) (minimal example is the [anonymize-ua](/packages/puppeteer-extra-plugin-anonymize-ua/index.js) plugin) for reference.
+PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](../puppeteer-extra-plugin/README.md) base class to get going and check out the [existing plugins](../../README.md#plugins) (minimal example is the [anonymize-ua](../puppeteer-extra-plugin-anonymize-ua/README.md) plugin) for reference.
 
 We use a [monorepo](/) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, TypeScript for the core, and [Biome](https://biomejs.dev/) for linting and formatting. :-)
 
@@ -369,7 +369,7 @@ We use a [monorepo](/) powered by [pnpm workspaces](https://pnpm.io/workspaces),
 `puppeteer-extra` and all plugins are [tested continously](https://github.com/zorillajs/zorilla/actions) in a matrix of current (stable & LTS) NodeJS and puppeteer versions.
 We never broke compatibility and still support puppeteer down to very early versions from 2018.
 
-A few plugins won't work in headless mode (it's noted if that's the case) due to Chrome limitations (e.g. the [`user-preferences`](/packages/puppeteer-extra-plugin-user-preferences) plugin), look into `xvfb-run` if you still require a headless experience in these circumstances.
+A few plugins won't work in headless mode (it's noted if that's the case) due to Chrome limitations (e.g. the [`user-preferences`](../puppeteer-extra-plugin-user-preferences/README.md) plugin), look into `xvfb-run` if you still require a headless experience in these circumstances.
 
 </details>
 
@@ -573,7 +573,7 @@ puppeteer.use(...)
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
 
 <!-- Markdown footnotes (for links) -->
 
