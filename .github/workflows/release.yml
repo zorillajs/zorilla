@@ -17,7 +17,7 @@ jobs:
       id-token: write # Required for npm trusted publishing with OIDC
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Fetch all history for changelog generation
 
