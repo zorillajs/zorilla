@@ -77,7 +77,27 @@ export function requirePackages<TargetModule = unknown>(
   for (const name of packageNames) {
     try {
       return require(name) as TargetModule;
-    } catch (_) {}
+    } catch (err) {
+      // Silently ignore - will try import() next
+    }
+  }
+  return undefined;
+}
+
+export async function importPackages<TargetModule = unknown>(
+  packageNames: string[]
+): Promise<TargetModule | undefined> {
+  for (const name of packageNames) {
+    try {
+      const module = await import(name);
+      // ESM modules have a default export - use it if available
+      return (module.default || module) as TargetModule;
+    } catch (err) {
+      // Debug: log import errors to help diagnose issues
+      if (process.env.DEBUG?.includes('playwright-extra')) {
+        console.log(`Failed to import "${name}":`, (err as Error).message);
+      }
+    }
   }
   return undefined;
 }

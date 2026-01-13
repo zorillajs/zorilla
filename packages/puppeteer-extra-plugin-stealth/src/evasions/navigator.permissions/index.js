@@ -63,4 +63,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-module.exports = pluginConfig => new Plugin(pluginConfig);
+export default function (pluginConfig) {
+  return new Plugin(pluginConfig);
+}
