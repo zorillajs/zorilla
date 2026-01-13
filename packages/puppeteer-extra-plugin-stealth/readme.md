@@ -107,7 +107,7 @@ If something new comes up or you experience a problem, please do your homework a
 
 > Note: The `MQ_SCREEN` test is broken on their page (will fail in regular Chrome as well).
 
-Tests have been done using [this test site](https://bot.sannysoft.com/) and [these scripts](./test/stealth/).
+Tests have been done using [this test site](https://bot.sannysoft.com/) and these scripts in `test/stealth/`.
 
 #### Improved reCAPTCHA v3 scores
 
@@ -180,7 +180,7 @@ is kept as flexibile as possible, to support quick testing and iterations.
 This plugin uses `puppeteer-extra`'s dependency system to only require
 code mods for evasions that have been enabled, to keep things modular and efficient.
 
-The `stealth` plugin is a convenience wrapper that requires multiple [evasion techniques](./src/evasions/)
+The `stealth` plugin is a convenience wrapper that requires multiple [evasion techniques](./src/evasions/README.md)
 automatically and comes with defaults. You could also bypass the main module and require
 specific evasion plugins yourself, if you whish to do so (as they're standalone `puppeteer-extra` plugins):
 
@@ -193,7 +193,7 @@ puppeteer.use(ConsoleDebug())
 #### Contributing
 
 PRs are welcome, if you want to add a new evasion technique I suggest you
-look at the [template](./src/evasions/_template) to kickstart things.
+look at the [template](./src/evasions/_template/README.md) to kickstart things.
 
 #### Kudos
 
@@ -240,7 +240,7 @@ Type: **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global
 
 Get all available evasions.
 
-Please look into the [evasions directory](./src/evasions/) for an up to date list.
+Please look into the [evasions directory](./src/evasions/README.md) for an up to date list.
 
 Example:
 

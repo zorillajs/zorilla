@@ -7,29 +7,29 @@
 
 'package: core':
   - changed-files:
-    - any-glob-to-any-file:
-      - packages/automation-extra/**/*
-      - packages/playwright-extra/**/*
-      - packages/puppeteer-extra/**/*
-      - packages/automation-extra-plugin/**/*
-      - packages/puppeteer-extra-plugin/**/*
+      - any-glob-to-any-file:
+          - packages/automation-extra/**/*
+          - packages/playwright-extra/**/*
+          - packages/puppeteer-extra/**/*
+          - packages/automation-extra-plugin/**/*
+          - packages/puppeteer-extra-plugin/**/*
 
 'plugin: automation-extra':
   - changed-files:
-    - any-glob-to-any-file:
-      - packages/plugin-*/**/*
+      - any-glob-to-any-file:
+          - packages/plugin-*/**/*
 
 'plugin: puppeteer-extra':
   - changed-files:
-    - any-glob-to-any-file:
-      - packages/puppeteer-extra-plugin-*/**/*
+      - any-glob-to-any-file:
+          - packages/puppeteer-extra-plugin-*/**/*
 
 'plugin: recaptcha 🏴':
   - changed-files:
-    - any-glob-to-any-file:
-      - packages/*recaptcha*/**/*
+      - any-glob-to-any-file:
+          - packages/*recaptcha*/**/*
 
 'plugin: stealth ㊙️':
   - changed-files:
-    - any-glob-to-any-file:
-      - packages/*stealth*/**/*
+      - any-glob-to-any-file:
+          - packages/*stealth*/**/*
