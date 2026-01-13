@@ -116,4 +116,4 @@ DEBUG=puppeteer-extra-plugin:anonymize-ua node your-script.js
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

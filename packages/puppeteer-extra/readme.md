@@ -351,7 +351,7 @@ _Please note that they're hosted outside the main project and not under our cont
 
 PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](../puppeteer-extra-plugin/README.md) base class to get going and check out the [existing plugins](../../README.md#plugins) (minimal example is the [anonymize-ua](../puppeteer-extra-plugin-anonymize-ua/README.md) plugin) for reference.
 
-We use a [monorepo](/) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, TypeScript for the core, and [Biome](https://biomejs.dev/) for linting and formatting. :-)
+We use a [monorepo](../../README.md) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, TypeScript for the core, and [Biome](https://biomejs.dev/) for linting and formatting. :-)
 
 </details>
 

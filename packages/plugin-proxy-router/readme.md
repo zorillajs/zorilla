@@ -369,7 +369,7 @@ pnpm fix
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
 
 <!--
   Reference links

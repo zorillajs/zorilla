@@ -22,8 +22,7 @@
     "release": "pnpm build && changeset publish",
     "fix": "biome check --write .",
     "check": "biome check .",
-    "links": "linkinator \"**/*.md\" --config linkinator.config.json",
-    "links:ci": "linkinator \"**/*.md\" --config linkinator.config.json"
+    "links": "linkinator \"**/*.md\" --config linkinator.config.json"
   },
   "workspaces": [
     "packages/*"

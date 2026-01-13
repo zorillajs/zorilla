@@ -199,4 +199,4 @@ The plugin handles cleanup intelligently:
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

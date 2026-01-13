@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/media.codecs/index.js';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -20,7 +21,10 @@ test.skip('vanilla: doesnt support proprietary codecs (requires fpcollect)', asy
 });
 
 test('vanilla: will not have modifications', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // https://datadome.co/bot-detection/client-side-detection-is-essential-for-bot-protection/
@@ -55,7 +59,10 @@ test.skip('stealth: supports proprietary codecs (requires fpcollect)', async () 
 
 test('stealth: will not leak modifications', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // https://datadome.co/bot-detection/client-side-detection-is-essential-for-bot-protection/
@@ -80,7 +87,10 @@ test('stealth: will not leak modifications', async () => {
 });
 
 test('vanilla: normal toString stuff', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(() => {
@@ -92,7 +102,10 @@ test('vanilla: normal toString stuff', async () => {
 
 test('stealth: will not leak toString stuff', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(() => {

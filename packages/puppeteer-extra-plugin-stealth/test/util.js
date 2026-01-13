@@ -23,11 +23,24 @@ const getFingerPrintFromPage = async page => {
 
 const dummyHTMLPath = path.join(__dirname, './fixtures/dummy.html');
 
+// Get default launch args for tests (includes CI-specific flags)
+const getDefaultLaunchArgs = () => {
+  const args = [];
+  // Add --no-sandbox in CI environments where Chrome needs it
+  if (process.env.CI) {
+    args.push('--no-sandbox', '--disable-setuid-sandbox');
+  }
+  return args;
+};
+
 const getFingerPrint = async (puppeteer, pageFn) => {
   if (!fpCollectPath) {
     throw new Error('fpcollect not available - dist needs to be built');
   }
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('file://' + dummyHTMLPath);
   await page.addScriptTag({ path: fpCollectPath });
@@ -79,4 +92,5 @@ export {
   vanillaPuppeteer,
   addExtra,
   compareLooseVersionStrings,
+  getDefaultLaunchArgs,
 };

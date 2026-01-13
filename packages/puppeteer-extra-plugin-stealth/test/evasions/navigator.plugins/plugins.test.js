@@ -1,10 +1,17 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.plugins/index.js';
-import { addExtra, vanillaPuppeteer } from '../../util.js';
+import {
+  addExtra,
+  getDefaultLaunchArgs,
+  vanillaPuppeteer,
+} from '../../util.js';
 
 test('stealth: will have convincing plugins', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {
@@ -141,7 +148,10 @@ test('stealth: will have convincing plugins', async () => {
 
 test('stealth: will have convincing plugin entry', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => ({

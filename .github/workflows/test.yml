@@ -64,7 +64,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check links in markdown files
-        run: pnpm links:ci
+        run: pnpm links
 
   test:
     name: Test (Node ${{ matrix.node }}, ${{ matrix.os }})

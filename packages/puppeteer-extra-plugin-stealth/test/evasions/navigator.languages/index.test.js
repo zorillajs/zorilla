@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.languages/index.js';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -16,7 +17,10 @@ test.skip('vanilla: is array with en-US (requires fpcollect)', async () => {
 });
 
 test('vanilla: will not have modifications', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(
@@ -45,7 +49,10 @@ test.skip('stealth: customized value (requires fpcollect)', async () => {
 
 test('stealth: will not leak modifications', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(
@@ -61,7 +68,10 @@ test('stealth: will not leak modifications', async () => {
 
 test('stealth: does patch getters properly', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {

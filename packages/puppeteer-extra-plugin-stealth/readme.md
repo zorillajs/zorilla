@@ -286,4 +286,4 @@ Default export, PuppeteerExtraStealthPlugin
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

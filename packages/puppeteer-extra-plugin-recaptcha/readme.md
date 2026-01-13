@@ -278,4 +278,4 @@ await page.solveRecaptchas()
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

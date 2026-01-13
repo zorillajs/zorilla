@@ -283,7 +283,7 @@ pnpm build         # Build TypeScript
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
 
 ## Contributing
 

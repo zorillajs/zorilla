@@ -1,6 +1,10 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/chrome.csi/index.js';
-import { addExtra, vanillaPuppeteer } from '../../util.js';
+import {
+  addExtra,
+  getDefaultLaunchArgs,
+  vanillaPuppeteer,
+} from '../../util.js';
 
 /* global chrome */
 
@@ -10,7 +14,10 @@ test('stealth: will add functional chrome.csi function mock', async () => {
       runOnInsecureOrigins: true, // for testing
     })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {

@@ -310,7 +310,7 @@ console.log('Local DevTools:', localUrl);
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
 
 ## Contributing
 

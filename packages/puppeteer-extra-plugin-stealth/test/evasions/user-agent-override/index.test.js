@@ -1,10 +1,14 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/user-agent-override/index.js';
-import { addExtra, vanillaPuppeteer } from '../../util.js';
+import {
+  addExtra,
+  getDefaultLaunchArgs,
+  vanillaPuppeteer,
+} from '../../util.js';
 
 // Fixed since 2.1.1?
 // test('vanilla: Accept-Language header is missing', async () => {
-//   const browser = await vanillaPuppeteer.launch({ headless: true })
+//   const browser = await vanillaPuppeteer.launch({ headless: true, args: getDefaultLaunchArgs() })
 //   const page = await browser.newPage()
 //   await page.goto('http://httpbin.org/headers')
 //
@@ -14,7 +18,10 @@ import { addExtra, vanillaPuppeteer } from '../../util.js';
 // })
 
 test.skip('vanilla: User-Agent header contains HeadlessChrome', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('http://httpbin.org/headers');
 
@@ -24,14 +31,20 @@ test.skip('vanilla: User-Agent header contains HeadlessChrome', async () => {
 });
 
 test.skip('vanilla: navigator.languages is always en-US', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   const lang = await page.evaluate(() => navigator.languages);
   expect(lang.length === 1 && lang[0] === 'en-US').toBe(true);
 });
 
 test.skip('vanilla: navigator.platform set to host platform', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const platform = await page.evaluate(() => navigator.platform);
@@ -52,7 +65,10 @@ test.skip('vanilla: navigator.platform set to host platform', async () => {
 
 test.skip('stealth: Accept-Language header with default locale', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('http://httpbin.org/headers');
 
@@ -65,7 +81,10 @@ test.skip('stealth: Accept-Language header with optional locale', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ locale: 'de-DE,de' })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('http://httpbin.org/headers');
 
@@ -76,7 +95,10 @@ test.skip('stealth: Accept-Language header with optional locale', async () => {
 
 test.skip('stealth: User-Agent header does not contain HeadlessChrome', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('http://httpbin.org/headers');
 
@@ -89,7 +111,10 @@ test.skip('stealth: User-Agent header with custom userAgent', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ userAgent: 'MyFunkyUA/1.0' })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('http://httpbin.org/headers');
 
@@ -99,7 +124,10 @@ test.skip('stealth: User-Agent header with custom userAgent', async () => {
 
 test.skip('stealth: navigator.languages with default locale', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const lang = await page.evaluate(() => navigator.languages);
@@ -112,7 +140,10 @@ test.skip('stealth: navigator.languages with custom locale', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ locale: 'de-DE,de' })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const langs = await page.evaluate(() => navigator.languages);
@@ -128,7 +159,10 @@ test.skip('stealth: navigator.platform with maskLinux true (default)', async () 
         'Mozilla/5.0 (X11; Ubuntu; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.9.9999.99 Safari/537.36',
     })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const platform = await page.evaluate(() => navigator.platform);
@@ -143,7 +177,10 @@ test.skip('stealth: navigator.platform with maskLinux false', async () => {
       maskLinux: false,
     })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const platform = await page.evaluate(() => navigator.platform);

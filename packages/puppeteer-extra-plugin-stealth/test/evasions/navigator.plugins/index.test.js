@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.plugins/index.js';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -14,7 +15,10 @@ test.skip('vanilla: empty plugins, empty mimetypes (requires fpcollect)', async 
 });
 
 test('vanilla: will not have modifications', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(() => ({
@@ -38,7 +42,10 @@ test.skip('stealth: has plugin, has mimetypes (requires fpcollect)', async () =>
 
 test('stealth: will not leak modifications', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(() => ({

@@ -172,4 +172,4 @@ await repl.repl(page); // or any object/class instance
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

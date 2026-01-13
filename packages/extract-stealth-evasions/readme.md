@@ -221,7 +221,7 @@ The generated file contains standalone JavaScript that can be executed in any br
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
 
 ## Related
 

@@ -206,7 +206,7 @@ pnpm test:coverage     # Run tests with coverage report
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
 
 ## Related Plugins
 

@@ -358,4 +358,4 @@ console.log(chromium.plugins.names)
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)

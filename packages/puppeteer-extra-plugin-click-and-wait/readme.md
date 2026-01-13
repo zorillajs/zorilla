@@ -48,4 +48,4 @@ await Promise.all([
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](LICENSE)
