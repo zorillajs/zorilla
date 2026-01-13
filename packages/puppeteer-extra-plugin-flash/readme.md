@@ -1,18 +1,12 @@
 # puppeteer-extra-plugin-flash
 
-> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla).
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla).
 
 ## Install
 
 ```bash
 npm install puppeteer-extra-plugin-flash
 ```
-
-## Changelog
-
-#### `v2.2.5`
-
-- Improved: Fixes flash content in newer Chrome versions (76+) ([#133](https://github.com/zorillajs/zorilla/pull/133), thanks [@Niek](https://github.com/Niek))
 
 ## API
 
@@ -58,3 +52,7 @@ puppeteer.use(flashPlugin())
 ```
 
 ---
+
+## License
+
+[MIT](LICENSE)

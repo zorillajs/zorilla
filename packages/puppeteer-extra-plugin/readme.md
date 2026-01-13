@@ -6,24 +6,6 @@
 npm install puppeteer-extra-plugin
 ```
 
-## Changelog
-
-<details>
- <summary><strong>v3.0.1</strong></summary><br>
-
-- Now written in TypeScript 🎉
-- **Breaking change:** Now using a named export:
-
-```js
-// Before
-const PuppeteerExtraPlugin = require('@zorilla/puppeteer-extra-plugin')
-
-// After (>= v3.0.1)
-const { PuppeteerExtraPlugin } = require('@zorilla/puppeteer-extra-plugin')
-```
-
-</details>
-
 ## API
 
 
@@ -150,6 +132,7 @@ get defaults () {
 }
 
 // Users can overwrite plugin defaults during instantiation:
+import puppeteer from '@zorilla/puppeteer-extra'
 import foobarPlugin from '@zorilla/puppeteer-extra-plugin-foobar'
 puppeteer.use(foobarPlugin({ makeWindows: false }))
 ```
@@ -337,8 +320,10 @@ E.g. when using `onPageCreated` you can get a browser reference by using `page.b
 
 Alternatively you could expose a class method that takes a browser instance as a parameter to work with:
 
-```es6
+```js
+import puppeteer from '@zorilla/puppeteer-extra'
 import fancyPlugin from '@zorilla/puppeteer-extra-plugin-fancy'
+
 const fancy = fancyPlugin()
 puppeteer.use(fancy)
 const browser = await puppeteer.launch()
@@ -509,3 +494,7 @@ in order to use this method. Will be mapped to `puppeteer.getPluginData`.
 - **See: [requirements]**
 
 ---
+
+## License
+
+[MIT](LICENSE)

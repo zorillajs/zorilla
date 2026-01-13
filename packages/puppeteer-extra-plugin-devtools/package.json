@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-devtools",
-  "version": "2.4.6",
+  "version": "1.0.0",
   "description": "Make puppeteer browser debugging possible from anywhere (devtools with screencasting on the internet).",
   "type": "module",
   "main": "./dist/index.js",

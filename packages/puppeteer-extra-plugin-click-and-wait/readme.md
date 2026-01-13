@@ -1,6 +1,6 @@
 # puppeteer-extra-plugin-click-and-wait
 
-> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla).
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla).
 
 ### Install
 
@@ -45,3 +45,7 @@ await Promise.all([
 ```
 
 * * *
+
+## License
+
+[MIT](LICENSE)

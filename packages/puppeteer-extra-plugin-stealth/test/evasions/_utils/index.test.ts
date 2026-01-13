@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import utils from '../../../src/evasions/_utils/index.js';
 import withUtils from '../../../src/evasions/_utils/withUtils.js';
-import { vanillaPuppeteer } from '../../util.js';
+import { getDefaultLaunchArgs, vanillaPuppeteer } from '../../util.js';
 
 /* global HTMLMediaElement WebGLRenderingContext */
 
@@ -25,7 +25,10 @@ test('makeNativeString: will do what it says', async () => {
 });
 
 test('replaceWithProxy: will work correctly', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await withUtils(page).evaluate(utils => {
@@ -57,7 +60,10 @@ test('replaceWithProxy: will work correctly', async () => {
 });
 
 test('replaceObjPathWithProxy: will work correctly', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await withUtils(page).evaluate(utils => {
@@ -88,7 +94,10 @@ test('replaceObjPathWithProxy: will work correctly', async () => {
 });
 
 test('redirectToString: is battle hardened', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // Patch all documents including iframes
@@ -172,7 +181,10 @@ test('redirectToString: is battle hardened', async () => {
 });
 
 test('redirectToString: has proper errors', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // Patch all documents including iframes
@@ -215,7 +227,10 @@ test('redirectToString: has proper errors', async () => {
 });
 
 test('patchToString: will work correctly', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // Test verbatim string replacement
@@ -278,7 +293,10 @@ function toStringTest(obj) {
 
 test('patchToString: passes all toString tests', async () => {
   const toStringVanilla = await (async () => {
-    const browser = await vanillaPuppeteer.launch({ headless: true });
+    const browser = await vanillaPuppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
     const page = await browser.newPage();
     return page.evaluate(
       toStringTest,
@@ -286,7 +304,10 @@ test('patchToString: passes all toString tests', async () => {
     );
   })();
   const toStringStealth = await (async () => {
-    const browser = await vanillaPuppeteer.launch({ headless: true });
+    const browser = await vanillaPuppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
     const page = await browser.newPage();
     await withUtils(page).evaluate(utils => {
       HTMLMediaElement.prototype.canPlayType = function canPlayType() {};
@@ -331,12 +352,18 @@ test('patchToString: passes stack trace tests', async () => {
   };
 
   const toStringVanilla = await (async () => {
-    const browser = await vanillaPuppeteer.launch({ headless: true });
+    const browser = await vanillaPuppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
     const page = await browser.newPage();
     return page.evaluate(toStringStackTrace);
   })();
   const toStringStealth = await (async () => {
-    const browser = await vanillaPuppeteer.launch({ headless: true });
+    const browser = await vanillaPuppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
     const page = await browser.newPage();
     await withUtils(page).evaluate(utils => {
       HTMLMediaElement.prototype.canPlayType = function canPlayType() {};
@@ -355,7 +382,10 @@ test('patchToString: passes stack trace tests', async () => {
 });
 
 test('patchToString: vanilla has iframe issues', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // Only patch the main window
@@ -388,7 +418,10 @@ test('patchToString: vanilla has iframe issues', async () => {
 });
 
 test('patchToString: stealth has no iframe issues', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   // Patch all documents including iframes
@@ -424,7 +457,10 @@ test('patchToString: stealth has no iframe issues', async () => {
 });
 
 test('stripProxyFromErrors: will work correctly', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await withUtils(page).evaluate(utils => {
@@ -476,7 +512,10 @@ test('stripProxyFromErrors: will work correctly', async () => {
 });
 
 test('replaceProperty: will work without traces', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await withUtils(page).evaluate(utils => {
@@ -491,7 +530,10 @@ test('replaceProperty: will work without traces', async () => {
 });
 
 test('cache: will prevent leaks through overriding methods', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await withUtils(page).evaluate(utils => {
@@ -534,7 +576,10 @@ test('cache: will prevent leaks through overriding methods', async () => {
 });
 
 test('replaceWithProxy: will throw prototype errors', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('about:blank');
 
@@ -577,7 +622,10 @@ test('replaceWithProxy: will throw prototype errors', async () => {
 });
 
 test('replaceGetterSetter', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('about:blank');
 
@@ -646,7 +694,10 @@ test('replaceGetterSetter', async () => {
 });
 
 test('arrayEquals', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('about:blank');
 
@@ -675,7 +726,10 @@ test('arrayEquals', async () => {
 });
 
 test('memoize', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('about:blank');
 

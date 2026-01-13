@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-adblocker",
-  "version": "2.13.6",
+  "version": "1.0.0",
   "description": "A puppeteer-extra plugin to block ads and trackers.",
   "type": "module",
   "main": "dist/index.js",
@@ -26,8 +26,7 @@
     "tscheck": "tsc --pretty --noEmit",
     "build": "tsc && node build_version_check.js",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test-ci": "vitest run"
+    "test:coverage": "vitest run --coverage"
   },
   "engines": {
     "node": ">=20"

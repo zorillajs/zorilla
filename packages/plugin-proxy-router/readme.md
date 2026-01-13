@@ -1,6 +1,6 @@
 # @zorilla/proxy-router [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push)](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/@zorilla/proxy-router.svg)](https://www.npmjs.com/package/@zorilla/proxy-router)
 
-> A plugin for [playwright-extra] and [puppeteer-extra] to route proxies dynamically.
+> A plugin for [`playwright-extra`] and [`puppeteer-extra`] to route proxies dynamically.
 
 ## Install
 
@@ -11,7 +11,7 @@ npm install @zorilla/proxy-router
 <details>
  <summary>Playwright</summary>
 
-If this is your first [playwright-extra] plugin here's everything you need:
+If this is your first [`playwright-extra`] plugin here's everything you need:
 
 ```bash
 npm install playwright @zorilla/playwright-extra @zorilla/proxy-router
@@ -21,7 +21,7 @@ npm install playwright @zorilla/playwright-extra @zorilla/proxy-router
 <details>
  <summary>Puppeteer</summary>
 
-If this is your first [puppeteer-extra] plugin here's everything you need:
+If this is your first [`puppeteer-extra`] plugin here's everything you need:
 
 ```bash
 npm install puppeteer @zorilla/puppeteer-extra @zorilla/proxy-router
@@ -369,7 +369,7 @@ pnpm fix
 
 ## License
 
-Copyright © 2018 - 2025, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](https://github.com/berstend). Released under the MIT License.
+[MIT](LICENSE)
 
 <!--
   Reference links

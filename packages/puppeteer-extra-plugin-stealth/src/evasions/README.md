@@ -2,12 +2,11 @@
 
 Various detection evasion plugins for `puppeteer-extra-plugin-stealth`.
 
-You can bypass the main module and require specific evasion plugins yourself, if you wish to do so:
+You can bypass the main module and import specific evasion plugins yourself, if you wish to do so:
 
-```es6
-puppeteer.use(
-  require('@zorilla/puppeteer-extra-plugin-stealth/evasions/console.debug')()
-)
+```js
+import ConsoleDebug from '@zorilla/puppeteer-extra-plugin-stealth/evasions/console.debug'
+puppeteer.use(ConsoleDebug())
 ```
 
-If you want to add a new evasion technique I suggest you look at the [template](./_template/) to kickstart things.
+If you want to add a new evasion technique I suggest you look at the [template](./_template/README.md) to kickstart things.

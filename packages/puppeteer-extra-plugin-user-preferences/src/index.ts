@@ -29,7 +29,7 @@ interface PluginOptions {
  * Plugins can add user preferences by exposing a data entry with the name `userPreferences`.
  *
  * Overview:
- * https://chromium.googlesource.com/chromium/src/+/master/chrome/common/pref_names.cc
+ * https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.cc
  *
  * @param {Object} opts - Options
  * @param {Object} [opts.userPrefs={}] - An object containing the preferences.

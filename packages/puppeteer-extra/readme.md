@@ -19,14 +19,14 @@ npm i puppeteer@2.0.0 puppeteer-extra
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality.
 // Any number of plugins can be added through `puppeteer.use()`
-const puppeteer = require('@zorilla/puppeteer-extra')
+import puppeteer from '@zorilla/puppeteer-extra'
 
 // Add stealth plugin and use defaults (all tricks to hide puppeteer usage)
-const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 puppeteer.use(StealthPlugin())
 
 // Add adblocker plugin to block all ads and trackers (saves bandwidth)
-const AdblockerPlugin = require('@zorilla/puppeteer-extra-plugin-adblocker')
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker'
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
 
 // That's it, the rest is puppeteer usage as normal 😊
@@ -49,7 +49,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
 })
 ```
 
-The above example uses the [`stealth`](/packages/puppeteer-extra-plugin-stealth) and [`adblocker`](/packages/puppeteer-extra-plugin-adblocker) plugin, which need to be installed as well:
+The above example uses the [`stealth`](../puppeteer-extra-plugin-stealth/README.md) and [`adblocker`](../puppeteer-extra-plugin-adblocker/README.md) plugin, which need to be installed as well:
 
 ```bash
 npm install @zorilla/puppeteer-extra-plugin-stealth uppeteer-extra-plugin-adblocker
@@ -97,7 +97,7 @@ puppeteer
 <details>
  <summary><strong>Playwright usage</strong></summary><br/>
 
-[`playright-extra`](/packages/playwright-extra) with plugin support is available as well.
+[`playright-extra`](../playwright-extra/README.md) with plugin support is available as well.
 
 </details>
 
@@ -105,10 +105,9 @@ puppeteer
  <summary><strong>Multiple puppeteers with different plugins</strong></summary><br/>
 
 ```js
-const vanillaPuppeteer = require('puppeteer')
-
-const { addExtra } = require('@zorilla/puppeteer-extra')
-const AnonymizeUA = require('@zorilla/puppeteer-extra-plugin-anonymize-ua')
+import vanillaPuppeteer from 'puppeteer'
+import { addExtra } from '@zorilla/puppeteer-extra'
+import AnonymizeUA from '@zorilla/puppeteer-extra-plugin-anonymize-ua'
 
 async function main() {
   const pptr1 = addExtra(vanillaPuppeteer)
@@ -151,12 +150,11 @@ async function checkUserAgent(pptr) {
 > [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster) allows you to create a cluster of puppeteer workers and plays well together with `puppeteer-extra`.
 
 ```js
-const { Cluster } = require('puppeteer-cluster')
-const vanillaPuppeteer = require('puppeteer')
-
-const { addExtra } = require('@zorilla/puppeteer-extra')
-const Stealth = require('@zorilla/puppeteer-extra-plugin-stealth')
-const Recaptcha = require('@zorilla/puppeteer-extra-plugin-recaptcha')
+import { Cluster } from 'puppeteer-cluster'
+import vanillaPuppeteer from 'puppeteer'
+import { addExtra } from '@zorilla/puppeteer-extra'
+import Stealth from '@zorilla/puppeteer-extra-plugin-stealth'
+import Recaptcha from '@zorilla/puppeteer-extra-plugin-recaptcha'
 
 async function main() {
   // Create a custom puppeteer-extra instance using `addExtra`,
@@ -213,12 +211,13 @@ import Recaptcha from '@zorilla/puppeteer-extra-plugin-recaptcha'
 <details>
  <summary><strong>Using with <code>chrome-aws-lambda</code></strong></summary><br/>
 
-> If you plan to use [chrome-aws-lambda](https://github.com/alixaxel/chrome-aws-lambda) with the [`stealth`](/packages/puppeteer-extra-plugin-stealth) plugin, you'll need to modify the default args to remove the
+> If you plan to use [chrome-aws-lambda](https://github.com/alixaxel/chrome-aws-lambda) with the [`stealth`](../puppeteer-extra-plugin-stealth/README.md) plugin, you'll need to modify the default args to remove the
 > `--disable-notifications` flag to pass all the tests.
 
 ```js
-const chromium = require('chrome-aws-lambda')
-const { addExtra } = require('@zorilla/puppeteer-extra')
+import chromium from 'chrome-aws-lambda'
+import { addExtra } from '@zorilla/puppeteer-extra'
+
 const puppeteerExtra = addExtra(chromium.puppeteer)
 
 const launch = async () => {
@@ -248,19 +247,22 @@ launch() // Launch Browser
 > [Kikobeats/browserless](https://github.com/Kikobeats/browserless) is a puppeteer-like Node.js library for interacting with Headless production scenarios.
 
 ```js
-const puppeteer = require('@zorilla/puppeteer-extra')
-const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
+import puppeteer from '@zorilla/puppeteer-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+import browserless from 'browserless'
+import { createWriteStream } from 'fs'
+
 puppeteer.use(StealthPlugin())
 
-const browserless = require('browserless')({ puppeteer })
+const browser = browserless({ puppeteer })
 
 const saveBufferToFile = (buffer, fileName) => {
-  const wstream = require('fs').createWriteStream(fileName)
+  const wstream = createWriteStream(fileName)
   wstream.write(buffer)
   wstream.end()
 }
 
-browserless
+browser
   .screenshot('https://bot.sannysoft.com', { device: 'iPhone 6' })
   .then(buffer => {
     const fileName = 'screenshot.png'
@@ -275,47 +277,47 @@ browserless
 
 ## Plugins
 
-#### 🔥 [`puppeteer-extra-plugin-stealth`](/packages/puppeteer-extra-plugin-stealth)
+#### 🔥 [`puppeteer-extra-plugin-stealth`](../puppeteer-extra-plugin-stealth/README.md)
 
 - Applies various evasion techniques to make detection of puppeteer harder.
 
-#### 🏴 [`puppeteer-extra-plugin-recaptcha`](/packages/puppeteer-extra-plugin-recaptcha)
+#### 🏴 [`puppeteer-extra-plugin-recaptcha`](../puppeteer-extra-plugin-recaptcha/README.md)
 
 - Solves reCAPTCHAs and hCaptchas automatically, using a single line of code: `page.solveRecaptchas()`.
 
-#### [`puppeteer-extra-plugin-adblocker`](/packages/puppeteer-extra-plugin-adblocker)
+#### [`puppeteer-extra-plugin-adblocker`](../puppeteer-extra-plugin-adblocker/README.md)
 
 - Very fast & efficient blocker for ads and trackers. Reduces bandwidth & load times.
 
-#### [`puppeteer-extra-plugin-devtools`](/packages/puppeteer-extra-plugin-devtools)
+#### [`puppeteer-extra-plugin-devtools`](../puppeteer-extra-plugin-devtools/README.md)
 
 - Makes puppeteer browser debugging possible from anywhere.
 - Creates a secure tunnel to make the devtools frontend (**incl. screencasting**) accessible from the public internet
 
-#### [`puppeteer-extra-plugin-repl`](/packages/puppeteer-extra-plugin-repl)
+#### [`puppeteer-extra-plugin-repl`](../puppeteer-extra-plugin-repl/README.md)
 
 - Makes quick puppeteer debugging and exploration fun with an interactive REPL.
 
-#### [`puppeteer-extra-plugin-block-resources`](/packages/puppeteer-extra-plugin-block-resources)
+#### [`puppeteer-extra-plugin-block-resources`](../puppeteer-extra-plugin-block-resources/README.md)
 
 - Blocks resources (images, media, css, etc.) in puppeteer.
 - Supports all resource types, blocking can be toggled dynamically.
 
-#### [`puppeteer-extra-plugin-flash`](/packages/puppeteer-extra-plugin-flash)
+#### [`puppeteer-extra-plugin-flash`](../puppeteer-extra-plugin-flash/README.md)
 
 - Allows flash content to run on all sites without user interaction.
 
-#### [`puppeteer-extra-plugin-anonymize-ua`](/packages/puppeteer-extra-plugin-anonymize-ua)
+#### [`puppeteer-extra-plugin-anonymize-ua`](../puppeteer-extra-plugin-anonymize-ua/README.md)
 
 - Anonymizes the user-agent on all pages.
 - Supports dynamic replacing, so the browser version stays intact and recent.
 
-#### [`puppeteer-extra-plugin-user-preferences`](/packages/puppeteer-extra-plugin-user-preferences)
+#### [`puppeteer-extra-plugin-user-preferences`](../puppeteer-extra-plugin-user-preferences/README.md)
 
 - Allows setting custom Chrome/Chromium user preferences.
-- Has itself a plugin interface which is used by e.g. [`puppeteer-extra-plugin-font-size`](/packages/puppeteer-extra-plugin-font-size).
+- Has itself a plugin interface which is used by e.g. [`puppeteer-extra-plugin-font-size`](../puppeteer-extra-plugin-font-size/README.md).
 
-> Check out the [packages folder](/packages/) for more plugins.
+> Check out the [packages folder](../../README.md#plugins) for more plugins.
 
 ### Community Plugins
 
@@ -347,9 +349,9 @@ _Please note that they're hosted outside the main project and not under our cont
 <details>
  <summary><strong>Contributing</strong></summary><br/>
 
-PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](/packages/puppeteer-extra-plugin) base class to get going and check out the [existing plugins](./packages/) (minimal example is the [anonymize-ua](/packages/puppeteer-extra-plugin-anonymize-ua/index.js) plugin) for reference.
+PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](../puppeteer-extra-plugin/README.md) base class to get going and check out the [existing plugins](../../README.md#plugins) (minimal example is the [anonymize-ua](../puppeteer-extra-plugin-anonymize-ua/README.md) plugin) for reference.
 
-We use a [monorepo](/) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, TypeScript for the core, and [Biome](https://biomejs.dev/) for linting and formatting. :-)
+We use a [monorepo](../../README.md) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, TypeScript for the core, and [Biome](https://biomejs.dev/) for linting and formatting. :-)
 
 </details>
 
@@ -367,27 +369,9 @@ We use a [monorepo](/) powered by [pnpm workspaces](https://pnpm.io/workspaces),
 `puppeteer-extra` and all plugins are [tested continously](https://github.com/zorillajs/zorilla/actions) in a matrix of current (stable & LTS) NodeJS and puppeteer versions.
 We never broke compatibility and still support puppeteer down to very early versions from 2018.
 
-A few plugins won't work in headless mode (it's noted if that's the case) due to Chrome limitations (e.g. the [`user-preferences`](/packages/puppeteer-extra-plugin-user-preferences) plugin), look into `xvfb-run` if you still require a headless experience in these circumstances.
+A few plugins won't work in headless mode (it's noted if that's the case) due to Chrome limitations (e.g. the [`user-preferences`](../puppeteer-extra-plugin-user-preferences/README.md) plugin), look into `xvfb-run` if you still require a headless experience in these circumstances.
 
 </details>
-
-## Changelog
-
-<details>
- <summary><code>2.1.6 ➠ 3.1.1</code></summary>
-
-### `2.1.6` ➠ `3.1.1`
-
-Big refactor, the core is now **written in TypeScript** 🎉
-That means out of the box type safety for fellow TS users and nice auto-completion in VSCode for JS users. Also:
-
-- A new [`addExtra`](#addextrapuppeteer) export, to **patch any puppeteer compatible library with plugin functionality** (`chrome-aws-lambda`, etc). This also allows for multiple puppeteer instances with different plugins.
-
-The API is backwards compatible, I bumped the major version just in case I missed something. Please report any issues you might find with the new release. :)
-
-</details>
-
----
 
 ## API
 
@@ -417,11 +401,13 @@ to extend puppeteer with additional functionality.
 Example:
 
 ```javascript
-const puppeteer = require('@zorilla/puppeteer-extra')
-puppeteer.use(require('@zorilla/puppeteer-extra-plugin-anonymize-ua')())
-puppeteer.use(
-  require('@zorilla/puppeteer-extra-plugin-font-size')({ defaultFontSize: 18 })
-)
+import puppeteer from '@zorilla/puppeteer-extra'
+import AnonymizeUA from '@zorilla/puppeteer-extra-plugin-anonymize-ua'
+import FontSize from '@zorilla/puppeteer-extra-plugin-font-size'
+
+puppeteer.use(AnonymizeUA())
+puppeteer.use(FontSize({ defaultFontSize: 18 }))
+
 ;(async () => {
   const browser = await puppeteer.launch({ headless: false })
   const page = await browser.newPage()
@@ -554,10 +540,6 @@ from the installed dependencies.
 Example:
 
 ```javascript
-// javascript import
-const puppeteer = require('@zorilla/puppeteer-extra')
-
-// typescript/es6 module import
 import puppeteer from '@zorilla/puppeteer-extra'
 
 // Add plugins
@@ -579,11 +561,6 @@ This is useful in case you need multiple puppeteer instances with different plug
 Example:
 
 ```javascript
-// js import
-const puppeteerVanilla = require('puppeteer')
-const { addExtra } = require('@zorilla/puppeteer-extra')
-
-// ts/es6 import
 import puppeteerVanilla from 'puppeteer'
 import { addExtra } from '@zorilla/puppeteer-extra'
 
@@ -596,7 +573,7 @@ puppeteer.use(...)
 
 ## License
 
-Copyright © 2018 - 2023, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](mailto:github@berstend.com?subject=[GitHub]%20PuppeteerExtra). Released under the MIT License.
+[MIT](LICENSE)
 
 <!-- Markdown footnotes (for links) -->
 

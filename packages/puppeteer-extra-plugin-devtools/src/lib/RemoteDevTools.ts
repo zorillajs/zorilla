@@ -218,9 +218,9 @@ class DevToolsTunnel extends DevToolsCommon {
     body = body.replace(`fetch(url).`, `fetch(url, {credentials: 'include'}).`);
 
     // Fix for headless index pages that use weird client-side JS to modify the devtoolsFrontendUrl to something not working for us
-    // https://github.com/JustinBeckwith/zorilla/issues/566
+    // https://github.com/berstend/puppeteer-extra/issues/566
     body = body.replace(
-      'link.href = `https:zorillajs/zorillatend.appspot.com',
+      'link.href = `https://chrome-devtools-frontend.appspot.com',
       'link.href = item.devtoolsFrontendUrl; // '
     );
 

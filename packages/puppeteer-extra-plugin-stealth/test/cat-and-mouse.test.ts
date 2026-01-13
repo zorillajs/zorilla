@@ -3,6 +3,7 @@ import Plugin from '../dist/index.js';
 import {
   addExtra,
   compareLooseVersionStrings,
+  getDefaultLaunchArgs,
   vanillaPuppeteer,
 } from './util.js';
 
@@ -18,7 +19,7 @@ const isOldPuppeteerVersion = () => {
 test.skip('stealth: will pass Paul Irish (requires user-preferences)', async () => {
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
   await page.exposeFunction(
     'compareLooseVersionStrings',

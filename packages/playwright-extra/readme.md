@@ -2,11 +2,11 @@
 
 > A modular plugin framework for [playwright](https://github.com/microsoft/playwright) to enable cool [plugins](#plugins) through a clean interface.
 
-**Part of the [zorilla](https://github.com/zorillajs/zorilla) monorepo** - a maintained fork of puppeteer-extra with modern tooling and ESM support.
+**Part of the [zorilla](https://github.com/zorillajs/zorilla) monorepo** - a maintained fork of `puppeteer-extra` with modern tooling and ESM support.
 
 ## Requirements
 
-- Node.js 18+ (ESM only)
+- Node.js 20+ (ESM only)
 - Playwright 1.x
 
 ## Installation
@@ -157,7 +157,7 @@ chromium2.use(pluginB)
 
 ## Plugins
 
-The following plugins are compatible with playwright-extra:
+The following plugins are compatible with `playwright-extra`:
 
 ### 🔥 [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth)
 
@@ -314,7 +314,7 @@ import { chromium, firefox, webkit } from 'playwright-extra'
 
 ### `addExtra(launcher)`
 
-Create a fresh playwright-extra instance with its own plugin registry:
+Create a fresh `playwright-extra` instance with its own plugin registry:
 
 ```ts
 import { addExtra } from 'playwright-extra'
@@ -358,4 +358,4 @@ console.log(chromium.plugins.names)
 
 ## License
 
-Copyright © 2018 - 2025, [berstend](https://github.com/berstend). Released under the MIT License.
+[MIT](LICENSE)

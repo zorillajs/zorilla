@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-font-size",
-  "version": "2.3.3",
+  "version": "1.0.0",
   "description": "Adjust font sizes in puppeteer.",
   "type": "module",
   "main": "./dist/index.js",

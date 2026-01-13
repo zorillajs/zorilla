@@ -30,7 +30,7 @@ interface PluginOptions {
 /**
  *
  * Further reading:
- * https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md
+ * https://source.chromium.org/chromium/chromium/src/+/main:docs/user_data_dir.md
  */
 class Plugin extends PuppeteerExtraPlugin {
   private _userDataDir: string | undefined;

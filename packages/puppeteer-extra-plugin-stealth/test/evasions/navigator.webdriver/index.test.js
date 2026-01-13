@@ -3,6 +3,7 @@ import Plugin from '../../../src/evasions/navigator.webdriver/index.js';
 import {
   addExtra,
   compareLooseVersionStrings,
+  getDefaultLaunchArgs,
   vanillaPuppeteer,
 } from '../../util.js';
 
@@ -15,7 +16,10 @@ function getExpectedValue(looseVersionString) {
 }
 
 test('vanilla: navigator.webdriver is defined', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const data = await page.evaluate(() => navigator.webdriver);
@@ -24,7 +28,10 @@ test('vanilla: navigator.webdriver is defined', async () => {
 
 test('stealth: navigator.webdriver is undefined', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const data = await page.evaluate(() => navigator.webdriver);
@@ -35,7 +42,10 @@ test('stealth: navigator.webdriver is undefined', async () => {
 // https://github.com/zorillajs/zorilla/pull/130
 test('stealth: regression: wont kill other navigator methods', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   try {

@@ -3,6 +3,7 @@ import Plugin from '../../../src/evasions/chrome.runtime/index.js';
 import STATIC_DATA from '../../../src/evasions/chrome.runtime/staticData.json';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -35,7 +36,10 @@ test('stealth: will add convincing chrome.runtime object', async () => {
       runOnInsecureOrigins: true, // for testing
     })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   //
 
@@ -126,7 +130,10 @@ test('stealth: will add convincing chrome.runtime.connect', async () => {
       runOnInsecureOrigins: true, // for testing
     })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {
@@ -211,7 +218,10 @@ test('stealth: will add convincing chrome.runtime.connect response', async () =>
       runOnInsecureOrigins: true, // for testing
     })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {

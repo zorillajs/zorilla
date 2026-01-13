@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/webgl.vendor/index.js';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -138,7 +139,10 @@ function getVideoCardInfo(context = 'webgl') {
 
 test('stealth: handles WebGLRenderingContext', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl');
@@ -149,7 +153,10 @@ test('stealth: handles WebGLRenderingContext', async () => {
 
 test('stealth: handles WebGL2RenderingContext', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl2');
@@ -159,7 +166,10 @@ test('stealth: handles WebGL2RenderingContext', async () => {
 });
 
 test('vanilla: normal toString stuff', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(() => {
@@ -175,7 +185,10 @@ test('vanilla: normal toString stuff', async () => {
 
 test('stealth: will not leak toString stuff', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(() => {
@@ -193,7 +206,10 @@ test('stealth: sets user opts correctly', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ vendor: 'alice', renderer: 'bob' })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl');
@@ -206,7 +222,10 @@ test('stealth: does not affect protoype', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ vendor: 'alice', renderer: 'bob' })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const result = await page.evaluate(() => {

@@ -82,6 +82,9 @@ describe('ExtraPluginProxyRouter', () => {
         proxies: {
           DEFAULT: 'http://proxy1.example.com:8080',
         },
+        proxyServerOpts: {
+          port: 0,
+        },
       });
     });
 
@@ -115,7 +118,11 @@ describe('ExtraPluginProxyRouter', () => {
 
   describe('routeByHost getter/setter', () => {
     beforeEach(() => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
     });
 
     test('should get routeByHost', () => {
@@ -166,7 +173,11 @@ describe('ExtraPluginProxyRouter', () => {
 
   describe('onPluginRegistered', () => {
     beforeEach(() => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
     });
 
     test('should set framework to playwright when args provided', async () => {
@@ -193,6 +204,9 @@ describe('ExtraPluginProxyRouter', () => {
       plugin = new ExtraPluginProxyRouter({
         proxies: {
           DEFAULT: 'http://proxy.example.com:8080',
+        },
+        proxyServerOpts: {
+          port: 0, // Use port 0 to let OS assign available port
         },
       });
     });
@@ -222,6 +236,9 @@ describe('ExtraPluginProxyRouter', () => {
       plugin = new ExtraPluginProxyRouter({
         proxies: { DEFAULT: 'http://proxy.example.com:8080' },
         proxyBypassList: ['.com', 'example.org'],
+        proxyServerOpts: {
+          port: 0,
+        },
       });
 
       await plugin.onPluginRegistered({ framework: 'playwright' });
@@ -261,6 +278,9 @@ describe('ExtraPluginProxyRouter', () => {
       plugin = new ExtraPluginProxyRouter({
         proxies: { DEFAULT: 'http://proxy.example.com:8080' },
         proxyBypassList: ['.com', 'example.org'],
+        proxyServerOpts: {
+          port: 0,
+        },
       });
 
       await plugin.onPluginRegistered();
@@ -273,7 +293,11 @@ describe('ExtraPluginProxyRouter', () => {
     });
 
     test('should throw error if proxy server not available', async () => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
 
       // Mock the listen method to not start the server
       vi.spyOn(plugin.router, 'listen').mockResolvedValue(0);
@@ -291,7 +315,11 @@ describe('ExtraPluginProxyRouter', () => {
     });
 
     test('should handle unsupported framework', async () => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
       plugin.framework = null;
 
       const options: any = {};
@@ -316,7 +344,11 @@ describe('ExtraPluginProxyRouter', () => {
 
   describe('onDisconnected', () => {
     test('should close proxy server', async () => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
       await plugin.router.listen();
 
       expect(plugin.router.isListening).toBe(true);
@@ -329,7 +361,11 @@ describe('ExtraPluginProxyRouter', () => {
     });
 
     test('should handle close without listening', async () => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
 
       // Should not throw even if close returns an error
       await expect(plugin.onDisconnected()).resolves.not.toThrow();
@@ -337,7 +373,11 @@ describe('ExtraPluginProxyRouter', () => {
     });
 
     test('should handle close errors gracefully', async () => {
-      plugin = new ExtraPluginProxyRouter({});
+      plugin = new ExtraPluginProxyRouter({
+        proxyServerOpts: {
+          port: 0,
+        },
+      });
       await plugin.router.listen();
 
       // Mock the close method to simulate an error
@@ -364,6 +404,9 @@ describe('ExtraPluginProxyRouter', () => {
           DEFAULT: 'http://proxy.example.com:8080',
         },
         proxyBypassList: ['.local'],
+        proxyServerOpts: {
+          port: 0,
+        },
       });
 
       // Register as playwright
@@ -389,6 +432,9 @@ describe('ExtraPluginProxyRouter', () => {
           DEFAULT: 'http://proxy.example.com:8080',
         },
         proxyBypassList: ['.local'],
+        proxyServerOpts: {
+          port: 0,
+        },
       });
 
       // Register as puppeteer

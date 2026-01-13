@@ -1,9 +1,16 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.vendor/index.js';
-import { addExtra, vanillaPuppeteer } from '../../util.js';
+import {
+  addExtra,
+  getDefaultLaunchArgs,
+  vanillaPuppeteer,
+} from '../../util.js';
 
 test('vanilla: navigator.vendor is always Google Inc.', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const vendor = await page.evaluate(() => navigator.vendor);
@@ -14,7 +21,10 @@ test('stealth: navigator.vendor set to custom value', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ vendor: 'Apple Computer, Inc.' })
   );
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const vendor = await page.evaluate(() => navigator.vendor);
@@ -23,7 +33,10 @@ test('stealth: navigator.vendor set to custom value', async () => {
 
 test('stealth: will not leak modifications', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const test1 = await page.evaluate(
@@ -39,7 +52,10 @@ test('stealth: will not leak modifications', async () => {
 
 test('stealth: does patch getters properly', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {

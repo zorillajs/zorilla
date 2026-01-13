@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-block-resources.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-block-resources)
 [![npm downloads](https://img.shields.io/npm/dm/@zorilla/puppeteer-extra-plugin-block-resources.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-block-resources)
 
-> A plugin for [@zorilla/puppeteer-extra](https://github.com/zorillajs/zorilla) to block resources like images, stylesheets, fonts, and more.
+> A plugin for [`@zorilla/puppeteer-extra`](https://github.com/zorillajs/zorilla) to block resources like images, stylesheets, fonts, and more.
 
 ## Features
 
@@ -19,10 +19,6 @@
 
 ```bash
 npm install @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-block-resources
-# or
-pnpm add @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-block-resources
-# or
-yarn add @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-block-resources
 ```
 
 ## Usage
@@ -257,7 +253,7 @@ await page.goto('https://example.com')
 ## Compatibility
 
 - ✅ **Puppeteer**: v24.35.0+ (tested with latest)
-- ✅ **@zorilla/puppeteer-extra**: Latest version
+- ✅ **`@zorilla/puppeteer-extra`**: Latest version
 - ✅ **Headless modes**: Both headless and headful
 - ✅ **Cooperative Intercept Mode**: Puppeteer v15+ (optional feature)
 - ✅ **Node.js**: 20+
@@ -287,12 +283,8 @@ pnpm build         # Build TypeScript
 
 ## License
 
-MIT © [Justin Beckwith](https://github.com/JustinBeckwith)
+[MIT](LICENSE)
 
 ## Contributing
 
 PRs are welcome! Please read the [contributing guidelines](../../CONTRIBUTING.md) before submitting a pull request.
-
-## Changelog
-
-See [CHANGELOG.md](./CHANGELOG.md) for release history.

@@ -2,13 +2,13 @@
 
 > Launch Puppeteer with arbitrary Chrome user preferences
 
-A plugin for [@zorilla/puppeteer-extra](https://github.com/zorillajs/zorilla) that allows you to set Chrome user preferences when launching the browser. User preferences control various Chrome settings like default font size, content settings, language preferences, and more.
+A plugin for [`@zorilla/puppeteer-extra`](https://github.com/zorillajs/zorilla) that allows you to set Chrome user preferences when launching the browser. User preferences control various Chrome settings like default font size, content settings, language preferences, and more.
 
 ## Features
 
 - 🎯 Set any Chrome user preference programmatically
 - 🔄 Merge preferences from multiple plugins automatically
-- 🔌 Integrates seamlessly with the puppeteer-extra plugin system
+- 🔌 Integrates seamlessly with the `puppeteer-extra` plugin system
 - 📝 Full TypeScript support with recursive type safety
 - ✅ Works with both Puppeteer and Playwright
 
@@ -20,13 +20,13 @@ npm install @zorilla/puppeteer-extra-plugin-user-preferences
 
 ## Requirements
 
-- Node.js >= 20
-- @zorilla/puppeteer-extra or @zorilla/playwright-extra
+- Node.js 20+
+- `@zorilla/puppeteer-extra` or `@zorilla/playwright-extra`
 - Automatically requires @zorilla/puppeteer-extra-plugin-user-data-dir
 
 ## Usage
 
-### Basic Example (ESM)
+### Basic Example
 
 ```typescript
 import puppeteer from '@zorilla/puppeteer-extra';
@@ -47,25 +47,6 @@ puppeteer.use(
 const browser = await puppeteer.launch();
 const page = await browser.newPage();
 // Font size is now 22
-```
-
-### CommonJS
-
-```javascript
-const puppeteer = require('@zorilla/puppeteer-extra');
-const UserPreferencesPlugin = require('@zorilla/puppeteer-extra-plugin-user-preferences').default;
-
-puppeteer.use(
-  UserPreferencesPlugin({
-    userPrefs: {
-      webkit: {
-        webprefs: {
-          default_font_size: 22,
-        },
-      },
-    },
-  })
-);
 ```
 
 ### Content Settings Example
@@ -183,8 +164,8 @@ class MyPlugin extends PuppeteerExtraPlugin {
 
 For a comprehensive list of available Chrome preferences, see:
 
-- [Chrome Preference Names (Chromium Source)](https://chromium.googlesource.com/chromium/src/+/master/chrome/common/pref_names.cc)
-- [Default Preference Values](https://chromium.googlesource.com/chromium/src/+/master/chrome/browser/prefs/browser_prefs.cc)
+- [Chrome Preference Names (Chromium Source)](https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.cc)
+- [Default Preference Values](https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/prefs/browser_prefs.cc)
 
 Common preference categories:
 
@@ -225,9 +206,9 @@ pnpm test:coverage     # Run tests with coverage report
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 ## Related Plugins
 
-- [@zorilla/puppeteer-extra-plugin-user-data-dir](../puppeteer-extra-plugin-user-data-dir) - Manage Chrome user data directory (required dependency)
-- [@zorilla/puppeteer-extra-plugin-stealth](../puppeteer-extra-plugin-stealth) - Stealth mode for bot detection evasion
+- [`@zorilla/puppeteer-extra-plugin-user-data-dir`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-user-data-dir) - Manage Chrome user data directory (required dependency)
+- [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth) - Stealth mode for bot detection evasion

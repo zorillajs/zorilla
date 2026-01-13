@@ -5,6 +5,7 @@ import { expect, test } from 'vitest';
 import {
   addExtra,
   dummyHTMLPath,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -30,7 +31,7 @@ test.skip('stealth: will be object (requires fpcollect)', async () => {
 test.skip('stealth (requires user-preferences): will not break iframes', async () => {
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
 
   const testFuncReturnValue = 'TESTSTRING';
@@ -51,7 +52,10 @@ test.skip('stealth (requires user-preferences): will not break iframes', async (
 });
 
 test('vanilla: will not have contentWindow[0]', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const zero = await page.evaluate(_returnValue => {
@@ -70,7 +74,7 @@ test('vanilla: will not have contentWindow[0]', async () => {
 test.skip('stealth (requires user-preferences): will not have contentWindow[0]', async () => {
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
 
   const zero = await page.evaluate(_returnValue => {
@@ -87,7 +91,10 @@ test.skip('stealth (requires user-preferences): will not have contentWindow[0]',
 });
 
 test('vanilla: will not have chrome runtine in any frame', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   await page.goto('file://' + dummyHTMLPath);
@@ -139,7 +146,7 @@ test.skip('stealth (requires user-preferences): it will cover all frames includi
   // const browser = await vanillaPuppeteer.launch({ headless: false })
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
 
   await page.goto('file://' + dummyHTMLPath);
@@ -189,7 +196,10 @@ test.skip('stealth (requires user-preferences): it will cover all frames includi
 });
 
 test('vanilla: will allow to define property contentWindow', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const iframe = await page.evaluate(() => {
@@ -221,7 +231,10 @@ test('vanilla: will allow to define property contentWindow', async () => {
 // })
 
 test('vanilla: will return undefined for getOwnPropertyDescriptor of contentWindow', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const iframe = await page.evaluate(() => {
@@ -257,7 +270,7 @@ test.skip('stealth (requires user-preferences): it will emulate advanved content
   // const browser = await vanillaPuppeteer.launch({ headless: false })
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
 
   await page.goto('file://' + dummyHTMLPath);
@@ -362,7 +375,7 @@ test.skip('stealth (requires user-preferences): it will emulate advanved content
 test.skip('regression (requires user-preferences): new method will not break hcaptcha', async () => {
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
 
   page.waitForTimeout = page.waitForTimeout || page.waitFor;
@@ -388,7 +401,7 @@ test.skip('regression (requires user-preferences): new method will not break rec
   // const browser = await vanillaPuppeteer.launch({ headless: false })
   const browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   const page = await browser.newPage();
 
   page.waitForTimeout = page.waitForTimeout || page.waitFor;
@@ -416,7 +429,10 @@ test.skip('regression (requires user-preferences): new method will not break rec
 });
 
 test.skip('regression (requires user-preferences): old method indeed did break recaptcha popup', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   page.waitForTimeout = page.waitForTimeout || page.waitFor;

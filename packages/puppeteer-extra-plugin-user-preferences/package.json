@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-user-preferences",
-  "version": "2.4.1",
+  "version": "1.0.0",
   "description": "Launch puppeteer with arbitrary user preferences.",
   "type": "module",
   "main": "./dist/index.js",

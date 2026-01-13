@@ -2,7 +2,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/sourceurl/index.js';
-import { addExtra, vanillaPuppeteer } from '../../util.js';
+import {
+  addExtra,
+  getDefaultLaunchArgs,
+  vanillaPuppeteer,
+} from '../../util.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,7 +14,10 @@ const __dirname = path.dirname(__filename);
 const TEST_HTML_FILE = path.join(__dirname, './_fixtures/test.html');
 
 test('vanilla: sourceurl behavior', async () => {
-  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const browser = await vanillaPuppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   await page.goto('file://' + TEST_HTML_FILE, { waitUntil: 'load' });
 
@@ -38,7 +45,10 @@ test('vanilla: sourceurl behavior', async () => {
 
 test('stealth: sourceurl is not leaking', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   await page.goto('file://' + TEST_HTML_FILE, { waitUntil: 'load' });

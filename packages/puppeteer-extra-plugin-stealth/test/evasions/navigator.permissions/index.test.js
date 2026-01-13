@@ -3,6 +3,7 @@ import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.permissions/index.js';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -59,7 +60,10 @@ test('vanilla headful: as expected', async () => {
 
 test('vanilla headless: as expected', async () => {
   const puppeteer = addExtra(vanillaPuppeteer);
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   const result = await page.evaluate(getNotificationPermission);
   expect(result).toEqual({
@@ -82,7 +86,10 @@ test('vanilla headless: as expected', async () => {
 
 test('stealth headless: as vanilla headful', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   const result = await page.evaluate(getNotificationPermission);
   expect(result).toEqual({

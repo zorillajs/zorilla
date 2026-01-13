@@ -27,6 +27,6 @@ Mock `chrome.runtime.sendMessage`
 
 Mock `chrome.runtime.connect`
 
-- **See: <https://developer.chrome.com/apps/runtime#method-connect>**
+- **See: <https://developer.chrome.com/docs/extensions/reference/api/runtime#method-connect>**
 
 ---

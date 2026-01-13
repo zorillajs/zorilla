@@ -19,7 +19,6 @@ pnpm tscheck        # Run TypeScript type checking without emitting files
 ```bash
 pnpm test                # Run tests in watch mode with Vitest
 pnpm test:coverage       # Run tests with coverage report
-pnpm test-ci             # Run tests once (no watch mode)
 ```
 
 **Test Coverage Thresholds:**

@@ -1,6 +1,6 @@
 # @zorilla/puppeteer-extra-plugin-repl
 
-> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla).
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla).
 
 ## Installation
 
@@ -167,9 +167,9 @@ await repl.repl(page); // or any object/class instance
 
 ## Requirements
 
-- Node.js >= 20
+- Node.js 20+
 - Puppeteer or Puppeteer-Core
 
 ## License
 
-MIT
+[MIT](LICENSE)

@@ -1,6 +1,6 @@
 # @zorilla/puppeteer-extra-plugin-devtools
 
-> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla) and [playwright-extra](https://github.com/zorillajs/zorilla).
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla) and [`playwright-extra`](https://github.com/zorillajs/zorilla).
 
 ## Installation
 
@@ -16,7 +16,7 @@ npm install @zorilla/puppeteer-extra-plugin-devtools
 - Works for both headless and headful puppeteer instances, as well as within docker containers
 - Uses the already existing DevTools Protocol websocket connection from puppeteer
 - Features some convenience functions for using the devtools frontend locally
-- Compatible with both Puppeteer and Playwright through puppeteer-extra and playwright-extra
+- Compatible with both Puppeteer and Playwright through `puppeteer-extra` and `playwright-extra`
 
 ## Magic
 
@@ -310,7 +310,7 @@ console.log('Local DevTools:', localUrl);
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 ## Contributing
 

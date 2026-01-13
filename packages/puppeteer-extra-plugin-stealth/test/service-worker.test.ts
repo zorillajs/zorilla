@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, expect, test } from 'vitest';
 import Plugin from '../dist/index.js';
-import { addExtra, vanillaPuppeteer } from './util.js';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from './util.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,7 +42,7 @@ beforeAll(async () => {
 
   browser = await addExtra(vanillaPuppeteer)
     .use(Plugin())
-    .launch({ headless: true });
+    .launch({ headless: true, args: getDefaultLaunchArgs() });
   page = await browser.newPage();
 
   worker = new Promise(resolve => {

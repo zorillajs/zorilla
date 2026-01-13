@@ -3,6 +3,7 @@ import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.hardwareConcurrency/index.js';
 import {
   addExtra,
+  getDefaultLaunchArgs,
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
@@ -29,7 +30,10 @@ test.skip('stealth: will override value correctly (requires fpcollect)', async (
 
 test('stealth: does patch getters properly', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {

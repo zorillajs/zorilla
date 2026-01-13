@@ -208,6 +208,6 @@ const browser = await puppeteer.launch();
 
 ## Related Documentation
 
-- Chromium user data directory docs: https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md
+- Chromium user data directory docs: https://source.chromium.org/chromium/chromium/src/+/main:docs/user_data_dir.md
 - Parent monorepo CLAUDE.md: `../../CLAUDE.md` (for plugin system architecture)
 - Base plugin class: `../puppeteer-extra-plugin/src/index.ts`
