@@ -67,20 +67,118 @@ jobs:
         run: pnpm links
 
   test:
-    name: Test (Node ${{ matrix.node }}, ${{ matrix.os }})
+    name: ${{ matrix.package }} (Node ${{ matrix.node }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
       matrix:
-        node:
-          - 20
-          - 22
-          - 24
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
+        # Core packages - test on all platforms
+        include:
+          # puppeteer-extra
+          - package: puppeteer-extra
+            node: 20
+            os: ubuntu-latest
+          - package: puppeteer-extra
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra
+            node: 24
+            os: ubuntu-latest
+          - package: puppeteer-extra
+            node: 22
+            os: macos-latest
+          - package: puppeteer-extra
+            node: 22
+            os: windows-latest
+
+          # playwright-extra
+          - package: playwright-extra
+            node: 20
+            os: ubuntu-latest
+          - package: playwright-extra
+            node: 22
+            os: ubuntu-latest
+          - package: playwright-extra
+            node: 24
+            os: ubuntu-latest
+          - package: playwright-extra
+            node: 22
+            os: macos-latest
+          - package: playwright-extra
+            node: 22
+            os: windows-latest
+
+          # puppeteer-extra-plugin (base class)
+          - package: puppeteer-extra-plugin
+            node: 22
+            os: ubuntu-latest
+
+          # stealth plugin - important, test on all platforms
+          - package: puppeteer-extra-plugin-stealth
+            node: 20
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-stealth
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-stealth
+            node: 24
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-stealth
+            node: 22
+            os: macos-latest
+          - package: puppeteer-extra-plugin-stealth
+            node: 22
+            os: windows-latest
+
+          # proxy-router
+          - package: plugin-proxy-router
+            node: 22
+            os: ubuntu-latest
+          - package: plugin-proxy-router
+            node: 22
+            os: macos-latest
+          - package: plugin-proxy-router
+            node: 22
+            os: windows-latest
+
+          # Other plugins - test on ubuntu only
+          - package: puppeteer-extra-plugin-adblocker
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-anonymize-ua
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-block-resources
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-click-and-wait
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-devtools
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-flash
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-font-size
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-recaptcha
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-repl
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-user-data-dir
+            node: 22
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-user-preferences
+            node: 22
+            os: ubuntu-latest
+          - package: extract-stealth-evasions
+            node: 22
+            os: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -102,10 +200,12 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright browsers
+        if: matrix.package == 'playwright-extra'
         run: cd packages/playwright-extra && pnpm playwright install
 
       - name: Install Chrome for Puppeteer
+        if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
         run: pnpm dlx puppeteer browsers install chrome
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run tests for ${{ matrix.package }}
+        run: pnpm --filter @zorilla/${{ matrix.package }} test
