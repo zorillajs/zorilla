@@ -77,7 +77,7 @@ export function requirePackages<TargetModule = unknown>(
   for (const name of packageNames) {
     try {
       return require(name) as TargetModule;
-    } catch (err) {
+    } catch {
       // Silently ignore - will try import() next
     }
   }
