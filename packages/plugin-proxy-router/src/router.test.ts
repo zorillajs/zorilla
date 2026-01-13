@@ -22,7 +22,7 @@ describe('ProxyRouter', () => {
 
   describe('constructor', () => {
     test('should create router with default options', () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       expect(router.proxies).toEqual({});
       expect(router.routeByHost).toBeNull();
@@ -50,7 +50,7 @@ describe('ProxyRouter', () => {
         return 'DEFAULT';
       };
 
-      router = new ProxyRouter({ routeByHost });
+      router = new ProxyRouter({ routeByHost, proxyServerOpts: { port: 0 } });
 
       expect(router.routeByHost).toBe(routeByHost);
     });
@@ -66,19 +66,25 @@ describe('ProxyRouter', () => {
     });
 
     test('should default to port 2800 if not specified', () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       expect(router.proxyServer.port).toBe(2800);
     });
 
     test('should respect collectStats option', () => {
-      router = new ProxyRouter({ collectStats: false });
+      router = new ProxyRouter({
+        collectStats: false,
+        proxyServerOpts: { port: 0 },
+      });
 
       expect(router.collectStats).toBe(false);
     });
 
     test('should respect muteProxyErrors option', () => {
-      router = new ProxyRouter({ muteProxyErrors: true });
+      router = new ProxyRouter({
+        muteProxyErrors: true,
+        proxyServerOpts: { port: 0 },
+      });
 
       expect(router.muteProxyErrors).toBe(true);
     });
@@ -86,6 +92,7 @@ describe('ProxyRouter', () => {
     test('should respect muteProxyErrorsForHost option', () => {
       router = new ProxyRouter({
         muteProxyErrorsForHost: ['example.com', 'test.com'],
+        proxyServerOpts: { port: 0 },
       });
 
       expect(router.muteProxyErrorsForHost).toEqual([
@@ -110,7 +117,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should handle empty proxies', () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       expect(router.effectiveProxies).toEqual({
         DIRECT: null,
@@ -148,7 +155,7 @@ describe('ProxyRouter', () => {
 
   describe('listen', () => {
     test('should start proxy server', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       const port = await router.listen();
 
@@ -158,7 +165,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should return same port if called multiple times during startup', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       const promise1 = router.listen();
       const promise2 = router.listen();
@@ -169,7 +176,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should reuse existing server if already listening', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       const port1 = await router.listen();
 
@@ -182,7 +189,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should handle when isListening is set before serverStartPromise resolves', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       // Start listening
       const listenPromise = router.listen();
@@ -197,7 +204,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should handle when server is already listening in promise', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       // Start the server
       await router.listen();
@@ -229,7 +236,7 @@ describe('ProxyRouter', () => {
     // Note: This test is skipped because the error path in listen() doesn't properly reject the promise
     // It only logs a warning, making it difficult to test reliably. The line is covered in spirit.
     test.skip('should handle server listen errors gracefully', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       // Spy on console.warn to verify error handling
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -266,7 +273,7 @@ describe('ProxyRouter', () => {
 
   describe('close', () => {
     test('should close proxy server', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
       await router.listen();
 
       const error = await router.close();
@@ -276,7 +283,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should return error when closing without listening', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       const error = await router.close();
       serverClosed = true; // Mark as closed even though it failed
@@ -289,13 +296,13 @@ describe('ProxyRouter', () => {
 
   describe('proxyServerUrl', () => {
     test('should return undefined when not listening', () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
 
       expect(router.proxyServerUrl).toBeUndefined();
     });
 
     test('should return URL when listening', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
       const port = await router.listen();
 
       expect(router.proxyServerUrl).toBe(`http://localhost:${port}`);
@@ -356,6 +363,7 @@ describe('ProxyRouter', () => {
     test('should return DIRECT for DIRECT proxy name', async () => {
       router = new ProxyRouter({
         routeByHost: async () => 'DIRECT',
+        proxyServerOpts: { port: 0 },
       });
 
       const result = await router.handleProxyServerRequest({
@@ -372,6 +380,7 @@ describe('ProxyRouter', () => {
     test('should throw error for ABORT proxy name', async () => {
       router = new ProxyRouter({
         routeByHost: async () => 'ABORT',
+        proxyServerOpts: { port: 0 },
       });
 
       await expect(
@@ -426,6 +435,7 @@ describe('ProxyRouter', () => {
     test('should handle unknown proxy name', async () => {
       router = new ProxyRouter({
         routeByHost: async () => 'UNKNOWN',
+        proxyServerOpts: { port: 0 },
       });
 
       const result = await router.handleProxyServerRequest({
@@ -508,6 +518,7 @@ describe('ProxyRouter', () => {
       router = new ProxyRouter({
         collectStats: true,
         proxies: { DEFAULT: 'http://proxy.example.com:8080' },
+        proxyServerOpts: { port: 0 },
       });
 
       await router.listen();
@@ -533,6 +544,7 @@ describe('ProxyRouter', () => {
     test('should not add stats when collectStats is false', async () => {
       router = new ProxyRouter({
         collectStats: false,
+        proxyServerOpts: { port: 0 },
       });
 
       await router.listen();
@@ -553,6 +565,7 @@ describe('ProxyRouter', () => {
     test('should handle requestFailed event when muteProxyErrors is false', async () => {
       router = new ProxyRouter({
         muteProxyErrors: false,
+        proxyServerOpts: { port: 0 },
       });
 
       await router.listen();
@@ -571,6 +584,7 @@ describe('ProxyRouter', () => {
 
       router = new ProxyRouter({
         muteProxyErrors: true,
+        proxyServerOpts: { port: 0 },
       });
 
       await router.listen();
@@ -590,6 +604,7 @@ describe('ProxyRouter', () => {
         proxies: {
           DEFAULT: 'http://user:pass@proxy.example.com:8080',
         },
+        proxyServerOpts: { port: 0 },
       });
 
       router.stats.addConnection(1, 'DEFAULT', 'example.com');
@@ -610,6 +625,7 @@ describe('ProxyRouter', () => {
         proxies: {
           DEFAULT: 'socks5://proxy.example.com:8080',
         },
+        proxyServerOpts: { port: 0 },
       });
 
       router.stats.addConnection(1, 'DEFAULT', 'example.com');
@@ -627,6 +643,7 @@ describe('ProxyRouter', () => {
       router = new ProxyRouter({
         muteProxyErrors: false,
         muteProxyErrorsForHost: ['example.com'],
+        proxyServerOpts: { port: 0 },
       });
 
       router.stats.addConnection(1, 'DEFAULT', 'example.com');
@@ -643,6 +660,7 @@ describe('ProxyRouter', () => {
     test('should only log same connection error once', async () => {
       router = new ProxyRouter({
         muteProxyErrors: false,
+        proxyServerOpts: { port: 0 },
       });
 
       router.stats.addConnection(1, 'DEFAULT', 'example.com');
@@ -673,7 +691,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should intercept proxy-chain log messages for authentication failures', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
       await router.listen();
 
       // Test authentication failure log
@@ -687,7 +705,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should intercept proxy-chain log messages for invalid upstreamProxyUrl', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
       await router.listen();
 
       // Test invalid upstreamProxyUrl log
@@ -701,7 +719,7 @@ describe('ProxyRouter', () => {
     });
 
     test('should intercept proxy-chain log messages for connection failures', async () => {
-      router = new ProxyRouter();
+      router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
       await router.listen();
 
       // Test connection failure log
