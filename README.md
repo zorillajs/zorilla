@@ -93,29 +93,9 @@ await page.goto('https://example.com')
 await browser.close()
 ```
 
----
-
 ## 🤝 Contributing
 
-We welcome contributions! Whether you're fixing bugs, adding features, or creating new plugins, we'd love your help.
+We welcome contributions! **[Read the Contributing Guide →](./CONTRIBUTING.md)**
 
-**[Read the Contributing Guide →](./CONTRIBUTING.md)**
-
-The guide covers:
-- Setting up your development environment
-- Creating and testing plugins
-- Using changesets for version management
-- Code standards and commit conventions
-- The automated publishing process
-
----
-
-## 📄 License
-
-MIT
-
----
-
-<div align="center">
-  <img src="https://i.imgur.com/EuqiF5F.png" height="240" />
-</div>
+## License
+[MIT][LICENSE]

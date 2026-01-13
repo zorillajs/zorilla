@@ -24,8 +24,6 @@ npm install @zorilla/puppeteer-extra-plugin-devtools
 
 ## Quickstart
 
-### ESM (recommended)
-
 ```typescript
 import puppeteer from '@zorilla/puppeteer-extra';
 import devtoolsPlugin from '@zorilla/puppeteer-extra-plugin-devtools';
@@ -42,24 +40,6 @@ await page.goto('https://example.com');
 console.log('All setup. Access DevTools at:', tunnel.url);
 ```
 
-### ESM
-
-```javascript
-import puppeteer from '@zorilla/puppeteer-extra';
-import devtoolsPlugin from '@zorilla/puppeteer-extra-plugin-devtools';
-
-const devtools = devtoolsPlugin();
-puppeteer.use(devtools);
-
-puppeteer.launch({ headless: true }).then(async (browser) => {
-  const tunnel = await devtools.createTunnel(browser);
-  console.log('DevTools URL:', tunnel.url);
-
-  const page = await browser.newPage();
-  await page.goto('https://example.com');
-  console.log('All setup. Access DevTools at:', tunnel.url);
-});
-```
 
 ## TypeScript Support
 

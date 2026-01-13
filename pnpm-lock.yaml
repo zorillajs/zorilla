@@ -88,6 +88,12 @@ importers:
       '@zorilla/puppeteer-extra-plugin-stealth':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin-stealth
+      '@zorilla/puppeteer-extra-plugin-user-data-dir':
+        specifier: workspace:*
+        version: link:../puppeteer-extra-plugin-user-data-dir
+      '@zorilla/puppeteer-extra-plugin-user-preferences':
+        specifier: workspace:*
+        version: link:../puppeteer-extra-plugin-user-preferences
       c8:
         specifier: ^10.1.3
         version: 10.1.3
