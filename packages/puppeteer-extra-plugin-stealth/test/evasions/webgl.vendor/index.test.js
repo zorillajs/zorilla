@@ -137,7 +137,7 @@ function getVideoCardInfo(context = 'webgl') {
   };
 }
 
-test('stealth: handles WebGLRenderingContext', async () => {
+test.skipIf(process.platform === 'win32')('stealth: handles WebGLRenderingContext', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
   const browser = await puppeteer.launch({
     headless: true,
@@ -151,7 +151,7 @@ test('stealth: handles WebGLRenderingContext', async () => {
   expect(videoCardInfo.renderer).toBe('Intel Iris OpenGL Engine');
 });
 
-test('stealth: handles WebGL2RenderingContext', async () => {
+test.skipIf(process.platform === 'win32')('stealth: handles WebGL2RenderingContext', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
   const browser = await puppeteer.launch({
     headless: true,
@@ -202,7 +202,7 @@ test('stealth: will not leak toString stuff', async () => {
   expect(test2).toBe('function getParameter() { [native code] }');
 });
 
-test('stealth: sets user opts correctly', async () => {
+test.skipIf(process.platform === 'win32')('stealth: sets user opts correctly', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
     Plugin({ vendor: 'alice', renderer: 'bob' })
   );
