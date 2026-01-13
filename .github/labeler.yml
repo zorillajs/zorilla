@@ -6,20 +6,30 @@
 # https://github.com/actions/labeler
 
 'package: core':
-  - packages/automation-extra/**/*
-  - packages/playright-extra/**/*
-  - packages/puppeteer-extra/**/*
-  - packages/automation-extra-plugin/**/*
-  - packages/puppeteer-extra-plugin/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/automation-extra/**/*
+      - packages/playwright-extra/**/*
+      - packages/puppeteer-extra/**/*
+      - packages/automation-extra-plugin/**/*
+      - packages/puppeteer-extra-plugin/**/*
 
 'plugin: automation-extra':
-  - packages/plugin-*/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/plugin-*/**/*
 
 'plugin: puppeteer-extra':
-  - packages/puppeteer-extra-plugin-*/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/puppeteer-extra-plugin-*/**/*
 
 'plugin: recaptcha 🏴':
-  - packages/*recaptcha*/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/*recaptcha*/**/*
 
 'plugin: stealth ㊙️':
-  - packages/*stealth*/**/*
+  - changed-files:
+    - any-glob-to-any-file:
+      - packages/*stealth*/**/*
