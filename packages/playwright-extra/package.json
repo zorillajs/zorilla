@@ -48,6 +48,8 @@
     "@zorilla/puppeteer-extra-plugin-anonymize-ua": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-recaptcha": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
+    "@zorilla/puppeteer-extra-plugin-user-data-dir": "workspace:*",
+    "@zorilla/puppeteer-extra-plugin-user-preferences": "workspace:*",
     "c8": "^10.1.3",
     "playwright": "1.57.0",
     "typescript": "5.9.3"

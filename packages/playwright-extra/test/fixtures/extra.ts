@@ -3,7 +3,7 @@
 import type * as pwTest from '@playwright/test';
 import { test as base } from '@playwright/test';
 import * as pwVanillaModule from 'playwright-core';
-import * as pwExtraModule from '../../src';
+import * as pwExtraModule from '../../src/index.js';
 
 type PluginModuleWithOptions = {
   module: (opts?: Record<string, unknown>) => unknown;

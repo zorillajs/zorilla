@@ -1,8 +1,14 @@
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
 import withUtils from '../_utils/withUtils.js';
 
-const STATIC_DATA = require('./staticData.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const STATIC_DATA = JSON.parse(
+  readFileSync(join(__dirname, 'staticData.json'), 'utf-8')
+);
 
 /**
  * Mock the `chrome.runtime` object if not available (e.g. when running headless) and on a secure site.

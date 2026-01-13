@@ -135,16 +135,14 @@ Use `this.debug('message', data)` in plugins - automatically namespaced to plugi
 - Strict mode enabled with additional type checking flags
 - Output includes declarations and source maps
 
-## Package-Specific Build Systems
+## Build System
 
-**Rollup-based packages** (puppeteer-extra, puppeteer-extra-plugin, etc.):
-- Build both ESM (`.esm.js`) and CJS (`.cjs.js`) formats
-- TypeScript compilation to CommonJS, then Rollup bundles to final formats
-- Ambient type definitions copied separately via `ambient-dts` scripts
-
-**TSC-only packages** (playwright-extra, stealth, newer plugins):
-- Direct TypeScript compilation to `dist/`
-- ESM output only (matching `"type": "module"` in package.json)
+**ESM-Only Project:**
+- This project exclusively uses ES Modules (ESM) - CommonJS (CJS) is NOT supported
+- All packages have `"type": "module"` in their package.json
+- TypeScript compilation outputs to `dist/` directory
+- Module system: ES2022 with `moduleResolution: "bundler"`
+- All imports/exports use ESM syntax (import/export, not require/module.exports)
 
 **Stealth Plugin Structure:**
 - Main plugin in `src/index.ts`

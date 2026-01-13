@@ -84,7 +84,7 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
     let [options] = args;
     options = { args: [], ...(options || {}) }; // Initialize args array
     debug('launch', options);
-    this.plugins.prepare();
+    await this.plugins.prepare();
 
     // Give plugins the chance to modify the options before continuing
     options =
@@ -116,7 +116,7 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
     let [userDataDir, options] = args;
     options = { args: [], ...(options || {}) }; // Initialize args array
     debug('launchPersistentContext', options);
-    this.plugins.prepare();
+    await this.plugins.prepare();
 
     // Give plugins the chance to modify the options before continuing
     options =
@@ -138,7 +138,7 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
     if (!this.launcher.connect) {
       throw new Error('Launcher does not support "connect"');
     }
-    this.plugins.prepare();
+    await this.plugins.prepare();
 
     // Playwright currently supports two function signatures for .connect
     let options: pw.ConnectOptions & { wsEndpoint?: string } = {};
@@ -186,7 +186,7 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
     if (!this.launcher.connectOverCDP) {
       throw new Error(`Launcher does not implement 'connectOverCDP'`);
     }
-    this.plugins.prepare();
+    await this.plugins.prepare();
 
     // Playwright currently supports two function signatures for .connectOverCDP
     let options: pw.ConnectOverCDPOptions & { endpointURL?: string } = {};

@@ -2,7 +2,7 @@ import Debug from 'debug';
 
 const debug = Debug('playwright-extra:plugins');
 
-import { requirePackages } from './helper/loader.js';
+import { importPackages, requirePackages } from './helper/loader.js';
 import { addPuppeteerCompat } from './puppeteer-compatiblity-shim/index.js';
 import type {
   CompatiblePluginModule,
@@ -122,8 +122,8 @@ export class PluginList {
    * Prepare plugins to be used (resolve dependencies, ordering)
    * @internal
    */
-  public prepare() {
-    this.resolveDependencies();
+  public async prepare() {
+    await this.resolveDependencies();
     this.order();
   }
 
@@ -361,11 +361,11 @@ export class PluginList {
    * - The default opts for implicit dependencies can be defined using `setDependencyDefaults()`
    * - Dynamic imports can be avoided by providing plugin modules with `setDependencyResolution()`
    */
-  protected resolveDependenciesStanza() {
+  protected async resolveDependenciesStanza() {
     debug('resolveDependenciesStanza');
 
-    /** Attempt to dynamically require a plugin module */
-    const requireDependencyOrDie = (
+    /** Attempt to dynamically import a plugin module */
+    const importDependencyOrDie = async (
       parentName: string,
       dependencyPath: string
     ) => {
@@ -374,20 +374,28 @@ export class PluginList {
         return this._dependencyResolution.get(dependencyPath) as PluginModule;
       }
 
-      const possiblePrefixes = ['puppeteer-extra-plugin-']; // could be extended later
+      const possiblePrefixes = [
+        '@zorilla/puppeteer-extra-plugin-',
+        'puppeteer-extra-plugin-',
+      ]; // could be extended later
       const isAlreadyPrefixed = possiblePrefixes.some(prefix =>
         dependencyPath.startsWith(prefix)
       );
       const packagePaths: string[] = [];
-      // If the dependency is not already prefixed we attempt to require all possible combinations to find one that works
+      // If the dependency is not already prefixed we attempt to import all possible combinations to find one that works
       if (!isAlreadyPrefixed) {
         packagePaths.push(
           ...possiblePrefixes.map(prefix => prefix + dependencyPath)
         );
       }
-      // We always attempt to require the path verbatim (as a last resort)
+      // We always attempt to import the path verbatim (as a last resort)
       packagePaths.push(dependencyPath);
-      const pluginModule = requirePackages<PluginModule>(packagePaths);
+
+      // Try dynamic import first (works for ESM), then fallback to require (works for CJS)
+      let pluginModule = await importPackages<PluginModule>(packagePaths);
+      if (!pluginModule) {
+        pluginModule = requirePackages<PluginModule>(packagePaths);
+      }
       if (pluginModule) {
         return pluginModule;
       }
@@ -397,7 +405,15 @@ The plugin '${parentName}' listed '${dependencyPath}' as dependency,
 which could not be found. Please install it:
 
 ${packagePaths
-  .map(packagePath => `npm i ${packagePath.split('/')[0]}`)
+  .map(packagePath => {
+    // Extract package name correctly (handle scoped packages like @scope/package/sub/path)
+    const parts = packagePath.split('/');
+    let packageName = parts[0];
+    if (parts[0]?.startsWith('@') && parts.length > 1) {
+      packageName = `${parts[0]}/${parts[1]}`; // Scoped package: @scope/package
+    }
+    return `npm i ${packageName}`;
+  })
   .join(`\n or:\n`)}
 
 Note: You don't need to require the plugin yourself,
@@ -410,17 +426,26 @@ If your bundler has issues with dynamic imports take a look at '.plugins.setDepe
     };
 
     const existingPluginNames = new Set(this.names);
-    const recursivelyLoadMissingDependencies = ({
+    const recursivelyLoadMissingDependencies = async ({
       name: parentName,
       dependencies,
-    }: Plugin): void => {
+    }: Plugin): Promise<void> => {
       if (!dependencies) {
         return;
       }
-      const processDependency = (dependencyPath: string, opts?: unknown) => {
-        const pluginModule = requireDependencyOrDie(parentName, dependencyPath);
+      const processDependency = async (
+        dependencyPath: string,
+        opts?: unknown
+      ) => {
+        const pluginModule = await importDependencyOrDie(
+          parentName,
+          dependencyPath
+        );
         opts = opts || this._dependencyDefaults.get(dependencyPath) || {};
-        const plugin = pluginModule(opts);
+        // Handle ESM default exports (both from dynamic import() and require())
+        const pluginFactory =
+          (pluginModule as { default?: PluginModule }).default || pluginModule;
+        const plugin = pluginFactory(opts);
         if (existingPluginNames.has(plugin.name)) {
           debug(parentName, '=> dependency already exists:', plugin.name);
           return;
@@ -433,27 +458,30 @@ If your bundler has issues with dynamic imports take a look at '.plugins.setDepe
 
       if (dependencies instanceof Set || Array.isArray(dependencies)) {
         for (const dependencyPath of dependencies) {
-          processDependency(dependencyPath);
+          await processDependency(dependencyPath);
         }
         return;
       }
       if (dependencies instanceof Map) {
         // Note: `k,v => v,k` (Map + forEach will reverse the order)
         for (const [k, v] of dependencies) {
-          processDependency(k, v);
+          await processDependency(k, v);
         }
       }
     };
-    this.list.forEach(recursivelyLoadMissingDependencies);
+
+    for (const plugin of this.list) {
+      await recursivelyLoadMissingDependencies(plugin);
+    }
   }
 
   /**
    * Lightweight plugin dependency management to require plugins and code mods on demand.
    * @private
    */
-  protected resolveDependencies() {
+  protected async resolveDependencies() {
     debug('resolveDependencies');
     this.resolvePluginsStanza();
-    this.resolveDependenciesStanza();
+    await this.resolveDependenciesStanza();
   }
 }
