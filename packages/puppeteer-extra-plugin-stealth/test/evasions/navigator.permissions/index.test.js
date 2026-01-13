@@ -36,9 +36,12 @@ async function getNotificationPermission() {
   };
 }
 
-test('vanilla headful: as expected', async () => {
+test.skipIf(process.env.CI)('vanilla headful: as expected', async () => {
   const puppeteer = addExtra(vanillaPuppeteer);
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    headless: false,
+    args: getDefaultLaunchArgs(),
+  });
   const page = await browser.newPage();
   const result = await page.evaluate(getNotificationPermission);
   expect(result).toEqual({
