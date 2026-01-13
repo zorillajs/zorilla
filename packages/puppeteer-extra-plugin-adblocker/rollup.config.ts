@@ -1,22 +1,24 @@
-import resolve from 'rollup-plugin-node-resolve'
-import sourceMaps from 'rollup-plugin-sourcemaps'
-import typescript from 'rollup-plugin-typescript2'
+import { createRequire } from 'node:module';
+import resolve from 'rollup-plugin-node-resolve';
+import sourceMaps from 'rollup-plugin-sourcemaps';
+import typescript from 'rollup-plugin-typescript2';
 
-const pkg = require('./package.json')
+const require = createRequire(import.meta.url);
+const pkg = require('./package.json');
 
-const entryFile = 'index'
+const entryFile = 'index';
 const banner = `
 /*!
  * ${pkg.name} v${pkg.version} by ${pkg.author}
  * ${pkg.homepage || `https://github.com/${pkg.repository}`}
  * @license ${pkg.license}
  */
-`.trim()
+`.trim();
 
 const defaultExportOutro = `
   module.exports = exports.default || {}
   Object.entries(exports).forEach(([key, value]) => { module.exports[key] = value })
-`
+`;
 
 export default {
   input: `src/${entryFile}.ts`,
@@ -27,15 +29,15 @@ export default {
       sourcemap: true,
       exports: 'named',
       outro: defaultExportOutro,
-      banner
+      banner,
     },
     {
       file: pkg.module,
       format: 'es',
       sourcemap: true,
       exports: 'named',
-      banner
-    }
+      banner,
+    },
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [
@@ -43,10 +45,10 @@ export default {
     ...Object.keys(pkg.peerDependencies || {}),
     'fs',
     'os',
-    'path'
+    'path',
   ],
   watch: {
-    include: 'src/**'
+    include: 'src/**',
   },
   plugins: [
     // Compile TypeScript files
@@ -57,9 +59,9 @@ export default {
     // which external modules to include in the bundle
     // https://github.com/rollup/rollup-plugin-node-resolve#usage
     resolve({
-      preferBuiltins: true
+      preferBuiltins: true,
     }),
     // Resolve source maps to the original source
-    sourceMaps()
-  ]
-}
+    sourceMaps(),
+  ],
+};

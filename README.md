@@ -1,10 +1,32 @@
-# puppeteer-extra [![Downloads](https://img.shields.io/endpoint?style=social&url=https://runkit.io/fezvrasta/combined-npm-downloads/1.0.0?packages=puppeteer-extra,puppeteer-extra-plugin,puppeteer-extra-plugin-stealth,puppeteer-extra-plugin-recaptcha,puppeteer-extra-plugin-adblocker)](https://github.com/berstend/puppeteer-extra/)
+# zorilla [![Downloads](https://img.shields.io/endpoint?style=social&url=https://runkit.io/fezvrasta/combined-npm-downloads/1.0.0?packages=@zorilla/puppeteer-extra,@zorilla/puppeteer-extra-plugin,@zorilla/puppeteer-extra-plugin-stealth,@zorilla/puppeteer-extra-plugin-recaptcha,@zorilla/puppeteer-extra-plugin-adblocker)](https://github.com/zorillajs/zorilla/)
 
-This is the monorepo for [`puppeteer-extra`](./packages/puppeteer-extra), a modular plugin framework for [`puppeteer`](https://github.com/puppeteer/puppeteer). :-)
+---
 
-🌟 **For the main documentation, please head over to the [`puppeteer-extra`](./packages/puppeteer-extra) package.**
+## 🎉 Hard Fork of puppeteer-extra
 
-We've also recently introduced support for Playwright, if you're interested in that head over to [`playwright-extra`](./packages/playwright-extra).
+**This project is a hard fork of the excellent [puppeteer-extra](https://github.com/berstend/puppeteer-extra) project originally created and maintained by [Tobias Buschor (@berstend)](https://github.com/berstend).**
+
+The original puppeteer-extra project was an incredible contribution to the Puppeteer ecosystem, pioneering the modular plugin architecture that made browser automation more powerful and extensible. We are deeply grateful to Tobias and all the original contributors for their outstanding work.
+
+### Why this fork exists
+
+The original project is no longer actively maintained. This fork exists to:
+- Continue maintenance and provide bug fixes
+- Keep dependencies up to date with modern Puppeteer and Playwright versions
+- Support the community with ongoing development
+- Maintain backward compatibility where possible
+
+All credit for the original architecture, design, and implementation goes to the original puppeteer-extra team. We're simply ensuring this valuable tool remains available and functional for the community.
+
+📚 **Original project:** [github.com/berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra)
+
+---
+
+This is the monorepo for [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra), a modular plugin framework for [`puppeteer`](https://github.com/puppeteer/puppeteer). :-)
+
+🌟 **For more information, please head over to the [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra) package.**
+
+We also support Playwright! Check out [`@zorilla/playwright-extra`](./packages/playwright-extra) for Playwright integration.
 
 ## Monorepo
 
@@ -13,101 +35,94 @@ We've also recently introduced support for Playwright, if you're interested in t
 
 ### Contributing
 
-PRs and new plugins are welcome! The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [`PuppeteerExtraPlugin`](./packages/puppeteer-extra-plugin) base class documentation to get going and check out the [existing plugins](./packages/) (minimal example is the [anonymize-ua](./packages/puppeteer-extra-plugin-anonymize-ua/index.js) plugin) for reference.
+PRs and new plugins are welcome! The plugin API for `puppeteer-extra` is clean and fun to use. Have a look at the [`@zorilla/puppeteer-extra-plugin`](./packages/puppeteer-extra-plugin) base class to get started, and check out the [existing plugins](./packages/) for reference.
 
-We use a [monorepo](https://github.com/berstend/puppeteer-extra) powered by [Lerna](https://github.com/lerna/lerna#--use-workspaces) (and yarn workspaces), [ava](https://github.com/avajs/ava) for testing, the [standard](https://standardjs.com/) style for linting and [JSDoc](http://usejsdoc.org/about-getting-started.html) heavily to auto-generate markdown [documentation](https://github.com/documentationjs/documentation) based on code. :-)
+We use a [monorepo](https://github.com/zorillajs/zorilla) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, and [Biome](https://biomejs.dev/) for linting and formatting.
 
 </details>
 
 <details>
- <summary><strong>Lerna</strong></summary>
+ <summary><strong>Development</strong></summary>
 
-### Lerna
+### Development
 
-This monorepo is powered by [Lerna](https://github.com/lerna/lerna) and yarn workspaces.
+This monorepo is managed with [pnpm workspaces](https://pnpm.io/workspaces) and [Changesets](https://github.com/changesets/changesets).
 
 #### Initial setup
 
 ```bash
-# Install deps
-yarn
-
-# Bootstrap the packages in the current Lerna repo.
-# Installs all of their dependencies and links any cross-dependencies.
-yarn bootstrap
+# Install dependencies
+pnpm install
 
 # Build all TypeScript sources
-yarn build
+pnpm build
 ```
 
-#### Development flow
+#### Development workflow
 
 ```bash
-# Install debug in all packages
-yarn lerna add debug
+# Run all tests across all packages
+pnpm test
 
-# Install fs-extra to puppeteer-extra-plugin-user-data-dir
-yarn lerna add fs-extra --scope=puppeteer-extra-plugin-user-data-dir
+# Run tests with coverage
+pnpm -r run test:coverage
 
-# Remove dependency
-# https://github.com/lerna/lerna/issues/833
-yarn lerna exec --concurrency 1 'yarn remove fs-extra; echo 0'
-
-# Run test in all packages
-yarn test
-
-# Update JSDoc based documentation in markdown files
-yarn docs
-
-# Upgrade project wide deps like puppeteer
-# (We keep the devDependency version blurry)
-rm -rf node_modules
-rm -rf yarn.lock
-yarn
-yarn lerna bootstrap
-
-# Update deps within packages (interactive)
-yarn lernaupdate
-
-# If in doubt :-(
-yarn lerna exec "rm -f yarn.lock; rm -rf node_modules; echo 0"
-rm -f yarn.lock &&  rm -rf node_modules && yarn cache clean
-
-# Run tests of specific package
+# Run tests in a specific package
 cd packages/puppeteer-extra-plugin-stealth
-yarn test
+pnpm test
 
-# Run tests of specific stealth evasion
-cd packages/puppeteer-extra-plugin-stealth
-yarn ava -v ./evasions/user-agent-override/index.test.js
+# Run tests with coverage in a specific package
+cd packages/puppeteer-extra
+pnpm test:coverage
 
-# Test a local monorepo package in an outside folder as it would've been installed from the registry
-# Change PACKAGE_DIR to the path of this monorepo and PACKAGE to the package you wish to install
-PACKAGE=puppeteer-extra PACKAGE_DIR=/Users/foo/puppeteer-extra/packages && yarn remove $(echo $PACKAGE); true && rm -f $(pwd)/$(echo $PACKAGE)-latest.tgz && yarn --cwd $(echo $PACKAGE_DIR)/$(echo $PACKAGE) pack --filename $(pwd)/$(echo $PACKAGE)-latest.tgz && YARN_CACHE_FOLDER=/tmp/yarn yarn add file:$(pwd)/$(echo $PACKAGE)-latest.tgz && rm -rf /tmp/yarn
+# Lint and format code
+pnpm check       # Check for issues
+pnpm fix         # Fix issues automatically
+
+# Check links in markdown files
+pnpm links       # Check all links in markdown files
+
+# Clean install (if needed)
+rm -rf node_modules pnpm-lock.yaml
+pnpm store prune
+pnpm install
 ```
+
+#### Testing
+
+All packages use [Vitest](https://vitest.dev/) for unit testing with coverage support:
+
+```bash
+# Run tests in watch mode
+pnpm test
+
+# Run tests once with coverage
+pnpm test:coverage
+```
+
+For `@zorilla/playwright-extra`, which uses `@playwright/test`, coverage is collected via c8.
 
 #### Publishing
 
+We use [Changesets](https://github.com/changesets/changesets) for version management and publishing:
+
 ```bash
-# make sure you're signed into npm before publishing
-# yarn publishing is broken so lerna uses npm
+# Make sure you're signed into npm
 npm whoami
 
-# ensure everything is up2date and peachy
-yarn
-yarn bootstrap
-yarn lerna link
-yarn build
-yarn test
+# Ensure everything is built and tested
+pnpm install
+pnpm build
+pnpm test
 
-# Phew, let's publish these packages!
-# - Will publish all changed packages
-# - Will ask for new pkg version per package
-# - Will updated inter-package dependency versions automatically
-yarn lerna publish
+# Create a changeset for your changes
+pnpm changeset
 
-# Fix new dependency version symlinks
-yarn bootstrap && yarn lerna link
+# Version packages (updates package.json versions and changelogs)
+pnpm version
+
+# Publish to npm
+pnpm release
 ```
 
 </details>

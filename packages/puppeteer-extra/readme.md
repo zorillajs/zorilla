@@ -1,18 +1,16 @@
-# puppeteer-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/berstend/puppeteer-extra/test.yml?branch=master&event=push)](https://github.com/berstend/puppeteer-extra/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) [![npm](https://img.shields.io/npm/dt/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) [![npm](https://img.shields.io/npm/l/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra)
+# puppeteer-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push)](https://github.com/zorillajs/zorilla/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) [![npm](https://img.shields.io/npm/dt/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) [![npm](https://img.shields.io/npm/l/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra)
 
 > A light-weight wrapper around [`puppeteer`](https://github.com/GoogleChrome/puppeteer) and [friends](#more-examples) to enable cool [plugins](#plugins) through a clean interface.
 
-<a href="https://github.com/berstend/puppeteer-extra"><img src="https://i.imgur.com/qtlnoQL.png" width="279px" height="187px" align="right" /></a>
+<a href="https://github.com/zorillajs/zorilla"><img src="https://i.imgur.com/qtlnoQL.png" width="279px" height="187px" align="right" /></a>
 
 ## Installation
 
 ```bash
-yarn add puppeteer puppeteer-extra
-# - or -
 npm install puppeteer puppeteer-extra
 
 # puppeteer-extra works with any puppeteer version:
-yarn add puppeteer@2.0.0 puppeteer-extra
+npm i puppeteer@2.0.0 puppeteer-extra
 ```
 
 ## Quickstart
@@ -21,14 +19,14 @@ yarn add puppeteer@2.0.0 puppeteer-extra
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality.
 // Any number of plugins can be added through `puppeteer.use()`
-const puppeteer = require('puppeteer-extra')
+const puppeteer = require('@zorilla/puppeteer-extra')
 
 // Add stealth plugin and use defaults (all tricks to hide puppeteer usage)
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 // Add adblocker plugin to block all ads and trackers (saves bandwidth)
-const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker')
+const AdblockerPlugin = require('@zorilla/puppeteer-extra-plugin-adblocker')
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
 
 // That's it, the rest is puppeteer usage as normal 😊
@@ -54,9 +52,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
 The above example uses the [`stealth`](/packages/puppeteer-extra-plugin-stealth) and [`adblocker`](/packages/puppeteer-extra-plugin-adblocker) plugin, which need to be installed as well:
 
 ```bash
-yarn add puppeteer-extra-plugin-stealth puppeteer-extra-plugin-adblocker
-# - or -
-npm install puppeteer-extra-plugin-stealth puppeteer-extra-plugin-adblocker
+npm install @zorilla/puppeteer-extra-plugin-stealth uppeteer-extra-plugin-adblocker
 ```
 
 If you'd like to see debug output just run your script like so:
@@ -74,10 +70,10 @@ DEBUG=puppeteer-extra,puppeteer-extra-plugin:* node myscript.js
 > so you get perfect type support out of the box. :)
 
 ```ts
-import puppeteer from 'puppeteer-extra'
+import puppeteer from '@zorilla/puppeteer-extra'
 
-import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker'
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 puppeteer.use(AdblockerPlugin()).use(StealthPlugin())
 
@@ -92,7 +88,7 @@ puppeteer
   })
 ```
 
-> Please check this [wiki](https://github.com/berstend/puppeteer-extra/wiki/TypeScript-usage) entry in case you have TypeScript related import issues.
+> Please check this [wiki](https://github.com/zorillajs/zorilla/wiki/TypeScript-usage) entry in case you have TypeScript related import issues.
 
 ![typings](https://i.imgur.com/bNtuTOt.png 'Typings')
 
@@ -111,8 +107,8 @@ puppeteer
 ```js
 const vanillaPuppeteer = require('puppeteer')
 
-const { addExtra } = require('puppeteer-extra')
-const AnonymizeUA = require('puppeteer-extra-plugin-anonymize-ua')
+const { addExtra } = require('@zorilla/puppeteer-extra')
+const AnonymizeUA = require('@zorilla/puppeteer-extra-plugin-anonymize-ua')
 
 async function main() {
   const pptr1 = addExtra(vanillaPuppeteer)
@@ -158,9 +154,9 @@ async function checkUserAgent(pptr) {
 const { Cluster } = require('puppeteer-cluster')
 const vanillaPuppeteer = require('puppeteer')
 
-const { addExtra } = require('puppeteer-extra')
-const Stealth = require('puppeteer-extra-plugin-stealth')
-const Recaptcha = require('puppeteer-extra-plugin-recaptcha')
+const { addExtra } = require('@zorilla/puppeteer-extra')
+const Stealth = require('@zorilla/puppeteer-extra-plugin-stealth')
+const Recaptcha = require('@zorilla/puppeteer-extra-plugin-recaptcha')
 
 async function main() {
   // Create a custom puppeteer-extra instance using `addExtra`,
@@ -207,9 +203,9 @@ For using with TypeScript, just change your imports to:
 import { Cluster } from 'puppeteer-cluster'
 import vanillaPuppeteer from 'puppeteer'
 
-import { addExtra } from 'puppeteer-extra'
-import Stealth from 'puppeteer-extra-plugin-stealth'
-import Recaptcha from 'puppeteer-extra-plugin-recaptcha'
+import { addExtra } from '@zorilla/puppeteer-extra'
+import Stealth from '@zorilla/puppeteer-extra-plugin-stealth'
+import Recaptcha from '@zorilla/puppeteer-extra-plugin-recaptcha'
 ```
 
 </details>
@@ -222,7 +218,7 @@ import Recaptcha from 'puppeteer-extra-plugin-recaptcha'
 
 ```js
 const chromium = require('chrome-aws-lambda')
-const { addExtra } = require('puppeteer-extra')
+const { addExtra } = require('@zorilla/puppeteer-extra')
 const puppeteerExtra = addExtra(chromium.puppeteer)
 
 const launch = async () => {
@@ -252,8 +248,8 @@ launch() // Launch Browser
 > [Kikobeats/browserless](https://github.com/Kikobeats/browserless) is a puppeteer-like Node.js library for interacting with Headless production scenarios.
 
 ```js
-const puppeteer = require('puppeteer-extra')
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+const puppeteer = require('@zorilla/puppeteer-extra')
+const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 const browserless = require('browserless')({ puppeteer })
@@ -342,8 +338,8 @@ _Please note that they're hosted outside the main project and not under our cont
 
 ## Contributors
 
-<a href="https://github.com/berstend/puppeteer-extra/graphs/contributors">
-  <img src="https://contributors-img.firebaseapp.com/image?repo=berstend/puppeteer-extra" />
+<a href="https://github.com/zorillajs/zorilla/graphs/contributors">
+  <img src="https://contributors-img.firebaseapp.com/image?repo=zorillajs/zorilla" />
 </a>
 
 ## Further info
@@ -351,9 +347,9 @@ _Please note that they're hosted outside the main project and not under our cont
 <details>
  <summary><strong>Contributing</strong></summary><br/>
 
-PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](/packages/puppeteer-extra-plugin) base class documentation to get going and check out the [existing plugins](./packages/) (minimal example is the [anonymize-ua](/packages/puppeteer-extra-plugin-anonymize-ua/index.js) plugin) for reference.
+PRs and new plugins are welcome! 🎉 The plugin API for `puppeteer-extra` is clean and fun to use. Have a look the [PuppeteerExtraPlugin](/packages/puppeteer-extra-plugin) base class to get going and check out the [existing plugins](./packages/) (minimal example is the [anonymize-ua](/packages/puppeteer-extra-plugin-anonymize-ua/index.js) plugin) for reference.
 
-We use a [monorepo](/) powered by [Lerna](https://github.com/lerna/lerna#--use-workspaces) (and yarn workspaces), [ava](https://github.com/avajs/ava) for testing, TypeScript for the core, the [standard](https://standardjs.com/) style for linting and [JSDoc](http://usejsdoc.org/about-getting-started.html) heavily to auto-generate markdown [documentation](https://github.com/documentationjs/documentation) based on code. :-)
+We use a [monorepo](/) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, TypeScript for the core, and [Biome](https://biomejs.dev/) for linting and formatting. :-)
 
 </details>
 
@@ -361,14 +357,14 @@ We use a [monorepo](/) powered by [Lerna](https://github.com/lerna/lerna#--use-w
  <summary><strong>Kudos</strong></summary><br/>
 
 - Thanks to [skyiea](https://github.com/skyiea) for [this PR](https://github.com/GoogleChrome/puppeteer/pull/1806) that started the project idea.
-- Thanks to [transitive-bullshit](https://github.com/transitive-bullshit) for [suggesting](https://github.com/berstend/puppeteer-extra/issues/2) a modular plugin design, which was fun to implement.
+- Thanks to [transitive-bullshit](https://github.com/transitive-bullshit) for [suggesting](https://github.com/zorillajs/zorilla/issues/2) a modular plugin design, which was fun to implement.
 
 </details>
 
 <details>
  <summary><strong>Compatibility</strong></summary><br/>
 
-`puppeteer-extra` and all plugins are [tested continously](https://github.com/berstend/puppeteer-extra/actions) in a matrix of current (stable & LTS) NodeJS and puppeteer versions.
+`puppeteer-extra` and all plugins are [tested continously](https://github.com/zorillajs/zorilla/actions) in a matrix of current (stable & LTS) NodeJS and puppeteer versions.
 We never broke compatibility and still support puppeteer down to very early versions from 2018.
 
 A few plugins won't work in headless mode (it's noted if that's the case) due to Chrome limitations (e.g. the [`user-preferences`](/packages/puppeteer-extra-plugin-user-preferences) plugin), look into `xvfb-run` if you still require a headless experience in these circumstances.
@@ -395,8 +391,6 @@ The API is backwards compatible, I bumped the major version just in case I misse
 
 ## API
 
-<!-- Generated by documentation.js. Update this documentation by updating the source code. -->
-
 #### Table of Contents
 
 - [class: PuppeteerExtra](#class-puppeteerextra)
@@ -411,7 +405,7 @@ The API is backwards compatible, I bumped the major version just in case I misse
 - [defaultExport()](#defaultexport)
 - [addExtra(puppeteer)](#addextrapuppeteer)
 
-### class: [PuppeteerExtra](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L67-L474)
+### class: [PuppeteerExtra](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L67-L474)
 
 Modular plugin framework to teach `puppeteer` new tricks.
 
@@ -423,10 +417,10 @@ to extend puppeteer with additional functionality.
 Example:
 
 ```javascript
-const puppeteer = require('puppeteer-extra')
-puppeteer.use(require('puppeteer-extra-plugin-anonymize-ua')())
+const puppeteer = require('@zorilla/puppeteer-extra')
+puppeteer.use(require('@zorilla/puppeteer-extra-plugin-anonymize-ua')())
 puppeteer.use(
-  require('puppeteer-extra-plugin-font-size')({ defaultFontSize: 18 })
+  require('@zorilla/puppeteer-extra-plugin-font-size')({ defaultFontSize: 18 })
 )
 ;(async () => {
   const browser = await puppeteer.launch({ headless: false })
@@ -438,7 +432,7 @@ puppeteer.use(
 
 ---
 
-#### .[use(plugin)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L85-L107)
+#### .[use(plugin)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L85-L107)
 
 - `plugin` **PuppeteerExtraPlugin**
 
@@ -456,7 +450,7 @@ puppeteer.use(plugin1).use(plugin2)
 
 ---
 
-#### .[launch(options?)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L153-L177)
+#### .[launch(options?)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L153-L177)
 
 - `options` **Puppeteer.LaunchOptions?** See [puppeteer docs](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions).
 
@@ -480,7 +474,7 @@ const browser = await puppeteer.launch({
 
 ---
 
-#### .[connect(options?)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L189-L208)
+#### .[connect(options?)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L189-L208)
 
 - `options` **Puppeteer.ConnectOptions?** See [puppeteer docs](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerconnectoptions).
 
@@ -495,7 +489,7 @@ in sequence to potentially update the `options` Object before launching the brow
 
 ---
 
-#### .[defaultArgs(options?)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L215-L217)
+#### .[defaultArgs(options?)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L215-L217)
 
 - `options` **Puppeteer.ChromeArgOptions?** See [puppeteer docs](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteerdefaultargsoptions).
 
@@ -505,7 +499,7 @@ The default flags that Chromium will be launched with.
 
 ---
 
-#### .[executablePath()](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L220-L222)
+#### .[executablePath()](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L220-L222)
 
 Returns: **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
 
@@ -513,7 +507,7 @@ Path where Puppeteer expects to find bundled Chromium.
 
 ---
 
-#### .[createBrowserFetcher(options?)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L229-L233)
+#### .[createBrowserFetcher(options?)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L229-L233)
 
 - `options` **Puppeteer.FetcherOptions?** See [puppeteer docs](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteercreatebrowserfetcheroptions).
 
@@ -523,7 +517,7 @@ This methods attaches Puppeteer to an existing Chromium instance.
 
 ---
 
-#### .[plugins](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L283-L285)
+#### .[plugins](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L283-L285)
 
 Type: **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;PuppeteerExtraPlugin>**
 
@@ -531,7 +525,7 @@ Get a list of all registered plugins.
 
 ---
 
-#### .[getPluginData(name?)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L310-L315)
+#### .[getPluginData(name?)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L310-L315)
 
 - `name` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** Filter data by optional plugin name
 
@@ -546,7 +540,7 @@ Implemented mainly for plugins that need data from other plugins (e.g. `user-pre
 
 ---
 
-### [defaultExport()](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L494-L496)
+### [defaultExport()](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L494-L496)
 
 Type: **[PuppeteerExtra](#puppeteerextra)**
 
@@ -561,10 +555,10 @@ Example:
 
 ```javascript
 // javascript import
-const puppeteer = require('puppeteer-extra')
+const puppeteer = require('@zorilla/puppeteer-extra')
 
 // typescript/es6 module import
-import puppeteer from 'puppeteer-extra'
+import puppeteer from '@zorilla/puppeteer-extra'
 
 // Add plugins
 puppeteer.use(...)
@@ -572,7 +566,7 @@ puppeteer.use(...)
 
 ---
 
-### [addExtra(puppeteer)](https://github.com/berstend/puppeteer-extra/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L519-L520)
+### [addExtra(puppeteer)](https://github.com/zorillajs/zorilla/blob/dc8b90260a927c0c66c4585c5a56092ea9c35049/packages/puppeteer-extra/src/index.ts#L519-L520)
 
 - `puppeteer` **VanillaPuppeteer** Any puppeteer API-compatible puppeteer implementation or version.
 
@@ -587,11 +581,11 @@ Example:
 ```javascript
 // js import
 const puppeteerVanilla = require('puppeteer')
-const { addExtra } = require('puppeteer-extra')
+const { addExtra } = require('@zorilla/puppeteer-extra')
 
 // ts/es6 import
 import puppeteerVanilla from 'puppeteer'
-import { addExtra } from 'puppeteer-extra'
+import { addExtra } from '@zorilla/puppeteer-extra'
 
 // Patch provided puppeteer and add plugins
 const puppeteer = addExtra(puppeteerVanilla)
@@ -606,4 +600,4 @@ Copyright © 2018 - 2023, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](mailto:gith
 
 <!-- Markdown footnotes (for links) -->
 
-[puppeteerextraplugin]: https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin 'PuppeteerExtraPlugin Documentation'
+[puppeteerextraplugin]: https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin 'PuppeteerExtraPlugin'

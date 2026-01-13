@@ -1,13 +1,14 @@
-import Debug from 'debug'
-const debug = Debug('playwright-extra')
+import Debug from 'debug';
 
-import type * as pw from 'playwright-core'
-import type { CompatiblePlugin, Plugin } from './types'
+const debug = Debug('playwright-extra');
 
-import { PluginList } from './plugins'
-import { playwrightLoader } from './helper/loader'
+import type * as pw from 'playwright-core';
+import { playwrightLoader } from './helper/loader.js';
 
-type PlaywrightBrowserLauncher = pw.BrowserType
+import { PluginList } from './plugins.js';
+import type { CompatiblePlugin, Plugin } from './types/index.js';
+
+type PlaywrightBrowserLauncher = pw.BrowserType;
 
 /**
  * The Playwright browser launcher APIs we're augmenting
@@ -24,10 +25,10 @@ interface AugmentedLauncherAPIs
  */
 export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
   /** Plugin manager */
-  public readonly plugins: PluginList
+  public readonly plugins: PluginList;
 
   constructor(private _launcher?: Partial<PlaywrightBrowserLauncher>) {
-    this.plugins = new PluginList()
+    this.plugins = new PluginList();
   }
 
   /**
@@ -46,14 +47,14 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
    * @return The same `PlaywrightExtra` instance (for optional chaining)
    */
   public use(plugin: CompatiblePlugin): this {
-    const isValid = plugin && 'name' in plugin
+    const isValid = plugin && 'name' in plugin;
     if (!isValid) {
-      throw new Error('A plugin must be provided to .use()')
+      throw new Error('A plugin must be provided to .use()');
     }
     if (this.plugins.add(plugin as Plugin)) {
-      debug('Plugin registered', plugin.name)
+      debug('Plugin registered', plugin.name);
     }
-    return this
+    return this;
   }
 
   /**
@@ -68,64 +69,66 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
    */
   public get launcher(): Partial<PlaywrightBrowserLauncher> {
     if (!this._launcher) {
-      throw playwrightLoader.requireError
+      throw playwrightLoader.requireError;
     }
-    return this._launcher
+    return this._launcher;
   }
 
   public async launch(
     ...args: Parameters<PlaywrightBrowserLauncher['launch']>
   ): ReturnType<PlaywrightBrowserLauncher['launch']> {
     if (!this.launcher.launch) {
-      throw new Error('Launcher does not support "launch"')
+      throw new Error('Launcher does not support "launch"');
     }
 
-    let [options] = args
-    options = { args: [], ...(options || {}) } // Initialize args array
-    debug('launch', options)
-    this.plugins.prepare()
+    let [options] = args;
+    options = { args: [], ...(options || {}) }; // Initialize args array
+    debug('launch', options);
+    this.plugins.prepare();
 
     // Give plugins the chance to modify the options before continuing
     options =
-      (await this.plugins.dispatchBlocking('beforeLaunch', options)) || options
+      (await this.plugins.dispatchBlocking('beforeLaunch', options)) || options;
 
-    debug('launch with options', options)
+    debug('launch with options', options);
     if ('userDataDir' in options) {
       debug(
         "A plugin defined userDataDir during .launch, which isn't supported by playwright - ignoring"
-      )
-      delete (options as any).userDataDir
+      );
+      const { userDataDir: _, ...optionsWithoutUserDataDir } =
+        options as Record<string, unknown>;
+      options = optionsWithoutUserDataDir as pw.LaunchOptions;
     }
-    const browser = await this.launcher['launch'](options)
-    await this.plugins.dispatchBlocking('onBrowser', browser)
-    await this._bindBrowserEvents(browser)
-    await this.plugins.dispatchBlocking('afterLaunch', browser)
-    return browser
+    const browser = await this.launcher.launch(options);
+    await this.plugins.dispatchBlocking('onBrowser', browser);
+    await this._bindBrowserEvents(browser);
+    await this.plugins.dispatchBlocking('afterLaunch', browser);
+    return browser;
   }
 
   public async launchPersistentContext(
     ...args: Parameters<PlaywrightBrowserLauncher['launchPersistentContext']>
   ): ReturnType<PlaywrightBrowserLauncher['launchPersistentContext']> {
     if (!this.launcher.launchPersistentContext) {
-      throw new Error('Launcher does not support "launchPersistentContext"')
+      throw new Error('Launcher does not support "launchPersistentContext"');
     }
 
-    let [userDataDir, options] = args
-    options = { args: [], ...(options || {}) } // Initialize args array
-    debug('launchPersistentContext', options)
-    this.plugins.prepare()
+    let [userDataDir, options] = args;
+    options = { args: [], ...(options || {}) }; // Initialize args array
+    debug('launchPersistentContext', options);
+    this.plugins.prepare();
 
     // Give plugins the chance to modify the options before continuing
     options =
-      (await this.plugins.dispatchBlocking('beforeLaunch', options)) || options
+      (await this.plugins.dispatchBlocking('beforeLaunch', options)) || options;
 
-    const context = await this.launcher['launchPersistentContext'](
+    const context = await this.launcher.launchPersistentContext(
       userDataDir,
       options
-    )
-    await this.plugins.dispatchBlocking('afterLaunch', context)
-    this._bindBrowserContextEvents(context)
-    return context
+    );
+    await this.plugins.dispatchBlocking('afterLaunch', context);
+    this._bindBrowserContextEvents(context);
+    return context;
   }
 
   async connect(
@@ -133,43 +136,45 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
     wsOptions: pw.ConnectOptions = {}
   ): ReturnType<PlaywrightBrowserLauncher['connect']> {
     if (!this.launcher.connect) {
-      throw new Error('Launcher does not support "connect"')
+      throw new Error('Launcher does not support "connect"');
     }
-    this.plugins.prepare()
+    this.plugins.prepare();
 
     // Playwright currently supports two function signatures for .connect
-    let options: pw.ConnectOptions & { wsEndpoint?: string } = {}
-    let wsEndpointAsString = false
+    let options: pw.ConnectOptions & { wsEndpoint?: string } = {};
+    let wsEndpointAsString = false;
     if (typeof wsEndpointOrOptions === 'object') {
-      options = { ...wsEndpointOrOptions, ...wsOptions }
+      options = { ...wsEndpointOrOptions, ...wsOptions };
     } else {
-      wsEndpointAsString = true
-      options = { wsEndpoint: wsEndpointOrOptions, ...wsOptions }
+      wsEndpointAsString = true;
+      options = { wsEndpoint: wsEndpointOrOptions, ...wsOptions };
     }
-    debug('connect', options)
+    debug('connect', options);
 
     // Give plugins the chance to modify the options before launch/connect
     options =
-      (await this.plugins.dispatchBlocking('beforeConnect', options)) || options
+      (await this.plugins.dispatchBlocking('beforeConnect', options)) ||
+      options;
 
     // Follow call signature of end user
-    const args: any[] = []
-    const wsEndpoint = options.wsEndpoint
+    const args: unknown[] = [];
+    const wsEndpoint = options.wsEndpoint;
     if (wsEndpointAsString) {
-      delete options.wsEndpoint
-      args.push(wsEndpoint, options)
+      delete options.wsEndpoint;
+      args.push(wsEndpoint, options);
     } else {
-      args.push(options)
+      args.push(options);
     }
 
-    const browser = (await (this.launcher['connect'] as any)(
-      ...args
-    )) as pw.Browser
+    const connectFn = this.launcher.connect as (
+      ...args: unknown[]
+    ) => Promise<pw.Browser>;
+    const browser = await connectFn.call(this.launcher, ...args);
 
-    await this.plugins.dispatchBlocking('onBrowser', browser)
-    await this._bindBrowserEvents(browser)
-    await this.plugins.dispatchBlocking('afterConnect', browser)
-    return browser
+    await this.plugins.dispatchBlocking('onBrowser', browser);
+    await this._bindBrowserEvents(browser);
+    await this.plugins.dispatchBlocking('afterConnect', browser);
+    return browser;
   }
 
   async connectOverCDP(
@@ -179,81 +184,83 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
     wsOptions: pw.ConnectOverCDPOptions = {}
   ): ReturnType<PlaywrightBrowserLauncher['connectOverCDP']> {
     if (!this.launcher.connectOverCDP) {
-      throw new Error(`Launcher does not implement 'connectOverCDP'`)
+      throw new Error(`Launcher does not implement 'connectOverCDP'`);
     }
-    this.plugins.prepare()
+    this.plugins.prepare();
 
     // Playwright currently supports two function signatures for .connectOverCDP
-    let options: pw.ConnectOverCDPOptions & { endpointURL?: string } = {}
-    let wsEndpointAsString = false
+    let options: pw.ConnectOverCDPOptions & { endpointURL?: string } = {};
+    let wsEndpointAsString = false;
     if (typeof wsEndpointOrOptions === 'object') {
-      options = { ...wsEndpointOrOptions, ...wsOptions }
+      options = { ...wsEndpointOrOptions, ...wsOptions };
     } else {
-      wsEndpointAsString = true
-      options = { endpointURL: wsEndpointOrOptions, ...wsOptions }
+      wsEndpointAsString = true;
+      options = { endpointURL: wsEndpointOrOptions, ...wsOptions };
     }
-    debug('connectOverCDP'), options
+    debug('connectOverCDP', options);
 
     // Give plugins the chance to modify the options before launch/connect
     options =
-      (await this.plugins.dispatchBlocking('beforeConnect', options)) || options
+      (await this.plugins.dispatchBlocking('beforeConnect', options)) ||
+      options;
 
     // Follow call signature of end user
-    const args: any[] = []
-    const endpointURL = options.endpointURL
+    const args: unknown[] = [];
+    const endpointURL = options.endpointURL;
     if (wsEndpointAsString) {
-      delete options.endpointURL
-      args.push(endpointURL, options)
+      delete options.endpointURL;
+      args.push(endpointURL, options);
     } else {
-      args.push(options)
+      args.push(options);
     }
 
-    const browser = (await (this.launcher['connectOverCDP'] as any)(
-      ...args
-    )) as pw.Browser
+    const connectOverCDPFn = this.launcher.connectOverCDP as (
+      ...args: unknown[]
+    ) => Promise<pw.Browser>;
+    const browser = await connectOverCDPFn.call(this.launcher, ...args);
 
-    await this.plugins.dispatchBlocking('onBrowser', browser)
-    await this._bindBrowserEvents(browser)
-    await this.plugins.dispatchBlocking('afterConnect', browser)
-    return browser
+    await this.plugins.dispatchBlocking('onBrowser', browser);
+    await this._bindBrowserEvents(browser);
+    await this.plugins.dispatchBlocking('afterConnect', browser);
+    return browser;
   }
 
   protected async _bindBrowserContextEvents(
     context: pw.BrowserContext,
     contextOptions?: pw.BrowserContextOptions
   ) {
-    debug('_bindBrowserContextEvents')
-    this.plugins.dispatch('onContextCreated', context, contextOptions)
+    debug('_bindBrowserContextEvents');
+    this.plugins.dispatch('onContextCreated', context, contextOptions);
 
     // Make sure things like `addInitScript` show an effect on the very first page as well
     context.newPage = ((originalMethod, ctx) => {
       return async () => {
-        const page = await originalMethod.call(ctx)
-        await page.goto('about:blank')
-        return page
-      }
-    })(context.newPage, context)
+        const page = await originalMethod.call(ctx);
+        await page.goto('about:blank');
+        return page;
+      };
+    })(context.newPage, context);
 
     context.on('close', () => {
       // When using `launchPersistentContext` context closing is the same as browser closing
       if (!context.browser()) {
-        this.plugins.dispatch('onDisconnected')
+        this.plugins.dispatch('onDisconnected');
       }
-    })
+    });
     context.on('page', page => {
-      this.plugins.dispatch('onPageCreated', page)
+      this.plugins.dispatch('onPageCreated', page);
       page.on('close', () => {
-        this.plugins.dispatch('onPageClose', page)
-      })
-    })
+        this.plugins.dispatch('onPageClose', page);
+      });
+    });
   }
 
   protected async _bindBrowserEvents(browser: pw.Browser) {
-    debug('_bindPlaywrightBrowserEvents')
+    debug('_bindPlaywrightBrowserEvents');
 
     browser.on('disconnected', () => {
-      this.plugins.dispatch('onDisconnected', browser)
-    })
+      this.plugins.dispatch('onDisconnected', browser);
+    });
 
     // Note: `browser.newPage` will implicitly call `browser.newContext` as well
     browser.newContext = ((originalMethod, ctx) => {
@@ -263,12 +270,12 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
             'beforeContext',
             options,
             browser
-          )) || options
-        const context = await originalMethod.call(ctx, contextOptions)
-        this._bindBrowserContextEvents(context, contextOptions)
-        return context
-      }
-    })(browser.newContext, browser)
+          )) || options;
+        const context = await originalMethod.call(ctx, contextOptions);
+        this._bindBrowserContextEvents(context, contextOptions);
+        return context;
+      };
+    })(browser.newContext, browser);
   }
 }
 
@@ -280,16 +287,16 @@ export class PlaywrightExtraClass implements AugmentedLauncherAPIs {
  */
 export const PlaywrightExtra = new Proxy(PlaywrightExtraClass, {
   construct(classTarget, args) {
-    debug(`create instance of ${classTarget.name}`)
-    const result = Reflect.construct(classTarget, args) as PlaywrightExtraClass
+    debug(`create instance of ${classTarget.name}`);
+    const result = Reflect.construct(classTarget, args) as PlaywrightExtraClass;
     return new Proxy(result, {
       get(target, prop) {
         if (prop in target) {
-          return Reflect.get(target, prop)
+          return Reflect.get(target, prop);
         }
-        debug('proxying property to original launcher: ', prop)
-        return Reflect.get(target.launcher, prop)
-      }
-    })
-  }
-})
+        debug('proxying property to original launcher: ', prop);
+        return Reflect.get(target.launcher, prop);
+      },
+    });
+  },
+});

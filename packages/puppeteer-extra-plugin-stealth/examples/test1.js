@@ -1,23 +1,20 @@
-'use strict'
+import puppeteer from '@zorilla/puppeteer-extra';
+import stealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth';
+import detectHeadless from './detect-headless.js';
 
-const puppeteer = require('puppeteer-extra')
-puppeteer.use(require('puppeteer-extra-plugin-stealth')())
+puppeteer.use(stealthPlugin());
 
-const detectHeadless = require('./detect-headless')
+const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+const page = await browser.newPage();
+page.on('console', msg => {
+  console.log('Page console: ', msg.text());
+});
 
-;(async () => {
-  const browser = await puppeteer.launch({ args: ['--no-sandbox'] })
-  const page = await browser.newPage()
-  page.on('console', msg => {
-    console.log('Page console: ', msg.text())
-  })
+await page.goto('about:blank');
+const detectionResults = await page.evaluate(detectHeadless);
+console.assert(
+  Object.keys(detectionResults).length,
+  'No detection results returned.'
+);
 
-  await page.goto('about:blank')
-  const detectionResults = await page.evaluate(detectHeadless)
-  console.assert(
-    Object.keys(detectionResults).length,
-    'No detection results returned.'
-  )
-
-  await browser.close()
-})()
+await browser.close();

@@ -1,133 +1,124 @@
-# playwright-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/berstend/puppeteer-extra/test.yml?branch=master&event=push)](https://github.com/berstend/puppeteer-extra/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/playwright-extra.svg)](https://www.npmjs.com/package/playwright-extra)
+# playwright-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push)](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/playwright-extra.svg)](https://www.npmjs.com/package/playwright-extra)
 
 > A modular plugin framework for [playwright](https://github.com/microsoft/playwright) to enable cool [plugins](#plugins) through a clean interface.
+
+**Part of the [zorilla](https://github.com/zorillajs/zorilla) monorepo** - a maintained fork of puppeteer-extra with modern tooling and ESM support.
+
+## Requirements
+
+- Node.js 18+ (ESM only)
+- Playwright 1.x
 
 ## Installation
 
 ```bash
-yarn add playwright playwright-extra
+pnpm add playwright playwright-extra
 # - or -
 npm install playwright playwright-extra
 ```
 
-<details>
- <summary>Changelog</summary>
+After installing, make sure to install the Playwright browsers:
 
-> Please check the `announcements` channel in our [discord server](https://extra.community) until we've automated readme updates. :)
-
-- **v4.3**
-  - Rerelease due to versioning issues with previous beta packages
-- **v3.3**
-  - Initial public release
-  </details>
+```bash
+pnpm exec playwright install
+# - or -
+npx playwright install
+```
 
 ## Quickstart
 
 ```js
 // playwright-extra is a drop-in replacement for playwright,
 // it augments the installed playwright with plugin functionality
-const { chromium } = require('playwright-extra')
+import { chromium } from 'playwright-extra'
 
 // Load the stealth plugin and use defaults (all tricks to hide playwright usage)
 // Note: playwright-extra is compatible with most puppeteer-extra plugins
-const stealth = require('puppeteer-extra-plugin-stealth')()
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 // Add the plugin to playwright (any number of plugins can be added)
-chromium.use(stealth)
+chromium.use(StealthPlugin())
 
 // That's it, the rest is playwright usage as normal 😊
-chromium.launch({ headless: true }).then(async browser => {
-  const page = await browser.newPage()
+const browser = await chromium.launch({ headless: true })
+const page = await browser.newPage()
 
-  console.log('Testing the stealth plugin..')
-  await page.goto('https://bot.sannysoft.com', { waitUntil: 'networkidle' })
-  await page.screenshot({ path: 'stealth.png', fullPage: true })
+console.log('Testing the stealth plugin..')
+await page.goto('https://bot.sannysoft.com', { waitUntil: 'networkidle' })
+await page.screenshot({ path: 'stealth.png', fullPage: true })
 
-  console.log('All done, check the screenshot. ✨')
-  await browser.close()
-})
+console.log('All done, check the screenshot. ✨')
+await browser.close()
 ```
 
-The above example uses the compatible [`stealth`](/packages/puppeteer-extra-plugin-stealth) plugin from puppeteer-extra, that plugin needs to be installed as well:
+The above example uses the compatible [`stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth) plugin, which needs to be installed as well:
 
 ```bash
-yarn add puppeteer-extra-plugin-stealth
+pnpm add @zorilla/puppeteer-extra-plugin-stealth
 # - or -
-npm install puppeteer-extra-plugin-stealth
+npm install @zorilla/puppeteer-extra-plugin-stealth
 ```
 
 If you'd like to see debug output just run your script like so:
 
 ```bash
 # macOS/Linux (Bash)
-DEBUG=playwright-extra*,puppeteer-extra* node myscript.js
+DEBUG=playwright-extra*,puppeteer-extra-plugin* node myscript.js
 
 # Windows (Powershell)
-$env:DEBUG='playwright-extra*,puppeteer-extra*';node myscript.js
+$env:DEBUG='playwright-extra*,puppeteer-extra-plugin*'; node myscript.js
 ```
 
 ### More examples
 
 <details>
- <summary><strong>TypeScript & ESM usage</strong></summary><br/>
+ <summary><strong>TypeScript usage</strong></summary><br/>
 
 `playwright-extra` and most plugins are written in TS, so you get perfect type support out of the box. :)
 
 ```ts
-// playwright-extra is a drop-in replacement for playwright,
-// it augments the installed playwright with plugin functionality
 import { chromium } from 'playwright-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
-// Load the stealth plugin and use defaults (all tricks to hide playwright usage)
-// Note: playwright-extra is compatible with most puppeteer-extra plugins
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-
-// Add the plugin to playwright (any number of plugins can be added)
 chromium.use(StealthPlugin())
 
-// ...(the rest of the quickstart code example is the same)
-chromium.launch({ headless: true }).then(async browser => {
-  const page = await browser.newPage()
+const browser = await chromium.launch({ headless: true })
+const page = await browser.newPage()
 
-  console.log('Testing the stealth plugin..')
-  await page.goto('https://bot.sannysoft.com', { waitUntil: 'networkidle' })
-  await page.screenshot({ path: 'stealth.png', fullPage: true })
+console.log('Testing the stealth plugin..')
+await page.goto('https://bot.sannysoft.com', { waitUntil: 'networkidle' })
+await page.screenshot({ path: 'stealth.png', fullPage: true })
 
-  console.log('All done, check the screenshot. ✨')
-  await browser.close()
-})
+console.log('All done, check the screenshot. ✨')
+await browser.close()
 ```
 
-New to Typescript? Here it is in 30 seconds or less 😄:
+New to TypeScript? Here's a quick setup:
 
 ```bash
-# Optional: If you don't have yarn yet
-npm i --global yarn
+# Create new package.json if it's a new project
+pnpm init
 
-# Optional: Create new package.json if it's a new project
-yarn init -y
-
-# Add basic typescript dependencies
-yarn add --dev typescript @types/node esbuild esbuild-register
-
-# Bootstrap a tsconfig.json
-yarn tsc --init --target ES2020 --lib ES2020 --module commonjs --rootDir src --outDir dist
+# Add TypeScript and dependencies
+pnpm add -D typescript @types/node tsx
 
 # Add dependencies used in the quick start example
-yarn add playwright playwright-extra puppeteer-extra-plugin-stealth
+pnpm add playwright playwright-extra @zorilla/puppeteer-extra-plugin-stealth
+
+# Create a TypeScript config
+pnpm tsc --init
 
 # Create source folder for the .ts files
 mkdir src
 
 # Now place the example code above in `src/index.ts`
 
-# Run the typescript code without the need of compiling it first
-node -r esbuild-register src/index.ts
-
-# You can now add Typescript to your CV 🎉
+# Run the TypeScript code directly (no compilation needed)
+pnpm tsx src/index.ts
 ```
 
 </details>
+
 <details>
  <summary><strong>Using different browsers</strong></summary><br/>
 
@@ -141,22 +132,23 @@ webkit.use(plugin)
 ```
 
 </details>
+
 <details>
  <summary><strong>Multiple instances with different plugins</strong></summary><br/>
 
-Node.js imports are cached, therefore the default `chromium`, `firefox`, `webkit` export from `playwright-extra` will always return the same playwright instance.
+Node.js imports are cached, therefore the default `chromium`, `firefox`, `webkit` exports from `playwright-extra` will always return the same playwright instance.
 
 ```ts
-// Use `addExtra` to create a fresh and independent instance
+// Use `addExtra` to create fresh and independent instances
 import playwright from 'playwright'
 import { addExtra } from 'playwright-extra'
 
 const chromium1 = addExtra(playwright.chromium)
 const chromium2 = addExtra(playwright.chromium)
 
-chromium1.use(onePlugin)
-chromium2.use(anotherPlugin)
-// chromium1 and chromium2 are independent
+chromium1.use(pluginA)
+chromium2.use(pluginB)
+// chromium1 and chromium2 are independent instances
 ```
 
 </details>
@@ -165,57 +157,56 @@ chromium2.use(anotherPlugin)
 
 ## Plugins
 
-We're currently in the process of making the existing [puppeteer-extra](/packages/puppeteer-extra) plugins compatible with playwright-extra, the following plugins have been successfully tested already:
+The following plugins are compatible with playwright-extra:
 
-### 🔥 [`puppeteer-extra-plugin-stealth`](/packages/puppeteer-extra-plugin-stealth)
+### 🔥 [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth)
 
-- Applies various evasion techniques to make detection of an automated browser harder
-- Compatible with Puppeteer & Playwright and chromium based browsers
+- Applies various evasion techniques to make detection of automated browsers harder
+- Compatible with Puppeteer & Playwright and chromium-based browsers
 
 <details>
 <summary>&nbsp;&nbsp;Example: Using stealth in Playwright with custom options</summary>
 
 ```js
-// The stealth plugin is optimized for chromium based browsers currently
+// The stealth plugin is optimized for chromium based browsers
 import { chromium } from 'playwright-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
 chromium.use(StealthPlugin())
 
-// New way to overwrite the default options of stealth evasion plugins
-// https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth/evasions
+// Customize options for specific evasion techniques
 chromium.plugins.setDependencyDefaults('stealth/evasions/webgl.vendor', {
   vendor: 'Bob',
   renderer: 'Alice'
 })
 
 // That's it, the rest is playwright usage as normal 😊
-chromium.launch({ headless: true }).then(async browser => {
-  const page = await browser.newPage()
+const browser = await chromium.launch({ headless: true })
+const page = await browser.newPage()
 
-  console.log('Testing the webgl spoofing feature of the stealth plugin..')
-  await page.goto('https://webglreport.com', { waitUntil: 'networkidle' })
-  await page.screenshot({ path: 'webgl.png', fullPage: true })
+console.log('Testing the webgl spoofing feature of the stealth plugin..')
+await page.goto('https://webglreport.com', { waitUntil: 'networkidle' })
+await page.screenshot({ path: 'webgl.png', fullPage: true })
 
-  console.log('All done, check the screenshot. ✨')
-  await browser.close()
-})
+console.log('All done, check the screenshot. ✨')
+await browser.close()
 ```
 
 </details>
 
-### 🏴 [`puppeteer-extra-plugin-recaptcha`](/packages/puppeteer-extra-plugin-recaptcha)
+### 🏴 [`puppeteer-extra-plugin-recaptcha`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-recaptcha)
 
 - Solves reCAPTCHAs and hCaptchas automatically, using a single line of code: `page.solveRecaptchas()`
 - Compatible with Puppeteer & Playwright and all browsers (chromium, firefox, webkit)
+
 <details>
 <summary>&nbsp;&nbsp;Example: Solving captchas in Playwright & Firefox</summary>
 
 ```js
 // Any browser (chromium, webkit, firefox) can be used
 import { firefox } from 'playwright-extra'
-
 import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha'
+
 firefox.use(
   RecaptchaPlugin({
     provider: {
@@ -225,58 +216,146 @@ firefox.use(
   })
 )
 
-// Works in headless as well, just so you can see it in action
-firefox.launch({ headless: false }).then(async browser => {
-  const context = await browser.newContext()
-  const page = await context.newPage()
-  const url = 'https://www.google.com/recaptcha/api2/demo'
-  await page.goto(url, { waitUntil: 'networkidle' })
+// Works in headless as well
+const browser = await firefox.launch({ headless: false })
+const context = await browser.newContext()
+const page = await context.newPage()
 
-  console.log('Solving captchas..')
-  await page.solveRecaptchas()
-
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'networkidle' }),
-    page.click(`#recaptcha-demo-submit`)
-  ])
-
-  const content = await page.content()
-  const isSuccess = content.includes('Verification Success')
-  console.log('Done', { isSuccess })
-  await browser.close()
+await page.goto('https://www.google.com/recaptcha/api2/demo', {
+  waitUntil: 'networkidle'
 })
+
+console.log('Solving captchas..')
+await page.solveRecaptchas()
+
+await Promise.all([
+  page.waitForNavigation({ waitUntil: 'networkidle' }),
+  page.click('#recaptcha-demo-submit')
+])
+
+const content = await page.content()
+const isSuccess = content.includes('Verification Success')
+console.log('Done', { isSuccess })
+await browser.close()
 ```
 
 </details>
 
-### 🆕 [`plugin-proxy-router`](/packages/plugin-proxy-router)
+### 📡 [`@zorilla/plugin-proxy-router`](https://github.com/zorillajs/zorilla/tree/main/packages/plugin-proxy-router)
 
-- Use multiple proxies dynamically with flexible per-host routing and more
+- Use multiple proxies dynamically with flexible per-host routing
 - Compatible with Puppeteer & Playwright and all browsers (chromium, firefox, webkit)
 
-**Notes**
+### 🔌 [`@zorilla/puppeteer-extra-plugin-anonymize-ua`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-anonymize-ua)
 
-- If you're in need of adblocking use [this package](https://www.npmjs.com/package/@cliqz/adblocker-playwright) or [block resources natively](https://github.com/berstend/puppeteer-extra/wiki/Block-resources-without-request-interception)
-- We're focussing on compatiblity with existing plugins at the moment, more documentation on how to write your own playwright-extra plugins will follow
+- Anonymizes the user-agent on all pages
+- Compatible with Puppeteer & Playwright
+
+**Additional Resources**
+
+- For adblocking, consider using [@cliqz/adblocker-playwright](https://www.npmjs.com/package/@cliqz/adblocker-playwright) or [blocking resources natively](https://playwright.dev/docs/network#handle-requests)
+- To write your own plugins, check out the [`@zorilla/puppeteer-extra-plugin`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin) base class
+
+---
+
+## Development
+
+This package is part of the [zorilla monorepo](https://github.com/zorillajs/zorilla) and uses:
+- **TypeScript** for type safety (ESM only, no CommonJS support)
+- **Playwright Test** for testing across chromium, firefox, and webkit
+- **c8** for coverage reporting
+- **Biome** for linting and formatting
+
+### Building and Testing
+
+```bash
+# Install dependencies (from monorepo root)
+pnpm install
+
+# Build the package
+pnpm build
+
+# Run tests (requires Playwright browsers to be installed)
+pnpm test
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+### Code Quality
+
+```bash
+# Check code formatting and linting
+npx biome check .
+
+# Auto-fix formatting issues
+npx biome check --write .
+```
+
+### Browser Installation
+
+Tests require Playwright browsers. Install them with:
+
+```bash
+pnpm exec playwright install
+```
+
+---
+
+## API
+
+### Default Export
+
+The package exports augmented browser launchers that work as drop-in replacements for playwright:
+
+```ts
+import { chromium, firefox, webkit } from 'playwright-extra'
+```
+
+### `addExtra(launcher)`
+
+Create a fresh playwright-extra instance with its own plugin registry:
+
+```ts
+import { addExtra } from 'playwright-extra'
+import playwright from 'playwright'
+
+const chromium = addExtra(playwright.chromium)
+```
+
+### `launcher.use(plugin)`
+
+Register a plugin with the browser launcher:
+
+```ts
+chromium.use(StealthPlugin())
+```
+
+### `launcher.plugins`
+
+Access the plugin registry to configure plugins:
+
+```ts
+// Set default options for a plugin dependency
+chromium.plugins.setDependencyDefaults('stealth/evasions/webgl.vendor', {
+  vendor: 'Custom',
+  renderer: 'Custom'
+})
+
+// List registered plugins
+console.log(chromium.plugins.names)
+```
 
 ---
 
 ## Contributors
 
-<a href="https://github.com/berstend/puppeteer-extra/graphs/contributors">
-  <img src="https://contributors-img.firebaseapp.com/image?repo=berstend/puppeteer-extra" />
+<a href="https://github.com/zorillajs/zorilla/graphs/contributors">
+  <img src="https://contributors-img.firebaseapp.com/image?repo=zorillajs/zorilla" />
 </a>
 
 ---
 
 ## License
 
-Copyright © 2018 - 2023, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](https://github.com/berstend). Released under the MIT License.
-
-<!--
-  Reference links
--->
-
-[playwright-extra]: https://github.com/berstend/puppeteer-extra/tree/master/packages/playwright-extra
-[puppeteer-extra]: https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
-[`puppeteer-extra`]: https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
+Copyright © 2018 - 2025, [berstend](https://github.com/berstend). Released under the MIT License.

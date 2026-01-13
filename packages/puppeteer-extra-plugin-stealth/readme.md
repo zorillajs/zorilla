@@ -1,23 +1,19 @@
-# puppeteer-extra-plugin-stealth [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/berstend/puppeteer-extra/test.yml?branch=master&event=push) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-stealth)
+# puppeteer-extra-plugin-stealth [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-stealth)
 
-> A plugin for [puppeteer-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra) and [playwright-extra](https://github.com/berstend/puppeteer-extra/tree/master/packages/playwright-extra) to prevent detection.
+> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) and [playwright-extra](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra) to prevent detection.
 
 <p align="center"><img src="https://i.imgur.com/q2xBjqH.png" /></p>
 
 ## Install
 
 ```bash
-yarn add puppeteer-extra-plugin-stealth
-# - or -
-npm install puppeteer-extra-plugin-stealth
+npm install @zorilla/puppeteer-extra-plugin-stealth
 ```
 
-If this is your first [puppeteer-extra](https://github.com/berstend/puppeteer-extra) plugin here's everything you need:
+If this is your first [puppeteer-extra](https://github.com/zorillajs/zorilla) plugin here's everything you need:
 
 ```bash
-yarn add puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
-# - or -
-npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
+npm install puppeteer @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-stealth
 ```
 
 ## Usage
@@ -25,10 +21,10 @@ npm install puppeteer puppeteer-extra puppeteer-extra-plugin-stealth
 ```js
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
-const puppeteer = require('puppeteer-extra')
+const puppeteer = require('@zorilla/puppeteer-extra')
 
 // add stealth plugin and use defaults (all evasion techniques)
-const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
 puppeteer.use(StealthPlugin())
 
 // puppeteer usage as normal
@@ -50,8 +46,8 @@ puppeteer.launch({ headless: true }).then(async browser => {
 > so you get perfect type support out of the box. :)
 
 ```ts
-import puppeteer from 'puppeteer-extra'
-import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+import puppeteer from '@zorilla/puppeteer-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 puppeteer
   .use(StealthPlugin())
@@ -65,11 +61,11 @@ puppeteer
   })
 ```
 
-> Please check this [wiki](https://github.com/berstend/puppeteer-extra/wiki/TypeScript-usage) entry in case you have TypeScript related import issues.
+> Please check this [wiki](https://github.com/zorillajs/zorilla/wiki/TypeScript-usage) entry in case you have TypeScript related import issues.
 
 </details><br>
 
-> Please check out the [main documentation](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra) to learn more about `puppeteer-extra` (Firefox usage, other Plugins, etc).
+> Please check out the [puppeteer-extra package](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) to learn more about `puppeteer-extra` (Firefox usage, other Plugins, etc).
 
 ## Status
 
@@ -89,15 +85,15 @@ _Older changelog:_
 
 #### `v2.4.7`
 
-- New: `user-agent-override` - Used to set a stealthy UA string, language & platform. This also fixes issues with the prior method of setting the `Accept-Language` header through request interception ([#104](https://github.com/berstend/puppeteer-extra/pull/104), kudos to [@Niek](https://github.com/Niek))
-- New: `navigator.vendor` - Makes it possible to optionally override navigator.vendor ([#110](https://github.com/berstend/puppeteer-extra/pull/110), thanks [@Niek](https://github.com/Niek))
-- Improved: `navigator.webdriver`: Now uses ES6 Proxies to pass `instanceof` tests ([#117](https://github.com/berstend/puppeteer-extra/pull/117), thanks [@aabbccsmith](https://github.com/aabbccsmith))
+- New: `user-agent-override` - Used to set a stealthy UA string, language & platform. This also fixes issues with the prior method of setting the `Accept-Language` header through request interception ([#104](https://github.com/zorillajs/zorilla/pull/104), kudos to [@Niek](https://github.com/Niek))
+- New: `navigator.vendor` - Makes it possible to optionally override navigator.vendor ([#110](https://github.com/zorillajs/zorilla/pull/110), thanks [@Niek](https://github.com/Niek))
+- Improved: `navigator.webdriver`: Now uses ES6 Proxies to pass `instanceof` tests ([#117](https://github.com/zorillajs/zorilla/pull/117), thanks [@aabbccsmith](https://github.com/aabbccsmith))
 - Removed: `user-agent`, `accept-language` (now obsolete)
 
 #### `v2.4.2` / `v2.4.1`
 
 - Improved: `iframe.contentWindow` - We now proxy the original window object and smartly redirect calls that might reveal it's true identity, as opposed to mocking it like peasants :)
-- Improved: `accept-language` - More robust and it's now possible to [set a custom locale](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth/evasions/accept-language#readme) if needed.
+- Improved: `accept-language` - More robust and it's now possible to [set a custom locale](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth/evasions/accept-language#readme) if needed.
 - ⭐️ Passes the [headless-cat-n-mouse](https://github.com/paulirish/headless-cat-n-mouse) test
 
 #### `v2.4.0`
@@ -168,11 +164,10 @@ Using stealth also seems to help with maintaining a normal [reCAPTCHA v3 score](
 
 Note: The [official test](https://recaptcha-demo.appspot.com/recaptcha-v3-request-scores.php) is to be taken with a grain of salt, as the score is calculated individually per site and multiple other factors (past behaviour, IP address, etc). Based on anecdotal observations it still seems to work as a rough indicator.
 
-_**Tip:** Have a look at the [recaptcha plugin](https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-recaptcha) if you have issues with reCAPTCHAs._
+_**Tip:** Have a look at the [recaptcha plugin](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-recaptcha) if you have issues with reCAPTCHAs._
 
 ## API
 
-<!-- Generated by documentation.js. Update this documentation by updating the source code. -->
 
 #### Table of Contents
 
@@ -200,7 +195,7 @@ _**Tip:** Have a look at the [recaptcha plugin](https://github.com/berstend/pupp
     - [defaultExport(opts?)](#defaultexportopts)
   - [License](#license)
 
-### class: [StealthPlugin](https://github.com/berstend/puppeteer-extra/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L72-L162)
+### class: [StealthPlugin](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L72-L162)
 
 - `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options (optional, default `{}`)
   - `opts.enabledEvasions` **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>?** Specify which evasions to use (by default all)
@@ -232,7 +227,7 @@ specific evasion plugins yourself, if you whish to do so (as they're standalone 
 ```es6
 // bypass main module and require a specific stealth plugin directly:
 puppeteer.use(
-  require('puppeteer-extra-plugin-stealth/evasions/console.debug')()
+  require('@zorilla/puppeteer-extra-plugin-stealth/evasions/console.debug')()
 )
 ```
 
@@ -250,9 +245,9 @@ Thanks to [Evan Sangaline](https://intoli.com/blog/not-possible-to-block-chrome-
 Example:
 
 ```javascript
-const puppeteer = require('puppeteer-extra')
+const puppeteer = require('@zorilla/puppeteer-extra')
 // Enable stealth plugin with all evasions
-puppeteer.use(require('puppeteer-extra-plugin-stealth')())
+puppeteer.use(require('@zorilla/puppeteer-extra-plugin-stealth')())
 ;(async () => {
   // Launch the browser in headless mode and set up a page.
   const browser = await puppeteer.launch({
@@ -278,7 +273,7 @@ puppeteer.use(require('puppeteer-extra-plugin-stealth')())
 
 ---
 
-#### .[availableEvasions](https://github.com/berstend/puppeteer-extra/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L128-L130)
+#### .[availableEvasions](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L128-L130)
 
 Type: **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>**
 
@@ -289,14 +284,14 @@ Please look into the [evasions directory](./evasions/) for an up to date list.
 Example:
 
 ```javascript
-const pluginStealth = require('puppeteer-extra-plugin-stealth')()
+const pluginStealth = require('@zorilla/puppeteer-extra-plugin-stealth')()
 console.log(pluginStealth.availableEvasions) // => Set { 'user-agent', 'console.debug' }
 puppeteer.use(pluginStealth)
 ```
 
 ---
 
-#### .[enabledEvasions](https://github.com/berstend/puppeteer-extra/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L145-L147)
+#### .[enabledEvasions](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L145-L147)
 
 Type: **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>**
 
@@ -308,14 +303,14 @@ Example:
 
 ```javascript
 // Remove specific evasion from enabled ones dynamically
-const pluginStealth = require('puppeteer-extra-plugin-stealth')()
+const pluginStealth = require('@zorilla/puppeteer-extra-plugin-stealth')()
 pluginStealth.enabledEvasions.delete('console.debug')
 puppeteer.use(pluginStealth)
 ```
 
 ---
 
-### [defaultExport(opts?)](https://github.com/berstend/puppeteer-extra/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L170-L170)
+### [defaultExport(opts?)](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/index.js#L170-L170)
 
 - `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options
   - `opts.enabledEvasions` **[Set](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)>?** Specify which evasions to use (by default all)

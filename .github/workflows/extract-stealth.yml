@@ -3,7 +3,7 @@ name: Extract stealth.min.js
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'packages/puppeteer-extra-plugin-stealth/**'
       - 'packages/extract-stealth-evasions/**'
@@ -19,29 +19,37 @@ jobs:
           time: '190s'
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: 'Fix for: error fsevents@2.1.2: The platform "linux" is incompatible with this module.'
-        run: npx json -I -f package.json -e 'this.resolutions={}'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build packages
-        run: |
-          yarn install
-          yarn bootstrap
-          yarn build
+        run: pnpm build
 
       - name: Extract stealth.min.js
         run: |
           cd packages/extract-stealth-evasions
-          node index.js
+          pnpm exec extract-stealth-evasions
           cp stealth.min.js ../../
 
       - name: Commit stealth.min.js
-        uses: EndBug/add-and-commit@v4
+        uses: EndBug/add-and-commit@v9
         with:
           add: 'stealth.min.js'
-          force: true
-          ref: 'stealth-js'
+          push: true
+          default_author: github_actions
           message: 'Auto-updated stealth.min.js with newest evasions'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,25 +1,32 @@
-import debug, { Debugger } from 'debug'
-import * as Puppeteer from './puppeteer'
-
-/** @private */
-const merge = require('merge-deep')
+import debug, { type Debugger } from 'debug';
+import merge from 'merge-deep';
+import type * as Puppeteer from './puppeteer.js';
 
 export interface PluginOptions {
-  [key: string]: any
+  [key: string]: unknown;
 }
 export interface PluginData {
   name: {
-    [key: string]: any
-  }
+    [key: string]: unknown;
+  };
   value: {
-    [key: string]: any
-  }
+    [key: string]: unknown;
+  };
 }
 
-export type PluginDependencies = Set<string>
+export type PluginDependencies = Set<string>;
 export type PluginRequirements = Set<
   'launch' | 'headful' | 'dataFromPlugins' | 'runLast'
->
+>;
+
+export interface BrowserEventOptions {
+  context?: 'launch' | 'connect';
+  options?:
+    | Puppeteer.LaunchOptions
+    | Puppeteer.ConnectOptions
+    | Record<string, unknown>;
+  defaultArgs?: string[];
+}
 
 /**
  * Base class for `puppeteer-extra` plugins.
@@ -33,7 +40,7 @@ export type PluginRequirements = Set<
  *
  * @example
  * // hello-world-plugin.js
- * const { PuppeteerExtraPlugin } = require('puppeteer-extra-plugin')
+ * import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin'
  *
  * class Plugin extends PuppeteerExtraPlugin {
  *   constructor (opts = { }) { super(opts) }
@@ -47,12 +54,13 @@ export type PluginRequirements = Set<
  *   }
  * }
  *
- * module.exports = function (pluginConfig) { return new Plugin(pluginConfig) }
+ * export default function (pluginConfig) { return new Plugin(pluginConfig) }
  *
  *
  * // foo.js
- * const puppeteer = require('puppeteer-extra')
- * puppeteer.use(require('./hello-world-plugin')())
+ * import puppeteer from '@zorilla/puppeteer-extra'
+ * import helloWorldPlugin from './hello-world-plugin.js'
+ * puppeteer.use(helloWorldPlugin())
  *
  * ;(async () => {
  *   const browser = await puppeteer.launch({headless: false})
@@ -64,19 +72,20 @@ export type PluginRequirements = Set<
  */
 export abstract class PuppeteerExtraPlugin {
   /** @private */
-  private _debugBase: Debugger
+  private _debugBase: Debugger;
   /** @private */
-  private _opts: PluginOptions
+  private _opts: PluginOptions;
   /** @private */
-  private _childClassMembers: string[]
+  private _childClassMembers: string[];
 
   constructor(opts?: PluginOptions) {
-    this._debugBase = debug(`puppeteer-extra-plugin:base:${this.name}`)
-    this._childClassMembers = []
+    this._childClassMembers = [];
 
-    this._opts = merge(this.defaults, opts || {})
+    this._opts = merge(this.defaults, opts || {});
 
-    this._debugBase('Initialized.')
+    this._debugBase = debug(`puppeteer-extra-plugin:base:${this.name}`);
+
+    this._debugBase('Initialized.');
   }
 
   /**
@@ -90,7 +99,7 @@ export abstract class PuppeteerExtraPlugin {
    * get name () { return 'anonymize-ua' }
    */
   get name(): string {
-    throw new Error('Plugin must override "name"')
+    throw new Error('Plugin must override "name"');
   }
 
   /**
@@ -112,10 +121,11 @@ export abstract class PuppeteerExtraPlugin {
    * }
    *
    * // Users can overwrite plugin defaults during instantiation:
-   * puppeteer.use(require('puppeteer-extra-plugin-foobar')({ makeWindows: false }))
+   * import foobarPlugin from '@zorilla/puppeteer-extra-plugin-foobar'
+   * puppeteer.use(foobarPlugin({ makeWindows: false }))
    */
   get defaults(): PluginOptions {
-    return {}
+    return {};
   }
 
   /**
@@ -143,7 +153,7 @@ export abstract class PuppeteerExtraPlugin {
    * }
    */
   get requirements(): PluginRequirements {
-    return new Set([])
+    return new Set([]);
   }
 
   /**
@@ -158,7 +168,7 @@ export abstract class PuppeteerExtraPlugin {
    * // Will ensure the 'puppeteer-extra-plugin-user-preferences' plugin is loaded.
    */
   get dependencies(): PluginDependencies {
-    return new Set([])
+    return new Set([]);
   }
 
   /**
@@ -194,7 +204,7 @@ export abstract class PuppeteerExtraPlugin {
    * }
    */
   get data(): PluginData[] {
-    return []
+    return [];
   }
 
   /**
@@ -213,7 +223,7 @@ export abstract class PuppeteerExtraPlugin {
    * }
    */
   get opts(): PluginOptions {
-    return this._opts
+    return this._opts;
   }
 
   /**
@@ -233,7 +243,7 @@ export abstract class PuppeteerExtraPlugin {
    * // will output e.g. 'puppeteer-extra-plugin:anonymize-ua hello world'
    */
   get debug(): Debugger {
-    return debug(`puppeteer-extra-plugin:${this.name}`)
+    return debug(`puppeteer-extra-plugin:${this.name}`);
   }
 
   /**
@@ -253,7 +263,7 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @param options - Puppeteer launch options
    */
-  async beforeLaunch(options: any) {
+  async beforeLaunch(_options: Puppeteer.LaunchOptions) {
     // noop
   }
 
@@ -270,10 +280,11 @@ export abstract class PuppeteerExtraPlugin {
    * Alternatively you could expose a class method that takes a browser instance as a parameter to work with:
    *
    * ```es6
-   * const fancyPlugin = require('puppeteer-extra-plugin-fancy')()
-   * puppeteer.use(fancyPlugin)
+   * import fancyPlugin from '@zorilla/puppeteer-extra-plugin-fancy'
+   * const fancy = fancyPlugin()
+   * puppeteer.use(fancy)
    * const browser = await puppeteer.launch()
-   * await fancyPlugin.killBrowser(browser)
+   * await fancy.killBrowser(browser)
    * ```
    *
    * @param  browser - The `puppeteer` browser instance.
@@ -285,8 +296,8 @@ export abstract class PuppeteerExtraPlugin {
    * }
    */
   async afterLaunch(
-    browser: Puppeteer.Browser,
-    opts = { options: {} as Puppeteer.LaunchOptions }
+    _browser: Puppeteer.Browser,
+    _opts = { options: {} as Puppeteer.LaunchOptions }
   ) {
     // noop
   }
@@ -302,7 +313,7 @@ export abstract class PuppeteerExtraPlugin {
    * @param  {Object} options - Puppeteer connect options
    * @return {Object=}
    */
-  async beforeConnect(options: Puppeteer.ConnectOptions) {
+  async beforeConnect(_options: Puppeteer.ConnectOptions) {
     // noop
   }
 
@@ -316,7 +327,7 @@ export abstract class PuppeteerExtraPlugin {
    * @param  {Object} opts.options - Puppeteer connect options used.
    *
    */
-  async afterConnect(browser: Puppeteer.Browser, opts = {}) {
+  async afterConnect(_browser: Puppeteer.Browser, _opts = {}) {
     // noop
   }
 
@@ -332,7 +343,10 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @param browser - The `puppeteer` browser instance.
    */
-  public async onBrowser(browser: Puppeteer.Browser, opts: any): Promise<void> {
+  public async onBrowser(
+    _browser: Puppeteer.Browser,
+    _opts: BrowserEventOptions
+  ): Promise<void> {
     // noop
   }
 
@@ -345,7 +359,7 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @param  {Puppeteer.Target} target
    */
-  async onTargetCreated(target: Puppeteer.Target) {
+  async onTargetCreated(_target: Puppeteer.Target) {
     // noop
   }
 
@@ -368,7 +382,7 @@ export abstract class PuppeteerExtraPlugin {
    *   await page.setUserAgent(ua)
    * }
    */
-  async onPageCreated(page: Puppeteer.Page) {
+  async onPageCreated(_page: Puppeteer.Page) {
     // noop
   }
 
@@ -381,7 +395,7 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @param  {Puppeteer.Target} target
    */
-  async onTargetChanged(target: Puppeteer.Target) {
+  async onTargetChanged(_target: Puppeteer.Target) {
     // noop
   }
 
@@ -394,7 +408,7 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @param  {Puppeteer.Target} target
    */
-  async onTargetDestroyed(target: Puppeteer.Target) {
+  async onTargetDestroyed(_target: Puppeteer.Target) {
     // noop
   }
 
@@ -445,8 +459,8 @@ export abstract class PuppeteerExtraPlugin {
    * @see [data]
    * @see [requirements]
    */
-  getDataFromPlugins(name?: string): PluginData[] {
-    return []
+  getDataFromPlugins(_name?: string): PluginData[] {
+    return [];
   }
 
   /**
@@ -458,12 +472,12 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @private
    */
-  _getMissingDependencies(plugins: any) {
-    const pluginNames = new Set(plugins.map((p: any) => p.name))
+  _getMissingDependencies(plugins: PuppeteerExtraPlugin[]) {
+    const pluginNames = new Set(plugins.map(p => p.name));
     const missing = new Set(
       Array.from(this.dependencies.values()).filter(x => !pluginNames.has(x))
-    )
-    return missing
+    );
+    return missing;
   }
 
   /**
@@ -481,70 +495,79 @@ export abstract class PuppeteerExtraPlugin {
    *
    * @private
    */
-  async _bindBrowserEvents(browser: Puppeteer.Browser, opts: any = {}) {
+  async _bindBrowserEvents(
+    browser: Puppeteer.Browser,
+    opts: BrowserEventOptions = {}
+  ) {
     if (
       this._hasChildClassMember('onTargetCreated') ||
       this._hasChildClassMember('onPageCreated')
     ) {
-      browser.on('targetcreated', this._onTargetCreated.bind(this))
+      browser.on('targetcreated', this._onTargetCreated.bind(this));
     }
     if (this._hasChildClassMember('onTargetChanged') && this.onTargetChanged) {
-      browser.on('targetchanged', this.onTargetChanged.bind(this))
+      browser.on('targetchanged', this.onTargetChanged.bind(this));
     }
     if (
       this._hasChildClassMember('onTargetDestroyed') &&
       this.onTargetDestroyed
     ) {
-      browser.on('targetdestroyed', this.onTargetDestroyed.bind(this))
+      browser.on('targetdestroyed', this.onTargetDestroyed.bind(this));
     }
     if (this._hasChildClassMember('onDisconnected') && this.onDisconnected) {
-      browser.on('disconnected', this.onDisconnected.bind(this))
+      browser.on('disconnected', this.onDisconnected.bind(this));
     }
     if (opts.context === 'launch' && this._hasChildClassMember('onClose')) {
       // The disconnect event has been improved since puppeteer v1.6.0
       // onClose is being kept mostly for legacy reasons
       if (this.onClose) {
-        process.on('exit', this.onClose.bind(this))
-        browser.on('disconnected', this.onClose.bind(this))
+        process.on('exit', this.onClose.bind(this));
+        browser.on('disconnected', this.onClose.bind(this));
 
-        if (opts.options.handleSIGINT !== false) {
-          process.on('SIGINT', this.onClose.bind(this))
+        const launchOptions = opts.options as
+          | Puppeteer.LaunchOptions
+          | undefined;
+        if (launchOptions?.handleSIGINT !== false) {
+          process.on('SIGINT', this.onClose.bind(this));
         }
-        if (opts.options.handleSIGTERM !== false) {
-          process.on('SIGTERM', this.onClose.bind(this))
+        if (launchOptions?.handleSIGTERM !== false) {
+          process.on('SIGTERM', this.onClose.bind(this));
         }
-        if (opts.options.handleSIGHUP !== false) {
-          process.on('SIGHUP', this.onClose.bind(this))
+        if (launchOptions?.handleSIGHUP !== false) {
+          process.on('SIGHUP', this.onClose.bind(this));
         }
       }
     }
     if (opts.context === 'launch' && this.afterLaunch) {
-      await this.afterLaunch(browser, opts)
+      await this.afterLaunch(
+        browser,
+        opts as { options: Puppeteer.LaunchOptions }
+      );
     }
     if (opts.context === 'connect' && this.afterConnect) {
-      await this.afterConnect(browser, opts)
+      await this.afterConnect(browser, opts);
     }
-    if (this.onBrowser) await this.onBrowser(browser, opts)
+    if (this.onBrowser) await this.onBrowser(browser, opts);
   }
 
   /**
    * @private
    */
   async _onTargetCreated(target: Puppeteer.Target) {
-    if (this.onTargetCreated) await this.onTargetCreated(target)
+    if (this.onTargetCreated) await this.onTargetCreated(target);
     // Pre filter pages for plugin developers convenience
     if (target.type() === 'page') {
       try {
-        const page = await target.page()
+        const page = await target.page();
         if (!page) {
-          return
+          return;
         }
-        const validPage = 'isClosed' in page && !page.isClosed()
+        const validPage = 'isClosed' in page && !page.isClosed();
         if (this.onPageCreated && validPage) {
-          await this.onPageCreated(page)
+          await this.onPageCreated(page);
         }
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
     }
   }
@@ -552,29 +575,31 @@ export abstract class PuppeteerExtraPlugin {
   /**
    * @private
    */
-  _register(prototype: any) {
-    this._registerChildClassMembers(prototype)
-    if (this.onPluginRegistered) this.onPluginRegistered()
+  _register(prototype: object) {
+    this._registerChildClassMembers(prototype);
+    if (this.onPluginRegistered) this.onPluginRegistered();
   }
 
   /**
    * @private
    */
-  _registerChildClassMembers(prototype: any) {
-    this._childClassMembers = Object.getOwnPropertyNames(prototype)
+  _registerChildClassMembers(prototype: object) {
+    this._childClassMembers = Object.getOwnPropertyNames(prototype);
   }
 
   /**
    * @private
    */
   _hasChildClassMember(name: string) {
-    return !!this._childClassMembers.includes(name)
+    return !!this._childClassMembers.includes(name);
   }
 
   /**
    * @private
    */
   get _isPuppeteerExtraPlugin() {
-    return true
+    return true;
   }
 }
+
+export type { Puppeteer };

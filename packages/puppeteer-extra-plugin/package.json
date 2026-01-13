@@ -1,36 +1,34 @@
 {
-  "name": "puppeteer-extra-plugin",
+  "name": "@zorilla/puppeteer-extra-plugin",
   "version": "3.2.3",
+  "type": "module",
   "description": "Base class for puppeteer-extra plugins.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
-  "repository": "berstend/puppeteer-extra",
-  "homepage": "https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin",
-  "author": "berstend",
+  "repository": "zorillajs/zorilla",
+  "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin",
+  "authors": [
+    "berstend",
+    "Justin Beckwith <justin.beckwith@gmail.com>"
+  ],
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf dist/*",
-    "prebuild": "run-s clean",
-    "build": "run-s build:tsc build:rollup",
-    "build:tsc": "tsc --module commonjs",
-    "build:rollup": "rollup -c rollup.config.ts",
-    "docs": "documentation readme --quiet --shallow --github --markdown-theme transitivebs --readme-file readme.md --section API ./src/index.ts",
-    "postdocs": "npx prettier --write readme.md",
-    "test": "ava -v --config ava.config-ts.js",
-    "pretest-ci": "run-s build",
-    "test-ci": "ava --fail-fast -v"
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "engines": {
-    "node": ">=9.11.2"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true
+    "node": ">=20"
   },
   "keywords": [
     "puppeteer",
@@ -43,28 +41,17 @@
     "pupeteer"
   ],
   "devDependencies": {
-    "@types/node": "14.14.34",
-    "@types/puppeteer": "*",
-    "ava": "2.4.0",
-    "documentation-markdown-themes": "^12.1.5",
-    "npm-run-all": "^4.1.5",
-    "puppeteer": "9",
-    "rimraf": "^3.0.0",
-    "rollup": "^1.27.5",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.25.2",
-    "ts-node": "^8.5.4",
-    "tslint": "^5.12.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^9.0.0",
-    "typescript": "4.4.3"
+    "@babel/core": "^7.28.6",
+    "@types/node": "^25.0.6",
+    "@vitest/coverage-v8": "^4.0.17",
+    "puppeteer": "^24.35.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.17"
   },
   "dependencies": {
-    "@types/debug": "^4.1.0",
-    "debug": "^4.1.1",
-    "merge-deep": "^3.0.1"
+    "@types/debug": "^4.1.12",
+    "debug": "^4.4.3",
+    "merge-deep": "^3.0.3"
   },
   "peerDependencies": {
     "playwright-extra": "*",
@@ -77,6 +64,5 @@
     "playwright-extra": {
       "optional": true
     }
-  },
-  "gitHead": "babb041828cab50c525e0b9aab02d58f73416ef3"
+  }
 }

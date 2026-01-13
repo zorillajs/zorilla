@@ -1,0 +1,40 @@
+{
+  "recurse": true,
+  "linksToSkip": [
+    "https://img\\.shields\\.io.*",
+    "https://runkit\\.io.*",
+    "https://www\\.npmjs\\.com.*",
+    "https://github\\.com/zorillajs/zorilla/actions.*",
+    "https://extra\\.community.*",
+    "^mailto:.*",
+    "^http://localhost.*",
+    "https://discord\\.gg.*",
+    "https://discord\\.com.*",
+    ".*\\.png$",
+    ".*\\.jpg$",
+    ".*\\.jpeg$",
+    ".*\\.gif$",
+    ".*\\.svg$",
+    "^\\./packages/.*",
+    "^packages/.*/$",
+    "^packages/[^/]+$",
+    "^\\.\\/.*",
+    "^CONTRIBUTING\\.md$",
+    "https://chromium\\.googlesource\\.com.*",
+    "https://developer\\.chrome\\.com/apps/.*"
+  ],
+  "skip": [
+    "node_modules",
+    "dist",
+    "coverage",
+    ".changeset",
+    ".git",
+    "pnpm-lock.yaml"
+  ],
+  "markdown": true,
+  "timeout": 10000,
+  "retry": true,
+  "retryErrors": true,
+  "retryErrorsCount": 2,
+  "retryErrorsJitter": 1000
+}

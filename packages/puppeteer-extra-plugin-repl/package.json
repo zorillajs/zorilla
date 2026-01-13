@@ -1,20 +1,32 @@
 {
-  "name": "puppeteer-extra-plugin-repl",
+  "name": "@zorilla/puppeteer-extra-plugin-repl",
   "version": "2.3.3",
   "description": "Start an interactive REPL in your puppeteer code.",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "repository": "berstend/puppeteer-extra",
-  "author": "nswbmw & berstend",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "repository": "zorillajs/zorilla",
+  "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-repl",
+  "authors": [
+    "nswbmw",
+    "berstend",
+    "Justin Beckwith <justin.beckwith@gmail.com>"
+  ],
   "license": "MIT",
   "scripts": {
-    "docs": "node -e 0",
-    "lint": "eslint --ext .js .",
-    "test": "run-p lint",
-    "test-ci": "run-s test"
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=20"
   },
   "keywords": [
     "puppeteer",
@@ -30,24 +42,29 @@
     "pupeteer"
   ],
   "devDependencies": {
-    "ava": "2.4.0",
-    "mock-stdin": "^0.3.1",
-    "npm-run-all": "^4.1.5",
-    "puppeteer": "^2.0.0"
+    "@types/node": "^25.0.6",
+    "@vitest/coverage-v8": "^4.0.17",
+    "@zorilla/puppeteer-extra": "workspace:*",
+    "mock-stdin": "^1.0.0",
+    "puppeteer": "^24.35.0",
+    "vitest": "^4.0.17"
   },
   "dependencies": {
-    "chalk": "^3.0.0",
-    "debug": "^4.1.1",
-    "ow": "^0.4.0",
-    "puppeteer-extra-plugin": "^3.2.3"
+    "@zorilla/puppeteer-extra-plugin": "workspace:*",
+    "chalk": "^5.6.2",
+    "debug": "^4.4.3",
+    "ow": "^3.1.1"
   },
   "peerDependencies": {
+    "playwright-extra": "*",
     "puppeteer-extra": "*"
   },
   "peerDependenciesMeta": {
     "puppeteer-extra": {
       "optional": true
+    },
+    "playwright-extra": {
+      "optional": true
     }
-  },
-  "gitHead": "babb041828cab50c525e0b9aab02d58f73416ef3"
+  }
 }

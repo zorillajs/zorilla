@@ -1,27 +1,32 @@
 {
-  "name": "puppeteer-extra-plugin-stealth",
+  "name": "@zorilla/puppeteer-extra-plugin-stealth",
   "version": "2.11.2",
   "description": "Stealth mode: Applies various techniques to make detection of headless puppeteer harder.",
-  "main": "index.js",
-  "typings": "index.d.ts",
-  "repository": "berstend/puppeteer-extra",
-  "homepage": "https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth#readme",
-  "author": "berstend",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./evasions/*": "./dist/evasions/*/index.js"
+  },
+  "repository": "zorillajs/zorilla",
+  "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth#readme",
+  "authors": [
+    "berstend",
+    "Justin Beckwith <justin.beckwith@gmail.com>"
+  ],
   "license": "MIT",
   "scripts": {
-    "docs": "run-s docs-for-plugin postdocs-for-plugin docs-for-evasions postdocs-for-evasions types",
-    "docs-for-plugin": "documentation readme --quiet --shallow --github --markdown-theme transitivebs --readme-file readme.md --section API index.js",
-    "postdocs-for-plugin": "npx prettier --write readme.md",
-    "docs-for-evasions": "cd ./evasions && loop \"documentation readme --quiet --shallow --github --markdown-theme transitivebs --readme-file readme.md --section API index.js\"",
-    "postdocs-for-evasions": "cd ./evasions && loop \"npx prettier --write readme.md\"",
-    "lint": "eslint --ext .js .",
-    "test:js": "ava --concurrency 2 -v",
-    "test": "run-p test:js",
-    "test-ci": "run-s test:js",
-    "types": "npx --package typescript@3.7 tsc --emitDeclarationOnly --declaration --allowJs index.js"
+    "build": "tsc && cp -r src/evasions dist/ && find dist/evasions -name '*.js' -exec sed -i '' \"s|'puppeteer-extra-plugin'|'@zorilla/puppeteer-extra-plugin'|g\" {} \\;",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint --ext .js,.ts ."
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=20"
   },
   "keywords": [
     "puppeteer",
@@ -35,25 +40,20 @@
     "headless",
     "pupeteer"
   ],
-  "ava": {
-    "files": [
-      "!test/util.js",
-      "!test/fixtures/sw.js"
-    ]
-  },
   "devDependencies": {
-    "ava": "2.4.0",
-    "documentation-markdown-themes": "^12.1.5",
-    "fpcollect": "^1.0.4",
+    "@types/node": "^25.0.6",
+    "@zorilla/puppeteer-extra": "workspace:*",
+    "fpcollect": "^1.0.5",
     "fpscanner": "^0.1.5",
-    "loop": "^3.0.6",
+    "loop": "^3.3.6",
     "npm-run-all": "^4.1.5",
-    "puppeteer": "9"
+    "puppeteer": "^24.35.0",
+    "vitest": "^4.0.17"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "puppeteer-extra-plugin": "^3.2.3",
-    "puppeteer-extra-plugin-user-preferences": "^2.4.1"
+    "@zorilla/puppeteer-extra-plugin": "workspace:*",
+    "@zorilla/puppeteer-extra-plugin-user-preferences": "workspace:*",
+    "debug": "^4.4.3"
   },
   "peerDependencies": {
     "playwright-extra": "*",
@@ -66,6 +66,5 @@
     "playwright-extra": {
       "optional": true
     }
-  },
-  "gitHead": "babb041828cab50c525e0b9aab02d58f73416ef3"
+  }
 }

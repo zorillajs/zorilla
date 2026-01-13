@@ -1,13 +1,11 @@
-# @extra/proxy-router [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/berstend/puppeteer-extra/test.yml?branch=master&event=push)](https://github.com/berstend/puppeteer-extra/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/@extra/proxy-router.svg)](https://www.npmjs.com/package/@extra/proxy-router)
+# @zorilla/proxy-router [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push)](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/@zorilla/proxy-router.svg)](https://www.npmjs.com/package/@zorilla/proxy-router)
 
 > A plugin for [playwright-extra] and [puppeteer-extra] to route proxies dynamically.
 
 ## Install
 
 ```bash
-yarn add @extra/proxy-router
-# - or -
-npm install @extra/proxy-router
+npm install @zorilla/proxy-router
 ```
 
 <details>
@@ -16,9 +14,7 @@ npm install @extra/proxy-router
 If this is your first [playwright-extra] plugin here's everything you need:
 
 ```bash
-yarn add playwright playwright-extra @extra/proxy-router
-# - or -
-npm install playwright playwright-extra @extra/proxy-router
+npm install playwright @zorilla/playwright-extra @zorilla/proxy-router
 ```
 
 </details>
@@ -28,9 +24,7 @@ npm install playwright playwright-extra @extra/proxy-router
 If this is your first [puppeteer-extra] plugin here's everything you need:
 
 ```bash
-yarn add puppeteer puppeteer-extra @extra/proxy-router
-# - or -
-npm install puppeteer puppeteer-extra @extra/proxy-router
+npm install puppeteer @zorilla/puppeteer-extra @zorilla/proxy-router
 ```
 
 </details>
@@ -40,7 +34,7 @@ npm install puppeteer puppeteer-extra @extra/proxy-router
 |           💫           | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chromium/chromium.png" alt="Chrome" width="24px" height="24px" />](#)<br/>Chromium | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](#)<br/>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](#)<br/>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Webkit" width="24px" height="24px" />](#)<br/>Webkit |
 | :--------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | **[playwright-extra]** |                                                                               ✅                                                                               |                                                                               ✅                                                                               |                                                                                 ✅                                                                                 |                                                                               ✅                                                                               |
-| **[puppeteer-extra]**  |                                                                               ✅                                                                               |                                                                               ✅                                                                               |                                      [🕒](https://github.com/berstend/puppeteer-extra/wiki/Is-Puppeteer-Firefox-ready-yet%3F)                                      |                                                                               -                                                                                |
+| **[puppeteer-extra]**  |                                                                               ✅                                                                               |                                                                               ✅                                                                               |                                      [🕒](https://github.com/zorillajs/zorilla/wiki/Is-Puppeteer-Firefox-ready-yet%3F)                                      |                                                                               -                                                                                |
 
 | Headless | Headful | Launch |             Connect              |
 | :------: | :-----: | :----: | :------------------------------: |
@@ -56,6 +50,8 @@ The plugin makes using proxies in the browser a lot more convenient:
 - Change proxies dynamically after browser launch
 - Collect traffic stats per proxy or host
 - Uses native browser features, no performance loss
+- Written in TypeScript with full type definitions
+- Comprehensive test coverage (99%+)
 
 ## Usage
 
@@ -69,10 +65,10 @@ A single proxy for all browser connections
 // playwright-extra is a drop-in replacement for playwright,
 // it augments the installed playwright with plugin functionality
 // Note: Instead of chromium you can use firefox and webkit as well.
-const { chromium } = require('playwright-extra')
+import { chromium } from '@zorilla/playwright-extra'
 
 // Configure and add the proxy router plugin with a default proxy
-const ProxyRouter = require('@extra/proxy-router')
+import ProxyRouter from '@zorilla/proxy-router'
 chromium.use(
   ProxyRouter({
     proxies: { DEFAULT: 'http://user:pass@proxyhost:port' },
@@ -97,10 +93,10 @@ Use multiple proxies and route connections flexibly
 // playwright-extra is a drop-in replacement for playwright,
 // it augments the installed playwright with plugin functionality
 // Note: Instead of chromium you can use firefox and webkit as well.
-const { chromium } = require('playwright-extra')
+import { chromium } from '@zorilla/playwright-extra'
 
 // Configure the proxy router plugin
-const ProxyRouter = require('@extra/proxy-router')
+import ProxyRouter from '@zorilla/proxy-router'
 const proxyRouter = ProxyRouter({
   // define the available proxies (replace this with your proxies)
   proxies: {
@@ -187,8 +183,8 @@ chromium.launch({ headless: true }).then(async (browser) => {
 Just change the import and package name:
 
 ```diff
-- const { chromium } = require('playwright-extra')
-+ const puppeteer = require('puppeteer-extra')
+- import { chromium } from '@zorilla/playwright-extra'
++ import puppeteer from '@zorilla/puppeteer-extra'
 // ...
 - chromium.use(proxyRouter)
 + puppeteer.use(proxyRouter)
@@ -210,8 +206,8 @@ Just change the import and package name:
 
 ```js
 // You can use any browser: chromium, firefox, webkit
-import { firefox } from 'playwright-extra'
-import ProxyRouter from '@extra/proxy-router'
+import { firefox } from '@zorilla/playwright-extra'
+import ProxyRouter from '@zorilla/proxy-router'
 // ...
 firefox.use(proxyRouter)
 ```
@@ -219,8 +215,8 @@ firefox.use(proxyRouter)
 **Puppeteer:**
 
 ```js
-import puppeteer from 'puppeteer-extra'
-import ProxyRouter from '@extra/proxy-router'
+import puppeteer from '@zorilla/puppeteer-extra'
+import ProxyRouter from '@zorilla/proxy-router'
 // ...
 puppeteer.use(proxyRouter)
 ```
@@ -337,13 +333,47 @@ export interface ProxyRouterOpts {
 - Uses CDP request interception which is chromium only
 - Increased latency and resource overhead
 
+## Development
+
+### Building
+
+```bash
+pnpm install
+pnpm build
+```
+
+### Testing
+
+```bash
+# Run tests
+pnpm test
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+The package has comprehensive test coverage:
+- 99.51% statement coverage
+- 98.31% branch coverage
+- 100% function coverage
+
+### Linting
+
+```bash
+# Check code with Biome
+pnpm check
+
+# Auto-fix issues
+pnpm fix
+```
+
 ## License
 
-Copyright © 2018 - 2023, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](https://github.com/berstend). Released under the MIT License.
+Copyright © 2018 - 2025, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](https://github.com/berstend). Released under the MIT License.
 
 <!--
   Reference links
 -->
 
-[playwright-extra]: https://github.com/berstend/puppeteer-extra/tree/master/packages/playwright-extra
-[puppeteer-extra]: https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra
+[playwright-extra]: https://github.com/zorillajs/zorilla/tree/main/packages/playwright-extra
+[puppeteer-extra]: https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra

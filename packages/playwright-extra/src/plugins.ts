@@ -1,37 +1,35 @@
-import Debug from 'debug'
-const debug = Debug('playwright-extra:plugins')
+import Debug from 'debug';
 
-import {
+const debug = Debug('playwright-extra:plugins');
+
+import { requirePackages } from './helper/loader.js';
+import { addPuppeteerCompat } from './puppeteer-compatiblity-shim/index.js';
+import type {
+  CompatiblePluginModule,
   Plugin,
-  PluginMethodName,
   PluginMethodFn,
+  PluginMethodName,
   PluginModule,
-  CompatiblePluginModule
-} from './types'
-
-import { requirePackages } from './helper/loader'
-import { addPuppeteerCompat } from './puppeteer-compatiblity-shim'
+} from './types/index.js';
 
 export class PluginList {
-  private readonly _plugins: Plugin[] = []
-  private readonly _dependencyDefaults: Map<string, any> = new Map()
+  private readonly _plugins: Plugin[] = [];
+  private readonly _dependencyDefaults: Map<string, unknown> = new Map();
   private readonly _dependencyResolution: Map<string, CompatiblePluginModule> =
-    new Map()
-
-  constructor() {}
+    new Map();
 
   /**
    * Get a list of all registered plugins.
    */
   public get list() {
-    return this._plugins
+    return this._plugins;
   }
 
   /**
    * Get the names of all registered plugins.
    */
   public get names() {
-    return this._plugins.map(p => p.name)
+    return this._plugins.map(p => p.name);
   }
 
   /**
@@ -42,20 +40,20 @@ export class PluginList {
    */
   public add(plugin: Plugin) {
     if (!this.isValidPluginInstance(plugin)) {
-      return false
+      return false;
     }
-    if (!!plugin.onPluginRegistered) {
-      plugin.onPluginRegistered({ framework: 'playwright' })
+    if (plugin.onPluginRegistered) {
+      plugin.onPluginRegistered({ framework: 'playwright' });
     }
     // PuppeteerExtraPlugin: Populate `_childClassMembers` list containing methods defined by the plugin
-    if (!!plugin._registerChildClassMembers) {
-      plugin._registerChildClassMembers(Object.getPrototypeOf(plugin))
+    if (plugin._registerChildClassMembers) {
+      plugin._registerChildClassMembers(Object.getPrototypeOf(plugin));
     }
     if (plugin.requirements?.has('dataFromPlugins')) {
-      plugin.getDataFromPlugins = this.getData.bind(this)
+      plugin.getDataFromPlugins = this.getData.bind(this);
     }
-    this._plugins.push(plugin)
-    return true
+    this._plugins.push(plugin);
+    return true;
   }
 
   /** Check if the shape of a plugin is correct or warn */
@@ -68,17 +66,17 @@ export class PluginList {
       console.error(
         `Warning: Plugin is not derived from PuppeteerExtraPlugin, ignoring.`,
         plugin
-      )
-      return false
+      );
+      return false;
     }
     if (!plugin.name) {
       console.error(
         `Warning: Plugin with no name registering, ignoring.`,
         plugin
-      )
-      return false
+      );
+      return false;
     }
-    return true
+    return true;
   }
 
   /** Error callback in case calling a plugin method throws an error. Can be overwritten. */
@@ -86,7 +84,7 @@ export class PluginList {
     console.warn(
       `An error occured while executing "${method}" in plugin "${plugin.name}":`,
       err
-    )
+    );
   }
 
   /**
@@ -98,9 +96,9 @@ export class PluginList {
    * chromium.use(stealth)
    * chromium.plugins.setDependencyDefaults('stealth/evasions/webgl.vendor', { vendor: 'Bob', renderer: 'Alice' })
    */
-  public setDependencyDefaults(dependencyPath: string, opts: any) {
-    this._dependencyDefaults.set(dependencyPath, opts)
-    return this
+  public setDependencyDefaults(dependencyPath: string, opts: unknown) {
+    this._dependencyDefaults.set(dependencyPath, opts);
+    return this;
   }
 
   /**
@@ -116,8 +114,8 @@ export class PluginList {
     dependencyPath: string,
     pluginModule: CompatiblePluginModule
   ) {
-    this._dependencyResolution.set(dependencyPath, pluginModule)
-    return this
+    this._dependencyResolution.set(dependencyPath, pluginModule);
+    return this;
   }
 
   /**
@@ -125,8 +123,8 @@ export class PluginList {
    * @internal
    */
   public prepare() {
-    this.resolveDependencies()
-    this.order()
+    this.resolveDependencies();
+    this.order();
   }
 
   /** Return all plugins using the supplied method */
@@ -137,10 +135,10 @@ export class PluginList {
         !!plugin._childClassMembers &&
         Array.isArray(plugin._childClassMembers)
       ) {
-        return plugin._childClassMembers.includes(methodName)
+        return plugin._childClassMembers.includes(methodName);
       }
-      return methodName in plugin
-    })
+      return methodName in plugin;
+    });
   }
 
   /** Conditionally add puppeteer compatibility to values provided to the plugins */
@@ -149,22 +147,24 @@ export class PluginList {
     method: TMethod,
     args: Parameters<PluginMethodFn<TMethod>>
   ) {
-    const canUseShim = plugin._isPuppeteerExtraPlugin && !plugin.noPuppeteerShim
+    const canUseShim =
+      plugin._isPuppeteerExtraPlugin && !plugin.noPuppeteerShim;
     const methodWhitelist: PluginMethodName[] = [
       'onBrowser',
       'onPageCreated',
       'onPageClose',
       'afterConnect',
-      'afterLaunch'
-    ]
-    const shouldUseShim = methodWhitelist.includes(method)
+      'afterLaunch',
+    ];
+    const shouldUseShim = methodWhitelist.includes(method);
     if (!canUseShim || !shouldUseShim) {
-      return args
+      return args;
     }
-    debug('add puppeteer compatibility', plugin.name, method)
-    return [...args.map(arg => addPuppeteerCompat(arg as any))] as Parameters<
-      PluginMethodFn<TMethod>
-    >
+    debug('add puppeteer compatibility', plugin.name, method);
+    type ValidArg = Parameters<typeof addPuppeteerCompat>[0];
+    return [
+      ...args.map(arg => addPuppeteerCompat(arg as ValidArg)),
+    ] as Parameters<PluginMethodFn<TMethod>>;
   }
 
   /**
@@ -181,29 +181,47 @@ export class PluginList {
     method: TMethod,
     ...args: Parameters<PluginMethodFn<TMethod>>
   ): void {
-    const plugins = this.filterByMethod(method)
+    const plugins = this.filterByMethod(method);
     debug('dispatch', method, {
       all: this._plugins.length,
-      filteredByMethod: plugins.length
-    })
+      filteredByMethod: plugins.length,
+    });
     for (const plugin of plugins) {
       try {
-        args = this._addPuppeteerCompatIfNeeded.bind(this)(plugin, method, args)
-        const fnType = plugin[method]?.constructor?.name
+        args = this._addPuppeteerCompatIfNeeded.bind(this)(
+          plugin,
+          method,
+          args
+        );
+        const fnType = plugin[method]?.constructor?.name;
         debug('dispatch to plugin', {
           plugin: plugin.name,
           method,
-          fnType
-        })
+          fnType,
+        });
         if (fnType === 'AsyncFunction') {
-          ;(plugin[method] as any)(...args).catch((err: any) =>
-            this.onPluginError(plugin, method, err)
-          )
+          const asyncMethod = plugin[method] as (
+            ...args: unknown[]
+          ) => Promise<unknown>;
+          asyncMethod
+            .call(plugin, ...args)
+            .catch((err: unknown) =>
+              this.onPluginError(
+                plugin,
+                method,
+                err instanceof Error ? err : new Error(String(err))
+              )
+            );
         } else {
-          ;(plugin[method] as any)(...args)
+          const syncMethod = plugin[method] as (...args: unknown[]) => unknown;
+          syncMethod.call(plugin, ...args);
         }
       } catch (err) {
-        this.onPluginError(plugin, method, err as any)
+        this.onPluginError(
+          plugin,
+          method,
+          err instanceof Error ? err : new Error(String(err))
+        );
       }
     }
   }
@@ -228,27 +246,40 @@ export class PluginList {
     method: TMethod,
     ...args: Parameters<PluginMethodFn<TMethod>>
   ): Promise<ReturnType<PluginMethodFn<TMethod>>> {
-    const plugins = this.filterByMethod(method)
+    const plugins = this.filterByMethod(method);
     debug('dispatchBlocking', method, {
       all: this._plugins.length,
-      filteredByMethod: plugins.length
-    })
+      filteredByMethod: plugins.length,
+    });
 
-    let retValue: any = null
+    type RetVal = ReturnType<PluginMethodFn<TMethod>>;
+    let retValue: RetVal = null as RetVal;
     for (const plugin of plugins) {
       try {
-        args = this._addPuppeteerCompatIfNeeded.bind(this)(plugin, method, args)
-        retValue = await (plugin[method] as any)(...args)
-        // In case we got a return value use that as new first argument for followup function calls
-        if (retValue !== undefined) {
-          args[0] = retValue
+        args = this._addPuppeteerCompatIfNeeded.bind(this)(
+          plugin,
+          method,
+          args
+        );
+        const pluginMethod = plugin[method];
+        if (typeof pluginMethod === 'function') {
+          // @ts-expect-error - Dynamic plugin method invocation with variable args
+          retValue = (await pluginMethod.call(plugin, ...args)) as RetVal;
+          // In case we got a return value use that as new first argument for followup function calls
+          if (retValue !== undefined) {
+            args[0] = retValue as Parameters<PluginMethodFn<TMethod>>[0];
+          }
         }
       } catch (err) {
-        this.onPluginError(plugin, method, err as any)
-        return retValue
+        this.onPluginError(
+          plugin,
+          method,
+          err instanceof Error ? err : new Error(String(err))
+        );
+        return retValue;
       }
     }
-    return retValue
+    return retValue;
   }
 
   /**
@@ -259,15 +290,20 @@ export class PluginList {
    * @private
    */
   protected order() {
-    debug('order:before', this.names)
+    debug('order:before', this.names);
     const runLast = this._plugins
       .filter(p => p.requirements?.has('runLast'))
-      .map(p => p.name)
+      .map(p => p.name);
     for (const name of runLast) {
-      const index = this._plugins.findIndex(p => p.name === name)
-      this._plugins.push(this._plugins.splice(index, 1)[0])
+      const index = this._plugins.findIndex(p => p.name === name);
+      if (index >= 0) {
+        const plugin = this._plugins.splice(index, 1)[0];
+        if (plugin) {
+          this._plugins.push(plugin);
+        }
+      }
     }
-    debug('order:after', this.names)
+    debug('order:after', this.names);
   }
 
   /**
@@ -285,27 +321,35 @@ export class PluginList {
    */
   protected getData(name?: string) {
     const data = this._plugins
-      .filter((p: any) => !!p.data)
-      .map((p: any) => (Array.isArray(p.data) ? p.data : [p.data]))
-      .reduce((acc, arr) => [...acc, ...arr], [])
-    return name ? data.filter((d: any) => d.name === name) : data
+      .filter(p => !!p.data)
+      .map(p => (Array.isArray(p.data) ? p.data : [p.data]))
+      .reduce<unknown[]>((acc, arr) => acc.concat(arr), []);
+    return name
+      ? data.filter(
+          (d: unknown) =>
+            typeof d === 'object' &&
+            d !== null &&
+            'name' in d &&
+            (d as { name: unknown }).name === name
+        )
+      : data;
   }
 
   /**
    * Handle `plugins` stanza (already instantiated plugins that don't require dynamic imports)
    */
   protected resolvePluginsStanza() {
-    debug('resolvePluginsStanza')
-    const pluginNames = new Set(this.names)
+    debug('resolvePluginsStanza');
+    const pluginNames = new Set(this.names);
     this._plugins
       .filter(p => !!p.plugins && p.plugins.length)
       .filter(p => !pluginNames.has(p.name)) // TBD: Do we want to filter out existing?
       .forEach(parent => {
-        ;(parent.plugins || []).forEach(p => {
-          debug(parent.name, 'adding missing plugin', p.name)
-          this.add(p as Plugin)
-        })
-      })
+        (parent.plugins || []).forEach(p => {
+          debug(parent.name, 'adding missing plugin', p.name);
+          this.add(p as Plugin);
+        });
+      });
   }
 
   /**
@@ -318,7 +362,7 @@ export class PluginList {
    * - Dynamic imports can be avoided by providing plugin modules with `setDependencyResolution()`
    */
   protected resolveDependenciesStanza() {
-    debug('resolveDependenciesStanza')
+    debug('resolveDependenciesStanza');
 
     /** Attempt to dynamically require a plugin module */
     const requireDependencyOrDie = (
@@ -327,25 +371,25 @@ export class PluginList {
     ) => {
       // If the user provided the plugin module already we use that
       if (this._dependencyResolution.has(dependencyPath)) {
-        return this._dependencyResolution.get(dependencyPath) as PluginModule
+        return this._dependencyResolution.get(dependencyPath) as PluginModule;
       }
 
-      const possiblePrefixes = ['puppeteer-extra-plugin-'] // could be extended later
+      const possiblePrefixes = ['puppeteer-extra-plugin-']; // could be extended later
       const isAlreadyPrefixed = possiblePrefixes.some(prefix =>
         dependencyPath.startsWith(prefix)
-      )
-      const packagePaths: string[] = []
+      );
+      const packagePaths: string[] = [];
       // If the dependency is not already prefixed we attempt to require all possible combinations to find one that works
       if (!isAlreadyPrefixed) {
         packagePaths.push(
           ...possiblePrefixes.map(prefix => prefix + dependencyPath)
-        )
+        );
       }
       // We always attempt to require the path verbatim (as a last resort)
-      packagePaths.push(dependencyPath)
-      const pluginModule = requirePackages<PluginModule>(packagePaths)
+      packagePaths.push(dependencyPath);
+      const pluginModule = requirePackages<PluginModule>(packagePaths);
       if (pluginModule) {
-        return pluginModule
+        return pluginModule;
       }
 
       const explanation = `
@@ -353,51 +397,54 @@ The plugin '${parentName}' listed '${dependencyPath}' as dependency,
 which could not be found. Please install it:
 
 ${packagePaths
-  .map(packagePath => `yarn add ${packagePath.split('/')[0]}`)
+  .map(packagePath => `npm i ${packagePath.split('/')[0]}`)
   .join(`\n or:\n`)}
 
 Note: You don't need to require the plugin yourself,
 unless you want to modify it's default settings.
 
 If your bundler has issues with dynamic imports take a look at '.plugins.setDependencyResolution()'.
-      `
-      console.warn(explanation)
-      throw new Error('Plugin dependency not found')
-    }
+      `;
+      console.warn(explanation);
+      throw new Error('Plugin dependency not found');
+    };
 
-    const existingPluginNames = new Set(this.names)
+    const existingPluginNames = new Set(this.names);
     const recursivelyLoadMissingDependencies = ({
       name: parentName,
-      dependencies
-    }: Plugin): any => {
+      dependencies,
+    }: Plugin): void => {
       if (!dependencies) {
-        return
+        return;
       }
-      const processDependency = (dependencyPath: string, opts?: any) => {
-        const pluginModule = requireDependencyOrDie(parentName, dependencyPath)
-        opts = opts || this._dependencyDefaults.get(dependencyPath) || {}
-        const plugin = pluginModule(opts)
+      const processDependency = (dependencyPath: string, opts?: unknown) => {
+        const pluginModule = requireDependencyOrDie(parentName, dependencyPath);
+        opts = opts || this._dependencyDefaults.get(dependencyPath) || {};
+        const plugin = pluginModule(opts);
         if (existingPluginNames.has(plugin.name)) {
-          debug(parentName, '=> dependency already exists:', plugin.name)
-          return
+          debug(parentName, '=> dependency already exists:', plugin.name);
+          return;
         }
-        existingPluginNames.add(plugin.name)
-        debug(parentName, '=> adding new dependency:', plugin.name, opts)
-        this.add(plugin)
-        return recursivelyLoadMissingDependencies(plugin)
-      }
+        existingPluginNames.add(plugin.name);
+        debug(parentName, '=> adding new dependency:', plugin.name, opts);
+        this.add(plugin);
+        return recursivelyLoadMissingDependencies(plugin);
+      };
 
       if (dependencies instanceof Set || Array.isArray(dependencies)) {
-        return [...dependencies].forEach(dependencyPath =>
-          processDependency(dependencyPath)
-        )
+        for (const dependencyPath of dependencies) {
+          processDependency(dependencyPath);
+        }
+        return;
       }
       if (dependencies instanceof Map) {
         // Note: `k,v => v,k` (Map + forEach will reverse the order)
-        return dependencies.forEach((v, k) => processDependency(k, v))
+        for (const [k, v] of dependencies) {
+          processDependency(k, v);
+        }
       }
-    }
-    this.list.forEach(recursivelyLoadMissingDependencies)
+    };
+    this.list.forEach(recursivelyLoadMissingDependencies);
   }
 
   /**
@@ -405,8 +452,8 @@ If your bundler has issues with dynamic imports take a look at '.plugins.setDepe
    * @private
    */
   protected resolveDependencies() {
-    debug('resolveDependencies')
-    this.resolvePluginsStanza()
-    this.resolveDependenciesStanza()
+    debug('resolveDependencies');
+    this.resolvePluginsStanza();
+    this.resolveDependenciesStanza();
   }
 }

@@ -1,10 +1,14 @@
 /// <reference path="./puppeteer-legacy.d.ts" />
-import { PuppeteerNode, Browser, Page } from 'puppeteer'
 
-import Debug from 'debug'
-const debug = Debug('puppeteer-extra')
+import { createRequire } from 'node:module';
+import Debug from 'debug';
+import type { Browser, Page, PuppeteerNode } from 'puppeteer';
 
-import merge from 'deepmerge'
+const debug = Debug('puppeteer-extra');
+
+import merge from 'deepmerge';
+
+const require = createRequire(import.meta.url);
 
 /**
  * Original Puppeteer API
@@ -25,8 +29,13 @@ export interface VanillaPuppeteer
  * @private
  */
 export interface PuppeteerExtraPlugin {
-  _isPuppeteerExtraPlugin: boolean
-  [propName: string]: any
+  _isPuppeteerExtraPlugin: boolean;
+  name?: string;
+  requirements?: Set<string>;
+  data?: unknown;
+  _register?: (prototype: object) => void;
+  _getMissingDependencies?: (plugins: PuppeteerExtraPlugin[]) => Set<string>;
+  [propName: string]: unknown;
 }
 
 /**
@@ -34,7 +43,22 @@ export interface PuppeteerExtraPlugin {
  * @private
  */
 interface BrowserInternals extends Browser {
-  _createPageInContext(contextId?: string): Promise<Page>
+  _createPageInContext(contextId?: string): Promise<Page>;
+}
+
+/**
+ * Options passed to plugins during browser lifecycle events
+ * @private
+ */
+interface BrowserLaunchContext {
+  context?: 'launch' | 'connect';
+  options?:
+    | Parameters<VanillaPuppeteer['launch']>[0]
+    | Parameters<VanillaPuppeteer['connect']>[0];
+  defaultArgs?:
+    | string[]
+    | ReturnType<VanillaPuppeteer['defaultArgs']>
+    | ((options?: Parameters<VanillaPuppeteer['defaultArgs']>[0]) => string[]);
 }
 
 /**
@@ -49,9 +73,9 @@ interface BrowserInternals extends Browser {
  * @implements {VanillaPuppeteer}
  *
  * @example
- * const puppeteer = require('puppeteer-extra')
- * puppeteer.use(require('puppeteer-extra-plugin-anonymize-ua')())
- * puppeteer.use(require('puppeteer-extra-plugin-font-size')({defaultFontSize: 18}))
+ * const puppeteer = require('@zorilla/puppeteer-extra')
+ * puppeteer.use(require('@zorilla/puppeteer-extra-plugin-anonymize-ua')())
+ * puppeteer.use(require('@zorilla/puppeteer-extra-plugin-font-size')({defaultFontSize: 18}))
  *
  * ;(async () => {
  *   const browser = await puppeteer.launch({headless: false})
@@ -61,7 +85,7 @@ interface BrowserInternals extends Browser {
  * })()
  */
 export class PuppeteerExtra implements VanillaPuppeteer {
-  private _plugins: PuppeteerExtraPlugin[] = []
+  private _plugins: PuppeteerExtraPlugin[] = [];
 
   constructor(
     private _pptr?: VanillaPuppeteer,
@@ -83,23 +107,23 @@ export class PuppeteerExtra implements VanillaPuppeteer {
       console.error(
         `Warning: Plugin is not derived from PuppeteerExtraPlugin, ignoring.`,
         plugin
-      )
-      return this
+      );
+      return this;
     }
     if (!plugin.name) {
       console.error(
         `Warning: Plugin with no name registering, ignoring.`,
         plugin
-      )
-      return this
+      );
+      return this;
     }
-    if (plugin.requirements.has('dataFromPlugins')) {
-      plugin.getDataFromPlugins = this.getPluginData.bind(this)
+    if (plugin.requirements?.has('dataFromPlugins')) {
+      plugin.getDataFromPlugins = this.getPluginData.bind(this);
     }
-    plugin._register(Object.getPrototypeOf(plugin))
-    this._plugins.push(plugin)
-    debug('plugin registered', plugin.name)
-    return this
+    plugin._register?.(Object.getPrototypeOf(plugin));
+    this._plugins.push(plugin);
+    debug('plugin registered', plugin.name);
+    return this;
   }
 
   /**
@@ -111,7 +135,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    */
   get pptr(): VanillaPuppeteer {
     if (this._pptr) {
-      return this._pptr
+      return this._pptr;
     }
 
     // Whoopsie
@@ -121,12 +145,12 @@ export class PuppeteerExtra implements VanillaPuppeteer {
     Note: puppeteer is a peer dependency of puppeteer-extra,
     which means you can install your own preferred version.
 
-    - To get the latest stable version run: 'yarn add puppeteer' or 'npm i puppeteer'
+    - To get the latest stable version run: 'npm i puppeteer'
 
     Alternatively:
     - To get puppeteer without the bundled Chromium browser install 'puppeteer-core'
-    `)
-    throw this._requireError || new Error('No puppeteer instance provided.')
+    `);
+    throw this._requireError || new Error('No puppeteer instance provided.');
   }
 
   /**
@@ -149,28 +173,33 @@ export class PuppeteerExtra implements VanillaPuppeteer {
     options?: Parameters<VanillaPuppeteer['launch']>[0]
   ): ReturnType<VanillaPuppeteer['launch']> {
     // Ensure there are certain properties (e.g. the `options.args` array)
-    const defaultLaunchOptions = { args: [] }
-    options = merge(defaultLaunchOptions, options || {})
-    this.resolvePluginDependencies()
-    this.orderPlugins()
+    const defaultLaunchOptions = { args: [] };
+    options = merge(defaultLaunchOptions, options || {}) as Parameters<
+      VanillaPuppeteer['launch']
+    >[0];
+    this.resolvePluginDependencies();
+    this.orderPlugins();
 
     // Give plugins the chance to modify the options before launch
-    options = await this.callPluginsWithValue('beforeLaunch', options)
+    options = (await this.callPluginsWithValue(
+      'beforeLaunch',
+      options
+    )) as Parameters<VanillaPuppeteer['launch']>[0];
 
-    const opts = {
-      context: 'launch',
+    const opts: BrowserLaunchContext = {
+      context: 'launch' as const,
       options,
-      defaultArgs: this.defaultArgs
-    }
+      defaultArgs: this.defaultArgs,
+    };
 
     // Let's check requirements after plugin had the chance to modify the options
-    this.checkPluginRequirements(opts)
+    this.checkPluginRequirements(opts);
 
-    const browser = await this.pptr.launch(options)
-    this._patchPageCreationMethods(browser as BrowserInternals)
+    const browser = await this.pptr.launch(options);
+    this._patchPageCreationMethods(browser as BrowserInternals);
 
-    await this.callPlugins('_bindBrowserEvents', browser, opts)
-    return browser
+    await this.callPlugins('_bindBrowserEvents', browser, opts);
+    return browser;
   }
 
   /**
@@ -186,22 +215,28 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   async connect(
     options: Parameters<VanillaPuppeteer['connect']>[0]
   ): ReturnType<VanillaPuppeteer['connect']> {
-    this.resolvePluginDependencies()
-    this.orderPlugins()
+    this.resolvePluginDependencies();
+    this.orderPlugins();
 
     // Give plugins the chance to modify the options before connect
-    options = await this.callPluginsWithValue('beforeConnect', options)
+    options = (await this.callPluginsWithValue(
+      'beforeConnect',
+      options
+    )) as Parameters<VanillaPuppeteer['connect']>[0];
 
-    const opts = { context: 'connect', options }
+    const opts: BrowserLaunchContext = {
+      context: 'connect' as const,
+      options,
+    };
 
     // Let's check requirements after plugin had the chance to modify the options
-    this.checkPluginRequirements(opts)
+    this.checkPluginRequirements(opts);
 
-    const browser = await this.pptr.connect(options)
-    this._patchPageCreationMethods(browser as BrowserInternals)
+    const browser = await this.pptr.connect(options);
+    this._patchPageCreationMethods(browser as BrowserInternals);
 
-    await this.callPlugins('_bindBrowserEvents', browser, opts)
-    return browser
+    await this.callPlugins('_bindBrowserEvents', browser, opts);
+    return browser;
   }
 
   /**
@@ -212,12 +247,12 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   defaultArgs(
     options?: Parameters<VanillaPuppeteer['defaultArgs']>[0]
   ): ReturnType<VanillaPuppeteer['defaultArgs']> {
-    return this.pptr.defaultArgs(options)
+    return this.pptr.defaultArgs(options);
   }
 
   /** Path where Puppeteer expects to find bundled Chromium. */
   executablePath(): string {
-    return this.pptr.executablePath()
+    return this.pptr.executablePath();
   }
 
   /**
@@ -228,7 +263,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   createBrowserFetcher(
     options: Parameters<VanillaPuppeteer['createBrowserFetcher']>[0]
   ): ReturnType<VanillaPuppeteer['createBrowserFetcher']> {
-    return this.pptr.createBrowserFetcher(options)
+    return this.pptr.createBrowserFetcher(options);
   }
 
   /**
@@ -262,16 +297,16 @@ export class PuppeteerExtra implements VanillaPuppeteer {
     if (!browser._createPageInContext) {
       debug(
         'warning: _patchPageCreationMethods failed (no browser._createPageInContext)'
-      )
-      return
+      );
+      return;
     }
-    browser._createPageInContext = (function(originalMethod, context) {
-      return async function() {
-        const page = await originalMethod.apply(context, arguments as any)
-        await page.goto('about:blank')
-        return page
+    browser._createPageInContext = (
+      (originalMethod, context) => async (contextId?: string) => {
+        const page = await originalMethod.call(context, contextId);
+        await page.goto('about:blank');
+        return page;
       }
-    })(browser._createPageInContext, browser)
+    )(browser._createPageInContext, browser);
   }
 
   /**
@@ -280,7 +315,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @member {Array<PuppeteerExtraPlugin>}
    */
   get plugins() {
-    return this._plugins
+    return this._plugins;
   }
 
   /**
@@ -290,7 +325,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @private
    */
   get pluginNames() {
-    return this._plugins.map(p => p.name)
+    return this._plugins.map(p => p.name);
   }
 
   /**
@@ -309,8 +344,8 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   public getPluginData(name?: string) {
     const data = this._plugins
       .map(p => (Array.isArray(p.data) ? p.data : [p.data]))
-      .reduce((acc, arr) => [...acc, ...arr], [])
-    return name ? data.filter((d: any) => d.name === name) : data
+      .reduce((acc, arr) => acc.concat(arr), []);
+    return name ? data.filter((d: { name?: string }) => d.name === name) : data;
   }
 
   /**
@@ -319,7 +354,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @private
    */
   private getPluginsByProp(prop: string): PuppeteerExtraPlugin[] {
-    return this._plugins.filter(plugin => prop in plugin)
+    return this._plugins.filter(plugin => prop in plugin);
   }
 
   /**
@@ -334,51 +369,56 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   private resolvePluginDependencies() {
     // Request missing dependencies from all plugins and flatten to a single Set
     const missingPlugins = this._plugins
-      .map(p => p._getMissingDependencies(this._plugins))
+      .map(p => p._getMissingDependencies?.(this._plugins) || new Set<string>())
       .reduce((combined, list) => {
-        return new Set([...combined, ...list])
-      }, new Set())
+        for (const item of list) {
+          combined.add(item);
+        }
+        return combined;
+      }, new Set<string>());
     if (!missingPlugins.size) {
-      debug('no dependencies are missing')
-      return
+      debug('no dependencies are missing');
+      return;
     }
-    debug('dependencies missing', missingPlugins)
+    debug('dependencies missing', missingPlugins);
     // Loop through all dependencies declared missing by plugins
     for (let name of [...missingPlugins]) {
       // Check if the dependency hasn't been registered as plugin already.
       // This might happen when multiple plugins have nested dependencies.
       if (this.pluginNames.includes(name)) {
-        debug(`ignoring dependency '${name}', which has been required already.`)
-        continue
+        debug(
+          `ignoring dependency '${name}', which has been required already.`
+        );
+        continue;
       }
       // We follow a plugin naming convention, but let's rather enforce it <3
       name = name.startsWith('puppeteer-extra-plugin')
         ? name
-        : `puppeteer-extra-plugin-${name}`
+        : `puppeteer-extra-plugin-${name}`;
       // In case a module sub resource is requested print out the main package name
       // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
-      const packageName = name.split('/')[0]
-      let dep = null
+      const packageName = name.split('/')[0];
+      let dep = null;
       try {
         // Try to require and instantiate the stated dependency
-        dep = require(name)()
+        dep = require(name)();
         // Register it with `puppeteer-extra` as plugin
-        this.use(dep)
+        this.use(dep);
       } catch (err) {
         console.warn(`
           A plugin listed '${name}' as dependency,
           which is currently missing. Please install it:
 
-          yarn add ${packageName}
+          npm install ${packageName}
 
           Note: You don't need to require the plugin yourself,
           unless you want to modify it's default settings.
-          `)
-        throw err
+          `);
+        throw err;
       }
       // Handle nested dependencies :D
       if (dep.dependencies.size) {
-        this.resolvePluginDependencies()
+        this.resolvePluginDependencies();
       }
     }
   }
@@ -394,15 +434,20 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @private
    */
   private orderPlugins() {
-    debug('orderPlugins:before', this.pluginNames)
+    debug('orderPlugins:before', this.pluginNames);
     const runLast = this._plugins
-      .filter(p => p.requirements.has('runLast'))
-      .map(p => p.name)
+      .filter(p => p.requirements?.has('runLast'))
+      .map(p => p.name);
     for (const name of runLast) {
-      const index = this._plugins.findIndex(p => p.name === name)
-      this._plugins.push(this._plugins.splice(index, 1)[0])
+      const index = this._plugins.findIndex(p => p.name === name);
+      if (index !== -1) {
+        const plugin = this._plugins.splice(index, 1)[0];
+        if (plugin) {
+          this._plugins.push(plugin);
+        }
+      }
     }
-    debug('orderPlugins:after', this.pluginNames)
+    debug('orderPlugins:after', this.pluginNames);
   }
 
   /**
@@ -414,22 +459,25 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    *
    * @private
    */
-  private checkPluginRequirements(opts = {} as any) {
+  private checkPluginRequirements(opts: BrowserLaunchContext = {}) {
     for (const plugin of this._plugins) {
+      if (!plugin.requirements) continue;
       for (const requirement of plugin.requirements) {
         if (
           opts.context === 'launch' &&
           requirement === 'headful' &&
+          opts.options &&
+          'headless' in opts.options &&
           opts.options.headless
         ) {
           console.warn(
             `Warning: Plugin '${plugin.name}' is not supported in headless mode.`
-          )
+          );
         }
         if (opts.context === 'connect' && requirement === 'launch') {
           console.warn(
             `Warning: Plugin '${plugin.name}' doesn't support puppeteer.connect().`
-          )
+          );
         }
       }
     }
@@ -443,9 +491,12 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @param values - Any number of values
    * @private
    */
-  private async callPlugins(prop: string, ...values: any[]) {
+  private async callPlugins(prop: string, ...values: unknown[]) {
     for (const plugin of this.getPluginsByProp(prop)) {
-      await plugin[prop].apply(plugin, values)
+      const method = plugin[prop];
+      if (typeof method === 'function') {
+        await method.apply(plugin, values);
+      }
     }
   }
 
@@ -461,14 +512,17 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @return The new updated value
    * @private
    */
-  private async callPluginsWithValue(prop: string, value: any) {
+  private async callPluginsWithValue(prop: string, value: unknown) {
     for (const plugin of this.getPluginsByProp(prop)) {
-      const newValue = await plugin[prop](value)
-      if (newValue) {
-        value = newValue
+      const method = plugin[prop];
+      if (typeof method === 'function') {
+        const newValue = await method.call(plugin, value);
+        if (newValue) {
+          value = newValue;
+        }
       }
     }
-    return value
+    return value;
   }
 }
 
@@ -482,19 +536,19 @@ export class PuppeteerExtra implements VanillaPuppeteer {
  *
  * @example
  * // javascript import
- * const puppeteer = require('puppeteer-extra')
+ * const puppeteer = require('@zorilla/puppeteer-extra')
  *
  * // typescript/es6 module import
- * import puppeteer from 'puppeteer-extra'
+ * import puppeteer from '@zorilla/puppeteer-extra'
  *
  * // Add plugins
  * puppeteer.use(...)
  */
 const defaultExport: PuppeteerExtra = (() => {
-  return new PuppeteerExtra(...requireVanillaPuppeteer())
-})()
+  return new PuppeteerExtra(...requireVanillaPuppeteer());
+})();
 
-export default defaultExport
+export default defaultExport;
 
 /**
  * An **alternative way** to use `puppeteer-extra`: Augments the provided puppeteer with extra plugin functionality.
@@ -503,10 +557,10 @@ export default defaultExport
  *
  * @example
  * // js import
- * const { addExtra } = require('puppeteer-extra')
+ * const { addExtra } = require('@zorilla/puppeteer-extra')
  *
  * // ts/es6 import
- * import { addExtra } from 'puppeteer-extra'
+ * import { addExtra } from '@zorilla/puppeteer-extra'
  *
  * // Patch e.g. puppeteer-firefox and add plugins
  * const puppeteer = addExtra(require('puppeteer-firefox'))
@@ -516,7 +570,7 @@ export default defaultExport
  * @return A fresh PuppeteerExtra instance using the provided puppeteer
  */
 export const addExtra = (puppeteer: VanillaPuppeteer): PuppeteerExtra =>
-  new PuppeteerExtra(puppeteer)
+  new PuppeteerExtra(puppeteer);
 
 /**
  * Attempt to require puppeteer or puppeteer-core from dependencies.
@@ -527,13 +581,13 @@ export const addExtra = (puppeteer: VanillaPuppeteer): PuppeteerExtra =>
  */
 function requireVanillaPuppeteer(): [VanillaPuppeteer?, Error?] {
   try {
-    return [require('puppeteer'), undefined]
+    return [require('puppeteer'), undefined];
   } catch (_) {
     // noop
   }
   try {
-    return [require('puppeteer-core'), undefined]
+    return [require('puppeteer-core'), undefined];
   } catch (err) {
-    return [undefined, err as Error]
+    return [undefined, err as Error];
   }
 }

@@ -1,14 +1,23 @@
 {
-  "name": "@extra/proxy-router",
-  "version": "3.1.6",
+  "name": "@zorilla/proxy-router",
+  "version": "1.0.0",
   "description": "A plugin for playwright & puppeteer to route proxies dynamically.",
-  "repository": "berstend/puppeteer-extra",
-  "homepage": "https://github.com/berstend/puppeteer-extra/tree/master/packages/plugin-proxy-router",
-  "author": "berstend",
+  "repository": "zorillajs/zorilla",
+  "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/plugin-proxy-router",
+  "authors": [
+    "berstend",
+    "Justin Beckwith <justin.beckwith@gmail.com>"
+  ],
   "license": "MIT",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -16,24 +25,15 @@
     "access": "public"
   },
   "scripts": {
-    "clean": "rimraf dist/*",
+    "clean": "rm -rf dist",
     "tscheck": "tsc --pretty --noEmit",
-    "prebuild": "run-s clean",
-    "build": "run-s build:tsc build:rollup",
-    "build:tsc": "tsc --project tsconfig.json --module commonjs",
-    "build:rollup": "rollup -c rollup.config.ts",
-    "docs": "node -e 0",
-    "test": "run-s build",
-    "pretest-ci": "run-s build",
-    "test-ci": "run-s build"
+    "build": "tsc",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test-ci": "vitest run"
   },
   "engines": {
-    "node": ">=14"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true
+    "node": ">=20"
   },
   "keywords": [
     "puppeteer",
@@ -46,30 +46,18 @@
     "luminati"
   ],
   "devDependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/node": "14.17.6",
-    "@types/puppeteer": "*",
-    "ava": "2.4.0",
-    "copyfiles": "^2.1.1",
-    "npm-run-all": "^4.1.5",
-    "playwright-core": "1.24.2",
-    "prettier": "^2.7.1",
-    "puppeteer": "^15.5.0",
-    "puppeteer-extra": "^3.3.6",
-    "replace-in-files-cli": "^0.3.1",
-    "rimraf": "^3.0.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.25.2",
-    "ts-node": "^8.5.4",
-    "typescript": "^4.7.4"
+    "@types/debug": "^4.1.12",
+    "@types/node": "^25.0.6",
+    "@vitest/coverage-v8": "^4.0.17",
+    "playwright-core": "^1.57.0",
+    "puppeteer": "^24.35.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.17"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "merge-deep": "^3.0.2",
-    "proxy-chain": "^2.0.6",
-    "puppeteer-extra-plugin": "^3.2.3"
+    "@zorilla/puppeteer-extra-plugin": "workspace:*",
+    "debug": "^4.4.3",
+    "proxy-chain": "^2.7.0"
   },
   "peerDependencies": {
     "playwright-extra": "*",

@@ -1,0 +1,19 @@
+## API
+
+
+#### Table of Contents
+
+- [class: Plugin](#class-plugin)
+
+### class: [Plugin](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow/index.js#L11-L125)
+
+- `opts` (optional, default `{}`)
+
+**Extends: PuppeteerExtraPlugin**
+
+Fix for the HEADCHR_IFRAME detection (iframe.contentWindow.chrome), hopefully this time without breaking iframes.
+Note: Only `srcdoc` powered iframes cause issues due to a chromium bug:
+
+<https://github.com/puppeteer/puppeteer/issues/1106>
+
+---

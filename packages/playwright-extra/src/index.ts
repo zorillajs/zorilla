@@ -1,40 +1,42 @@
-import type * as pw from 'playwright-core'
+import type * as pw from 'playwright-core';
 
-import { PlaywrightExtra, PlaywrightExtraClass } from './extra'
-import { PluginList } from './plugins'
-import { playwrightLoader as loader } from './helper/loader'
+import { PlaywrightExtra, PlaywrightExtraClass } from './extra.js';
+import { playwrightLoader as loader } from './helper/loader.js';
+import { PluginList } from './plugins.js';
 
-export { PlaywrightExtra, PlaywrightExtraClass } from './extra'
-export { PluginList } from './plugins'
+export { PlaywrightExtra, PlaywrightExtraClass } from './extra.js';
+export { PluginList } from './plugins.js';
 
 /** A playwright browser launcher */
-export type PlaywrightBrowserLauncher = pw.BrowserType<{}>
+export type PlaywrightBrowserLauncher = pw.BrowserType<{}>;
 /** A playwright browser launcher with plugin functionality */
 export type AugmentedBrowserLauncher = PlaywrightExtraClass &
-  PlaywrightBrowserLauncher
+  PlaywrightBrowserLauncher;
 
 /**
  * The minimum shape we expect from a playwright compatible launcher object.
  * We intentionally keep this not strict so other custom or compatible launchers can be used.
  */
 export interface PlaywrightCompatibleLauncher {
-  connect(...args: any[]): Promise<any>
-  launch(...args: any[]): Promise<any>
+  connect?(...args: unknown[]): Promise<pw.Browser>;
+  launch?(...args: unknown[]): Promise<pw.Browser>;
+  launchPersistentContext?(...args: unknown[]): Promise<pw.BrowserContext>;
+  connectOverCDP?(...args: unknown[]): Promise<pw.Browser>;
 }
 
 /** Our custom module exports */
 interface ExtraModuleExports {
-  PlaywrightExtra: typeof PlaywrightExtra
-  PlaywrightExtraClass: typeof PlaywrightExtraClass
-  PluginList: typeof PluginList
-  addExtra: typeof addExtra
-  chromium: AugmentedBrowserLauncher
-  firefox: AugmentedBrowserLauncher
-  webkit: AugmentedBrowserLauncher
+  PlaywrightExtra: typeof PlaywrightExtra;
+  PlaywrightExtraClass: typeof PlaywrightExtraClass;
+  PluginList: typeof PluginList;
+  addExtra: typeof addExtra;
+  chromium: AugmentedBrowserLauncher;
+  firefox: AugmentedBrowserLauncher;
+  webkit: AugmentedBrowserLauncher;
 }
 
 /** Vanilla playwright module exports */
-type PlaywrightModuleExports = typeof pw
+type PlaywrightModuleExports = typeof pw;
 
 /**
  * Augment the provided Playwright browser launcher with plugin functionality.
@@ -43,7 +45,7 @@ type PlaywrightModuleExports = typeof pw
  *
  * @example
  * import playwright from 'playwright'
- * import { addExtra } from 'playwright-extra'
+ * import { addExtra } from '@zorilla/playwright-extra'
  *
  * const chromium = addExtra(playwright.chromium)
  * chromium.use(plugin)
@@ -52,7 +54,7 @@ type PlaywrightModuleExports = typeof pw
  */
 export const addExtra = <Launcher extends PlaywrightCompatibleLauncher>(
   launcher?: Launcher
-) => new PlaywrightExtra(launcher) as PlaywrightExtraClass & Launcher
+) => new PlaywrightExtra(launcher) as PlaywrightExtraClass & Launcher;
 
 /**
  * This object can be used to launch or connect to Chromium with plugin functionality.
@@ -70,36 +72,34 @@ export const addExtra = <Launcher extends PlaywrightCompatibleLauncher>(
  *
  * @example
  * // javascript import
- * const { chromium } = require('playwright-extra')
- *
- * // typescript/es6 module import
- * import { chromium } from 'playwright-extra'
+ * // ESM import
+ * import { chromium } from '@zorilla/playwright-extra'
  *
  * // Add plugins
  * chromium.use(...)
  */
-export const chromium = addExtra((loader.loadModule() || {}).chromium)
+export const chromium = addExtra(loader.loadModule()?.chromium);
 /**
  * This object can be used to launch or connect to Firefox with plugin functionality
  * @note This export will always return the same instance, if you wish to use multiple instances with different plugins use `addExtra`
  */
-export const firefox = addExtra((loader.loadModule() || {}).firefox)
+export const firefox = addExtra(loader.loadModule()?.firefox);
 /**
  * This object can be used to launch or connect to Webkit with plugin functionality
  * @note This export will always return the same instance, if you wish to use multiple instances with different plugins use `addExtra`
  */
-export const webkit = addExtra((loader.loadModule() || {}).webkit)
+export const webkit = addExtra(loader.loadModule()?.webkit);
 
 // Other playwright module exports we simply re-export with lazy loading
-export const _android = loader.lazyloadExportOrDie('_android')
-export const _electron = loader.lazyloadExportOrDie('_electron')
-export const request = loader.lazyloadExportOrDie('request')
-export const selectors = loader.lazyloadExportOrDie('selectors')
-export const devices = loader.lazyloadExportOrDie('devices')
-export const errors = loader.lazyloadExportOrDie('errors')
+export const _android = loader.lazyloadExportOrDie('_android');
+export const _electron = loader.lazyloadExportOrDie('_electron');
+export const request = loader.lazyloadExportOrDie('request');
+export const selectors = loader.lazyloadExportOrDie('selectors');
+export const devices = loader.lazyloadExportOrDie('devices');
+export const errors = loader.lazyloadExportOrDie('errors');
 
 /** Playwright with plugin functionality */
-const moduleExports: ExtraModuleExports & PlaywrightModuleExports = {
+const moduleExports = {
   // custom exports
   PlaywrightExtra,
   PlaywrightExtraClass,
@@ -115,7 +115,7 @@ const moduleExports: ExtraModuleExports & PlaywrightModuleExports = {
   request,
   selectors,
   devices,
-  errors
-}
+  errors,
+} satisfies ExtraModuleExports & Partial<PlaywrightModuleExports>;
 
-export default moduleExports
+export default moduleExports;

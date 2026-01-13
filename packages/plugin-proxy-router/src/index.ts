@@ -1,12 +1,15 @@
-import { ExtraPluginProxyRouter, ExtraPluginProxyRouterOptions } from './plugin'
+import {
+  ExtraPluginProxyRouter,
+  type ExtraPluginProxyRouterOptions,
+} from './plugin.js';
 
-export * from './plugin'
-export * from './router'
-export * from './stats'
+export * from './plugin.js';
+export * from './router.js';
+export * from './stats.js';
 
 /** Default export, ExtraPluginProxyRouter  */
 const defaultExport = (options?: Partial<ExtraPluginProxyRouterOptions>) => {
-  return new ExtraPluginProxyRouter(options || {})
-}
+  return new ExtraPluginProxyRouter(options || {});
+};
 
-export default defaultExport
+export default defaultExport;

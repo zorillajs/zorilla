@@ -1,6 +1,6 @@
-# puppeteer-extra-plugin-adblocker [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/berstend/puppeteer-extra/test.yml?branch=master&event=push) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-adblocker)
+# puppeteer-extra-plugin-adblocker [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-adblocker)
 
-> A [puppeteer-extra](https://github.com/berstend/puppeteer-extra) plugin to block ads and trackers.
+> A [puppeteer-extra](https://github.com/zorillajs/zorilla) plugin to block ads and trackers.
 
 ## Features
 
@@ -14,16 +14,12 @@
 ## Installation
 
 ```bash
-yarn add puppeteer-extra-plugin-adblocker
-# - or -
-npm install puppeteer-extra-plugin-adblocker
+npm install @zorilla/puppeteer-extra-plugin-adblocker
 ```
 
-If this is your first [puppeteer-extra](https://github.com/berstend/puppeteer-extra) plugin here's everything you need:
+If this is your first [puppeteer-extra](https://github.com/zorillajs/zorilla) plugin here's everything you need:
 
 ```bash
-yarn add puppeteer puppeteer-extra puppeteer-extra-plugin-adblocker
-# - or -
 npm install puppeteer puppeteer-extra puppeteer-extra-plugin-adblocker
 ```
 
@@ -34,12 +30,12 @@ The plugin enables adblocking in puppeteer, optionally blocking trackers.
 ```javascript
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
-const puppeteer = require('puppeteer-extra')
+import puppeteer from '@zorilla/puppeteer-extra'
 
 // Add adblocker plugin, which will transparently block ads in all pages you
 // create using puppeteer.
-const { DEFAULT_INTERCEPT_RESOLUTION_PRIORITY } = require('puppeteer')
-const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker')
+import { DEFAULT_INTERCEPT_RESOLUTION_PRIORITY } from 'puppeteer'
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker'
 puppeteer.use(
   AdblockerPlugin({
     // Optionally enable Cooperative Mode for several request interceptors
@@ -65,8 +61,8 @@ puppeteer.launch({ headless: true }).then(async browser => {
  <summary><strong>TypeScript usage</strong></summary><br/>
 
 ```ts
-import puppeteer from 'puppeteer-extra'
-import Adblocker from 'puppeteer-extra-plugin-adblocker'
+import puppeteer from '@zorilla/puppeteer-extra'
+import Adblocker from '@zorilla/puppeteer-extra-plugin-adblocker'
 
 puppeteer.use(Adblocker({ blockTrackers: true }))
 
@@ -87,7 +83,7 @@ puppeteer
 Usage:
 
 ```js
-const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker')
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker'
 const adblocker = AdblockerPlugin({
   blockTrackers: true // default: false
 })

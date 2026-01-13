@@ -1,37 +1,36 @@
 {
-  "name": "puppeteer-extra-plugin-adblocker",
+  "name": "@zorilla/puppeteer-extra-plugin-adblocker",
   "version": "2.13.6",
   "description": "A puppeteer-extra plugin to block ads and trackers.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
-  "repository": "berstend/puppeteer-extra",
-  "homepage": "https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-adblocker",
-  "author": "remusao",
+  "repository": "zorillajs/zorilla",
+  "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-adblocker",
+  "authors": [
+    "remusao",
+    "Justin Beckwith <justin.beckwith@gmail.com>"
+  ],
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf dist/*",
+    "clean": "rm -rf dist",
     "tscheck": "tsc --pretty --noEmit",
-    "prebuild": "run-s clean",
-    "build": "run-s build:tsc build:rollup; node build_version_check.js",
-    "build:tsc": "tsc --module commonjs",
-    "build:rollup": "rollup -c rollup.config.ts",
-    "docs": "node -e 0",
-    "test": "ava -v --config ava.config-ts.js",
-    "pretest-ci": "run-s build",
-    "test-ci-back": "ava --concurrency 1 --serial --fail-fast -v",
-    "test-ci": "exit 0"
+    "build": "tsc && node build_version_check.js",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test-ci": "vitest run"
   },
   "engines": {
-    "node": ">=8"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "semi": false,
-    "singleQuote": true
+    "node": ">=20"
   },
   "keywords": [
     "puppeteer",
@@ -42,29 +41,18 @@
     "adblocking"
   ],
   "devDependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/node-fetch": "^2.5.4",
-    "@types/puppeteer": "*",
-    "ava": "^2.4.0",
-    "npm-run-all": "^4.1.5",
-    "puppeteer": "^10.2.0",
-    "rimraf": "^3.0.0",
-    "rollup": "^1.27.5",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-typescript2": "^0.25.2",
-    "ts-node": "^8.5.4",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^9.0.0",
-    "typescript": "4.7.4"
+    "@types/debug": "^4.1.12",
+    "@types/node": "^25.0.6",
+    "@vitest/coverage-v8": "^4.0.17",
+    "@zorilla/puppeteer-extra": "workspace:*",
+    "puppeteer": "^24.35.0",
+    "typescript": "5.9.3",
+    "vitest": "^4.0.17"
   },
   "dependencies": {
-    "@cliqz/adblocker-puppeteer": "1.23.8",
-    "debug": "^4.1.1",
-    "node-fetch": "^2.6.0",
-    "puppeteer-extra-plugin": "^3.2.3"
+    "@cliqz/adblocker-puppeteer": "1.34.0",
+    "debug": "^4.4.3",
+    "@zorilla/puppeteer-extra-plugin": "workspace:*"
   },
   "peerDependencies": {
     "puppeteer": "*",
@@ -81,6 +69,5 @@
     "puppeteer-extra": {
       "optional": true
     }
-  },
-  "gitHead": "72fe830c158f1e971c8499fdd5232338dd53c220"
+  }
 }

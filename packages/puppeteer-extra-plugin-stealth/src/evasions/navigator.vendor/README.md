@@ -1,0 +1,36 @@
+## API
+
+
+#### Table of Contents
+
+- [class: Plugin](#class-plugin)
+
+### class: [Plugin](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/evasions/navigator.vendor/index.js#L28-L55)
+
+- `opts` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options (optional, default `{}`)
+  - `opts.vendor` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** The vendor to use in `navigator.vendor` (default: `Google Inc.`)
+
+**Extends: PuppeteerExtraPlugin**
+
+By default puppeteer will have a fixed `navigator.vendor` property.
+
+This plugin makes it possible to change this property.
+
+Example:
+
+```javascript
+const puppeteer = require('@zorilla/puppeteer-extra')
+
+const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
+const stealth = StealthPlugin()
+// Remove this specific stealth plugin from the default set
+stealth.enabledEvasions.delete('navigator.vendor')
+puppeteer.use(stealth)
+
+// Stealth plugins are just regular `puppeteer-extra` plugins and can be added as such
+const NavigatorVendorPlugin = require('@zorilla/puppeteer-extra-plugin-stealth/evasions/navigator.vendor')
+const nvp = NavigatorVendorPlugin({ vendor: 'Apple Computer, Inc.' }) // Custom vendor
+puppeteer.use(nvp)
+```
+
+---

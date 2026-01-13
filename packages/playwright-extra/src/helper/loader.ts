@@ -1,8 +1,14 @@
-import type * as pw from 'playwright-core'
+import { createRequire } from 'node:module';
+import type * as pw from 'playwright-core';
+
+const require = createRequire(import.meta.url);
 
 /** Node.js module loader helper */
 export class Loader<TargetModule> {
-  constructor(public moduleName: string, public packageNames: string[]) {}
+  constructor(
+    public moduleName: string,
+    public packageNames: string[]
+  ) {}
 
   /**
    * Lazy load a top level export from another module by wrapping it in a JS proxy.
@@ -15,41 +21,40 @@ export class Loader<TargetModule> {
    * We use a "super" Proxy defining all traps, so calls like `Object.keys(playwright.devices).length` will return the correct value.
    */
   public lazyloadExportOrDie<T extends keyof TargetModule>(exportName: T) {
-    const that = this
     const trapHandler = Object.fromEntries(
-      Object.getOwnPropertyNames(Reflect).map((name: any) => [
+      Object.getOwnPropertyNames(Reflect).map((name: string) => [
         name,
-        function (target: any, ...args: any[]) {
-          const moduleExport = that.loadModuleOrDie()[exportName]
-          const customTarget = moduleExport as any
-          const result = ((Reflect as any)[name] as any)(
-            customTarget || target,
-            ...args
-          )
-          return result
-        }
+        (target: object, ...args: unknown[]) => {
+          const moduleExport = this.loadModuleOrDie()[exportName];
+          const customTarget = moduleExport as object;
+          const reflectMethod = Reflect[name as keyof typeof Reflect] as (
+            ...args: unknown[]
+          ) => unknown;
+          const result = reflectMethod(customTarget || target, ...args);
+          return result;
+        },
       ])
-    )
-    return new Proxy({}, trapHandler) as TargetModule[T]
+    );
+    return new Proxy({}, trapHandler) as TargetModule[T];
   }
 
   /** Load the module if possible */
   public loadModule() {
-    return requirePackages<TargetModule>(this.packageNames)
+    return requirePackages<TargetModule>(this.packageNames);
   }
 
   /** Load the module if possible or throw */
   public loadModuleOrDie(): TargetModule {
-    const module = requirePackages<TargetModule>(this.packageNames)
+    const module = requirePackages<TargetModule>(this.packageNames);
     if (module) {
-      return module
+      return module;
     }
-    throw this.requireError
+    throw this.requireError;
   }
 
   public get requireError() {
     const moduleNamePretty =
-      this.moduleName.charAt(0).toUpperCase() + this.moduleName.slice(1)
+      this.moduleName.charAt(0).toUpperCase() + this.moduleName.slice(1);
     return new Error(`
   ${moduleNamePretty} is missing. :-)
 
@@ -61,24 +66,24 @@ export class Loader<TargetModule> {
   to patch a specific (and maybe non-standard) implementation of ${moduleNamePretty}.
 
   To get the latest stable version of ${moduleNamePretty} run:
-  'yarn add ${this.moduleName}' or 'npm i ${this.moduleName}'
-  `)
+  'npm i ${this.moduleName}'
+  `);
   }
 }
 
-export function requirePackages<TargetModule = any>(packageNames: string[]) {
+export function requirePackages<TargetModule = unknown>(
+  packageNames: string[]
+): TargetModule | undefined {
   for (const name of packageNames) {
     try {
-      return require(name) as TargetModule
-    } catch (_) {
-      continue // noop
-    }
+      return require(name) as TargetModule;
+    } catch (_) {}
   }
-  return
+  return undefined;
 }
 
 /** Playwright specific module loader */
 export const playwrightLoader = new Loader<typeof pw>('playwright', [
   'playwright-core',
-  'playwright'
-])
+  'playwright',
+]);

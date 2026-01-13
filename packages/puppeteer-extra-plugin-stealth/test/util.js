@@ -1,65 +1,82 @@
-const assert = require('assert')
-const vanillaPuppeteer = require('puppeteer')
-const { addExtra } = require('puppeteer-extra')
+import assert from 'node:assert';
+import { createRequire } from 'node:module';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import vanillaPuppeteer from 'puppeteer';
+import { addExtra } from 'puppeteer-extra';
 
-const fpCollectPath = require.resolve('fpcollect/dist/fpCollect.min.js')
+const require = createRequire(import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Try to resolve fpcollect path, fallback to null if not found
+let fpCollectPath = null;
+try {
+  fpCollectPath = require.resolve('fpcollect/dist/fpCollect.min.js');
+} catch (_err) {
+  // fpcollect dist not built, fingerprinting tests will be skipped
+  console.warn('Warning: fpcollect dist not found, some tests may be skipped');
+}
 
 const getFingerPrintFromPage = async page => {
-  return page.evaluate(() => fpCollect.generateFingerprint()) // eslint-disable-line
-}
+  return page.evaluate(() => fpCollect.generateFingerprint()); // eslint-disable-line
+};
 
-const dummyHTMLPath = require('path').join(__dirname, './fixtures/dummy.html')
+const dummyHTMLPath = path.join(__dirname, './fixtures/dummy.html');
 
 const getFingerPrint = async (puppeteer, pageFn) => {
-  const browser = await puppeteer.launch({ headless: true })
-  const page = await browser.newPage()
-  await page.goto('file://' + dummyHTMLPath)
-  await page.addScriptTag({ path: fpCollectPath })
-  const fingerPrint = await getFingerPrintFromPage(page)
+  if (!fpCollectPath) {
+    throw new Error('fpcollect not available - dist needs to be built');
+  }
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto('file://' + dummyHTMLPath);
+  await page.addScriptTag({ path: fpCollectPath });
+  const fingerPrint = await getFingerPrintFromPage(page);
 
-  let pageFnResult = null
+  let pageFnResult = null;
   if (pageFn) {
-    pageFnResult = await pageFn(page)
+    pageFnResult = await pageFn(page);
   }
 
-  await browser.close()
-  return { ...fingerPrint, pageFnResult }
-}
+  await browser.close();
+  return { ...fingerPrint, pageFnResult };
+};
 
 const getVanillaFingerPrint = async pageFn =>
-  getFingerPrint(vanillaPuppeteer, pageFn)
+  getFingerPrint(vanillaPuppeteer, pageFn);
 const getStealthFingerPrint = async (Plugin, pageFn, pluginOptions = null) =>
-  getFingerPrint(addExtra(vanillaPuppeteer).use(Plugin(pluginOptions)), pageFn)
+  getFingerPrint(addExtra(vanillaPuppeteer).use(Plugin(pluginOptions)), pageFn);
 
 // Expecting the input string to be in one of these formats:
 // - The UA string
 // - The shorter version string from Puppeteers browser.version()
 // - The shortest four-integer string
-const parseLooseVersionString = looseVersionString => looseVersionString
-  .match(/(\d+\.){3}\d+/)[0]
-  .split('.')
-  .map(x => parseInt(x))
+const parseLooseVersionString = looseVersionString =>
+  looseVersionString
+    .match(/(\d+\.){3}\d+/)[0]
+    .split('.')
+    .map(x => parseInt(x, 10));
 
 const compareLooseVersionStrings = (version0, version1) => {
-  const parsed0 = parseLooseVersionString(version0)
-  const parsed1 = parseLooseVersionString(version1)
-  assert(parsed0.length == 4)
-  assert(parsed1.length == 4)
+  const parsed0 = parseLooseVersionString(version0);
+  const parsed1 = parseLooseVersionString(version1);
+  assert(parsed0.length === 4);
+  assert(parsed1.length === 4);
   for (let i = 0; i < parsed0.length; i++) {
     if (parsed0[i] < parsed1[i]) {
-      return -1
+      return -1;
     } else if (parsed0[i] > parsed1[i]) {
-      return 1
+      return 1;
     }
   }
-  return 0
-}
+  return 0;
+};
 
-module.exports = {
+export {
   getVanillaFingerPrint,
   getStealthFingerPrint,
   dummyHTMLPath,
   vanillaPuppeteer,
   addExtra,
-  compareLooseVersionStrings
-}
+  compareLooseVersionStrings,
+};

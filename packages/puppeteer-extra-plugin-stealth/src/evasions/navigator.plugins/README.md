@@ -1,0 +1,24 @@
+## API
+
+
+#### Table of Contents
+
+- [class: Plugin](#class-plugin)
+
+### class: [Plugin](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/evasions/navigator.plugins/index.js#L26-L88)
+
+- `opts` (optional, default `{}`)
+
+**Extends: PuppeteerExtraPlugin**
+
+In headless mode `navigator.mimeTypes` and `navigator.plugins` are empty.
+This plugin emulates both of these with functional mocks to match regular headful Chrome.
+
+Note: mimeTypes and plugins cross-reference each other, so it makes sense to do them at the same time.
+
+- **See: <https://developer.mozilla.org/en-US/docs/Web/API/NavigatorPlugins/mimeTypes>**
+- **See: <https://developer.mozilla.org/en-US/docs/Web/API/MimeTypeArray>**
+- **See: <https://developer.mozilla.org/en-US/docs/Web/API/NavigatorPlugins/plugins>**
+- **See: <https://developer.mozilla.org/en-US/docs/Web/API/PluginArray>**
+
+---

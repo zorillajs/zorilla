@@ -1,58 +1,58 @@
-import { PuppeteerExtraPlugin } from 'puppeteer-extra-plugin'
+import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
 
 export class DummyPlugin extends PuppeteerExtraPlugin {
-  public pluginEventList: string[] = []
-  public pluginEventMap: Map<string, any> = new Map()
+  public pluginEventList: string[] = [];
+  public pluginEventMap: Map<string, unknown> = new Map();
 
   constructor(opts = {}) {
-    super(opts)
+    super(opts);
   }
-  get name() {
-    return 'dummy'
+  override get name() {
+    return 'dummy';
   }
 
-  async onPluginRegistered(...args: any[]) {
-    this.pluginEventList.push('onPluginRegistered')
+  override async onPluginRegistered(..._args: unknown[]) {
+    this.pluginEventList.push('onPluginRegistered');
   }
-  async beforeLaunch(...args: any[]) {
-    this.pluginEventList.push('beforeLaunch')
+  override async beforeLaunch(..._args: unknown[]) {
+    this.pluginEventList.push('beforeLaunch');
   }
-  async afterLaunch(...args: any[]) {
-    this.pluginEventList.push('afterLaunch')
+  override async afterLaunch(..._args: unknown[]) {
+    this.pluginEventList.push('afterLaunch');
   }
-  async beforeConnect(...args: any[]) {
-    this.pluginEventList.push('beforeConnect')
+  override async beforeConnect(..._args: unknown[]) {
+    this.pluginEventList.push('beforeConnect');
   }
-  async afterConnect(...args: any[]) {
-    this.pluginEventList.push('afterConnect')
+  override async afterConnect(..._args: unknown[]) {
+    this.pluginEventList.push('afterConnect');
   }
-  async onBrowser(...args: any[]) {
-    this.pluginEventList.push('onBrowser')
+  override async onBrowser(..._args: unknown[]) {
+    this.pluginEventList.push('onBrowser');
   }
-  async onTargetCreated(...args: any[]) {
-    this.pluginEventList.push('onTargetCreated')
+  override async onTargetCreated(..._args: unknown[]) {
+    this.pluginEventList.push('onTargetCreated');
   }
-  async onPageCreated(...args: any[]) {
-    this.pluginEventList.push('onPageCreated')
+  override async onPageCreated(..._args: unknown[]) {
+    this.pluginEventList.push('onPageCreated');
   }
-  async onTargetChanged(...args: any[]) {
-    this.pluginEventList.push('onTargetChanged')
+  override async onTargetChanged(..._args: unknown[]) {
+    this.pluginEventList.push('onTargetChanged');
   }
-  async onTargetDestroyed(...args: any[]) {
-    this.pluginEventList.push('onTargetDestroyed')
+  override async onTargetDestroyed(..._args: unknown[]) {
+    this.pluginEventList.push('onTargetDestroyed');
   }
-  async onDisconnected(...args: any[]) {
-    this.pluginEventList.push('onDisconnected')
+  override async onDisconnected(..._args: unknown[]) {
+    this.pluginEventList.push('onDisconnected');
   }
-  async onClose(...args: any[]) {
-    this.pluginEventList.push('onClose')
+  override async onClose(..._args: unknown[]) {
+    this.pluginEventList.push('onClose');
   }
 
   // playwright only at the moment
-  async beforeContext(...args: any[]) {
-    this.pluginEventList.push('beforeContext')
+  override async beforeContext(..._args: unknown[]) {
+    this.pluginEventList.push('beforeContext');
   }
-  async onContextCreated(...args: any[]) {
-    this.pluginEventList.push('onContextCreated')
+  override async onContextCreated(..._args: unknown[]) {
+    this.pluginEventList.push('onContextCreated');
   }
 }

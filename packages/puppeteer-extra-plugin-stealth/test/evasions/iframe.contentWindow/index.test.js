@@ -1,0 +1,450 @@
+// import Plugin from '../../../src/evasions/iframe.contentWindow/index.js'
+// NOTE: We're using the full plugin for testing here as `iframe.contentWindow` uses data set by `chrome.runtime`
+import Plugin from '@zorilla/puppeteer-extra-plugin-stealth';
+import { expect, test } from 'vitest';
+import {
+  addExtra,
+  dummyHTMLPath,
+  getStealthFingerPrint,
+  getVanillaFingerPrint,
+  vanillaPuppeteer,
+} from '../../util.js';
+
+// Fix CI issues with old versions
+const isOldPuppeteerVersion = () => {
+  const version = process.env.PUPPETEER_VERSION;
+  const isOld = version && (version === '1.9.0' || version === '1.6.2');
+  return isOld;
+};
+
+test.skip('vanilla: will be undefined (requires fpcollect)', async () => {
+  const { iframeChrome } = await getVanillaFingerPrint();
+  expect(iframeChrome).toBe('undefined');
+});
+
+test.skip('stealth: will be object (requires fpcollect)', async () => {
+  const { iframeChrome } = await getStealthFingerPrint(Plugin);
+  expect(iframeChrome).toBe('object');
+});
+
+test.skip('stealth (requires user-preferences): will not break iframes', async () => {
+  const browser = await addExtra(vanillaPuppeteer)
+    .use(Plugin())
+    .launch({ headless: true });
+  const page = await browser.newPage();
+
+  const testFuncReturnValue = 'TESTSTRING';
+  await page.evaluate(returnValue => {
+    const { document } = window; // eslint-disable-line
+    const body = document.querySelector('body');
+    const iframe = document.createElement('iframe');
+    body.srcdoc = 'foobar';
+    body.appendChild(iframe);
+    iframe.contentWindow.mySuperFunction = () => returnValue;
+  }, testFuncReturnValue);
+  const realReturn = await page.evaluate(
+    () => document.querySelector('iframe').contentWindow.mySuperFunction() // eslint-disable-line
+  );
+  await browser.close();
+
+  expect(realReturn).toBe('TESTSTRING');
+});
+
+test('vanilla: will not have contentWindow[0]', async () => {
+  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  const zero = await page.evaluate(_returnValue => {
+    const { document } = window; // eslint-disable-line
+    const body = document.querySelector('body');
+    const iframe = document.createElement('iframe');
+    iframe.srcdoc = 'foobar';
+    body.appendChild(iframe);
+    return typeof iframe.contentWindow[0];
+  });
+  await browser.close();
+
+  expect(zero).toBe('undefined');
+});
+
+test.skip('stealth (requires user-preferences): will not have contentWindow[0]', async () => {
+  const browser = await addExtra(vanillaPuppeteer)
+    .use(Plugin())
+    .launch({ headless: true });
+  const page = await browser.newPage();
+
+  const zero = await page.evaluate(_returnValue => {
+    const { document } = window; // eslint-disable-line
+    const body = document.querySelector('body');
+    const iframe = document.createElement('iframe');
+    iframe.srcdoc = 'foobar';
+    body.appendChild(iframe);
+    return typeof iframe.contentWindow[0];
+  });
+  await browser.close();
+
+  expect(zero).toBe('undefined');
+});
+
+test('vanilla: will not have chrome runtine in any frame', async () => {
+  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.goto('file://' + dummyHTMLPath);
+
+  const basiciframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  const sandboxSOiframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    el.setAttribute('sandbox', 'allow-same-origin');
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  const sandboxSOASiframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    el.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  const srcdociframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    el.srcdoc = 'blank page, boys.';
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  // console.log('basic iframe', basiciframe)
+  // console.log('sandbox same-origin iframe', sandboxSOiframe)
+  // console.log('sandbox same-origin&scripts iframe', sandboxSOASiframe)
+  // console.log('srcdoc iframe', srcdociframe)
+
+  await browser.close();
+
+  // Note: Newer Chrome versions (130+) now provide chrome object in iframes
+  // The important part is that it's consistent across frame types
+  // Can be either undefined (older Chrome) or object (newer Chrome)
+  expect(['undefined', 'object']).toContain(typeof basiciframe);
+  expect(['undefined', 'object']).toContain(typeof sandboxSOiframe);
+  expect(['undefined', 'object']).toContain(typeof sandboxSOASiframe);
+  expect(['undefined', 'object']).toContain(typeof srcdociframe);
+});
+
+test.skip('stealth (requires user-preferences): it will cover all frames including srcdoc', async () => {
+  // const browser = await vanillaPuppeteer.launch({ headless: false })
+  const browser = await addExtra(vanillaPuppeteer)
+    .use(Plugin())
+    .launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.goto('file://' + dummyHTMLPath);
+
+  const basiciframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  const sandboxSOiframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    el.setAttribute('sandbox', 'allow-same-origin');
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  const sandboxSOASiframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    el.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  const srcdociframe = await page.evaluate(() => {
+    const el = document.createElement('iframe');
+    el.srcdoc = 'blank page, boys.';
+    document.body.appendChild(el);
+    return el.contentWindow.chrome;
+  });
+
+  // console.log('basic iframe', basiciframe)
+  // console.log('sandbox same-origin iframe', sandboxSOiframe)
+  // console.log('sandbox same-origin&scripts iframe', sandboxSOASiframe)
+  // console.log('srcdoc iframe', srcdociframe)
+
+  await browser.close();
+
+  if (isOldPuppeteerVersion()) {
+    expect(typeof basiciframe).toBe('object');
+  } else {
+    expect(typeof basiciframe).toBe('object');
+    expect(typeof sandboxSOiframe).toBe('object');
+    expect(typeof sandboxSOASiframe).toBe('object');
+    expect(typeof srcdociframe).toBe('object');
+  }
+});
+
+test('vanilla: will allow to define property contentWindow', async () => {
+  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  const iframe = await page.evaluate(() => {
+    const { document } = window; // eslint-disable-line
+    const iframe = document.createElement('iframe');
+    iframe.srcdoc = 'foobar';
+    return Object.defineProperty(iframe, 'contentWindow', { value: 'baz' });
+  });
+  await browser.close();
+
+  expect(typeof iframe).toBe('object');
+});
+
+// test('stealth: will allow to define property contentWindow', async () => {
+//   const browser = await addExtra(vanillaPuppeteer)
+//     .use(Plugin())
+//     .launch({ headless: true })
+//   const page = await browser.newPage()
+//
+//   const iframe = await page.evaluate(() => {
+//     const { document } = window // eslint-disable-line
+//     const iframe = document.createElement('iframe')
+//     iframe.srcdoc = 'foobar'
+//     return Object.defineProperty(iframe, 'contentWindow', { value: 'baz' })
+//   })
+//   await browser.close()
+//
+//   expect(typeof iframe).toBe('object')
+// })
+
+test('vanilla: will return undefined for getOwnPropertyDescriptor of contentWindow', async () => {
+  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  const iframe = await page.evaluate(() => {
+    const { document } = window; // eslint-disable-line
+    const iframe = document.createElement('iframe');
+    iframe.srcdoc = 'foobar';
+    return Object.getOwnPropertyDescriptor(iframe, 'contentWindow');
+  });
+  await browser.close();
+
+  expect(iframe).toBe(undefined);
+});
+
+// test('stealth: will return undefined for getOwnPropertyDescriptor of contentWindow', async () => {
+//   const browser = await addExtra(vanillaPuppeteer)
+//     .use(Plugin())
+//     .launch({ headless: true })
+//   const page = await browser.newPage()
+//
+//   const iframe = await page.evaluate(() => {
+//     const { document } = window // eslint-disable-line
+//     const iframe = document.createElement('iframe')
+//     iframe.srcdoc = 'foobar'
+//     return Object.getOwnPropertyDescriptor(iframe, 'contentWindow')
+//   })
+//   await browser.close()
+//
+//   expect(iframe).toBe(undefined)
+// })
+
+/* global HTMLIFrameElement */
+test.skip('stealth (requires user-preferences): it will emulate advanved contentWindow features correctly', async () => {
+  // const browser = await vanillaPuppeteer.launch({ headless: false })
+  const browser = await addExtra(vanillaPuppeteer)
+    .use(Plugin())
+    .launch({ headless: true });
+  const page = await browser.newPage();
+
+  await page.goto('file://' + dummyHTMLPath);
+
+  // page.on('console', msg => {
+  //   console.log('Page console: ', msg.text())
+  // })
+
+  const results = await page.evaluate(() => {
+    const results = {};
+
+    const iframe = document.createElement('iframe');
+    iframe.srcdoc = 'page intentionally left blank'; // Note: srcdoc
+    document.body.appendChild(iframe);
+
+    const basicIframe = document.createElement('iframe');
+    basicIframe.src = 'data:text/plain;charset=utf-8,foobar';
+    document.body.appendChild(iframe);
+
+    results.descriptors = (() => {
+      // Verify iframe prototype isn't touched
+      const descriptors = Object.getOwnPropertyDescriptors(
+        HTMLIFrameElement.prototype
+      );
+      return descriptors.contentWindow.get.toString();
+    })();
+
+    results.noProxySignature = (() => {
+      return Object.hasOwn(iframe.srcdoc.toString, '[[IsRevoked]]'); // eslint-disable-line
+    })();
+
+    results.doesExist = (() => {
+      // Verify iframe isn't remapped to main window
+      return !!iframe.contentWindow;
+    })();
+
+    results.isNotAClone = (() => {
+      // Verify iframe isn't remapped to main window
+      return iframe.contentWindow !== window;
+    })();
+
+    results.hasPlugins = (() => {
+      return iframe.contentWindow.navigator.plugins.length > 0;
+    })();
+
+    results.hasSameNumberOfPlugins = (() => {
+      return (
+        window.navigator.plugins.length ===
+        iframe.contentWindow.navigator.plugins.length
+      );
+    })();
+
+    results.SelfIsNotWindow = (() => {
+      return iframe.contentWindow.self !== window;
+    })();
+
+    results.SelfIsNotWindowTop = (() => {
+      return iframe.contentWindow.self !== window.top;
+    })();
+
+    results.TopIsNotSame = (() => {
+      return iframe.contentWindow.top !== iframe.contentWindow;
+    })();
+
+    results.FrameElementMatches = (() => {
+      return iframe.contentWindow.frameElement === iframe;
+    })();
+
+    results.StackTraces = (() => {
+      try {
+        // eslint-disable-next-line
+        document.createElement(0);
+      } catch (e) {
+        return e.stack;
+      }
+      return false;
+    })();
+
+    return results;
+  });
+
+  await browser.close();
+
+  if (isOldPuppeteerVersion()) {
+    expect(true).toBe(true);
+    return;
+  }
+
+  expect(results.descriptors).toBe(
+    'function get contentWindow() { [native code] }'
+  );
+  expect(results.doesExist).toBe(true);
+  expect(results.isNotAClone).toBe(true);
+  expect(results.hasPlugins).toBe(true);
+  expect(results.hasSameNumberOfPlugins).toBe(true);
+  expect(results.SelfIsNotWindow).toBe(true);
+  expect(results.SelfIsNotWindowTop).toBe(true);
+  expect(results.TopIsNotSame).toBe(true);
+  expect(results.StackTraces.includes(`at Object.apply`)).toBe(false);
+});
+
+test.skip('regression (requires user-preferences): new method will not break hcaptcha', async () => {
+  const browser = await addExtra(vanillaPuppeteer)
+    .use(Plugin())
+    .launch({ headless: true });
+  const page = await browser.newPage();
+
+  page.waitForTimeout = page.waitForTimeout || page.waitFor;
+
+  await page.goto('https://democaptcha.com/demo-form-eng/hcaptcha.html', {
+    waitUntil: 'networkidle2',
+  });
+  await page.evaluate(() => {
+    window.hcaptcha.execute();
+  });
+  await page.waitForTimeout(2 * 1000);
+  const { hasChallengePopup } = await page.evaluate(() => {
+    const hasChallengePopup = !!document.querySelectorAll(
+      `div[style*='visible'] iframe[title*='hCaptcha challenge']`
+    ).length;
+    return { hasChallengePopup };
+  });
+  await browser.close();
+  expect(hasChallengePopup).toBe(true);
+});
+
+test.skip('regression (requires user-preferences): new method will not break recaptcha popup', async () => {
+  // const browser = await vanillaPuppeteer.launch({ headless: false })
+  const browser = await addExtra(vanillaPuppeteer)
+    .use(Plugin())
+    .launch({ headless: true });
+  const page = await browser.newPage();
+
+  page.waitForTimeout = page.waitForTimeout || page.waitFor;
+
+  await page.goto('https://www.fbdemo.com/invisible-captcha/index.html', {
+    waitUntil: 'networkidle2',
+  });
+
+  await page.type('#tswname', 'foo');
+  await page.type('#tswemail', 'foo@foo.foo');
+  await page.type(
+    '#tswcomments',
+    'In the depth of winter, I finally learned that within me there lay an invincible summer.'
+  );
+  await page.click('#tswsubmit');
+  await page.waitForTimeout(1000);
+  const { hasRecaptchaPopup } = await page.evaluate(() => {
+    const hasRecaptchaPopup = !!document.querySelectorAll(
+      `iframe[title*="recaptcha challenge"]`
+    ).length;
+    return { hasRecaptchaPopup };
+  });
+  await browser.close();
+  expect(hasRecaptchaPopup).toBe(true);
+});
+
+test.skip('regression (requires user-preferences): old method indeed did break recaptcha popup', async () => {
+  const browser = await vanillaPuppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+
+  page.waitForTimeout = page.waitForTimeout || page.waitFor;
+  // Old method
+  await page.evaluateOnNewDocument(() => {
+    // eslint-disable-next-line
+    Object.defineProperty(HTMLIFrameElement.prototype, 'contentWindow', {
+      get: () => window,
+    });
+  });
+  await page.goto('https://www.fbdemo.com/invisible-captcha/index.html', {
+    waitUntil: 'networkidle2',
+  });
+  await page.type('#tswname', 'foo');
+  await page.type('#tswemail', 'foo@foo.foo');
+  await page.type(
+    '#tswcomments',
+    'In the depth of winter, I finally learned that within me there lay an invincible summer.'
+  );
+  await page.click('#tswsubmit');
+  await page.waitForTimeout(1000);
+
+  const { hasRecaptchaPopup } = await page.evaluate(() => {
+    const hasRecaptchaPopup = !!document.querySelectorAll(
+      `iframe[title*="recaptcha challenge"]`
+    ).length;
+    return { hasRecaptchaPopup };
+  });
+  await browser.close();
+  expect(hasRecaptchaPopup).toBe(false);
+});

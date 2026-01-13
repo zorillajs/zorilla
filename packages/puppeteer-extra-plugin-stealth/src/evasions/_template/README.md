@@ -1,0 +1,18 @@
+## API
+
+
+#### Table of Contents
+
+- [class: Plugin](#class-plugin)
+
+### class: [Plugin](https://github.com/zorillajs/zorilla/blob/e6133619b051febed630ada35241664eba59b9fa/packages/puppeteer-extra-plugin-stealth/evasions/_template/index.js#L10-L24)
+
+- `opts` (optional, default `{}`)
+
+**Extends: PuppeteerExtraPlugin**
+
+Minimal stealth plugin template, not being used. :-)
+
+Feel free to copy this folder as the basis for additional detection evasion plugins.
+
+---

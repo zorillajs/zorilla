@@ -1,123 +1,380 @@
-import test from 'ava'
+import { expect, test, vi } from 'vitest';
 
-import { PuppeteerExtraPlugin } from '.'
+import { PuppeteerExtraPlugin } from '.';
 
-test('is a function', async t => {
-  t.is(typeof PuppeteerExtraPlugin, 'function')
-})
+test('is a function', async () => {
+  expect(typeof PuppeteerExtraPlugin).toBe('function');
+});
 
-test('will throw without a name', async t => {
+test('will throw without a name', async () => {
   class Derived extends PuppeteerExtraPlugin {}
-  const error = await t.throws(() => new Derived())
-  t.is(error.message, `Plugin must override "name"`)
-})
+  expect(() => new Derived()).toThrow(`Plugin must override "name"`);
+});
 
-test('should have the basic class members', async t => {
-  const pluginName = 'hello-world'
+test('should have the basic class members', async () => {
+  const pluginName = 'hello-world';
   class Plugin extends PuppeteerExtraPlugin {
     constructor(opts = {}) {
-      super(opts)
+      super(opts);
     }
-    get name() {
-      return pluginName
+    override get name() {
+      return pluginName;
     }
   }
-  const instance = new Plugin()
+  const instance = new Plugin();
 
-  t.is(instance.name, pluginName)
-  t.true(instance.requirements instanceof Set)
-  t.true(instance.dependencies instanceof Set)
-  t.true(instance.data instanceof Array)
-  t.true(instance.defaults instanceof Object)
-  t.is(instance.data.length, 0)
-  t.true(instance.debug instanceof Function)
-  t.is(instance.debug.namespace, `puppeteer-extra-plugin:${pluginName}`)
-  t.true(instance._isPuppeteerExtraPlugin)
-})
+  expect(instance.name).toBe(pluginName);
+  expect(instance.requirements instanceof Set).toBe(true);
+  expect(instance.dependencies instanceof Set).toBe(true);
+  expect(Array.isArray(instance.data)).toBe(true);
+  expect(instance.defaults instanceof Object).toBe(true);
+  expect(instance.data.length).toBe(0);
+  expect(instance.debug instanceof Function).toBe(true);
+  expect(instance.debug.namespace).toBe(`puppeteer-extra-plugin:${pluginName}`);
+  expect(instance._isPuppeteerExtraPlugin).toBe(true);
+});
 
-test('should have the public class members', async t => {
-  const pluginName = 'hello-world'
+test('should have the public class members', async () => {
+  const pluginName = 'hello-world';
   class Plugin extends PuppeteerExtraPlugin {
     constructor(opts = {}) {
-      super(opts)
+      super(opts);
     }
-    get name() {
-      return pluginName
+    override get name() {
+      return pluginName;
     }
   }
-  const instance = new Plugin()
+  const instance = new Plugin();
 
-  t.true(instance.beforeLaunch instanceof Function)
-  t.true(instance.afterLaunch instanceof Function)
-  t.true(instance.onTargetCreated instanceof Function)
-  t.true(instance.onBrowser instanceof Function)
-  t.true(instance.onPageCreated instanceof Function)
-  t.true(instance.onTargetChanged instanceof Function)
-  t.true(instance.onTargetDestroyed instanceof Function)
-  t.true(instance.onDisconnected instanceof Function)
-  t.true(instance.onClose instanceof Function)
-  t.true(instance.onPluginRegistered instanceof Function)
-  t.true(instance.getDataFromPlugins instanceof Function)
-})
+  expect(instance.beforeLaunch instanceof Function).toBe(true);
+  expect(instance.afterLaunch instanceof Function).toBe(true);
+  expect(instance.onTargetCreated instanceof Function).toBe(true);
+  expect(instance.onBrowser instanceof Function).toBe(true);
+  expect(instance.onPageCreated instanceof Function).toBe(true);
+  expect(instance.onTargetChanged instanceof Function).toBe(true);
+  expect(instance.onTargetDestroyed instanceof Function).toBe(true);
+  expect(instance.onDisconnected instanceof Function).toBe(true);
+  expect(instance.onClose instanceof Function).toBe(true);
+  expect(instance.onPluginRegistered instanceof Function).toBe(true);
+  expect(instance.getDataFromPlugins instanceof Function).toBe(true);
+});
 
-test('should have the internal class members', async t => {
-  const pluginName = 'hello-world'
+test('should have the internal class members', async () => {
+  const pluginName = 'hello-world';
   class Plugin extends PuppeteerExtraPlugin {
     constructor(opts = {}) {
-      super(opts)
+      super(opts);
     }
-    get name() {
-      return pluginName
-    }
-  }
-  const instance = new Plugin()
-
-  t.true(instance._getMissingDependencies instanceof Function)
-  t.true(instance._bindBrowserEvents instanceof Function)
-  t.true(instance._onTargetCreated instanceof Function)
-  t.true(instance._register instanceof Function)
-  t.true(instance._registerChildClassMembers instanceof Function)
-  t.true(instance._hasChildClassMember instanceof Function)
-})
-
-test('should merge opts with defaults automatically', async t => {
-  const pluginName = 'hello-world'
-  const pluginDefaults = { foo: 'bar', foo2: 'bar2', extra1: 123 }
-  const userOpts = { foo2: 'bob', extra2: 666 }
-
-  class Plugin extends PuppeteerExtraPlugin {
-    constructor(opts = {}) {
-      super(opts)
-    }
-    get name() {
-      return pluginName
-    }
-    get defaults() {
-      return pluginDefaults
+    override get name() {
+      return pluginName;
     }
   }
-  const instance = new Plugin(userOpts)
+  const instance = new Plugin();
 
-  t.deepEqual(instance.defaults, pluginDefaults)
-  t.is(instance.opts.foo, pluginDefaults.foo)
-  t.is(instance.opts.foo2, userOpts.foo2)
-  t.is(instance.opts.extra1, pluginDefaults.extra1)
-  t.is(instance.opts.extra2, userOpts.extra2)
-})
+  expect(instance._getMissingDependencies instanceof Function).toBe(true);
+  expect(instance._bindBrowserEvents instanceof Function).toBe(true);
+  expect(instance._onTargetCreated instanceof Function).toBe(true);
+  expect(instance._register instanceof Function).toBe(true);
+  expect(instance._registerChildClassMembers instanceof Function).toBe(true);
+  expect(instance._hasChildClassMember instanceof Function).toBe(true);
+});
 
-test('should have opts when defaults is not defined', async t => {
-  const pluginName = 'hello-world'
-  const userOpts = { foo2: 'bob', extra2: 666 }
+test('should merge opts with defaults automatically', async () => {
+  const pluginName = 'hello-world';
+  const pluginDefaults = { foo: 'bar', foo2: 'bar2', extra1: 123 };
+  const userOpts = { foo2: 'bob', extra2: 666 };
 
   class Plugin extends PuppeteerExtraPlugin {
     constructor(opts = {}) {
-      super(opts)
+      super(opts);
     }
-    get name() {
-      return pluginName
+    override get name() {
+      return pluginName;
+    }
+    override get defaults() {
+      return pluginDefaults;
     }
   }
-  const instance = new Plugin(userOpts)
+  const instance = new Plugin(userOpts);
 
-  t.deepEqual(instance.opts, userOpts)
-})
+  expect(instance.defaults).toEqual(pluginDefaults);
+  expect(instance.opts.foo).toBe(pluginDefaults.foo);
+  expect(instance.opts.foo2).toBe(userOpts.foo2);
+  expect(instance.opts.extra1).toBe(pluginDefaults.extra1);
+  expect(instance.opts.extra2).toBe(userOpts.extra2);
+});
+
+test('should have opts when defaults is not defined', async () => {
+  const pluginName = 'hello-world';
+  const userOpts = { foo2: 'bob', extra2: 666 };
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+  }
+  const instance = new Plugin(userOpts);
+
+  expect(instance.opts).toEqual(userOpts);
+});
+
+test('getDataFromPlugins returns empty array by default', async () => {
+  const pluginName = 'test-plugin';
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+  }
+  const instance = new Plugin();
+
+  const data = instance.getDataFromPlugins('some-plugin');
+  expect(Array.isArray(data)).toBe(true);
+  expect(data.length).toBe(0);
+});
+
+test('_getMissingDependencies identifies missing plugin dependencies', async () => {
+  const pluginName = 'test-plugin';
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override get dependencies() {
+      return new Set(['plugin-a', 'plugin-b', 'plugin-c']);
+    }
+  }
+  const instance = new Plugin();
+
+  const registeredPlugins = [{ name: 'plugin-a' }, { name: 'plugin-b' }];
+
+  const missing = instance._getMissingDependencies(registeredPlugins);
+  expect(missing instanceof Set).toBe(true);
+  expect(missing.has('plugin-c')).toBe(true);
+  expect(missing.has('plugin-a')).toBe(false);
+  expect(missing.has('plugin-b')).toBe(false);
+  expect(missing.size).toBe(1);
+});
+
+test('_register calls child class registration methods', async () => {
+  const pluginName = 'test-plugin';
+  let onPluginRegisteredCalled = false;
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override onPluginRegistered() {
+      onPluginRegisteredCalled = true;
+    }
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+
+  instance._register(prototype);
+
+  expect(onPluginRegisteredCalled).toBe(true);
+  expect((instance as any)._childClassMembers).toContain('onPluginRegistered');
+});
+
+test('_registerChildClassMembers stores class member names', async () => {
+  const pluginName = 'test-plugin';
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    customMethod() {}
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+
+  instance._registerChildClassMembers(prototype);
+
+  expect((instance as any)._childClassMembers.includes('customMethod')).toBe(
+    true
+  );
+});
+
+test('_hasChildClassMember checks if member exists', async () => {
+  const pluginName = 'test-plugin';
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override onPageCreated() {}
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+  instance._registerChildClassMembers(prototype);
+
+  expect(instance._hasChildClassMember('onPageCreated')).toBe(true);
+  expect(instance._hasChildClassMember('nonExistentMethod')).toBe(false);
+});
+
+test('_bindBrowserEvents registers event handlers', async () => {
+  const pluginName = 'test-plugin';
+  let _onTargetCreatedCalled = false;
+  let onBrowserCalled = false;
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override onTargetCreated() {
+      _onTargetCreatedCalled = true;
+    }
+    override async onBrowser() {
+      onBrowserCalled = true;
+    }
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+  instance._registerChildClassMembers(prototype);
+
+  const mockBrowser = {
+    on: vi.fn(),
+  };
+
+  await instance._bindBrowserEvents(mockBrowser as any, {});
+
+  expect(mockBrowser.on).toHaveBeenCalledWith(
+    'targetcreated',
+    expect.any(Function)
+  );
+  expect(onBrowserCalled).toBe(true);
+});
+
+test('_bindBrowserEvents calls afterLaunch for launch context', async () => {
+  const pluginName = 'test-plugin';
+  let afterLaunchCalled = false;
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override async afterLaunch() {
+      afterLaunchCalled = true;
+    }
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+  instance._registerChildClassMembers(prototype);
+
+  const mockBrowser = { on: vi.fn() };
+
+  await instance._bindBrowserEvents(mockBrowser as any, {
+    context: 'launch',
+    options: {},
+  });
+
+  expect(afterLaunchCalled).toBe(true);
+});
+
+test('_bindBrowserEvents calls afterConnect for connect context', async () => {
+  const pluginName = 'test-plugin';
+  let afterConnectCalled = false;
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override async afterConnect() {
+      afterConnectCalled = true;
+    }
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+  instance._registerChildClassMembers(prototype);
+
+  const mockBrowser = { on: vi.fn() };
+
+  await instance._bindBrowserEvents(mockBrowser as any, {
+    context: 'connect',
+    options: {},
+  });
+
+  expect(afterConnectCalled).toBe(true);
+});
+
+test('_onTargetCreated calls onPageCreated for page targets', async () => {
+  const pluginName = 'test-plugin';
+  let onPageCreatedCalled = false;
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override async onPageCreated() {
+      onPageCreatedCalled = true;
+    }
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+  instance._registerChildClassMembers(prototype);
+
+  const mockPage = { isClosed: () => false };
+  const mockTarget = {
+    type: () => 'page',
+    page: vi.fn().mockResolvedValue(mockPage),
+  };
+
+  await instance._onTargetCreated(mockTarget as any);
+
+  expect(onPageCreatedCalled).toBe(true);
+});
+
+test('_onTargetCreated handles non-page targets', async () => {
+  const pluginName = 'test-plugin';
+  let onTargetCreatedCalled = false;
+
+  class Plugin extends PuppeteerExtraPlugin {
+    constructor(opts = {}) {
+      super(opts);
+    }
+    override get name() {
+      return pluginName;
+    }
+    override async onTargetCreated() {
+      onTargetCreatedCalled = true;
+    }
+  }
+  const instance = new Plugin();
+  const prototype = Object.getPrototypeOf(instance);
+  instance._registerChildClassMembers(prototype);
+
+  const mockTarget = {
+    type: () => 'other',
+  };
+
+  await instance._onTargetCreated(mockTarget as any);
+
+  expect(onTargetCreatedCalled).toBe(true);
+});
