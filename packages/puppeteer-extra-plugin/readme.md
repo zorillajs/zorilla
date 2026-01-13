@@ -494,3 +494,7 @@ in order to use this method. Will be mapped to `puppeteer.getPluginData`.
 - **See: [requirements]**
 
 ---
+
+## License
+
+[MIT](./LICENSE)

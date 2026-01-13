@@ -333,9 +333,9 @@ test('plugin works', async () => {
 ### 6. Plugin Examples
 
 Check out these plugins for reference:
-- **Simple:** [`puppeteer-extra-plugin-anonymize-ua`](./packages/puppeteer-extra-plugin-anonymize-ua) - Modify user agent
-- **Moderate:** [`puppeteer-extra-plugin-block-resources`](./packages/puppeteer-extra-plugin-block-resources) - Request interception
-- **Complex:** [`puppeteer-extra-plugin-stealth`](./packages/puppeteer-extra-plugin-stealth) - Multiple evasions with sub-plugins
+- **Simple:** [`puppeteer-extra-plugin-anonymize-ua`](./packages/puppeteer-extra-plugin-anonymize-ua/README.md) - Modify user agent
+- **Moderate:** [`puppeteer-extra-plugin-block-resources`](./packages/puppeteer-extra-plugin-block-resources/README.md) - Request interception
+- **Complex:** [`puppeteer-extra-plugin-stealth`](./packages/puppeteer-extra-plugin-stealth/README.md) - Multiple evasions with sub-plugins
 
 ---
 

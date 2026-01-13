@@ -164,8 +164,8 @@ class MyPlugin extends PuppeteerExtraPlugin {
 
 For a comprehensive list of available Chrome preferences, see:
 
-- [Chrome Preference Names (Chromium Source)](https://chromium.googlesource.com/chromium/src/+/master/chrome/common/pref_names.cc)
-- [Default Preference Values](https://chromium.googlesource.com/chromium/src/+/master/chrome/browser/prefs/browser_prefs.cc)
+- [Chrome Preference Names (Chromium Source)](https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.cc)
+- [Default Preference Values](https://source.chromium.org/chromium/chromium/src/+/main:chrome/browser/prefs/browser_prefs.cc)
 
 Common preference categories:
 

@@ -194,9 +194,9 @@ The plugin handles cleanup intelligently:
 
 ## Further Reading
 
-- [Chromium User Data Directory Documentation](https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md)
-- [Chrome Preferences Reference](https://chromium.googlesource.com/chromium/src/+/master/chrome/common/pref_names.cc)
+- [Chromium User Data Directory Documentation](https://source.chromium.org/chromium/chromium/src/+/main:docs/user_data_dir.md)
+- [Chrome Preferences Reference](https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.cc)
 
 ## License
 
-MIT
+[MIT](./LICENSE)

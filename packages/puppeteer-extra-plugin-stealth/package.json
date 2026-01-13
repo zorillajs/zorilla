@@ -20,7 +20,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "tsc && cp -r src/evasions dist/ && find dist/evasions -name '*.js' -exec sed -i '' \"s|'puppeteer-extra-plugin'|'@zorilla/puppeteer-extra-plugin'|g\" {} \\;",
+    "build": "tsc && node scripts/fix-imports.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint --ext .js,.ts ."

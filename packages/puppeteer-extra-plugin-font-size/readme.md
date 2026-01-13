@@ -38,3 +38,7 @@ const browser = await puppeteer.launch()
 ```
 
 * * *
+
+## License
+
+[MIT](./LICENSE)

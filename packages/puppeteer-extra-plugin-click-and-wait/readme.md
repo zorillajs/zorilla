@@ -45,3 +45,7 @@ await Promise.all([
 ```
 
 * * *
+
+## License
+
+[MIT](./LICENSE)

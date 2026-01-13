@@ -147,7 +147,7 @@ const privateValue = (instance as any)._userPrefsFromPlugins;
 
 ## Common Chrome Preferences
 
-Reference: https://chromium.googlesource.com/chromium/src/+/master/chrome/common/pref_names.cc
+Reference: https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.cc
 
 **Font Settings**:
 - `webkit.webprefs.default_font_size`

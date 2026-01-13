@@ -113,3 +113,7 @@ to load pages. Blocking ads and trackers allows pages to load much faster,
 because less requests are made and less JavaScript need to run. Also, in cases
 where you want to take screenshots of pages, it's nice to have an option to
 remove the ads before.
+
+## License
+
+[MIT](./LICENSE)

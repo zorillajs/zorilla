@@ -52,3 +52,7 @@ puppeteer.use(flashPlugin())
 ```
 
 ---
+
+## License
+
+[MIT](./LICENSE)
