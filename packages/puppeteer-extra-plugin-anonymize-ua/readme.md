@@ -1,6 +1,6 @@
 # @zorilla/puppeteer-extra-plugin-anonymize-ua
 
-> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla) that anonymizes the user agent string.
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla) that anonymizes the user agent string.
 
 [![npm version](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-anonymize-ua.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-anonymize-ua)
 
@@ -116,4 +116,4 @@ DEBUG=puppeteer-extra-plugin:anonymize-ua node your-script.js
 
 ## License
 
-MIT
+[MIT](./LICENSE)

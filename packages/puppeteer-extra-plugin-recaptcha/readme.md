@@ -10,47 +10,11 @@
 npm install @zorilla/puppeteer-extra-plugin-recaptcha
 ```
 
-If this is your first [puppeteer-extra](https://github.com/zorillajs/zorilla) plugin here's everything you need:
+If this is your first [`puppeteer-extra`](https://github.com/zorillajs/zorilla) plugin here's everything you need:
 
 ```bash
 npm install puppeteer puppeteer-extra puppeteer-extra-plugin-recaptcha
 ```
-
-<details>
- <summary><strong>Changelog</strong></summary>
-
-##### Latest
-
-> 🎁 **Note:** Until we've automated changelog updates in markdown files please follow the `#announcements` channel in our [discord server](https://extra.community/) for the latest updates and changelog info.
-
-_Older changelog:_
-
-##### `3.1.9`
-
-- Support reCAPTCHAs not in forms ([#57](https://github.com/zorillajs/zorilla/issues/57))
-- Make script detection more fuzzy ([#48](https://github.com/zorillajs/zorilla/issues/48))
-
-##### `3.1.6`
-
-- We'll now add our custom methods to any existing pages and frames in the browser instance.
-- Fixed reference import path for our ambient declarations.
-
-##### `3.1.5`
-
-- Solving reCAPTCHAs in frames is now supported as well, if need be:
-
-```js
-for (const frame of page.mainFrame().childFrames()) {
-  await frame.solveRecaptchas()
-}
-```
-
-##### `3.1.4`
-
-- Improved TypeScript experience: I found a way to make your TypeScript compiler automatically aware of the additions to the `Page` and `Frame` object (e.g. `page.solveRecaptchas()`).
-- We now print a warning if the provider throws an error (e.g. invalid api key)
-
-</details>
 
 ## Usage
 
@@ -314,4 +278,4 @@ await page.solveRecaptchas()
 
 ## License
 
-Copyright © 2018 - 2023, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](https://github.com/berstend). Released under the MIT License.
+[MIT](./LICENSE)

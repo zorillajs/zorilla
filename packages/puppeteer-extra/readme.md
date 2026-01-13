@@ -19,14 +19,14 @@ npm i puppeteer@2.0.0 puppeteer-extra
 // puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality.
 // Any number of plugins can be added through `puppeteer.use()`
-const puppeteer = require('@zorilla/puppeteer-extra')
+import puppeteer from '@zorilla/puppeteer-extra'
 
 // Add stealth plugin and use defaults (all tricks to hide puppeteer usage)
-const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 puppeteer.use(StealthPlugin())
 
 // Add adblocker plugin to block all ads and trackers (saves bandwidth)
-const AdblockerPlugin = require('@zorilla/puppeteer-extra-plugin-adblocker')
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker'
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
 
 // That's it, the rest is puppeteer usage as normal 😊
@@ -105,10 +105,9 @@ puppeteer
  <summary><strong>Multiple puppeteers with different plugins</strong></summary><br/>
 
 ```js
-const vanillaPuppeteer = require('puppeteer')
-
-const { addExtra } = require('@zorilla/puppeteer-extra')
-const AnonymizeUA = require('@zorilla/puppeteer-extra-plugin-anonymize-ua')
+import vanillaPuppeteer from 'puppeteer'
+import { addExtra } from '@zorilla/puppeteer-extra'
+import AnonymizeUA from '@zorilla/puppeteer-extra-plugin-anonymize-ua'
 
 async function main() {
   const pptr1 = addExtra(vanillaPuppeteer)
@@ -151,12 +150,11 @@ async function checkUserAgent(pptr) {
 > [puppeteer-cluster](https://github.com/thomasdondorf/puppeteer-cluster) allows you to create a cluster of puppeteer workers and plays well together with `puppeteer-extra`.
 
 ```js
-const { Cluster } = require('puppeteer-cluster')
-const vanillaPuppeteer = require('puppeteer')
-
-const { addExtra } = require('@zorilla/puppeteer-extra')
-const Stealth = require('@zorilla/puppeteer-extra-plugin-stealth')
-const Recaptcha = require('@zorilla/puppeteer-extra-plugin-recaptcha')
+import { Cluster } from 'puppeteer-cluster'
+import vanillaPuppeteer from 'puppeteer'
+import { addExtra } from '@zorilla/puppeteer-extra'
+import Stealth from '@zorilla/puppeteer-extra-plugin-stealth'
+import Recaptcha from '@zorilla/puppeteer-extra-plugin-recaptcha'
 
 async function main() {
   // Create a custom puppeteer-extra instance using `addExtra`,
@@ -217,8 +215,9 @@ import Recaptcha from '@zorilla/puppeteer-extra-plugin-recaptcha'
 > `--disable-notifications` flag to pass all the tests.
 
 ```js
-const chromium = require('chrome-aws-lambda')
-const { addExtra } = require('@zorilla/puppeteer-extra')
+import chromium from 'chrome-aws-lambda'
+import { addExtra } from '@zorilla/puppeteer-extra'
+
 const puppeteerExtra = addExtra(chromium.puppeteer)
 
 const launch = async () => {
@@ -248,19 +247,22 @@ launch() // Launch Browser
 > [Kikobeats/browserless](https://github.com/Kikobeats/browserless) is a puppeteer-like Node.js library for interacting with Headless production scenarios.
 
 ```js
-const puppeteer = require('@zorilla/puppeteer-extra')
-const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
+import puppeteer from '@zorilla/puppeteer-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+import browserless from 'browserless'
+import { createWriteStream } from 'fs'
+
 puppeteer.use(StealthPlugin())
 
-const browserless = require('browserless')({ puppeteer })
+const browser = browserless({ puppeteer })
 
 const saveBufferToFile = (buffer, fileName) => {
-  const wstream = require('fs').createWriteStream(fileName)
+  const wstream = createWriteStream(fileName)
   wstream.write(buffer)
   wstream.end()
 }
 
-browserless
+browser
   .screenshot('https://bot.sannysoft.com', { device: 'iPhone 6' })
   .then(buffer => {
     const fileName = 'screenshot.png'
@@ -371,24 +373,6 @@ A few plugins won't work in headless mode (it's noted if that's the case) due to
 
 </details>
 
-## Changelog
-
-<details>
- <summary><code>2.1.6 ➠ 3.1.1</code></summary>
-
-### `2.1.6` ➠ `3.1.1`
-
-Big refactor, the core is now **written in TypeScript** 🎉
-That means out of the box type safety for fellow TS users and nice auto-completion in VSCode for JS users. Also:
-
-- A new [`addExtra`](#addextrapuppeteer) export, to **patch any puppeteer compatible library with plugin functionality** (`chrome-aws-lambda`, etc). This also allows for multiple puppeteer instances with different plugins.
-
-The API is backwards compatible, I bumped the major version just in case I missed something. Please report any issues you might find with the new release. :)
-
-</details>
-
----
-
 ## API
 
 #### Table of Contents
@@ -417,11 +401,13 @@ to extend puppeteer with additional functionality.
 Example:
 
 ```javascript
-const puppeteer = require('@zorilla/puppeteer-extra')
-puppeteer.use(require('@zorilla/puppeteer-extra-plugin-anonymize-ua')())
-puppeteer.use(
-  require('@zorilla/puppeteer-extra-plugin-font-size')({ defaultFontSize: 18 })
-)
+import puppeteer from '@zorilla/puppeteer-extra'
+import AnonymizeUA from '@zorilla/puppeteer-extra-plugin-anonymize-ua'
+import FontSize from '@zorilla/puppeteer-extra-plugin-font-size'
+
+puppeteer.use(AnonymizeUA())
+puppeteer.use(FontSize({ defaultFontSize: 18 }))
+
 ;(async () => {
   const browser = await puppeteer.launch({ headless: false })
   const page = await browser.newPage()
@@ -554,10 +540,6 @@ from the installed dependencies.
 Example:
 
 ```javascript
-// javascript import
-const puppeteer = require('@zorilla/puppeteer-extra')
-
-// typescript/es6 module import
 import puppeteer from '@zorilla/puppeteer-extra'
 
 // Add plugins
@@ -579,11 +561,6 @@ This is useful in case you need multiple puppeteer instances with different plug
 Example:
 
 ```javascript
-// js import
-const puppeteerVanilla = require('puppeteer')
-const { addExtra } = require('@zorilla/puppeteer-extra')
-
-// ts/es6 import
 import puppeteerVanilla from 'puppeteer'
 import { addExtra } from '@zorilla/puppeteer-extra'
 
@@ -596,7 +573,7 @@ puppeteer.use(...)
 
 ## License
 
-Copyright © 2018 - 2023, [berstend̡̲̫̹̠̖͚͓̔̄̓̐̄͛̀͘](mailto:github@berstend.com?subject=[GitHub]%20PuppeteerExtra). Released under the MIT License.
+[MIT](./LICENSE)
 
 <!-- Markdown footnotes (for links) -->
 

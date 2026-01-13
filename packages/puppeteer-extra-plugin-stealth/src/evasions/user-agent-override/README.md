@@ -32,16 +32,16 @@ as it will reset the language and platform values you set with this plugin.
 Example:
 
 ```javascript
-const puppeteer = require('@zorilla/puppeteer-extra')
+import puppeteer from '@zorilla/puppeteer-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+import UserAgentOverride from '@zorilla/puppeteer-extra-plugin-stealth/evasions/user-agent-override'
 
-const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
 const stealth = StealthPlugin()
 // Remove this specific stealth plugin from the default set
 stealth.enabledEvasions.delete('user-agent-override')
 puppeteer.use(stealth)
 
 // Stealth plugins are just regular `puppeteer-extra` plugins and can be added as such
-const UserAgentOverride = require('@zorilla/puppeteer-extra-plugin-stealth/evasions/user-agent-override')
 // Define custom UA and locale
 const ua = UserAgentOverride({
   userAgent: 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)',

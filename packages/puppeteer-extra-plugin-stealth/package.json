@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-stealth",
-  "version": "2.11.2",
+  "version": "1.0.0",
   "description": "Stealth mode: Applies various techniques to make detection of headless puppeteer harder.",
   "type": "module",
   "main": "./dist/index.js",

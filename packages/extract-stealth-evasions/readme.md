@@ -162,7 +162,7 @@ await writeOutputFile('custom-stealth.js', output);
 
 ### Prerequisites
 
-- Node.js >= 20
+- Node.js 20+
 - pnpm >= 8
 
 ### Setup
@@ -221,10 +221,10 @@ The generated file contains standalone JavaScript that can be executed in any br
 
 ## License
 
-MIT
+[MIT](./LICENSE)
 
 ## Related
 
-- [@zorilla/puppeteer-extra](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra)
-- [@zorilla/puppeteer-extra-plugin-stealth](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth)
-- [@zorilla/playwright-extra](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra)
+- [`@zorilla/puppeteer-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra)
+- [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth)
+- [`@zorilla/playwright-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra)

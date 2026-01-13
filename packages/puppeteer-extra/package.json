@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra",
-  "version": "3.3.6",
+  "version": "1.0.0",
   "type": "module",
   "description": "Teach puppeteer new tricks through plugins.",
   "repository": "zorillajs/zorilla",
@@ -26,8 +26,7 @@
     "clean": "rm -rf dist",
     "build": "tsc",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test-ci": "vitest run"
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
     "puppeteer",

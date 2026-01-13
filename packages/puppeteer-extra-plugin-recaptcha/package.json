@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-recaptcha",
-  "version": "3.6.8",
+  "version": "1.0.0",
   "description": "A puppeteer-extra plugin to solve reCAPTCHAs and hCaptchas automatically.",
   "type": "module",
   "main": "dist/index.js",
@@ -26,8 +26,7 @@
     "tscheck": "tsc --pretty --noEmit",
     "build": "tsc",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test-ci": "vitest run"
+    "test:coverage": "vitest run --coverage"
   },
   "engines": {
     "node": ">=20"

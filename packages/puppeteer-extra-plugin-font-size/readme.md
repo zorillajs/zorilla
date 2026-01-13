@@ -1,6 +1,6 @@
 # puppeteer-extra-plugin-font-size
 
-> A plugin for [puppeteer-extra](https://github.com/zorillajs/zorilla).
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla).
 
 ### Install
 

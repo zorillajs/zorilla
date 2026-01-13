@@ -19,16 +19,16 @@ This plugin makes it possible to change this property.
 Example:
 
 ```javascript
-const puppeteer = require('@zorilla/puppeteer-extra')
+import puppeteer from '@zorilla/puppeteer-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+import NavigatorVendorPlugin from '@zorilla/puppeteer-extra-plugin-stealth/evasions/navigator.vendor'
 
-const StealthPlugin = require('@zorilla/puppeteer-extra-plugin-stealth')
 const stealth = StealthPlugin()
 // Remove this specific stealth plugin from the default set
 stealth.enabledEvasions.delete('navigator.vendor')
 puppeteer.use(stealth)
 
 // Stealth plugins are just regular `puppeteer-extra` plugins and can be added as such
-const NavigatorVendorPlugin = require('@zorilla/puppeteer-extra-plugin-stealth/evasions/navigator.vendor')
 const nvp = NavigatorVendorPlugin({ vendor: 'Apple Computer, Inc.' }) // Custom vendor
 puppeteer.use(nvp)
 ```

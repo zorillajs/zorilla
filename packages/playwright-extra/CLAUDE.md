@@ -10,7 +10,7 @@ This is **playwright-extra**, a plugin framework for Playwright that enables ext
 - ESM-only (no CommonJS support)
 - TypeScript with strict mode
 - Compatible with Playwright 1.x
-- Requires Node.js 18+
+- Requires Node.js 20+
 - Works with chromium, firefox, and webkit browsers
 
 ## Development Commands

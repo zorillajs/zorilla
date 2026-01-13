@@ -29,8 +29,7 @@
     "tscheck": "tsc --pretty --noEmit",
     "build": "tsc",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test-ci": "vitest run"
+    "test:coverage": "vitest run --coverage"
   },
   "engines": {
     "node": ">=20"

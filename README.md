@@ -1,133 +1,121 @@
-# zorilla [![Downloads](https://img.shields.io/endpoint?style=social&url=https://runkit.io/fezvrasta/combined-npm-downloads/1.0.0?packages=@zorilla/puppeteer-extra,@zorilla/puppeteer-extra-plugin,@zorilla/puppeteer-extra-plugin-stealth,@zorilla/puppeteer-extra-plugin-recaptcha,@zorilla/puppeteer-extra-plugin-adblocker)](https://github.com/zorillajs/zorilla/)
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/zorillajs/zorilla/main/docs/zorilla-wide.png" alt="Zorilla" />
+
+[![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra?label=npm%20%7C%20puppeteer-extra)](https://www.npmjs.com/package/@zorilla/puppeteer-extra)
+[![npm](https://img.shields.io/npm/v/@zorilla/playwright-extra?label=npm%20%7C%20playwright-extra)](https://www.npmjs.com/package/@zorilla/playwright-extra)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js CI](https://github.com/zorillajs/zorilla/actions/workflows/test.yml/badge.svg)](https://github.com/zorillajs/zorilla/actions/workflows/test.yml)
+[![Downloads](https://img.shields.io/endpoint?style=flat&url=https://runkit.io/fezvrasta/combined-npm-downloads/1.0.0?packages=@zorilla/puppeteer-extra,@zorilla/puppeteer-extra-plugin,@zorilla/puppeteer-extra-plugin-stealth,@zorilla/puppeteer-extra-plugin-recaptcha,@zorilla/puppeteer-extra-plugin-adblocker)](https://github.com/zorillajs/zorilla/)
+
+</div>
+
+## Zorilla
+
+**Zorilla** is a modular plugin framework that extends Puppeteer and Playwright with additional functionality through a clean plugin architecture. Build powerful browser automation with composable plugins for stealth mode, captcha solving, ad blocking, and much more.
+
+> [!NOTE]
+> **About this fork:** This project is a maintained hard fork of the excellent [puppeteer-extra](https://github.com/berstend/puppeteer-extra) originally created by [Tobias Buschor (@berstend)](https://github.com/berstend). The original project pioneered the modular plugin architecture for Puppeteer. This fork exists to continue maintenance, provide bug fixes, and keep dependencies up to date with modern Puppeteer and Playwright versions. All credit for the original architecture and design goes to the original puppeteer-extra team.
 
 ---
 
-## 🎉 Hard Fork of puppeteer-extra
+## 📦 Available Packages
 
-**This project is a hard fork of the excellent [puppeteer-extra](https://github.com/berstend/puppeteer-extra) project originally created and maintained by [Tobias Buschor (@berstend)](https://github.com/berstend).**
+### Core Frameworks
 
-The original puppeteer-extra project was an incredible contribution to the Puppeteer ecosystem, pioneering the modular plugin architecture that made browser automation more powerful and extensible. We are deeply grateful to Tobias and all the original contributors for their outstanding work.
+| Package | Description | Version |
+|---------|-------------|---------|
+| [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra) | Modular plugin framework for Puppeteer | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra) |
+| [`@zorilla/playwright-extra`](./packages/playwright-extra) | Modular plugin framework for Playwright | [![npm](https://img.shields.io/npm/v/@zorilla/playwright-extra.svg)](https://www.npmjs.com/package/@zorilla/playwright-extra) |
+| [`@zorilla/puppeteer-extra-plugin`](./packages/puppeteer-extra-plugin) | Base class for creating puppeteer-extra plugins | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin) |
 
-### Why this fork exists
+### Plugins
 
-The original project is no longer actively maintained. This fork exists to:
-- Continue maintenance and provide bug fixes
-- Keep dependencies up to date with modern Puppeteer and Playwright versions
-- Support the community with ongoing development
-- Maintain backward compatibility where possible
+| Package | Description | Version |
+|---------|-------------|---------|
+| [`@zorilla/puppeteer-extra-plugin-stealth`](./packages/puppeteer-extra-plugin-stealth) | Apply various techniques to make headless detection harder | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-stealth) |
+| [`@zorilla/puppeteer-extra-plugin-recaptcha`](./packages/puppeteer-extra-plugin-recaptcha) | Automatically solve reCAPTCHAs and hCaptchas | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-recaptcha) |
+| [`@zorilla/puppeteer-extra-plugin-adblocker`](./packages/puppeteer-extra-plugin-adblocker) | Block ads and trackers using Cliqz adblocker | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-adblocker) |
+| [`@zorilla/puppeteer-extra-plugin-block-resources`](./packages/puppeteer-extra-plugin-block-resources) | Block resources like images, media, fonts, etc. | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-block-resources.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-block-resources) |
+| [`@zorilla/puppeteer-extra-plugin-anonymize-ua`](./packages/puppeteer-extra-plugin-anonymize-ua) | Anonymize and customize the User-Agent header | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-anonymize-ua.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-anonymize-ua) |
+| [`@zorilla/puppeteer-extra-plugin-user-preferences`](./packages/puppeteer-extra-plugin-user-preferences) | Launch with arbitrary Chrome user preferences | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-user-preferences.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-user-preferences) |
+| [`@zorilla/puppeteer-extra-plugin-user-data-dir`](./packages/puppeteer-extra-plugin-user-data-dir) | Manage custom user data directories | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-user-data-dir.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-user-data-dir) |
+| [`@zorilla/puppeteer-extra-plugin-repl`](./packages/puppeteer-extra-plugin-repl) | Start an interactive REPL for debugging | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-repl.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-repl) |
+| [`@zorilla/puppeteer-extra-plugin-devtools`](./packages/puppeteer-extra-plugin-devtools) | Remote debugging with secure DevTools tunnels | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-devtools.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-devtools) |
+| [`@zorilla/puppeteer-extra-plugin-flash`](./packages/puppeteer-extra-plugin-flash) | Allow Flash on all sites without user interaction | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-flash.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-flash) |
+| [`@zorilla/puppeteer-extra-plugin-font-size`](./packages/puppeteer-extra-plugin-font-size) | Adjust font sizes in the browser | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-font-size.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-font-size) |
+| [`@zorilla/puppeteer-extra-plugin-click-and-wait`](./packages/puppeteer-extra-plugin-click-and-wait) | Wait for navigation to complete after clicking | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-click-and-wait.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-click-and-wait) |
+| [`@zorilla/proxy-router`](./packages/plugin-proxy-router) | Route proxies dynamically in Puppeteer & Playwright | [![npm](https://img.shields.io/npm/v/@zorilla/proxy-router.svg)](https://www.npmjs.com/package/@zorilla/proxy-router) |
 
-All credit for the original architecture, design, and implementation goes to the original puppeteer-extra team. We're simply ensuring this valuable tool remains available and functional for the community.
+### Utilities
 
-📚 **Original project:** [github.com/berstend/puppeteer-extra](https://github.com/berstend/puppeteer-extra)
+| Package | Description | Version |
+|---------|-------------|---------|
+| [`@zorilla/extract-stealth-evasions`](./packages/extract-stealth-evasions) | Extract stealth evasions as standalone JavaScript | [![npm](https://img.shields.io/npm/v/@zorilla/extract-stealth-evasions.svg)](https://www.npmjs.com/package/@zorilla/extract-stealth-evasions) |
 
 ---
 
-This is the monorepo for [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra), a modular plugin framework for [`puppeteer`](https://github.com/puppeteer/puppeteer). :-)
+## 🚀 Quick Start
 
-🌟 **For more information, please head over to the [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra) package.**
-
-We also support Playwright! Check out [`@zorilla/playwright-extra`](./packages/playwright-extra) for Playwright integration.
-
-## Monorepo
-
-<details>
- <summary><strong>Contributing</strong></summary>
-
-### Contributing
-
-PRs and new plugins are welcome! The plugin API for `puppeteer-extra` is clean and fun to use. Have a look at the [`@zorilla/puppeteer-extra-plugin`](./packages/puppeteer-extra-plugin) base class to get started, and check out the [existing plugins](./packages/) for reference.
-
-We use a [monorepo](https://github.com/zorillajs/zorilla) powered by [pnpm workspaces](https://pnpm.io/workspaces), [Changesets](https://github.com/changesets/changesets) for version management, [Vitest](https://vitest.dev/) for testing, and [Biome](https://biomejs.dev/) for linting and formatting.
-
-</details>
-
-<details>
- <summary><strong>Development</strong></summary>
-
-### Development
-
-This monorepo is managed with [pnpm workspaces](https://pnpm.io/workspaces) and [Changesets](https://github.com/changesets/changesets).
-
-#### Initial setup
+### With Puppeteer
 
 ```bash
-# Install dependencies
-pnpm install
-
-# Build all TypeScript sources
-pnpm build
+npm install puppeteer @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-stealth
 ```
 
-#### Development workflow
+```javascript
+import puppeteer from '@zorilla/puppeteer-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+
+puppeteer.use(StealthPlugin())
+
+const browser = await puppeteer.launch({ headless: true })
+const page = await browser.newPage()
+await page.goto('https://example.com')
+await browser.close()
+```
+
+### With Playwright
 
 ```bash
-# Run all tests across all packages
-pnpm test
-
-# Run tests with coverage
-pnpm -r run test:coverage
-
-# Run tests in a specific package
-cd packages/puppeteer-extra-plugin-stealth
-pnpm test
-
-# Run tests with coverage in a specific package
-cd packages/puppeteer-extra
-pnpm test:coverage
-
-# Lint and format code
-pnpm check       # Check for issues
-pnpm fix         # Fix issues automatically
-
-# Check links in markdown files
-pnpm links       # Check all links in markdown files
-
-# Clean install (if needed)
-rm -rf node_modules pnpm-lock.yaml
-pnpm store prune
-pnpm install
+npm install playwright @zorilla/playwright-extra @zorilla/puppeteer-extra-plugin-stealth
 ```
 
-#### Testing
+```javascript
+import { chromium } from '@zorilla/playwright-extra'
+import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
-All packages use [Vitest](https://vitest.dev/) for unit testing with coverage support:
+chromium.use(StealthPlugin())
 
-```bash
-# Run tests in watch mode
-pnpm test
-
-# Run tests once with coverage
-pnpm test:coverage
+const browser = await chromium.launch()
+const page = await browser.newPage()
+await page.goto('https://example.com')
+await browser.close()
 ```
 
-For `@zorilla/playwright-extra`, which uses `@playwright/test`, coverage is collected via c8.
+---
 
-#### Publishing
+## 🤝 Contributing
 
-We use [Changesets](https://github.com/changesets/changesets) for version management and publishing:
+We welcome contributions! Whether you're fixing bugs, adding features, or creating new plugins, we'd love your help.
 
-```bash
-# Make sure you're signed into npm
-npm whoami
+**[Read the Contributing Guide →](./CONTRIBUTING.md)**
 
-# Ensure everything is built and tested
-pnpm install
-pnpm build
-pnpm test
+The guide covers:
+- Setting up your development environment
+- Creating and testing plugins
+- Using changesets for version management
+- Code standards and commit conventions
+- The automated publishing process
 
-# Create a changeset for your changes
-pnpm changeset
+---
 
-# Version packages (updates package.json versions and changelogs)
-pnpm version
+## 📄 License
 
-# Publish to npm
-pnpm release
-```
+MIT
 
-</details>
+---
 
-<br>
-<p align="center">
-  <img src="https://i.imgur.com/EuqiF5F.png"  height="240"  />
-</p>
+<div align="center">
+  <img src="https://i.imgur.com/EuqiF5F.png" height="240" />
+</div>
