@@ -137,33 +137,39 @@ function getVideoCardInfo(context = 'webgl') {
   };
 }
 
-test.skipIf(process.platform === 'win32')('stealth: handles WebGLRenderingContext', async () => {
-  const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: getDefaultLaunchArgs(),
-  });
-  const page = await browser.newPage();
+test.skipIf(process.platform === 'win32')(
+  'stealth: handles WebGLRenderingContext',
+  async () => {
+    const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
+    const page = await browser.newPage();
 
-  const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl');
-  expect(videoCardInfo.error).toBe(undefined);
-  expect(videoCardInfo.vendor).toBe('Intel Inc.');
-  expect(videoCardInfo.renderer).toBe('Intel Iris OpenGL Engine');
-});
+    const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl');
+    expect(videoCardInfo.error).toBe(undefined);
+    expect(videoCardInfo.vendor).toBe('Intel Inc.');
+    expect(videoCardInfo.renderer).toBe('Intel Iris OpenGL Engine');
+  }
+);
 
-test.skipIf(process.platform === 'win32')('stealth: handles WebGL2RenderingContext', async () => {
-  const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: getDefaultLaunchArgs(),
-  });
-  const page = await browser.newPage();
+test.skipIf(process.platform === 'win32')(
+  'stealth: handles WebGL2RenderingContext',
+  async () => {
+    const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
+    const page = await browser.newPage();
 
-  const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl2');
-  expect(videoCardInfo.error).toBe(undefined);
-  expect(videoCardInfo.vendor).toBe('Intel Inc.');
-  expect(videoCardInfo.renderer).toBe('Intel Iris OpenGL Engine');
-});
+    const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl2');
+    expect(videoCardInfo.error).toBe(undefined);
+    expect(videoCardInfo.vendor).toBe('Intel Inc.');
+    expect(videoCardInfo.renderer).toBe('Intel Iris OpenGL Engine');
+  }
+);
 
 test('vanilla: normal toString stuff', async () => {
   const browser = await vanillaPuppeteer.launch({
@@ -202,21 +208,24 @@ test('stealth: will not leak toString stuff', async () => {
   expect(test2).toBe('function getParameter() { [native code] }');
 });
 
-test.skipIf(process.platform === 'win32')('stealth: sets user opts correctly', async () => {
-  const puppeteer = addExtra(vanillaPuppeteer).use(
-    Plugin({ vendor: 'alice', renderer: 'bob' })
-  );
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: getDefaultLaunchArgs(),
-  });
-  const page = await browser.newPage();
+test.skipIf(process.platform === 'win32')(
+  'stealth: sets user opts correctly',
+  async () => {
+    const puppeteer = addExtra(vanillaPuppeteer).use(
+      Plugin({ vendor: 'alice', renderer: 'bob' })
+    );
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: getDefaultLaunchArgs(),
+    });
+    const page = await browser.newPage();
 
-  const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl');
-  expect(videoCardInfo.error).toBe(undefined);
-  expect(videoCardInfo.vendor).toBe('alice');
-  expect(videoCardInfo.renderer).toBe('bob');
-});
+    const videoCardInfo = await page.evaluate(getVideoCardInfo, 'webgl');
+    expect(videoCardInfo.error).toBe(undefined);
+    expect(videoCardInfo.vendor).toBe('alice');
+    expect(videoCardInfo.renderer).toBe('bob');
+  }
+);
 
 test('stealth: does not affect protoype', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(
