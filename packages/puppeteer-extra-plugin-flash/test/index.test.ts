@@ -49,7 +49,9 @@ describe('Plugin dependencies', () => {
   test('should depend on user-preferences plugin', () => {
     const instance = Plugin();
     const dependencies = instance.dependencies;
-    expect(dependencies.has('user-preferences')).toBe(true);
+    expect(
+      dependencies.has('@zorilla/puppeteer-extra-plugin-user-preferences')
+    ).toBe(true);
     expect(dependencies.size).toBe(1);
   });
 });

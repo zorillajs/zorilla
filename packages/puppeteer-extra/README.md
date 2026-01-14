@@ -1,4 +1,8 @@
-# puppeteer-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push)](https://github.com/zorillajs/zorilla/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) [![npm](https://img.shields.io/npm/dt/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) [![npm](https://img.shields.io/npm/l/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra)
+# puppeteer-extra 
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push)](https://github.com/zorillajs/zorilla/actions) 
+[![npm](https://img.shields.io/npm/v/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) 
+[![npm](https://img.shields.io/npm/dt/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) 
+[![npm](https://img.shields.io/npm/l/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra)
 
 > A light-weight wrapper around [`puppeteer`](https://github.com/GoogleChrome/puppeteer) and [friends](#more-examples) to enable cool [plugins](#plugins) through a clean interface.
 
@@ -62,37 +66,6 @@ DEBUG=puppeteer-extra,puppeteer-extra-plugin:* node myscript.js
 ```
 
 ### More examples
-
-<details>
- <summary><strong>TypeScript usage</strong></summary><br/>
-
-> `puppeteer-extra` and most plugins are written in TS,
-> so you get perfect type support out of the box. :)
-
-```ts
-import puppeteer from '@zorilla/puppeteer-extra'
-
-import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker'
-import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
-
-puppeteer.use(AdblockerPlugin()).use(StealthPlugin())
-
-puppeteer
-  .launch({ headless: false, defaultViewport: null })
-  .then(async browser => {
-    const page = await browser.newPage()
-    await page.goto('https://bot.sannysoft.com')
-    await page.waitForTimeout(5000)
-    await page.screenshot({ path: 'stealth.png', fullPage: true })
-    await browser.close()
-  })
-```
-
-> Please check this [wiki](https://github.com/zorillajs/zorilla/wiki/TypeScript-usage) entry in case you have TypeScript related import issues.
-
-![typings](https://i.imgur.com/bNtuTOt.png 'Typings')
-
-</details>
 
 <details>
  <summary><strong>Playwright usage</strong></summary><br/>

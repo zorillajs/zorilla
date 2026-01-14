@@ -6,10 +6,6 @@
 
 ```bash
 npm install @zorilla/puppeteer-extra-plugin-repl
-# or
-pnpm add @zorilla/puppeteer-extra-plugin-repl
-# or
-yarn add @zorilla/puppeteer-extra-plugin-repl
 ```
 
 ## Purpose

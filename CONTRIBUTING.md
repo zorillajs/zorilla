@@ -151,6 +151,29 @@ git commit -m "chore: add changeset"
 git push
 ```
 
+### What If I Forgot to Create a Changeset?
+
+If you merged a PR without a changeset, don't worry! You have options:
+
+**Option 1: Add it after the fact (Quick Fix)**
+```bash
+# On main branch, create a changeset for the already-merged changes
+git checkout main
+git pull
+pnpm changeset
+
+# Select the packages that were changed
+# Describe what was already merged
+git add .changeset/
+git commit -m "chore: add missing changeset for previous PR"
+git push
+```
+
+**Option 2: Skip the changeset (if not release-worthy)**
+If your changes don't need a release (docs, tests, tooling), you can add a `skip-changeset` label to your PR. The CI check will allow PRs with this label to merge without a changeset.
+
+**Note:** The automated CI check (added in `.github/workflows/changeset-check.yml`) will remind you to create a changeset or add the `skip-changeset` label before merging.
+
 ---
 
 ## Publishing Process

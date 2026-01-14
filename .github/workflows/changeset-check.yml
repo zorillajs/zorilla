@@ -1,0 +1,42 @@
+name: Changeset Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  check:
+    name: Check for changeset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check for changeset
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+
+            // Check if PR has 'skip-changeset' label
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            if (labels.includes('skip-changeset')) {
+              console.log('⏭️  PR has skip-changeset label, skipping check');
+              return;
+            }
+
+            // Check for changeset files
+            try {
+              const output = execSync('git diff --name-only origin/${{ github.base_ref }}...HEAD').toString();
+              const hasChangeset = output.split('\n').some(file => file.startsWith('.changeset/') && file.endsWith('.md') && !file.includes('README'));
+
+              if (!hasChangeset) {
+                core.setFailed('❌ No changeset found. Please run `pnpm changeset` or add the "skip-changeset" label if this PR doesn\'t need a release.');
+              } else {
+                console.log('✅ Changeset found!');
+              }
+            } catch (error) {
+              core.setFailed(`Error checking for changeset: ${error.message}`);
+            }
