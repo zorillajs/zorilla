@@ -392,12 +392,18 @@ export class PuppeteerExtra implements VanillaPuppeteer {
         continue;
       }
       // We follow a plugin naming convention, but let's rather enforce it <3
-      name = name.startsWith('puppeteer-extra-plugin')
-        ? name
-        : `puppeteer-extra-plugin-${name}`;
+      // Handle both scoped (@scope/puppeteer-extra-plugin-*) and unscoped (puppeteer-extra-plugin-*) packages
+      const hasPluginPrefix = name.includes('puppeteer-extra-plugin');
+      if (!hasPluginPrefix) {
+        name = `puppeteer-extra-plugin-${name}`;
+      }
       // In case a module sub resource is requested print out the main package name
       // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
-      const packageName = name.split('/')[0];
+      // For scoped packages: @zorilla/puppeteer-extra-plugin-foo/bar => @zorilla/puppeteer-extra-plugin-foo
+      const parts = name.split('/');
+      const packageName = name.startsWith('@')
+        ? `${parts[0]}/${parts[1]}`
+        : parts[0];
       let dep = null;
       try {
         // Try to require and instantiate the stated dependency

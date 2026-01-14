@@ -464,6 +464,27 @@ export abstract class PuppeteerExtraPlugin {
   }
 
   /**
+   * Extract the plugin name from a package name.
+   * Examples:
+   *   '@zorilla/puppeteer-extra-plugin-user-data-dir' -> 'user-data-dir'
+   *   'puppeteer-extra-plugin-user-data-dir' -> 'user-data-dir'
+   *   'user-data-dir' -> 'user-data-dir'
+   *   '@zorilla/puppeteer-extra-plugin-stealth/evasions/foo' -> 'stealth/evasions/foo'
+   *
+   * @param  {string} packageName
+   * @return {string} - plugin name
+   *
+   * @private
+   */
+  _normalizePluginName(packageName: string): string {
+    // Remove @scope/ prefix if present
+    let name = packageName.replace(/^@[^/]+\//, '');
+    // Remove puppeteer-extra-plugin- prefix if present
+    name = name.replace(/^puppeteer-extra-plugin-/, '');
+    return name;
+  }
+
+  /**
    * Will match plugin dependencies against all currently registered plugins.
    * Is being called by `puppeteer-extra` and used to require missing dependencies.
    *
@@ -475,7 +496,10 @@ export abstract class PuppeteerExtraPlugin {
   _getMissingDependencies(plugins: PuppeteerExtraPlugin[]) {
     const pluginNames = new Set(plugins.map(p => p.name));
     const missing = new Set(
-      Array.from(this.dependencies.values()).filter(x => !pluginNames.has(x))
+      Array.from(this.dependencies.values()).filter(dep => {
+        const normalizedDep = this._normalizePluginName(dep);
+        return !pluginNames.has(normalizedDep);
+      })
     );
     return missing;
   }
