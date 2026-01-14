@@ -37,6 +37,11 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1
