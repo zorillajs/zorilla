@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-flash",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allow flash on all sites without user interaction.",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Base class for puppeteer-extra plugins.",
   "main": "dist/index.js",

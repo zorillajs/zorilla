@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-user-data-dir",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom user data directory for puppeteer.",
   "type": "module",
   "main": "./dist/index.js",

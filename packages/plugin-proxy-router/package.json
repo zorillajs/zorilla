@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/proxy-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A plugin for playwright & puppeteer to route proxies dynamically.",
   "repository": "zorillajs/zorilla",
   "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/plugin-proxy-router",
