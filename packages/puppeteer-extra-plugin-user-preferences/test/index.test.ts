@@ -43,7 +43,9 @@ describe('Plugin', () => {
     const instance = Plugin();
     const dependencies = instance.dependencies;
 
-    expect(dependencies.has('user-data-dir')).toBe(true);
+    expect(
+      dependencies.has('@zorilla/puppeteer-extra-plugin-user-data-dir')
+    ).toBe(true);
     expect(dependencies.size).toBe(1);
   });
 });

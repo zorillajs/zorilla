@@ -68,7 +68,7 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 
   override get dependencies(): PluginDependencies {
-    return new Set(['user-data-dir']);
+    return new Set(['@zorilla/puppeteer-extra-plugin-user-data-dir']);
   }
 
   override get data(): PluginData[] {

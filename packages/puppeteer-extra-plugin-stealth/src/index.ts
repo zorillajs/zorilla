@@ -101,6 +101,7 @@ class StealthPlugin extends PuppeteerExtraPlugin {
       'navigator.languages',
       'navigator.permissions',
       'navigator.plugins',
+      'navigator.vendor',
       'navigator.webdriver',
       'sourceurl',
       'user-agent-override',

@@ -186,8 +186,8 @@ specific evasion plugins yourself, if you whish to do so (as they're standalone 
 
 ```js
 // bypass main module and import a specific stealth plugin directly:
-import ConsoleDebug from '@zorilla/puppeteer-extra-plugin-stealth/evasions/console.debug'
-puppeteer.use(ConsoleDebug())
+import WebGLVendor from '@zorilla/puppeteer-extra-plugin-stealth/evasions/webgl.vendor'
+puppeteer.use(WebGLVendor())
 ```
 
 #### Contributing
@@ -248,7 +248,7 @@ Example:
 import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 const pluginStealth = StealthPlugin()
-console.log(pluginStealth.availableEvasions) // => Set { 'user-agent', 'console.debug' }
+console.log(pluginStealth.availableEvasions) // => Set { 'chrome.app', 'chrome.runtime', 'navigator.webdriver', ... }
 puppeteer.use(pluginStealth)
 ```
 
@@ -269,7 +269,7 @@ Example:
 import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 const pluginStealth = StealthPlugin()
-pluginStealth.enabledEvasions.delete('console.debug')
+pluginStealth.enabledEvasions.delete('chrome.runtime')
 puppeteer.use(pluginStealth)
 ```
 

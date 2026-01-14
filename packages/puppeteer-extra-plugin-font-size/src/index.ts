@@ -37,7 +37,7 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 
   override get dependencies() {
-    return new Set(['user-preferences']);
+    return new Set(['@zorilla/puppeteer-extra-plugin-user-preferences']);
   }
 
   override get data() {
