@@ -12,16 +12,12 @@
 ## Installation
 
 ```bash
-pnpm add playwright playwright-extra
-# - or -
 npm install playwright playwright-extra
 ```
 
 After installing, make sure to install the Playwright browsers:
 
 ```bash
-pnpm exec playwright install
-# - or -
 npx playwright install
 ```
 
@@ -54,8 +50,6 @@ await browser.close()
 The above example uses the compatible [`stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth) plugin, which needs to be installed as well:
 
 ```bash
-pnpm add @zorilla/puppeteer-extra-plugin-stealth
-# - or -
 npm install @zorilla/puppeteer-extra-plugin-stealth
 ```
 

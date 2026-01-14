@@ -1,4 +1,4 @@
-# puppeteer-extra-plugin [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push)](https://github.com/zorillajs/zorilla/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin)
+# puppeteer-extra-plugin [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push)](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin)
 
 ## Installation
 
@@ -11,7 +11,7 @@ npm install puppeteer-extra-plugin
 
 #### Table of Contents
 
-- [puppeteer-extra-plugin ![GitHub Workflow Status](https://github.com/zorillajs/zorilla/actions) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin)](#puppeteer-extra-plugin---)
+- [puppeteer-extra-plugin ![GitHub Workflow Status](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin)](#puppeteer-extra-plugin---)
   - [Installation](#installation)
   - [Changelog](#changelog)
   - [API](#api)

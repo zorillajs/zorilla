@@ -33,8 +33,6 @@ This will create a `stealth.min.js` file in the current directory.
 
 ```bash
 npm install -g @zorilla/extract-stealth-evasions
-# or
-pnpm add -g @zorilla/extract-stealth-evasions
 ```
 
 Then run:
@@ -47,8 +45,6 @@ extract-stealth-evasions
 
 ```bash
 npm install @zorilla/extract-stealth-evasions
-# or
-pnpm add @zorilla/extract-stealth-evasions
 ```
 
 ## Usage

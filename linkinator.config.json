@@ -6,7 +6,8 @@
     "coverage",
     ".changeset",
     ".git",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "packages/.*/(?:$|\\?)"
   ],
   "markdown": true,
   "timeout": 10000,

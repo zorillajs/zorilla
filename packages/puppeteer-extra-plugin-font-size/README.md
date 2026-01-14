@@ -37,8 +37,5 @@ puppeteer.use(fontSizePlugin({defaultFontSize: 18}))
 const browser = await puppeteer.launch()
 ```
 
-* * *
-
 ## License
-
 [MIT](LICENSE)

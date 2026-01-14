@@ -1,4 +1,4 @@
-# puppeteer-extra-plugin-stealth [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![Discord](https://img.shields.io/discord/737009125862408274)](https://extra.community) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-stealth)
+# puppeteer-extra-plugin-stealth [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-stealth)
 
 > A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) and [`playwright-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra) to prevent detection.
 
@@ -38,32 +38,6 @@ puppeteer.launch({ headless: true }).then(async browser => {
   console.log(`All done, check the screenshot. ✨`)
 })
 ```
-
-<details>
- <summary><strong>TypeScript usage</strong></summary><br/>
-
-> `puppeteer-extra` and most plugins are written in TS,
-> so you get perfect type support out of the box. :)
-
-```ts
-import puppeteer from '@zorilla/puppeteer-extra'
-import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
-
-puppeteer
-  .use(StealthPlugin())
-  .launch({ headless: true })
-  .then(async browser => {
-    const page = await browser.newPage()
-    await page.goto('https://bot.sannysoft.com')
-    await page.waitForTimeout(5000)
-    await page.screenshot({ path: 'stealth.png', fullPage: true })
-    await browser.close()
-  })
-```
-
-> Please check this [wiki](https://github.com/zorillajs/zorilla/wiki/TypeScript-usage) entry in case you have TypeScript related import issues.
-
-</details><br>
 
 > Please check out the [puppeteer-extra package](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) to learn more about `puppeteer-extra` (Firefox usage, other Plugins, etc).
 

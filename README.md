@@ -5,9 +5,8 @@
 [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra?label=npm%20%7C%20puppeteer-extra)](https://www.npmjs.com/package/@zorilla/puppeteer-extra)
 [![npm](https://img.shields.io/npm/v/@zorilla/playwright-extra?label=npm%20%7C%20playwright-extra)](https://www.npmjs.com/package/@zorilla/playwright-extra)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Biome](https://img.shields.io/badge/linter-Biome-60A5FA?logo=biome&logoColor=white)](https://biomejs.dev/)
 [![Node.js CI](https://github.com/zorillajs/zorilla/actions/workflows/test.yml/badge.svg)](https://github.com/zorillajs/zorilla/actions/workflows/test.yml)
-[![Downloads](https://img.shields.io/endpoint?style=flat&url=https://runkit.io/fezvrasta/combined-npm-downloads/1.0.0?packages=@zorilla/puppeteer-extra,@zorilla/puppeteer-extra-plugin,@zorilla/puppeteer-extra-plugin-stealth,@zorilla/puppeteer-extra-plugin-recaptcha,@zorilla/puppeteer-extra-plugin-adblocker)](https://github.com/zorillajs/zorilla/)
-
 </div>
 
 ## Zorilla
@@ -25,33 +24,33 @@
 
 | Package | Description | Version |
 |---------|-------------|---------|
-| [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra/README.md) | Modular plugin framework for Puppeteer | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra) |
-| [`@zorilla/playwright-extra`](./packages/playwright-extra/README.md) | Modular plugin framework for Playwright | [![npm](https://img.shields.io/npm/v/@zorilla/playwright-extra.svg)](https://www.npmjs.com/package/@zorilla/playwright-extra) |
-| [`@zorilla/puppeteer-extra-plugin`](./packages/puppeteer-extra-plugin/README.md) | Base class for creating puppeteer-extra plugins | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin) |
+| [`@zorilla/puppeteer-extra`](./packages/puppeteer-extra/) | Modular plugin framework for Puppeteer | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra) |
+| [`@zorilla/playwright-extra`](./packages/playwright-extra/) | Modular plugin framework for Playwright | [![npm](https://img.shields.io/npm/v/@zorilla/playwright-extra.svg)](https://www.npmjs.com/package/@zorilla/playwright-extra) |
+| [`@zorilla/puppeteer-extra-plugin`](./packages/puppeteer-extra-plugin/) | Base class for creating puppeteer-extra plugins | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin) |
 
 ### Plugins
 
 | Package | Description | Version |
 |---------|-------------|---------|
-| [`@zorilla/puppeteer-extra-plugin-stealth`](./packages/puppeteer-extra-plugin-stealth/README.md) | Apply various techniques to make headless detection harder | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-stealth) |
-| [`@zorilla/puppeteer-extra-plugin-recaptcha`](./packages/puppeteer-extra-plugin-recaptcha/README.md) | Automatically solve reCAPTCHAs and hCaptchas | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-recaptcha) |
-| [`@zorilla/puppeteer-extra-plugin-adblocker`](./packages/puppeteer-extra-plugin-adblocker/README.md) | Block ads and trackers using Cliqz adblocker | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-adblocker) |
-| [`@zorilla/puppeteer-extra-plugin-block-resources`](./packages/puppeteer-extra-plugin-block-resources/README.md) | Block resources like images, media, fonts, etc. | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-block-resources.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-block-resources) |
-| [`@zorilla/puppeteer-extra-plugin-anonymize-ua`](./packages/puppeteer-extra-plugin-anonymize-ua/README.md) | Anonymize and customize the User-Agent header | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-anonymize-ua.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-anonymize-ua) |
-| [`@zorilla/puppeteer-extra-plugin-user-preferences`](./packages/puppeteer-extra-plugin-user-preferences/README.md) | Launch with arbitrary Chrome user preferences | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-user-preferences.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-user-preferences) |
-| [`@zorilla/puppeteer-extra-plugin-user-data-dir`](./packages/puppeteer-extra-plugin-user-data-dir/README.md) | Manage custom user data directories | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-user-data-dir.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-user-data-dir) |
-| [`@zorilla/puppeteer-extra-plugin-repl`](./packages/puppeteer-extra-plugin-repl/README.md) | Start an interactive REPL for debugging | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-repl.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-repl) |
-| [`@zorilla/puppeteer-extra-plugin-devtools`](./packages/puppeteer-extra-plugin-devtools/README.md) | Remote debugging with secure DevTools tunnels | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-devtools.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-devtools) |
-| [`@zorilla/puppeteer-extra-plugin-flash`](./packages/puppeteer-extra-plugin-flash/README.md) | Allow Flash on all sites without user interaction | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-flash.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-flash) |
-| [`@zorilla/puppeteer-extra-plugin-font-size`](./packages/puppeteer-extra-plugin-font-size/README.md) | Adjust font sizes in the browser | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-font-size.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-font-size) |
-| [`@zorilla/puppeteer-extra-plugin-click-and-wait`](./packages/puppeteer-extra-plugin-click-and-wait/README.md) | Wait for navigation to complete after clicking | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-click-and-wait.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-click-and-wait) |
-| [`@zorilla/proxy-router`](./packages/plugin-proxy-router/README.md) | Route proxies dynamically in Puppeteer & Playwright | [![npm](https://img.shields.io/npm/v/@zorilla/proxy-router.svg)](https://www.npmjs.com/package/@zorilla/proxy-router) |
+| [`@zorilla/puppeteer-extra-plugin-stealth`](./packages/puppeteer-extra-plugin-stealth/) | Apply various techniques to make headless detection harder | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-stealth) |
+| [`@zorilla/puppeteer-extra-plugin-recaptcha`](./packages/puppeteer-extra-plugin-recaptcha/) | Automatically solve reCAPTCHAs and hCaptchas | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-recaptcha) |
+| [`@zorilla/puppeteer-extra-plugin-adblocker`](./packages/puppeteer-extra-plugin-adblocker/) | Block ads and trackers using Cliqz adblocker | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-adblocker) |
+| [`@zorilla/puppeteer-extra-plugin-block-resources`](./packages/puppeteer-extra-plugin-block-resources/) | Block resources like images, media, fonts, etc. | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-block-resources.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-block-resources) |
+| [`@zorilla/puppeteer-extra-plugin-anonymize-ua`](./packages/puppeteer-extra-plugin-anonymize-ua/) | Anonymize and customize the User-Agent header | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-anonymize-ua.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-anonymize-ua) |
+| [`@zorilla/puppeteer-extra-plugin-user-preferences`](./packages/puppeteer-extra-plugin-user-preferences/) | Launch with arbitrary Chrome user preferences | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-user-preferences.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-user-preferences) |
+| [`@zorilla/puppeteer-extra-plugin-user-data-dir`](./packages/puppeteer-extra-plugin-user-data-dir/) | Manage custom user data directories | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-user-data-dir.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-user-data-dir) |
+| [`@zorilla/puppeteer-extra-plugin-repl`](./packages/puppeteer-extra-plugin-repl/) | Start an interactive REPL for debugging | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-repl.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-repl) |
+| [`@zorilla/puppeteer-extra-plugin-devtools`](./packages/puppeteer-extra-plugin-devtools/) | Remote debugging with secure DevTools tunnels | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-devtools.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-devtools) |
+| [`@zorilla/puppeteer-extra-plugin-flash`](./packages/puppeteer-extra-plugin-flash/) | Allow Flash on all sites without user interaction | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-flash.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-flash) |
+| [`@zorilla/puppeteer-extra-plugin-font-size`](./packages/puppeteer-extra-plugin-font-size/) | Adjust font sizes in the browser | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-font-size.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-font-size) |
+| [`@zorilla/puppeteer-extra-plugin-click-and-wait`](./packages/puppeteer-extra-plugin-click-and-wait/) | Wait for navigation to complete after clicking | [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-click-and-wait.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-click-and-wait) |
+| [`@zorilla/proxy-router`](./packages/plugin-proxy-router/) | Route proxies dynamically in Puppeteer & Playwright | [![npm](https://img.shields.io/npm/v/@zorilla/proxy-router.svg)](https://www.npmjs.com/package/@zorilla/proxy-router) |
 
 ### Utilities
 
 | Package | Description | Version |
 |---------|-------------|---------|
-| [`@zorilla/extract-stealth-evasions`](./packages/extract-stealth-evasions/README.md) | Extract stealth evasions as standalone JavaScript | [![npm](https://img.shields.io/npm/v/@zorilla/extract-stealth-evasions.svg)](https://www.npmjs.com/package/@zorilla/extract-stealth-evasions) |
+| [`@zorilla/extract-stealth-evasions`](./packages/extract-stealth-evasions/) | Extract stealth evasions as standalone JavaScript | [![npm](https://img.shields.io/npm/v/@zorilla/extract-stealth-evasions.svg)](https://www.npmjs.com/package/@zorilla/extract-stealth-evasions) |
 
 ---
 
@@ -98,4 +97,4 @@ await browser.close()
 We welcome contributions! **[Read the Contributing Guide →](./CONTRIBUTING.md)**
 
 ## License
-[MIT][LICENSE]
+[MIT](./LICENSE)
