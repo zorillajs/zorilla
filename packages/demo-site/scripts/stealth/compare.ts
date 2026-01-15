@@ -1,30 +1,75 @@
 // Runs all 4 demos and generates a comparison report
+import type { ChildProcessByStdio } from 'node:child_process';
 import { spawn } from 'node:child_process';
+import type { Readable } from 'node:stream';
 import { writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const demos = [
+interface Demo {
+  name: string;
+  script: string;
+  expectedResult: 'blocked' | 'granted';
+}
+
+interface DemoResult {
+  blocked: boolean;
+  granted: boolean;
+  detectionScore: number | null;
+  exitCode: number | null;
+  error: string | null;
+}
+
+interface TestResult {
+  name: string;
+  expectedResult: string;
+  actualResult: string;
+  success: boolean;
+  detectionScore: number | null;
+  duration: number;
+  error: string | null;
+}
+
+interface TableRow {
+  Demo: string;
+  Expected: string;
+  Actual: string;
+  Score: string;
+  Duration: string;
+  Result: string;
+}
+
+interface DetailedReport {
+  timestamp: string;
+  summary: {
+    total: number;
+    passed: number;
+    failed: number;
+  };
+  results: TestResult[];
+}
+
+const demos: Demo[] = [
   {
     name: 'Puppeteer (No Stealth)',
-    script: join(__dirname, 'puppeteer-no-stealth.js'),
+    script: join(__dirname, 'puppeteer-no-stealth.ts'),
     expectedResult: 'blocked',
   },
   {
     name: 'Puppeteer (With Stealth)',
-    script: join(__dirname, 'puppeteer-with-stealth.js'),
+    script: join(__dirname, 'puppeteer-with-stealth.ts'),
     expectedResult: 'granted',
   },
   {
     name: 'Playwright (No Stealth)',
-    script: join(__dirname, 'playwright-no-stealth.js'),
+    script: join(__dirname, 'playwright-no-stealth.ts'),
     expectedResult: 'blocked',
   },
   {
     name: 'Playwright (With Stealth)',
-    script: join(__dirname, 'playwright-with-stealth.js'),
+    script: join(__dirname, 'playwright-with-stealth.ts'),
     expectedResult: 'granted',
   },
 ];
@@ -35,7 +80,7 @@ console.log(
   `Running ${demos.length} demos to compare bot detection with and without stealth plugin\n`
 );
 
-const results = [];
+const results: TestResult[] = [];
 
 for (const demo of demos) {
   console.log(`\n${'='.repeat(60)}`);
@@ -80,11 +125,11 @@ for (const demo of demos) {
 console.log('\n\n📊 COMPARISON REPORT');
 console.log('='.repeat(60));
 
-const table = results.map(r => ({
+const table: TableRow[] = results.map(r => ({
   Demo: r.name,
   Expected: r.expectedResult,
   Actual: r.actualResult,
-  Score: r.detectionScore || 'N/A',
+  Score: r.detectionScore !== null ? String(r.detectionScore) : 'N/A',
   Duration: `${r.duration}ms`,
   Result: r.success ? '✅ PASS' : '❌ FAIL',
 }));
@@ -92,7 +137,7 @@ const table = results.map(r => ({
 console.table(table);
 
 // Save detailed report
-const detailedReport = {
+const detailedReport: DetailedReport = {
   timestamp: new Date().toISOString(),
   summary: {
     total: results.length,
@@ -125,28 +170,28 @@ if (detailedReport.summary.failed === 0) {
 /**
  * Runs a demo script and captures its output
  */
-function runDemo(scriptPath) {
+function runDemo(scriptPath: string): Promise<DemoResult> {
   return new Promise(resolve => {
     let output = '';
 
-    const child = spawn('node', [scriptPath], {
+    const child: ChildProcessByStdio<null, Readable, Readable> = spawn('node', [scriptPath], {
       env: { ...process.env },
       stdio: ['inherit', 'pipe', 'pipe'],
     });
 
-    child.stdout.on('data', data => {
+    child.stdout.on('data', (data: Buffer) => {
       const text = data.toString();
       process.stdout.write(text);
       output += text;
     });
 
-    child.stderr.on('data', data => {
+    child.stderr.on('data', (data: Buffer) => {
       const text = data.toString();
       process.stderr.write(text);
       output += text;
     });
 
-    child.on('close', code => {
+    child.on('close', (code: number | null) => {
       // Parse output to determine result
       const blocked = output.includes('ACCESS DENIED');
       const granted = output.includes('ACCESS GRANTED');

@@ -1,5 +1,19 @@
 import { chromium } from '@zorilla/playwright-extra';
 
+// Interface for detection info result
+interface DetectionInfo {
+  failedDetections?: string[];
+  detectionScore?: string | number | null;
+}
+
+// Extend Window type for detection properties
+declare global {
+  interface Window {
+    detectionScore?: number;
+    failedDetections?: string[];
+  }
+}
+
 // Target URL - change to localhost:8787 for local testing
 const TARGET_URL = process.env.TARGET_URL || 'http://localhost:8787/api/secret';
 
@@ -13,6 +27,10 @@ const page = await context.newPage();
 try {
   const response = await page.goto(TARGET_URL, { waitUntil: 'networkidle' });
 
+  if (!response) {
+    throw new Error('Failed to navigate to target URL');
+  }
+
   const url = page.url();
   const status = response.status();
 
@@ -24,7 +42,7 @@ try {
     console.log('\n🚫 ACCESS DENIED');
 
     // Try to get detection details
-    const detectionInfo = await page
+    const detectionInfo: DetectionInfo = await page
       .evaluate(() => {
         return {
           failedDetections: window.failedDetections || [],
@@ -64,7 +82,7 @@ try {
   await page.screenshot({ path: 'playwright-no-stealth.png', fullPage: true });
   console.log('\n📸 Screenshot saved: playwright-no-stealth.png');
 } catch (error) {
-  console.error('\n❌ ERROR:', error.message);
+  console.error('\n❌ ERROR:', error instanceof Error ? error.message : String(error));
 }
 
 await browser.close();

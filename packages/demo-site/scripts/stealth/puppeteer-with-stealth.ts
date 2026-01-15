@@ -1,21 +1,46 @@
-import { chromium } from '@zorilla/playwright-extra';
+import puppeteer from '@zorilla/puppeteer-extra';
 import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth';
 
+interface DetectionTest {
+  name: string;
+  passed: boolean;
+  severity: string;
+}
+
+// Interface for detection info result
+interface DetectionInfo {
+  failedDetections?: string[];
+  detectionScore?: string | number | null;
+}
+
+// Extend Window type for detection properties
+declare global {
+  interface Window {
+    detectionScore?: number;
+    detectionResults?: DetectionTest[];
+    failedDetections?: string[];
+  }
+}
+
 // Enable stealth plugin
-chromium.use(StealthPlugin());
+// @ts-expect-error - StealthPlugin type compatibility issue between puppeteer-extra and plugin base class
+puppeteer.use(StealthPlugin());
 
 // Target URL - change to localhost:8787 for local testing
 const TARGET_URL = process.env.TARGET_URL || 'http://localhost:8787/api/secret';
 
-console.log('🥷 Playwright WITH stealth plugin\n');
+console.log('🥷 Puppeteer WITH stealth plugin\n');
 console.log(`Target: ${TARGET_URL}\n`);
 
-const browser = await chromium.launch({ headless: true });
-const context = await browser.newContext();
-const page = await context.newPage();
+const browser = await puppeteer.launch({ headless: true });
+const page = await browser.newPage();
 
 try {
-  const response = await page.goto(TARGET_URL, { waitUntil: 'networkidle' });
+  const response = await page.goto(TARGET_URL, { waitUntil: 'networkidle0' });
+
+  if (!response) {
+    throw new Error('Failed to navigate to target URL');
+  }
 
   const url = page.url();
   const status = response.status();
@@ -27,7 +52,7 @@ try {
   if (url.includes('/blocked') || status === 403) {
     console.log('\n🚫 ACCESS DENIED (stealth plugin may need updates)');
 
-    const detectionInfo = await page
+    const detectionInfo: DetectionInfo = await page
       .evaluate(() => {
         return {
           failedDetections: window.failedDetections || [],
@@ -58,7 +83,7 @@ try {
       const apiResponseEl = document.querySelector('#api-response');
 
       return {
-        contentVisible: contentEl ? contentEl.style.display !== 'none' : false,
+        contentVisible: contentEl ? (contentEl as HTMLElement).style.display !== 'none' : false,
         apiResponse: apiResponseEl ? apiResponseEl.textContent : null,
         score: window.detectionScore,
         tests: window.detectionResults,
@@ -83,13 +108,10 @@ try {
     }
   }
 
-  await page.screenshot({
-    path: 'playwright-with-stealth.png',
-    fullPage: true,
-  });
-  console.log('\n📸 Screenshot saved: playwright-with-stealth.png');
+  await page.screenshot({ path: 'puppeteer-with-stealth.png', fullPage: true });
+  console.log('\n📸 Screenshot saved: puppeteer-with-stealth.png');
 } catch (error) {
-  console.error('\n❌ ERROR:', error.message);
+  console.error('\n❌ ERROR:', error instanceof Error ? error.message : String(error));
 }
 
 await browser.close();

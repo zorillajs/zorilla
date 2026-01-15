@@ -7,12 +7,12 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "build": "tsc && wrangler deploy --dry-run",
-    "demo:puppeteer:no-stealth": "node scripts/stealth/puppeteer-no-stealth.js",
-    "demo:puppeteer:with-stealth": "node scripts/stealth/puppeteer-with-stealth.js",
-    "demo:playwright:no-stealth": "node scripts/stealth/playwright-no-stealth.js",
-    "demo:playwright:with-stealth": "node scripts/stealth/playwright-with-stealth.js",
-    "demo:compare": "node scripts/stealth/compare.js"
+    "build": "tsc && tsc --project scripts/tsconfig.json && wrangler deploy --dry-run",
+    "demo:puppeteer:no-stealth": "tsx scripts/stealth/puppeteer-no-stealth.ts",
+    "demo:puppeteer:with-stealth": "tsx scripts/stealth/puppeteer-with-stealth.ts",
+    "demo:playwright:no-stealth": "tsx scripts/stealth/playwright-no-stealth.ts",
+    "demo:playwright:with-stealth": "tsx scripts/stealth/playwright-with-stealth.ts",
+    "demo:compare": "tsx scripts/stealth/compare.ts"
   },
   "dependencies": {
     "@zorilla/puppeteer-extra": "workspace:*",
@@ -23,7 +23,10 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241218.0",
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.10.5",
     "wrangler": "^3.95.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "tsx": "^4.19.2"
   }
 }

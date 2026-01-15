@@ -27,13 +27,6 @@ The color scheme evokes the warm, earthy tones of the African savanna:
 
 ## Visual Elements
 
-### Savanna Grass
-The decorative grass at the bottom of each page represents the tall grasses of the African plains. The grass blades:
-- Use earthy brown-to-gold gradients
-- Gently sway with CSS animations to simulate wind
-- Vary in height to create a natural, organic look
-- Are positioned at the bottom to frame the content
-
 ### Typography & Layout
 - Clean, sans-serif fonts for readability
 - Warm borders using the golden acacia color
@@ -49,8 +42,47 @@ The zorilla, despite its small size, is a fierce defender of its territory in th
 The theme is implemented entirely in CSS (`src/static/styles.ts`) with:
 - CSS custom properties (CSS variables) for easy theme maintenance
 - Responsive design that adapts to different screen sizes
-- CSS animations for the swaying grass effect
 - Semantic color naming that reflects the African landscape
+
+## TypeScript Requirements
+
+**CRITICAL**: All TypeScript code MUST have `strict: true` enabled.
+
+### Rules for TypeScript
+
+1. **No `any` types** - Use `unknown`, proper types, or type narrowing instead
+2. **No `as any` workarounds** - Use proper type guards or `@ts-expect-error` with explanation
+3. **Strict mode enabled** - Both `src/tsconfig.json` and `scripts/tsconfig.json` have `"strict": true"`
+4. **Type checking in CI** - All TypeScript files are type-checked during build:
+   ```bash
+   pnpm build  # Checks src/ and scripts/ directories
+   ```
+
+### Handling Type Issues
+
+When facing type conflicts:
+
+**❌ NEVER do this:**
+```typescript
+puppeteer.use(StealthPlugin() as any)  // ABSOLUTELY FORBIDDEN
+```
+
+**✅ DO this instead:**
+```typescript
+// @ts-expect-error - StealthPlugin types from workspace packages don't match puppeteer-extra
+// runtime types due to duplicate PuppeteerExtraPlugin definitions. Safe at runtime.
+puppeteer.use(StealthPlugin())
+```
+
+### Demo Scripts TypeScript
+
+Demo scripts in `scripts/stealth/` are:
+- Written in TypeScript with strict mode enabled
+- Executed using `tsx` (TypeScript Execute)
+- Type-checked during build: `tsc --project scripts/tsconfig.json`
+- Include proper types from `@playwright/test` and `puppeteer`
+
+All scripts must pass type checking with zero errors.
 
 ## Future Enhancements
 

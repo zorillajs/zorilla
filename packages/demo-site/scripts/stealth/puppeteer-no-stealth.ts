@@ -1,5 +1,19 @@
 import puppeteer from '@zorilla/puppeteer-extra';
 
+// Interface for detection info result
+interface DetectionInfo {
+  failedDetections?: string[];
+  detectionScore?: string | number | null;
+}
+
+// Extend Window type for detection properties
+declare global {
+  interface Window {
+    detectionScore?: number;
+    failedDetections?: string[];
+  }
+}
+
 // Target URL - change to localhost:8787 for local testing
 const TARGET_URL = process.env.TARGET_URL || 'http://localhost:8787/api/secret';
 
@@ -10,7 +24,7 @@ const browser = await puppeteer.launch({ headless: true });
 const page = await browser.newPage();
 
 // Listen for redirects to /blocked
-page.on('response', response => {
+page.on('response', (response) => {
   if (response.url().includes('/blocked')) {
     console.log('❌ REDIRECTED TO BLOCKED PAGE - Bot detected!\n');
   }
@@ -18,6 +32,10 @@ page.on('response', response => {
 
 try {
   const response = await page.goto(TARGET_URL, { waitUntil: 'networkidle0' });
+
+  if (!response) {
+    throw new Error('Failed to navigate to target URL');
+  }
 
   const url = page.url();
   const status = response.status();
@@ -30,7 +48,7 @@ try {
     console.log('\n🚫 ACCESS DENIED');
 
     // Try to get detection details
-    const detectionInfo = await page
+    const detectionInfo: DetectionInfo = await page
       .evaluate(() => {
         return {
           failedDetections: window.failedDetections || [],
@@ -70,7 +88,7 @@ try {
   await page.screenshot({ path: 'puppeteer-no-stealth.png', fullPage: true });
   console.log('\n📸 Screenshot saved: puppeteer-no-stealth.png');
 } catch (error) {
-  console.error('\n❌ ERROR:', error.message);
+  console.error('\n❌ ERROR:', error instanceof Error ? error.message : String(error));
 }
 
 await browser.close();
