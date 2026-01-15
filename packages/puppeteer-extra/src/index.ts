@@ -177,7 +177,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
     options = merge(defaultLaunchOptions, options || {}) as Parameters<
       VanillaPuppeteer['launch']
     >[0];
-    this.resolvePluginDependencies();
+    await this.resolvePluginDependencies();
     this.orderPlugins();
 
     // Give plugins the chance to modify the options before launch
@@ -215,7 +215,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   async connect(
     options: Parameters<VanillaPuppeteer['connect']>[0]
   ): ReturnType<VanillaPuppeteer['connect']> {
-    this.resolvePluginDependencies();
+    await this.resolvePluginDependencies();
     this.orderPlugins();
 
     // Give plugins the chance to modify the options before connect
@@ -366,7 +366,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    *
    * @private
    */
-  private resolvePluginDependencies() {
+  private async resolvePluginDependencies() {
     // Request missing dependencies from all plugins and flatten to a single Set
     const missingPlugins = this._plugins
       .map(p => p._getMissingDependencies?.(this._plugins) || new Set<string>())
@@ -395,7 +395,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
       // Handle both scoped (@scope/puppeteer-extra-plugin-*) and unscoped (puppeteer-extra-plugin-*) packages
       const hasPluginPrefix = name.includes('puppeteer-extra-plugin');
       if (!hasPluginPrefix) {
-        name = `puppeteer-extra-plugin-${name}`;
+        name = `@zorilla/puppeteer-extra-plugin-${name}`;
       }
       // In case a module sub resource is requested print out the main package name
       // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
@@ -406,8 +406,9 @@ export class PuppeteerExtra implements VanillaPuppeteer {
         : parts[0];
       let dep = null;
       try {
-        // Try to require and instantiate the stated dependency
-        dep = require(name)();
+        // Use dynamic import to load the plugin
+        const module = await import(name);
+        dep = (module.default || module)();
         // Register it with `puppeteer-extra` as plugin
         this.use(dep);
       } catch (err) {
@@ -424,7 +425,7 @@ export class PuppeteerExtra implements VanillaPuppeteer {
       }
       // Handle nested dependencies :D
       if (dep.dependencies.size) {
-        this.resolvePluginDependencies();
+        await this.resolvePluginDependencies();
       }
     }
   }

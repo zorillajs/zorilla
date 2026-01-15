@@ -1,6 +1,58 @@
 import type { EventEmitter } from 'node:events';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
 import type * as Puppeteer from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type {
+  ConnectOptions,
+  LaunchOptions,
+  Page,
+} from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+
+// Import all evasions statically
+import chromeApp from './evasions/chrome.app/index.js';
+import chromeCsi from './evasions/chrome.csi/index.js';
+import chromeLoadTimes from './evasions/chrome.loadTimes/index.js';
+import chromeRuntime from './evasions/chrome.runtime/index.js';
+import defaultArgs from './evasions/defaultArgs/index.js';
+import iframeContentWindow from './evasions/iframe.contentWindow/index.js';
+import mediaCodecs from './evasions/media.codecs/index.js';
+import navigatorHardwareConcurrency from './evasions/navigator.hardwareConcurrency/index.js';
+import navigatorLanguages from './evasions/navigator.languages/index.js';
+import navigatorPermissions from './evasions/navigator.permissions/index.js';
+import navigatorPlugins from './evasions/navigator.plugins/index.js';
+import navigatorVendor from './evasions/navigator.vendor/index.js';
+import navigatorWebdriver from './evasions/navigator.webdriver/index.js';
+import sourceurl from './evasions/sourceurl/index.js';
+import userAgentOverride from './evasions/user-agent-override/index.js';
+import webglVendor from './evasions/webgl.vendor/index.js';
+import windowOuterdimensions from './evasions/window.outerdimensions/index.js';
+
+// Type for evasion factory functions
+// Note: Evasion plugins extend PuppeteerExtraPlugin but may have varying implementations
+// Using Record with function signature to maintain type safety while allowing flexibility
+type EvasionFactory = (opts?: unknown) => PuppeteerExtraPlugin;
+
+// Map of evasion names to their implementations
+// Using double assertion to handle minor type incompatibilities between evasion implementations
+const EVASION_MODULES: Record<string, EvasionFactory> = {
+  'chrome.app': chromeApp as unknown as EvasionFactory,
+  'chrome.csi': chromeCsi as unknown as EvasionFactory,
+  'chrome.loadTimes': chromeLoadTimes as unknown as EvasionFactory,
+  'chrome.runtime': chromeRuntime as unknown as EvasionFactory,
+  defaultArgs: defaultArgs as unknown as EvasionFactory,
+  'iframe.contentWindow': iframeContentWindow as unknown as EvasionFactory,
+  'media.codecs': mediaCodecs as unknown as EvasionFactory,
+  'navigator.hardwareConcurrency':
+    navigatorHardwareConcurrency as unknown as EvasionFactory,
+  'navigator.languages': navigatorLanguages as unknown as EvasionFactory,
+  'navigator.permissions': navigatorPermissions as unknown as EvasionFactory,
+  'navigator.plugins': navigatorPlugins as unknown as EvasionFactory,
+  'navigator.vendor': navigatorVendor as unknown as EvasionFactory,
+  'navigator.webdriver': navigatorWebdriver as unknown as EvasionFactory,
+  sourceurl: sourceurl as unknown as EvasionFactory,
+  'user-agent-override': userAgentOverride as unknown as EvasionFactory,
+  'webgl.vendor': webglVendor as unknown as EvasionFactory,
+  'window.outerdimensions': windowOuterdimensions as unknown as EvasionFactory,
+};
 
 interface PluginOptions {
   enabledEvasions?: Set<string>;
@@ -80,8 +132,22 @@ interface BrowserOptions {
  *
  */
 class StealthPlugin extends PuppeteerExtraPlugin {
+  private _evasionPlugins: PuppeteerExtraPlugin[] = [];
+
   constructor(opts: PluginOptions = {}) {
     super(opts);
+    // Instantiate enabled evasion plugins
+    this._initializeEvasions();
+  }
+
+  private _initializeEvasions(): void {
+    const enabledEvasions = this.opts.enabledEvasions as Set<string>;
+    for (const evasionName of enabledEvasions) {
+      const evasionFactory = EVASION_MODULES[evasionName];
+      if (evasionFactory) {
+        this._evasionPlugins.push(evasionFactory());
+      }
+    }
   }
 
   override get name(): string {
@@ -116,13 +182,38 @@ class StealthPlugin extends PuppeteerExtraPlugin {
   }
 
   /**
-   * Requires evasion techniques dynamically based on configuration.
-   *
+   * Get all evasion plugins (for internal use).
    * @private
    */
-  override get dependencies(): Set<string> {
-    const enabledEvasions = this.opts.enabledEvasions as Set<string>;
-    return new Set([...enabledEvasions].map(e => `${this.name}/evasions/${e}`));
+  get evasions(): PuppeteerExtraPlugin[] {
+    return this._evasionPlugins;
+  }
+
+  /**
+   * Proxy lifecycle methods to evasion plugins
+   */
+  override async beforeLaunch(options: LaunchOptions): Promise<void> {
+    for (const evasion of this._evasionPlugins) {
+      if (typeof evasion.beforeLaunch === 'function') {
+        await evasion.beforeLaunch(options);
+      }
+    }
+  }
+
+  override async beforeConnect(options: ConnectOptions): Promise<void> {
+    for (const evasion of this._evasionPlugins) {
+      if (typeof evasion.beforeConnect === 'function') {
+        await evasion.beforeConnect(options);
+      }
+    }
+  }
+
+  override async onPageCreated(page: Page): Promise<void> {
+    for (const evasion of this._evasionPlugins) {
+      if (typeof evasion.onPageCreated === 'function') {
+        await evasion.onPageCreated(page);
+      }
+    }
   }
 
   /**

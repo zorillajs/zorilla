@@ -1,0 +1,29 @@
+{
+  "name": "@zorilla/demo-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bot-protected Cloudflare Worker demo for zorilla stealth plugin",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc && wrangler deploy --dry-run",
+    "demo:puppeteer:no-stealth": "node scripts/stealth/puppeteer-no-stealth.js",
+    "demo:puppeteer:with-stealth": "node scripts/stealth/puppeteer-with-stealth.js",
+    "demo:playwright:no-stealth": "node scripts/stealth/playwright-no-stealth.js",
+    "demo:playwright:with-stealth": "node scripts/stealth/playwright-with-stealth.js",
+    "demo:compare": "node scripts/stealth/compare.js"
+  },
+  "dependencies": {
+    "@zorilla/puppeteer-extra": "workspace:*",
+    "@zorilla/playwright-extra": "workspace:*",
+    "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
+    "puppeteer": "^23.0.0",
+    "playwright": "^1.48.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "wrangler": "^3.95.0",
+    "typescript": "^5.7.2"
+  }
+}

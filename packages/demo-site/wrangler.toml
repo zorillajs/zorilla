@@ -1,0 +1,7 @@
+name = "zorilla-demo"
+main = "src/index.ts"
+compatibility_date = "2025-01-14"
+
+# Development
+[dev]
+port = 8787
