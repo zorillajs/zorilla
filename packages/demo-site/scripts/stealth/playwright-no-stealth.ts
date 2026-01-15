@@ -82,7 +82,10 @@ try {
   await page.screenshot({ path: 'playwright-no-stealth.png', fullPage: true });
   console.log('\n📸 Screenshot saved: playwright-no-stealth.png');
 } catch (error) {
-  console.error('\n❌ ERROR:', error instanceof Error ? error.message : String(error));
+  console.error(
+    '\n❌ ERROR:',
+    error instanceof Error ? error.message : String(error)
+  );
 }
 
 await browser.close();

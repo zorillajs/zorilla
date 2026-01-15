@@ -24,7 +24,7 @@ const browser = await puppeteer.launch({ headless: true });
 const page = await browser.newPage();
 
 // Listen for redirects to /blocked
-page.on('response', (response) => {
+page.on('response', response => {
   if (response.url().includes('/blocked')) {
     console.log('❌ REDIRECTED TO BLOCKED PAGE - Bot detected!\n');
   }
@@ -88,7 +88,10 @@ try {
   await page.screenshot({ path: 'puppeteer-no-stealth.png', fullPage: true });
   console.log('\n📸 Screenshot saved: puppeteer-no-stealth.png');
 } catch (error) {
-  console.error('\n❌ ERROR:', error instanceof Error ? error.message : String(error));
+  console.error(
+    '\n❌ ERROR:',
+    error instanceof Error ? error.message : String(error)
+  );
 }
 
 await browser.close();

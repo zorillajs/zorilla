@@ -1,9 +1,9 @@
 // Runs all 4 demos and generates a comparison report
 import type { ChildProcessByStdio } from 'node:child_process';
 import { spawn } from 'node:child_process';
-import type { Readable } from 'node:stream';
 import { writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import type { Readable } from 'node:stream';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -174,10 +174,14 @@ function runDemo(scriptPath: string): Promise<DemoResult> {
   return new Promise(resolve => {
     let output = '';
 
-    const child: ChildProcessByStdio<null, Readable, Readable> = spawn('node', [scriptPath], {
-      env: { ...process.env },
-      stdio: ['inherit', 'pipe', 'pipe'],
-    });
+    const child: ChildProcessByStdio<null, Readable, Readable> = spawn(
+      'node',
+      [scriptPath],
+      {
+        env: { ...process.env },
+        stdio: ['inherit', 'pipe', 'pipe'],
+      }
+    );
 
     child.stdout.on('data', (data: Buffer) => {
       const text = data.toString();

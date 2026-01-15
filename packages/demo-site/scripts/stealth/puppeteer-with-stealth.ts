@@ -83,7 +83,9 @@ try {
       const apiResponseEl = document.querySelector('#api-response');
 
       return {
-        contentVisible: contentEl ? (contentEl as HTMLElement).style.display !== 'none' : false,
+        contentVisible: contentEl
+          ? (contentEl as HTMLElement).style.display !== 'none'
+          : false,
         apiResponse: apiResponseEl ? apiResponseEl.textContent : null,
         score: window.detectionScore,
         tests: window.detectionResults,
@@ -111,7 +113,10 @@ try {
   await page.screenshot({ path: 'puppeteer-with-stealth.png', fullPage: true });
   console.log('\n📸 Screenshot saved: puppeteer-with-stealth.png');
 } catch (error) {
-  console.error('\n❌ ERROR:', error instanceof Error ? error.message : String(error));
+  console.error(
+    '\n❌ ERROR:',
+    error instanceof Error ? error.message : String(error)
+  );
 }
 
 await browser.close();
