@@ -135,6 +135,53 @@ Use `this.debug('message', data)` in plugins - automatically namespaced to plugi
 - Strict mode enabled with additional type checking flags
 - Output includes declarations and source maps
 
+### TypeScript Best Practices
+
+**Avoid `any` Types:**
+- **Never** use `any` types unless absolutely necessary (extremely rare edge cases)
+- Using `any` defeats the purpose of TypeScript and eliminates type safety
+- Instead of `any`, use:
+  - `unknown` - when you truly don't know the type (requires type narrowing before use)
+  - `Record<string, unknown>` - for objects with unknown structure
+  - Proper type imports from `@zorilla/puppeteer-extra-plugin/dist/puppeteer` (e.g., `LaunchOptions`, `ConnectOptions`, `Page`, `Browser`)
+  - Generic types - when writing reusable code
+  - Type assertions (`as Type`) - only when you have more information than TypeScript
+  - Double assertion (`as unknown as Type`) - only for known-safe type conversions between incompatible interfaces
+
+**Examples:**
+
+```typescript
+// ❌ BAD - Using any
+async beforeLaunch(options: any): Promise<void> {
+  // Type safety lost
+}
+
+// ✅ GOOD - Proper type imports
+import type { LaunchOptions, Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer'
+
+async beforeLaunch(options: LaunchOptions): Promise<void> {
+  // Type safe
+}
+
+async onPageCreated(page: Page): Promise<void> {
+  // Type safe
+}
+
+// ❌ BAD - any for complex types
+const modules: Record<string, any> = { ... }
+
+// ✅ GOOD - Proper type definition with explanation
+type EvasionFactory = (opts?: unknown) => PuppeteerExtraPlugin;
+const modules: Record<string, EvasionFactory> = {
+  'foo': fooPlugin as unknown as EvasionFactory, // Type assertion needed due to implementation variance
+}
+```
+
+**When Type Assertions Are Acceptable:**
+- When interfacing with dynamic imports that return plugins with slightly different implementations
+- When working with third-party libraries that have incomplete type definitions
+- Always add a comment explaining why the assertion is necessary
+
 ## Build System
 
 **ESM-Only Project:**
