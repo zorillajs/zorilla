@@ -216,7 +216,7 @@ The `sourceURL` is added at the CDP level by Puppeteer, so it must be removed be
 ## References
 
 - [Chrome DevTools Protocol: Runtime.evaluate](https://chromedevtools.github.io/devtools-protocol/tot/Runtime/#method-evaluate)
-- [Source Maps: sourceURL pragma](https://sourcemaps.info/spec.html)
+- [Source Maps: sourceURL pragma](https://tc39.es/source-map/)
 - [Puppeteer Source: ExecutionContext](https://github.com/puppeteer/puppeteer/blob/main/src/common/ExecutionContext.ts)
 
 ## API

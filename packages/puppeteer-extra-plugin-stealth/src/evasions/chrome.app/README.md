@@ -220,9 +220,8 @@ The API exists but indicates the page is not an installed app.
 
 ## References
 
-- [Chrome Apps API Documentation](https://developer.chrome.com/docs/apps/app_runtime/) (Deprecated)
 - [Chrome Apps Deprecation Announcement](https://blog.chromium.org/2020/08/changes-to-chrome-app-support-timeline.html)
-- [MDN: Chrome Apps](https://developer.mozilla.org/en-US/docs/Web/API/Chrome)
+- [Chromium Source: chrome.app implementation](https://source.chromium.org/chromium/chromium/src/+/main:chrome/renderer/resources/extensions/app_custom_bindings.js)
 
 ## API
 

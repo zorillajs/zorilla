@@ -118,7 +118,6 @@ console.log('Has property:', hasProperty) // false
 Test against detection services:
 - https://bot.sannysoft.com - Should show green for "navigator.webdriver"
 - https://arh.antoinevastel.com/bots/areyouheadless - Should pass webdriver check
-- https://kaliiiiiiiiii-brotector.hf.space - Advanced detection suite
 
 ## References
 
