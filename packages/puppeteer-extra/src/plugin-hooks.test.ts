@@ -1,13 +1,17 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { LaunchOptions } from 'puppeteer';
 import { describe, expect, test, vi } from 'vitest';
 import { addExtra } from './index.js';
 
 // Create test plugins that modify options
 class TransformPlugin extends PuppeteerExtraPlugin {
-  private transform: (value: any) => any;
+  private transform: (value: LaunchOptions) => LaunchOptions | null;
   private _name: string;
 
-  constructor(name: string, transform: (value: any) => any) {
+  constructor(
+    name: string,
+    transform: (value: LaunchOptions) => LaunchOptions | null
+  ) {
     super({});
     this._name = name;
     this.transform = transform;
@@ -17,7 +21,7 @@ class TransformPlugin extends PuppeteerExtraPlugin {
     return this._name;
   }
 
-  async beforeLaunch(options: any) {
+  async beforeLaunch(options: LaunchOptions) {
     return this.transform(options);
   }
 }
@@ -33,17 +37,25 @@ describe('Plugin Hooks with Value Returns', () => {
     } as any);
 
     // Plugin that adds a property
-    const plugin1 = new TransformPlugin('add-property', (options: any) => {
-      return { ...options, addedByPlugin: true };
-    });
+    const plugin1 = new TransformPlugin(
+      'add-property',
+      (options: LaunchOptions) => {
+        return { ...options, addedByPlugin: true } as LaunchOptions;
+      }
+    );
 
     // Plugin that modifies the added property
-    const plugin2 = new TransformPlugin('modify-property', (options: any) => {
-      if (options.addedByPlugin) {
-        return { ...options, modifiedByPlugin: true };
+    const plugin2 = new TransformPlugin(
+      'modify-property',
+      (options: LaunchOptions) => {
+        if (
+          (options as LaunchOptions & { addedByPlugin?: boolean }).addedByPlugin
+        ) {
+          return { ...options, modifiedByPlugin: true } as LaunchOptions;
+        }
+        return options;
       }
-      return options;
-    });
+    );
 
     puppeteer.use(plugin1);
     puppeteer.use(plugin2);
@@ -68,9 +80,12 @@ describe('Plugin Hooks with Value Returns', () => {
     const plugin1 = new TransformPlugin('no-op', () => null);
 
     // Plugin that adds a property
-    const plugin2 = new TransformPlugin('add-property', (options: any) => {
-      return { ...options, addedByPlugin: true };
-    });
+    const plugin2 = new TransformPlugin(
+      'add-property',
+      (options: LaunchOptions) => {
+        return { ...options, addedByPlugin: true } as LaunchOptions;
+      }
+    );
 
     puppeteer.use(plugin1);
     puppeteer.use(plugin2);
@@ -89,19 +104,19 @@ describe('Plugin Hooks with Value Returns', () => {
 
     const transformations: string[] = [];
 
-    const plugin1 = new TransformPlugin('first', (options: any) => {
+    const plugin1 = new TransformPlugin('first', (options: LaunchOptions) => {
       transformations.push('first');
-      return { ...options, step: 1 };
+      return { ...options, step: 1 } as LaunchOptions;
     });
 
-    const plugin2 = new TransformPlugin('second', (options: any) => {
+    const plugin2 = new TransformPlugin('second', (options: LaunchOptions) => {
       transformations.push('second');
-      return { ...options, step: 2 };
+      return { ...options, step: 2 } as LaunchOptions;
     });
 
-    const plugin3 = new TransformPlugin('third', (options: any) => {
+    const plugin3 = new TransformPlugin('third', (options: LaunchOptions) => {
       transformations.push('third');
-      return { ...options, step: 3 };
+      return { ...options, step: 3 } as LaunchOptions;
     });
 
     puppeteer.use(plugin1);

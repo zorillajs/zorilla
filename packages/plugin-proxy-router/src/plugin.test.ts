@@ -1,6 +1,17 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { ExtraPluginProxyRouter } from './plugin.js';
 
+interface PuppeteerLaunchOptions {
+  args?: string[];
+}
+
+interface PlaywrightLaunchOptions {
+  proxy?: {
+    server: string;
+    bypass?: string;
+  };
+}
+
 describe('ExtraPluginProxyRouter', () => {
   let plugin: ExtraPluginProxyRouter;
   let serverClosed = false;
@@ -223,13 +234,13 @@ describe('ExtraPluginProxyRouter', () => {
 
     test('should configure playwright proxy options', async () => {
       await plugin.onPluginRegistered({ framework: 'playwright' });
-      const options: any = {};
+      const options: PlaywrightLaunchOptions = {};
 
       await plugin.beforeLaunch(options);
 
       expect(options.proxy).toBeDefined();
-      expect(options.proxy.server).toBe(plugin.router.proxyServerUrl);
-      expect(options.proxy.bypass).toBeUndefined();
+      expect(options.proxy?.server).toBe(plugin.router.proxyServerUrl);
+      expect(options.proxy?.bypass).toBeUndefined();
     });
 
     test('should configure playwright proxy with bypass list', async () => {
@@ -242,7 +253,7 @@ describe('ExtraPluginProxyRouter', () => {
       });
 
       await plugin.onPluginRegistered({ framework: 'playwright' });
-      const options: any = {};
+      const options: PlaywrightLaunchOptions = {};
 
       await plugin.beforeLaunch(options);
 
@@ -251,7 +262,7 @@ describe('ExtraPluginProxyRouter', () => {
 
     test('should configure puppeteer proxy args', async () => {
       await plugin.onPluginRegistered(); // defaults to puppeteer
-      const options: any = {};
+      const options: PuppeteerLaunchOptions = {};
 
       await plugin.beforeLaunch(options);
 
@@ -263,7 +274,7 @@ describe('ExtraPluginProxyRouter', () => {
 
     test('should append to existing puppeteer args', async () => {
       await plugin.onPluginRegistered();
-      const options: any = {
+      const options: PuppeteerLaunchOptions = {
         args: ['--no-sandbox'],
       };
 
@@ -284,12 +295,14 @@ describe('ExtraPluginProxyRouter', () => {
       });
 
       await plugin.onPluginRegistered();
-      const options: any = {};
+      const options: PuppeteerLaunchOptions = {};
 
       await plugin.beforeLaunch(options);
 
       expect(options.args).toHaveLength(2);
-      expect(options.args[1]).toContain('--proxy-bypass-list=.com,example.org');
+      expect(options.args?.[1]).toContain(
+        '--proxy-bypass-list=.com,example.org'
+      );
     });
 
     test('should throw error if proxy server not available', async () => {
@@ -322,7 +335,7 @@ describe('ExtraPluginProxyRouter', () => {
       });
       plugin.framework = null;
 
-      const options: any = {};
+      const options: PlaywrightLaunchOptions = {};
       await plugin.beforeLaunch(options);
 
       expect(options.proxy).toBeUndefined();
@@ -413,13 +426,13 @@ describe('ExtraPluginProxyRouter', () => {
       await plugin.onPluginRegistered({ framework: 'playwright' });
 
       // Launch
-      const launchOptions: any = {};
+      const launchOptions: PlaywrightLaunchOptions = {};
       await plugin.beforeLaunch(launchOptions);
 
       // Verify configuration
       expect(launchOptions.proxy).toBeDefined();
-      expect(launchOptions.proxy.server).toMatch(/^http:\/\/localhost:\d+$/);
-      expect(launchOptions.proxy.bypass).toBe('.local');
+      expect(launchOptions.proxy?.server).toMatch(/^http:\/\/localhost:\d+$/);
+      expect(launchOptions.proxy?.bypass).toBe('.local');
 
       // Cleanup
       await plugin.onDisconnected();
@@ -441,17 +454,17 @@ describe('ExtraPluginProxyRouter', () => {
       await plugin.onPluginRegistered();
 
       // Launch
-      const launchOptions: any = {
+      const launchOptions: PuppeteerLaunchOptions = {
         args: ['--no-sandbox'],
       };
       await plugin.beforeLaunch(launchOptions);
 
       // Verify configuration
       expect(launchOptions.args).toHaveLength(3);
-      expect(launchOptions.args[1]).toMatch(
+      expect(launchOptions.args?.[1]).toMatch(
         /^--proxy-server=http:\/\/localhost:\d+$/
       );
-      expect(launchOptions.args[2]).toBe('--proxy-bypass-list=.local');
+      expect(launchOptions.args?.[2]).toBe('--proxy-bypass-list=.local');
 
       // Cleanup
       await plugin.onDisconnected();

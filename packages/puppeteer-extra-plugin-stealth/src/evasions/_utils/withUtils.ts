@@ -46,6 +46,7 @@ export default (page: Page): WrappedPage => ({
       },
       {
         _utilsFns: utils.stringifyFns(
+          // Cast needed: stringifyFns filters to only function properties at runtime
           utils as unknown as Record<string, Function>
         ),
         _mainFunction: mainFunction.toString(),
@@ -72,6 +73,7 @@ export default (page: Page): WrappedPage => ({
       },
       {
         _utilsFns: utils.stringifyFns(
+          // Cast needed: stringifyFns filters to only function properties at runtime
           utils as unknown as Record<string, Function>
         ),
         _mainFunction: mainFunction.toString(),

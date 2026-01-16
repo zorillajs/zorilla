@@ -108,16 +108,21 @@ class Plugin extends PuppeteerExtraPlugin {
 
   async writeFilesToProfile(): Promise<void> {
     const opts = this.opts as Required<PluginOptions>;
-    const filesFromPlugins = this.getDataFromPlugins('userDataDirFile')
-      .map(d => d.value as unknown as FileToWrite)
-      .filter(
-        (f): f is FileToWrite =>
-          typeof f === 'object' &&
-          f !== null &&
-          'target' in f &&
-          'file' in f &&
-          'contents' in f
-      );
+    const isFileToWrite = (f: unknown): f is FileToWrite =>
+      typeof f === 'object' &&
+      f !== null &&
+      'target' in f &&
+      'file' in f &&
+      'contents' in f &&
+      typeof (f as { target: unknown }).target === 'string' &&
+      typeof (f as { file: unknown }).file === 'string' &&
+      typeof (f as { contents: unknown }).contents === 'string';
+
+    const filesFromPlugins: FileToWrite[] = this.getDataFromPlugins(
+      'userDataDirFile'
+    )
+      .map(d => d.value)
+      .filter(isFileToWrite);
     const files: FileToWrite[] = [...filesFromPlugins, ...(opts.files || [])];
     if (!files.length) {
       return;

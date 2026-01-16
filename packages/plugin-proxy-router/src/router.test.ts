@@ -245,10 +245,10 @@ describe('ProxyRouter', () => {
       const mockError = new Error('Test listen error');
       const originalListen = router.proxyServer.listen;
 
-      router.proxyServer.listen = ((callback: any) => {
+      router.proxyServer.listen = ((callback: (err?: Error) => void) => {
         // Simulate immediate error callback
         callback(mockError);
-      }) as any;
+      }) as typeof router.proxyServer.listen;
 
       // Trigger listen - this will call our mocked function after async getPort
       const _listenPromise = router.listen();

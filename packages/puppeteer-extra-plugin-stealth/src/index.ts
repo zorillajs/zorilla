@@ -1,4 +1,3 @@
-import type { EventEmitter } from 'node:events';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
 import type * as Puppeteer from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 
@@ -173,9 +172,12 @@ class StealthPlugin extends PuppeteerExtraPlugin {
     _opts: BrowserOptions
   ): Promise<void> {
     // Browser extends EventEmitter, increase listeners to prevent MaxListenersExceededWarning
-    const emitter = browser as unknown as EventEmitter;
-    if (emitter?.setMaxListeners) {
-      emitter.setMaxListeners(30);
+    // Type guard to safely access EventEmitter methods
+    if (
+      'setMaxListeners' in browser &&
+      typeof browser.setMaxListeners === 'function'
+    ) {
+      browser.setMaxListeners(30);
     }
   }
 }

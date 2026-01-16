@@ -529,7 +529,10 @@ utils.mockWithProxy = <T extends object>(
   const proxyObj = new Proxy(pseudoTarget, utils.stripProxyFromErrors(handler));
 
   utils.replaceProperty(obj, propName, { value: proxyObj });
-  utils.patchToString(proxyObj as unknown as Function);
+  // Type assertion: pseudoTarget is typically a function in practice
+  if (typeof pseudoTarget === 'function') {
+    utils.patchToString(proxyObj as Function);
+  }
 
   return true;
 };
@@ -552,11 +555,12 @@ utils.createProxy = <T extends object>(
   handler: ProxyHandler<T>
 ): T => {
   const proxyObj = new Proxy(pseudoTarget, utils.stripProxyFromErrors(handler));
-  if (
+  const isCallable =
     typeof proxyObj === 'function' ||
-    (typeof proxyObj === 'object' && 'apply' in (handler as object))
-  ) {
-    utils.patchToString(proxyObj as unknown as Function);
+    (typeof proxyObj === 'object' && 'apply' in (handler as object));
+  if (isCallable) {
+    // Type assertion needed: Proxy with apply handler acts as Function at runtime
+    utils.patchToString(proxyObj as Function);
   }
 
   return proxyObj;

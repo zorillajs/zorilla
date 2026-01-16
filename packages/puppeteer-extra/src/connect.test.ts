@@ -1,4 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { ConnectOptions } from 'puppeteer';
 import puppeteerVanilla from 'puppeteer';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { addExtra } from './index.js';
@@ -19,9 +20,11 @@ describe('connect', () => {
           return 'test-connect-plugin';
         }
 
-        async beforeConnect(options: any) {
+        async beforeConnect(options: ConnectOptions) {
           // Modify options to verify plugin is working
-          options.testModified = true;
+          (
+            options as ConnectOptions & { testModified?: boolean }
+          ).testModified = true;
         }
       }
 

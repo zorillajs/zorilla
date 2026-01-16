@@ -50,7 +50,7 @@ class Plugin extends PuppeteerExtraPlugin {
     };
     return [
       {
-        name: { userPreferences: true },
+        name: 'userPreferences',
         value: userPreferences,
       },
     ];

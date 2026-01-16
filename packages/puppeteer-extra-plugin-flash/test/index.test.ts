@@ -109,7 +109,7 @@ describe('Plugin data', () => {
     const data = instance.data;
     expect(Array.isArray(data)).toBe(true);
     expect(data.length).toBe(1);
-    expect(data[0].name).toEqual({ userPreferences: true });
+    expect(data[0].name).toBe('userPreferences');
     expect(data[0].value.profile.managed_default_content_settings.plugins).toBe(
       1
     );

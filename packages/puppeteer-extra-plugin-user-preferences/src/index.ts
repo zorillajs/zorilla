@@ -74,9 +74,7 @@ class Plugin extends PuppeteerExtraPlugin {
   override get data(): PluginData[] {
     return [
       {
-        name: {
-          userDataDirFile: true,
-        },
+        name: 'userDataDirFile',
         value: {
           target: 'Profile',
           file: 'Preferences',

@@ -6,12 +6,8 @@ export interface PluginOptions {
   [key: string]: unknown;
 }
 export interface PluginData {
-  name: {
-    [key: string]: unknown;
-  };
-  value: {
-    [key: string]: unknown;
-  };
+  name: string;
+  value: unknown;
 }
 
 export type PluginDependencies = Set<string>;
