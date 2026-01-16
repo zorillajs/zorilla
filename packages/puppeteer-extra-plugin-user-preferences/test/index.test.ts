@@ -94,7 +94,7 @@ describe('Plugin Data', () => {
 
     expect(Array.isArray(data)).toBe(true);
     expect(data.length).toBe(1);
-    expect(data[0].name).toHaveProperty('userDataDirFile');
+    expect(data[0].name).toBe('userDataDirFile');
     expect(data[0].value).toHaveProperty('target', 'Profile');
     expect(data[0].value).toHaveProperty('file', 'Preferences');
     expect(data[0].value).toHaveProperty('contents');
@@ -113,6 +113,22 @@ describe('Plugin Data', () => {
     const contents = JSON.parse(data[0].value.contents);
 
     expect(contents).toEqual(customPrefs);
+  });
+
+  test('should use string name for proper data filtering', () => {
+    // This test verifies that the name is a string, which enables proper filtering
+    // in puppeteer-extra's getPluginData method (line 349: d.name === name)
+    const instance = Plugin();
+    const data = instance.data;
+
+    // Name must be a string for filtering to work
+    expect(typeof data[0].name).toBe('string');
+    expect(data[0].name).toBe('userDataDirFile');
+
+    // Simulate how user-data-dir plugin would filter for this data
+    const filtered = data.filter(d => d.name === 'userDataDirFile');
+    expect(filtered.length).toBe(1);
+    expect(filtered[0]).toBe(data[0]);
   });
 });
 
