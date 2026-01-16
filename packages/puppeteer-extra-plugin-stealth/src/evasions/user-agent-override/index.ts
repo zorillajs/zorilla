@@ -14,7 +14,7 @@ interface CDPSession {
 
 interface UserAgentBrand {
   brand: string;
-  version: string | number;
+  version: string;
 }
 
 interface UserAgentMetadata {
@@ -128,7 +128,7 @@ class Plugin extends PuppeteerExtraPlugin {
 
     // Source in C++: https://source.chromium.org/chromium/chromium/src/+/master:components/embedder_support/user_agent_utils.cc;l=55-100
     const _getBrands = (): UserAgentBrand[] => {
-      const seed = parseInt(uaVersion.split('.')[0]!, 10); // the major version number of Chrome
+      const seed = uaVersion.split('.')[0]!; // the major version number of Chrome (as string for CDP)
 
       const orderOptions = [
         [0, 1, 2],
@@ -138,7 +138,7 @@ class Plugin extends PuppeteerExtraPlugin {
         [2, 0, 1],
         [2, 1, 0],
       ];
-      const order = orderOptions[seed % 6] as [number, number, number];
+      const order = orderOptions[Number.parseInt(seed, 10) % 6] as [number, number, number];
       const escapedChars = [' ', ' ', ';'];
 
       const greaseyBrand = `${escapedChars[order[0]]}Not${
@@ -221,10 +221,9 @@ class Plugin extends PuppeteerExtraPlugin {
       typeof pageWithClient._client === 'function'
         ? pageWithClient._client()
         : pageWithClient._client;
-    client!.send(
-      'Network.setUserAgentOverride',
-      override as unknown as Record<string, unknown>
-    );
+    // Type assertion needed because CDP send expects Record<string, unknown> but our typed interface doesn't have index signature
+    // biome-ignore lint/suspicious/noExplicitAny: CDP protocol requires dynamic parameters
+    client!.send('Network.setUserAgentOverride', override as any);
   }
 
   override async beforeLaunch(options: LaunchOptions): Promise<void> {
