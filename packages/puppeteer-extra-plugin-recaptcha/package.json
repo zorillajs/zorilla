@@ -42,7 +42,7 @@
   ],
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "@types/node": "25.0.8",
+    "@types/node": "25.0.9",
     "@vitest/coverage-v8": "^4.0.17",
     "puppeteer": "^24.35.0",
     "puppeteer-extra": "^3.3.6",
