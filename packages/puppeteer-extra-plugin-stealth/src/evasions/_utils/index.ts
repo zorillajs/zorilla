@@ -316,10 +316,11 @@ utils.patchToString = (obj: Function, str = ''): void => {
       }
       // Check if the toString protype of the context is the same as the global prototype,
       // if not indicates that we are doing a check across different windows., e.g. the iframeWithdirect` test case
-      // biome-ignore lint/suspicious/noPrototypeBuiltins: Required for cross-window iframe detection
-      const hasSameProto = Object.getPrototypeOf(
-        Function.prototype.toString
-      ).isPrototypeOf((ctx as { toString: () => string }).toString);
+      const hasSameProto =
+        // biome-ignore lint/suspicious/noPrototypeBuiltins: Required for cross-window iframe detection
+        Object.getPrototypeOf(Function.prototype.toString).isPrototypeOf(
+          (ctx as { toString: () => string }).toString
+        );
       if (!hasSameProto) {
         // Pass the call on to the local Function.prototype.toString instead
         return (ctx as { toString: () => string }).toString();
@@ -377,10 +378,11 @@ utils.redirectToString = (proxyObj: Function, originalObj: Function): void => {
 
       // Check if the toString protype of the context is the same as the global prototype,
       // if not indicates that we are doing a check across different windows., e.g. the iframeWithdirect` test case
-      // biome-ignore lint/suspicious/noPrototypeBuiltins: Required for cross-window iframe detection
-      const hasSameProto = Object.getPrototypeOf(
-        Function.prototype.toString
-      ).isPrototypeOf(ctx.toString);
+      const hasSameProto =
+        // biome-ignore lint/suspicious/noPrototypeBuiltins: Required for cross-window iframe detection
+        Object.getPrototypeOf(Function.prototype.toString).isPrototypeOf(
+          ctx.toString
+        );
       if (!hasSameProto) {
         // Pass the call on to the local Function.prototype.toString instead
         return ctx.toString();
