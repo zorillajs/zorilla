@@ -2,31 +2,32 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const STATIC_DATA = JSON.parse(
   readFileSync(join(__dirname, 'staticData.json'), 'utf-8')
-);
+) as Record<string, unknown>;
 
 /**
  * Mock the `chrome.runtime` object if not available (e.g. when running headless) and on a secure site.
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/chrome.runtime';
   }
 
-  get defaults() {
+  override get defaults(): Record<string, unknown> {
     return { runOnInsecureOrigins: false }; // Override for testing
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(
       (utils, { opts, STATIC_DATA }) => {
         if (!window.chrome) {
@@ -41,14 +42,14 @@ class Plugin extends PuppeteerExtraPlugin {
         }
 
         // That means we're running headful and don't need to mock anything
-        const existsAlready = 'runtime' in window.chrome;
+        const existsAlready = 'runtime' in window.chrome!;
         // `chrome.runtime` is only exposed on secure origins
         const isNotSecure = !window.location.protocol.startsWith('https');
         if (existsAlready || (isNotSecure && !opts.runOnInsecureOrigins)) {
           return; // Nothing to do here
         }
 
-        window.chrome.runtime = {
+        window.chrome!.runtime = {
           // There's a bunch of static data in that property which doesn't seem to change,
           // we should periodically check for updates: `JSON.stringify(window.chrome.runtime, null, 2)`
           ...STATIC_DATA,
@@ -61,7 +62,11 @@ class Plugin extends PuppeteerExtraPlugin {
           sendMessage: null,
         };
 
-        const makeCustomRuntimeErrors = (preamble, method, extensionId) => ({
+        const makeCustomRuntimeErrors = (
+          preamble: string,
+          method: string,
+          extensionId: string
+        ) => ({
           NoMatchingSignature: new TypeError(
             preamble + `No matching signature.`
           ),
@@ -76,11 +81,11 @@ class Plugin extends PuppeteerExtraPlugin {
 
         // Valid Extension IDs are 32 characters in length and use the letter `a` to `p`:
         // https://source.chromium.org/chromium/chromium/src/+/master:components/crx_file/id_util.cc;drc=14a055ccb17e8c8d5d437fe080faba4c6f07beac;l=90
-        const isValidExtensionID = str =>
-          str.length === 32 && str.toLowerCase().match(/^[a-p]+$/);
+        const isValidExtensionID = (str: string): boolean =>
+          str.length === 32 && !!str.toLowerCase().match(/^[a-p]+$/);
 
         /** Mock `chrome.runtime.sendMessage` */
-        const sendMessageHandler = {
+        const sendMessageHandler: ProxyHandler<Function> = {
           apply: (_target, _ctx, args) => {
             const [extensionId, options, responseCallback] = args || [];
 
@@ -125,7 +130,7 @@ class Plugin extends PuppeteerExtraPlugin {
           },
         };
         utils.mockWithProxy(
-          window.chrome.runtime,
+          window.chrome!.runtime as object,
           'sendMessage',
           function sendMessage() {},
           sendMessageHandler
@@ -136,7 +141,7 @@ class Plugin extends PuppeteerExtraPlugin {
          *
          * @see https://developer.chrome.com/apps/runtime#method-connect
          */
-        const connectHandler = {
+        const connectHandler: ProxyHandler<Function> = {
           apply: (_target, _ctx, args) => {
             const [extensionId, connectInfo] = args || [];
 
@@ -172,7 +177,7 @@ class Plugin extends PuppeteerExtraPlugin {
             }
 
             // There's another edge-case here: extensionId is optional so we might find a connectInfo object as first param, which we need to validate
-            const validateConnectInfo = ci => {
+            const validateConnectInfo = (ci: Record<string, unknown>) => {
               // More than a first param connectInfo as been provided
               if (args.length > 1) {
                 throw Errors.NoMatchingSignature;
@@ -189,7 +194,11 @@ class Plugin extends PuppeteerExtraPlugin {
                     errorPreamble + `Unexpected property: '${k}'.`
                   );
                 }
-                const MismatchError = (propName, expected, found) =>
+                const MismatchError = (
+                  propName: string,
+                  expected: string,
+                  found: string
+                ) =>
                   TypeError(
                     errorPreamble +
                       `Error at property '${propName}': Invalid type: expected ${expected}, found ${found}.`
@@ -212,7 +221,7 @@ class Plugin extends PuppeteerExtraPlugin {
           },
         };
         utils.mockWithProxy(
-          window.chrome.runtime,
+          window.chrome!.runtime as object,
           'connect',
           function connect() {},
           connectHandler
@@ -253,6 +262,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

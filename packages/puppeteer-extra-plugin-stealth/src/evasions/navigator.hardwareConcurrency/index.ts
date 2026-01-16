@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -12,21 +12,21 @@ import withUtils from '../_utils/withUtils.js';
  */
 
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/navigator.hardwareConcurrency';
   }
 
-  get defaults() {
+  override get defaults(): Record<string, unknown> {
     return {
       hardwareConcurrency: 4,
     };
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(
       (utils, { opts }) => {
         utils.replaceGetterWithProxy(
@@ -42,6 +42,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

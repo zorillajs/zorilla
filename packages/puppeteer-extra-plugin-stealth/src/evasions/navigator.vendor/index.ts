@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -26,21 +26,21 @@ import withUtils from '../_utils/withUtils.js';
  *
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/navigator.vendor';
   }
 
-  get defaults() {
+  override get defaults(): Record<string, unknown> {
     return {
       vendor: 'Google Inc.',
     };
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     this.debug('onPageCreated', {
       opts: this.opts,
     });
@@ -60,6 +60,6 @@ class Plugin extends PuppeteerExtraPlugin {
   } // onPageCreated
 }
 
-export default function (opts) {
+export default function (opts?: Record<string, unknown>): Plugin {
   return new Plugin(opts);
 }

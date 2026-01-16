@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -20,15 +20,15 @@ import withUtils from '../_utils/withUtils.js';
  *
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/chrome.csi';
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(utils => {
       if (!window.chrome) {
         // Use the exact property descriptor found in headful Chrome
@@ -42,7 +42,7 @@ class Plugin extends PuppeteerExtraPlugin {
       }
 
       // That means we're running headful and don't need to mock anything
-      if ('csi' in window.chrome) {
+      if ('csi' in window.chrome!) {
         return; // Nothing to do here
       }
 
@@ -53,17 +53,17 @@ class Plugin extends PuppeteerExtraPlugin {
 
       const { timing } = window.performance;
 
-      window.chrome.csi = () => ({
+      window.chrome!.csi = () => ({
         onloadT: timing.domContentLoadedEventEnd,
         startE: timing.navigationStart,
         pageT: Date.now() - timing.navigationStart,
         tran: 15, // Transition type or something
       });
-      utils.patchToString(window.chrome.csi);
+      utils.patchToString(window.chrome!.csi as Function);
     });
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

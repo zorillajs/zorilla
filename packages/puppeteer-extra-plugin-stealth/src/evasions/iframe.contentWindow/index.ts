@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -9,25 +9,25 @@ import withUtils from '../_utils/withUtils.js';
  * https://github.com/puppeteer/puppeteer/issues/1106
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/iframe.contentWindow';
   }
 
-  get requirements() {
+  override get requirements(): Set<'runLast'> {
     // Make sure `chrome.runtime` has ran, we use data defined by it (e.g. `window.chrome`)
     return new Set(['runLast']);
   }
 
-  async onPageCreated(page) {
-    await withUtils(page).evaluateOnNewDocument((utils, _opts) => {
+  override async onPageCreated(page: Page): Promise<void> {
+    await withUtils(page).evaluateOnNewDocument(utils => {
       try {
         // Adds a contentWindow proxy to the provided iframe element
-        const addContentWindowProxy = iframe => {
-          const contentWindowProxy = {
+        const addContentWindowProxy = (iframe: HTMLIFrameElement) => {
+          const contentWindowProxy: ProxyHandler<Window> = {
             get(target, key) {
               // Now to the interesting part:
               // We actually make this thing behave like a regular iframe window,
@@ -65,8 +65,12 @@ class Plugin extends PuppeteerExtraPlugin {
         };
 
         // Handles iframe element creation, augments `srcdoc` property so we can intercept further
-        const handleIframeCreation = (target, thisArg, args) => {
-          const iframe = target.apply(thisArg, args);
+        const handleIframeCreation = (
+          target: Function,
+          thisArg: unknown,
+          args: unknown[]
+        ) => {
+          const iframe = target.apply(thisArg, args) as HTMLIFrameElement;
 
           // We need to keep the originals around
           const _iframe = iframe;
@@ -77,7 +81,7 @@ class Plugin extends PuppeteerExtraPlugin {
           Object.defineProperty(iframe, 'srcdoc', {
             configurable: true, // Important, so we can reset this later
             get: () => _srcdoc,
-            set: function (newValue) {
+            set: function (this: HTMLIFrameElement, newValue: string) {
               addContentWindowProxy(this);
               // Reset property, the hook is only needed once
               Object.defineProperty(iframe, 'srcdoc', {
@@ -94,7 +98,9 @@ class Plugin extends PuppeteerExtraPlugin {
         // Adds a hook to intercept iframe creation events
         const addIframeCreationSniffer = () => {
           /* global document */
-          const createElementHandler = {
+          const createElementHandler: ProxyHandler<
+            typeof document.createElement
+          > = {
             // Make toString() native
             get(target, key) {
               return Reflect.get(target, key);
@@ -104,7 +110,7 @@ class Plugin extends PuppeteerExtraPlugin {
                 args?.length && `${args[0]}`.toLowerCase() === 'iframe';
               if (!isIframe) {
                 // Everything as usual
-                return target.apply(thisArg, args);
+                return Reflect.apply(target, thisArg, args);
               } else {
                 return handleIframeCreation(target, thisArg, args);
               }
@@ -127,6 +133,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

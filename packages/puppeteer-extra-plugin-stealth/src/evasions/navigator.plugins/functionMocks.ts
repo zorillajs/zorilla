@@ -4,9 +4,14 @@
  * Note: This is meant to be run in the context of the page.
  */
 export const generateFunctionMocks =
-  utils => (proto, itemMainProp, dataArray) => ({
+  (utils: typeof import('../_utils/index.js').default) =>
+  <T extends { [Symbol.toStringTag]: string }>(
+    proto: T,
+    itemMainProp: string,
+    dataArray: Array<Record<string, unknown>>
+  ) => ({
     /** Returns the MimeType object with the specified index. */
-    item: utils.createProxy(proto.item, {
+    item: utils.createProxy((proto as unknown as { item: Function }).item, {
       apply(_target, _ctx, args) {
         if (!args.length) {
           throw new TypeError(
@@ -24,21 +29,24 @@ export const generateFunctionMocks =
       },
     }),
     /** Returns the MimeType object with the specified name. */
-    namedItem: utils.createProxy(proto.namedItem, {
-      apply(_target, _ctx, args) {
-        if (!args.length) {
-          throw new TypeError(
-            `Failed to execute 'namedItem' on '${
-              proto[Symbol.toStringTag]
-            }': 1 argument required, but only 0 present.`
-          );
-        }
-        return dataArray.find(mt => mt[itemMainProp] === args[0]) || null; // Not `undefined`!
-      },
-    }),
+    namedItem: utils.createProxy(
+      (proto as unknown as { namedItem: Function }).namedItem,
+      {
+        apply(_target, _ctx, args) {
+          if (!args.length) {
+            throw new TypeError(
+              `Failed to execute 'namedItem' on '${
+                proto[Symbol.toStringTag]
+              }': 1 argument required, but only 0 present.`
+            );
+          }
+          return dataArray.find(mt => mt[itemMainProp] === args[0]) || null; // Not `undefined`!
+        },
+      }
+    ),
     /** Does nothing and shall return nothing */
-    refresh: proto.refresh
-      ? utils.createProxy(proto.refresh, {
+    refresh: (proto as unknown as { refresh?: Function }).refresh
+      ? utils.createProxy((proto as unknown as { refresh: Function }).refresh, {
           apply(_target, _ctx, _args) {
             return undefined;
           },

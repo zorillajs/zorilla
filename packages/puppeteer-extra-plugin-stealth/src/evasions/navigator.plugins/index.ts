@@ -1,13 +1,28 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import utils from '../_utils/index.js';
-
 import withUtils from '../_utils/withUtils.js';
-import data from './data.json' with { type: 'json' };
+import data from './data.json';
 import { generateFunctionMocks } from './functionMocks.js';
 import { generateMagicArray } from './magicArray.js';
 import { generateMimeTypeArray } from './mimeTypes.js';
 import { generatePluginArray } from './plugins.js';
+
+interface PluginData {
+  name: string;
+  __mimeTypes: string[];
+  [key: string]: unknown;
+}
+
+interface MimeTypeData {
+  type: string;
+  [key: string]: unknown;
+}
+
+interface Data {
+  mimeTypes: MimeTypeData[];
+  plugins: PluginData[];
+}
 
 /**
  * In headless mode `navigator.mimeTypes` and `navigator.plugins` are empty.
@@ -21,18 +36,18 @@ import { generatePluginArray } from './plugins.js';
  * @see https://developer.mozilla.org/en-US/docs/Web/API/PluginArray
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/navigator.plugins';
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(
-      (utils, { fns, data }) => {
-        fns = utils.materializeFns(fns);
+      (utils, { fns, data }: { fns: Record<string, string>; data: Data }) => {
+        const materializedFns = utils.materializeFns(fns);
 
         // That means we're running headful
         const hasPlugins = 'plugins' in navigator && navigator.plugins.length;
@@ -40,13 +55,19 @@ class Plugin extends PuppeteerExtraPlugin {
           return; // nothing to do here
         }
 
-        const mimeTypes = fns.generateMimeTypeArray(utils, fns)(data.mimeTypes);
-        const plugins = fns.generatePluginArray(utils, fns)(data.plugins);
+        const mimeTypes = materializedFns.generateMimeTypeArray!(
+          utils,
+          materializedFns
+        )(data.mimeTypes);
+        const plugins = materializedFns.generatePluginArray!(
+          utils,
+          materializedFns
+        )(data.plugins);
 
         // Plugin and MimeType cross-reference each other, let's do that now
         // Note: We're looping through `data.plugins` here, not the generated `plugins`
         for (const pluginData of data.plugins) {
-          pluginData.__mimeTypes.forEach((type, index) => {
+          pluginData.__mimeTypes.forEach((type: string, index: number) => {
             plugins[pluginData.name][index] = mimeTypes[type];
 
             Object.defineProperty(plugins[pluginData.name], type, {
@@ -67,7 +88,7 @@ class Plugin extends PuppeteerExtraPlugin {
           });
         }
 
-        const patchNavigator = (name, value) =>
+        const patchNavigator = (name: string, value: unknown) =>
           utils.replaceProperty(Object.getPrototypeOf(navigator), name, {
             get() {
               return value;
@@ -82,10 +103,10 @@ class Plugin extends PuppeteerExtraPlugin {
       {
         // We pass some functions to evaluate to structure the code more nicely
         fns: utils.stringifyFns({
-          generateMimeTypeArray,
-          generatePluginArray,
-          generateMagicArray,
-          generateFunctionMocks,
+          generateMimeTypeArray: generateMimeTypeArray as unknown as Function,
+          generatePluginArray: generatePluginArray as unknown as Function,
+          generateMagicArray: generateMagicArray as unknown as Function,
+          generateFunctionMocks: generateFunctionMocks as unknown as Function,
         }),
         data,
       }
@@ -93,6 +114,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

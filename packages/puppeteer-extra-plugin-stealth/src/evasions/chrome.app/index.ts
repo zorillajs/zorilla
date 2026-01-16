@@ -1,19 +1,20 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
  * Mock the `chrome.app` object if not available (e.g. when running headless).
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/chrome.app';
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(utils => {
       if (!window.chrome) {
         // Use the exact property descriptor found in headful Chrome
@@ -27,12 +28,12 @@ class Plugin extends PuppeteerExtraPlugin {
       }
 
       // That means we're running headful and don't need to mock anything
-      if ('app' in window.chrome) {
+      if ('app' in window.chrome!) {
         return; // Nothing to do here
       }
 
       const makeError = {
-        ErrorInInvocation: fn => {
+        ErrorInInvocation: (fn: string) => {
           const err = new TypeError(`Error in invocation of app.${fn}()`);
           return utils.stripErrorWithAnchor(
             err,
@@ -61,7 +62,7 @@ class Plugin extends PuppeteerExtraPlugin {
         `.trim()
       );
 
-      window.chrome.app = {
+      window.chrome!.app = {
         ...STATIC_DATA,
 
         get isInstalled() {
@@ -87,11 +88,11 @@ class Plugin extends PuppeteerExtraPlugin {
           return 'cannot_run';
         },
       };
-      utils.patchToStringNested(window.chrome.app);
+      utils.patchToStringNested(window.chrome!.app as object);
     });
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }
