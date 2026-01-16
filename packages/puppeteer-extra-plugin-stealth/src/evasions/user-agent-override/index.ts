@@ -4,7 +4,7 @@ import type {
   ConnectOptions,
   LaunchOptions,
   Page,
-} from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+} from 'puppeteer';
 
 interface PageWithClient extends Page {
   _client?: (() => CDPSession | undefined) | CDPSession;

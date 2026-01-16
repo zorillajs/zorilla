@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type { Page } from 'puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 const __filename = fileURLToPath(import.meta.url);

@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type { Page } from 'puppeteer';
 
 interface PageWithClient extends Page {
   _client?: (() => CDPSession | undefined) | CDPSession;

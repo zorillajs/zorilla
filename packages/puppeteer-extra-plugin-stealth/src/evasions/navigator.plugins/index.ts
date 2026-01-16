@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type { Page } from 'puppeteer';
 import utils from '../_utils/index.js';
 import withUtils from '../_utils/withUtils.js';
 import data from './data.json';

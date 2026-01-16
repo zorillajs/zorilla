@@ -2,7 +2,7 @@ import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
 import type {
   LaunchOptions,
   Page,
-} from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+} from 'puppeteer';
 
 /**
  * Fix missing window.outerWidth/window.outerHeight in headless mode

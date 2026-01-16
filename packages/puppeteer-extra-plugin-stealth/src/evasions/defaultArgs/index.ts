@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type { LaunchOptions } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type { LaunchOptions } from 'puppeteer';
 
 const argsToIgnore = [
   '--disable-extensions',

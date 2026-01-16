@@ -1,4 +1,4 @@
-import type { Page } from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type { Page } from 'puppeteer';
 import utils from './index.js';
 
 type UtilsType = typeof import('./index.js').default;
