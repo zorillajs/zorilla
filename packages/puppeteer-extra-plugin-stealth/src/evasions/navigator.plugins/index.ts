@@ -1,12 +1,21 @@
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
 import type { Page } from 'puppeteer';
 import utils from '../_utils/index.js';
 import withUtils from '../_utils/withUtils.js';
-import data from './data.json' assert { type: 'json' };
 import { generateFunctionMocks } from './functionMocks.js';
 import { generateMagicArray } from './magicArray.js';
 import { generateMimeTypeArray } from './mimeTypes.js';
 import { generatePluginArray } from './plugins.js';
+
+// Load JSON data using readFileSync to avoid import assertion issues with Biome
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const data = JSON.parse(
+  readFileSync(join(__dirname, 'data.json'), 'utf-8')
+) as Data;
 
 interface PluginData {
   name: string;
