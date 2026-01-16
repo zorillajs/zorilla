@@ -18,7 +18,7 @@
     "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/playwright-extra": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
-    "puppeteer": "^23.0.0",
+    "puppeteer": "^24.0.0",
     "playwright": "^1.48.0"
   },
   "devDependencies": {
