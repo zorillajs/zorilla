@@ -143,6 +143,7 @@ export const generateMagicArray =
         }
         // Everything else can pass through as normal
         return utils.cache!.Reflect.get(
+          // biome-ignore lint/complexity/noArguments: Required to forward all arguments to Reflect.get
           ...(arguments as unknown as Parameters<typeof Reflect.get>)
         );
       },
@@ -156,8 +157,12 @@ export const generateMagicArray =
         const typeProps = magicArray.map(
           mt => (mt as Record<string, unknown>)[itemMainProp]
         ) as string[];
-        typeProps.forEach((_, i) => keys.push(`${i}`));
-        typeProps.forEach(propName => keys.push(propName));
+        typeProps.forEach((_, i) => {
+          keys.push(`${i}`);
+        });
+        typeProps.forEach(propName => {
+          keys.push(propName);
+        });
         return keys;
       },
       getOwnPropertyDescriptor(target, prop) {

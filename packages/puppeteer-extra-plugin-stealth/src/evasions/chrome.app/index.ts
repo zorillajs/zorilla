@@ -70,18 +70,21 @@ class Plugin extends PuppeteerExtraPlugin {
         },
 
         getDetails: function getDetails() {
+          // biome-ignore lint/complexity/noArguments: Required to match Chrome's arity validation
           if (arguments.length) {
             throw makeError.ErrorInInvocation(`getDetails`);
           }
           return null;
         },
         getIsInstalled: function getIsInstalled() {
+          // biome-ignore lint/complexity/noArguments: Required to match Chrome's arity validation
           if (arguments.length) {
             throw makeError.ErrorInInvocation(`getIsInstalled`);
           }
           return false;
         },
         runningState: function runningState() {
+          // biome-ignore lint/complexity/noArguments: Required to match Chrome's arity validation
           if (arguments.length) {
             throw makeError.ErrorInInvocation(`runningState`);
           }

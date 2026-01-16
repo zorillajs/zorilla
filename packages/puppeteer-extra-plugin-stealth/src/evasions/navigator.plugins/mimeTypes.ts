@@ -1,7 +1,5 @@
 /* global MimeType MimeTypeArray */
 
-import type utils from '../_utils/index.js';
-
 interface MimeTypeData {
   type: string;
   [key: string]: unknown;

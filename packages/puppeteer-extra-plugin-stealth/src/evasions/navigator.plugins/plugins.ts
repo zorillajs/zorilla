@@ -1,7 +1,5 @@
 /* global Plugin PluginArray */
 
-import type utils from '../_utils/index.js';
-
 interface PluginData {
   name: string;
   [key: string]: unknown;

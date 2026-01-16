@@ -245,6 +245,7 @@ class Plugin extends PuppeteerExtraPlugin {
             onDisconnect: onSomething(),
             onMessage: onSomething(),
             postMessage: function postMessage() {
+              // biome-ignore lint/complexity/noArguments: Required to match Chrome's arity validation
               if (!arguments.length) {
                 throw new TypeError(`Insufficient number of arguments.`);
               }

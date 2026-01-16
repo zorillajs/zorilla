@@ -37,10 +37,12 @@ export default (page: Page): WrappedPage => ({
       ({ _utilsFns, _mainFunction, _args }) => {
         // Add this point we cannot use our utililty functions as they're just strings, we need to materialize them first
         const utils = Object.fromEntries(
-          Object.entries(_utilsFns).map(([key, value]) => [key, eval(value)]) // eslint-disable-line no-eval
+          // biome-ignore lint/security/noGlobalEval: Required to materialize utility functions in browser context
+          Object.entries(_utilsFns).map(([key, value]) => [key, eval(value)])
         );
         utils.init();
-        return eval(_mainFunction)(utils, ..._args); // eslint-disable-line no-eval
+        // biome-ignore lint/security/noGlobalEval: Required to execute main function in browser context
+        return eval(_mainFunction)(utils, ..._args);
       },
       {
         _utilsFns: utils.stringifyFns(
@@ -61,10 +63,12 @@ export default (page: Page): WrappedPage => ({
       ({ _utilsFns, _mainFunction, _args }) => {
         // Add this point we cannot use our utililty functions as they're just strings, we need to materialize them first
         const utils = Object.fromEntries(
-          Object.entries(_utilsFns).map(([key, value]) => [key, eval(value)]) // eslint-disable-line no-eval
+          // biome-ignore lint/security/noGlobalEval: Required to materialize utility functions in browser context
+          Object.entries(_utilsFns).map(([key, value]) => [key, eval(value)])
         );
         utils.init();
-        return eval(_mainFunction)(utils, ..._args); // eslint-disable-line no-eval
+        // biome-ignore lint/security/noGlobalEval: Required to execute main function in browser context
+        return eval(_mainFunction)(utils, ..._args);
       },
       {
         _utilsFns: utils.stringifyFns(

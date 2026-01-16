@@ -316,12 +316,13 @@ utils.patchToString = (obj: Function, str = ''): void => {
       }
       // Check if the toString protype of the context is the same as the global prototype,
       // if not indicates that we are doing a check across different windows., e.g. the iframeWithdirect` test case
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: Required for cross-window iframe detection
       const hasSameProto = Object.getPrototypeOf(
         Function.prototype.toString
-      ).isPrototypeOf((ctx as any).toString); // eslint-disable-line no-prototype-builtins
+      ).isPrototypeOf((ctx as { toString: () => string }).toString);
       if (!hasSameProto) {
         // Pass the call on to the local Function.prototype.toString instead
-        return (ctx as any).toString();
+        return (ctx as { toString: () => string }).toString();
       }
       return target.call(ctx);
     },
@@ -376,9 +377,10 @@ utils.redirectToString = (proxyObj: Function, originalObj: Function): void => {
 
       // Check if the toString protype of the context is the same as the global prototype,
       // if not indicates that we are doing a check across different windows., e.g. the iframeWithdirect` test case
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: Required for cross-window iframe detection
       const hasSameProto = Object.getPrototypeOf(
         Function.prototype.toString
-      ).isPrototypeOf(ctx.toString); // eslint-disable-line no-prototype-builtins
+      ).isPrototypeOf(ctx.toString);
       if (!hasSameProto) {
         // Pass the call on to the local Function.prototype.toString instead
         return ctx.toString();
@@ -454,7 +456,7 @@ utils.replaceGetterWithProxy = <T extends object>(
   const fnStr = fn.toString(); // special getter function string
   const proxyObj = new Proxy(fn, utils.stripProxyFromErrors(handler));
 
-  utils.replaceProperty(obj, propName, { get: proxyObj as () => any });
+  utils.replaceProperty(obj, propName, { get: proxyObj as () => unknown });
   utils.patchToString(proxyObj, fnStr);
 
   return true;

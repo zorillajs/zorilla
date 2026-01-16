@@ -43,6 +43,7 @@ class Plugin extends PuppeteerExtraPlugin {
               param?.name && param.name === 'notifications';
             if (!isNotifications) {
               return utils.cache!.Reflect.apply(
+                // biome-ignore lint/complexity/noArguments: Required to forward all arguments to Reflect.apply
                 ...(arguments as unknown as Parameters<typeof Reflect.apply>)
               );
             }

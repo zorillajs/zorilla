@@ -1,10 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type {
-  Browser,
-  ConnectOptions,
-  LaunchOptions,
-  Page,
-} from 'puppeteer';
+import type { ConnectOptions, LaunchOptions, Page } from 'puppeteer';
 
 interface PageWithClient extends Page {
   _client?: (() => CDPSession | undefined) | CDPSession;
@@ -133,7 +128,7 @@ class Plugin extends PuppeteerExtraPlugin {
 
     // Source in C++: https://source.chromium.org/chromium/chromium/src/+/master:components/embedder_support/user_agent_utils.cc;l=55-100
     const _getBrands = (): UserAgentBrand[] => {
-      const seed = parseInt(uaVersion.split('.')[0]!); // the major version number of Chrome
+      const seed = parseInt(uaVersion.split('.')[0]!, 10); // the major version number of Chrome
 
       const orderOptions = [
         [0, 1, 2],
@@ -171,13 +166,13 @@ class Plugin extends PuppeteerExtraPlugin {
     const _getPlatformVersion = (): string => {
       if (ua.includes('Mac OS X ')) {
         const match = ua.match(/Mac OS X ([^)]+)/);
-        return (match && match[1]) || '';
+        return match?.[1] || '';
       } else if (ua.includes('Android ')) {
         const match = ua.match(/Android ([^;]+)/);
-        return (match && match[1]) || '';
+        return match?.[1] || '';
       } else if (ua.includes('Windows ')) {
         const match = ua.match(/Windows .*?([\d|.]+);?/);
-        return (match && match[1]) || '';
+        return match?.[1] || '';
       } else {
         return '';
       }
@@ -190,7 +185,7 @@ class Plugin extends PuppeteerExtraPlugin {
     const _getPlatformModel = (): string => {
       if (!_getMobile()) return '';
       const match = ua.match(/Android.*?;\s([^)]+)/);
-      return (match && match[1]) || '';
+      return match?.[1] || '';
     };
 
     const _getMobile = (): boolean => ua.includes('Android');
@@ -237,7 +232,7 @@ class Plugin extends PuppeteerExtraPlugin {
     this._headless = !!options.headless;
   }
 
-  override async beforeConnect(options?: ConnectOptions): Promise<void> {
+  override async beforeConnect(_options?: ConnectOptions): Promise<void> {
     // Treat browsers using connect() as headless browsers
     this._headless = true;
   }
@@ -245,7 +240,7 @@ class Plugin extends PuppeteerExtraPlugin {
   override get data() {
     return [
       {
-        name: 'userPreferences' as any,
+        name: 'userPreferences' as unknown as { [key: string]: unknown },
         value: {
           intl: {
             accept_languages: (this.opts.locale as string) || 'en-US,en',

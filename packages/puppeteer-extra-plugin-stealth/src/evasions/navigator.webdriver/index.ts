@@ -1,8 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type {
-  LaunchOptions,
-  Page,
-} from 'puppeteer';
+import type { LaunchOptions, Page } from 'puppeteer';
 
 /**
  * Pass the Webdriver Test.
