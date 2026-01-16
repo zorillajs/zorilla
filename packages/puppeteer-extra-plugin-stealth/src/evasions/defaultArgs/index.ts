@@ -1,4 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { LaunchOptions } from 'puppeteer';
 
 const argsToIgnore = [
   '--disable-extensions',
@@ -11,34 +12,42 @@ const argsToIgnore = [
  * adversarial to mimicking a regular browser and need to be stripped when launching the browser.
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/defaultArgs';
   }
 
-  get requirements() {
+  override get requirements(): Set<'runLast'> {
     return new Set(['runLast']); // So other plugins can modify launch options before
   }
 
-  async beforeLaunch(options = {}) {
-    options.ignoreDefaultArgs = options.ignoreDefaultArgs || [];
-    if (options.ignoreDefaultArgs === true) {
+  override async beforeLaunch(options: LaunchOptions = {}): Promise<void> {
+    const ignoreDefaultArgs = options.ignoreDefaultArgs;
+
+    if (ignoreDefaultArgs === true) {
       // that means the user explicitly wants to disable all default arguments
       return;
     }
+
+    if (!ignoreDefaultArgs) {
+      options.ignoreDefaultArgs = [];
+    } else if (!Array.isArray(ignoreDefaultArgs)) {
+      return;
+    }
+
     argsToIgnore.forEach(arg => {
-      if (options.ignoreDefaultArgs.includes(arg)) {
+      if ((options.ignoreDefaultArgs as string[]).includes(arg)) {
         return;
       }
-      options.ignoreDefaultArgs.push(arg);
+      (options.ignoreDefaultArgs as string[]).push(arg);
     });
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }
 

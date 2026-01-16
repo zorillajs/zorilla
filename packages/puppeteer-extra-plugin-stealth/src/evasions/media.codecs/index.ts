@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from 'puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -7,15 +7,15 @@ import withUtils from '../_utils/withUtils.js';
  * (Chromium doesn't support proprietary codecs, only Chrome does)
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/media.codecs';
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(utils => {
       /**
        * Input might look funky, we need to normalize it so e.g. whitespace isn't an issue for our spoofing.
@@ -27,9 +27,9 @@ class Plugin extends PuppeteerExtraPlugin {
        * audio/ogg; codecs="vorbis"
        * @param {String} arg
        */
-      const parseInput = arg => {
+      const parseInput = (arg: string) => {
         const [mime, codecStr] = arg.trim().split(';');
-        let codecs = [];
+        let codecs: string[] = [];
         if (codecStr?.includes('codecs="')) {
           codecs = codecStr
             .trim()
@@ -47,11 +47,13 @@ class Plugin extends PuppeteerExtraPlugin {
         };
       };
 
-      const canPlayType = {
+      const canPlayType: ProxyHandler<
+        typeof HTMLMediaElement.prototype.canPlayType
+      > = {
         // Intercept certain requests
         apply: (target, ctx, args) => {
           if (!args || !args.length) {
-            return target.apply(ctx, args);
+            return Reflect.apply(target, ctx, args);
           }
           const { mime, codecs } = parseInput(args[0]);
           // This specific mp4 codec is missing in Chromium
@@ -70,7 +72,7 @@ class Plugin extends PuppeteerExtraPlugin {
             return 'probably';
           }
           // Everything else as usual
-          return target.apply(ctx, args);
+          return Reflect.apply(target, ctx, args);
         },
       };
 
@@ -84,6 +86,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

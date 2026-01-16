@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from 'puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -18,17 +18,17 @@ import withUtils from '../_utils/withUtils.js';
  *
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/chrome.loadTimes';
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(
-      (utils, { opts }) => {
+      (utils, { opts: _opts }) => {
         if (!window.chrome) {
           // Use the exact property descriptor found in headful Chrome
           // fetch it via `Object.getOwnPropertyDescriptor(window, 'chrome')`
@@ -41,7 +41,7 @@ class Plugin extends PuppeteerExtraPlugin {
         }
 
         // That means we're running headful and don't need to mock anything
-        if ('loadTimes' in window.chrome) {
+        if ('loadTimes' in window.chrome!) {
           return; // Nothing to do here
         }
 
@@ -66,22 +66,31 @@ class Plugin extends PuppeteerExtraPlugin {
         // The API exposes some funky info regarding the connection
         const protocolInfo = {
           get connectionInfo() {
-            const ntEntry =
-              performance.getEntriesByType('navigation')[0] || ntEntryFallback;
+            const ntEntry: { nextHopProtocol: string; type: string } =
+              (performance.getEntriesByType('navigation')[0] as unknown as {
+                nextHopProtocol: string;
+                type: string;
+              }) || ntEntryFallback;
             return ntEntry.nextHopProtocol;
           },
           get npnNegotiatedProtocol() {
             // NPN is deprecated in favor of ALPN, but this implementation returns the
             // HTTP/2 or HTTP2+QUIC/39 requests negotiated via ALPN.
-            const ntEntry =
-              performance.getEntriesByType('navigation')[0] || ntEntryFallback;
+            const ntEntry: { nextHopProtocol: string; type: string } =
+              (performance.getEntriesByType('navigation')[0] as unknown as {
+                nextHopProtocol: string;
+                type: string;
+              }) || ntEntryFallback;
             return ['h2', 'hq'].includes(ntEntry.nextHopProtocol)
               ? ntEntry.nextHopProtocol
               : 'unknown';
           },
           get navigationType() {
-            const ntEntry =
-              performance.getEntriesByType('navigation')[0] || ntEntryFallback;
+            const ntEntry: { nextHopProtocol: string; type: string } =
+              (performance.getEntriesByType('navigation')[0] as unknown as {
+                nextHopProtocol: string;
+                type: string;
+              }) || ntEntryFallback;
             return ntEntry.type;
           },
           get wasAlternateProtocolAvailable() {
@@ -93,15 +102,21 @@ class Plugin extends PuppeteerExtraPlugin {
           get wasFetchedViaSpdy() {
             // SPDY is deprecated in favor of HTTP/2, but this implementation returns
             // true for HTTP/2 or HTTP2+QUIC/39 as well.
-            const ntEntry =
-              performance.getEntriesByType('navigation')[0] || ntEntryFallback;
+            const ntEntry: { nextHopProtocol: string; type: string } =
+              (performance.getEntriesByType('navigation')[0] as unknown as {
+                nextHopProtocol: string;
+                type: string;
+              }) || ntEntryFallback;
             return ['h2', 'hq'].includes(ntEntry.nextHopProtocol);
           },
           get wasNpnNegotiated() {
             // NPN is deprecated in favor of ALPN, but this implementation returns true
             // for HTTP/2 or HTTP2+QUIC/39 requests negotiated via ALPN.
-            const ntEntry =
-              performance.getEntriesByType('navigation')[0] || ntEntryFallback;
+            const ntEntry: { nextHopProtocol: string; type: string } =
+              (performance.getEntriesByType('navigation')[0] as unknown as {
+                nextHopProtocol: string;
+                type: string;
+              }) || ntEntryFallback;
             return ['h2', 'hq'].includes(ntEntry.nextHopProtocol);
           },
         };
@@ -109,9 +124,9 @@ class Plugin extends PuppeteerExtraPlugin {
         const { timing } = window.performance;
 
         // Truncate number to specific number of decimals, most of the `loadTimes` stuff has 3
-        function toFixed(num, fixed) {
-          var re = new RegExp('^-?\\d+(?:.\\d{0,' + (fixed || -1) + '})?');
-          return num.toString().match(re)[0];
+        function toFixed(num: number, fixed: number): string {
+          const re = new RegExp('^-?\\d+(?:.\\d{0,' + (fixed || -1) + '})?');
+          return num.toString().match(re)![0];
         }
 
         const timingInfo = {
@@ -145,11 +160,11 @@ class Plugin extends PuppeteerExtraPlugin {
           },
         };
 
-        window.chrome.loadTimes = () => ({
+        window.chrome!.loadTimes = () => ({
           ...protocolInfo,
           ...timingInfo,
         });
-        utils.patchToString(window.chrome.loadTimes);
+        utils.patchToString(window.chrome!.loadTimes as Function);
       },
       {
         opts: this.opts,
@@ -158,6 +173,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from 'puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -9,16 +9,16 @@ import withUtils from '../_utils/withUtils.js';
  */
 
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/navigator.permissions';
   }
 
   /* global Notification Permissions PermissionStatus */
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument((utils, _opts) => {
       const isSecure = document.location.protocol.startsWith('https');
 
@@ -35,14 +35,17 @@ class Plugin extends PuppeteerExtraPlugin {
       // On insecure origins in headful the state is "denied",
       // whereas in headless it's "prompt"
       if (!isSecure) {
-        const handler = {
+        const handler: ProxyHandler<typeof Permissions.prototype.query> = {
           apply(_target, _ctx, args) {
-            const param = (args || [])[0];
+            const param = (args || [])[0] as { name?: string };
 
             const isNotifications =
               param?.name && param.name === 'notifications';
             if (!isNotifications) {
-              return utils.cache.Reflect.apply(...arguments);
+              return utils.cache!.Reflect.apply(
+                // biome-ignore lint/complexity/noArguments: Required to forward all arguments to Reflect.apply
+                ...(arguments as unknown as Parameters<typeof Reflect.apply>)
+              );
             }
 
             return Promise.resolve(
@@ -63,6 +66,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

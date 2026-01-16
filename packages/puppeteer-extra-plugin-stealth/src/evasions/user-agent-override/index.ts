@@ -1,4 +1,38 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { ConnectOptions, LaunchOptions, Page } from 'puppeteer';
+
+interface PageWithClient extends Page {
+  _client?: (() => CDPSession | undefined) | CDPSession;
+}
+
+interface CDPSession {
+  send<T = unknown>(
+    method: string,
+    params?: Record<string, unknown>
+  ): Promise<T>;
+}
+
+interface UserAgentBrand {
+  brand: string;
+  version: string;
+}
+
+interface UserAgentMetadata {
+  brands: UserAgentBrand[];
+  fullVersion: string;
+  platform: string;
+  platformVersion: string;
+  architecture: string;
+  model: string;
+  mobile: boolean;
+}
+
+interface UserAgentOverride {
+  userAgent: string;
+  platform: string;
+  userAgentMetadata: UserAgentMetadata;
+  acceptLanguage?: string;
+}
 
 /**
  * Fixes the UserAgent info (composed of UA string, Accept-Language, Platform, and UA hints).
@@ -38,21 +72,21 @@ import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
  *
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
-    super(opts);
+  private _headless = false;
 
-    this._headless = false;
+  constructor(opts: Record<string, unknown> = {}) {
+    super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/user-agent-override';
   }
 
-  get dependencies() {
+  override get dependencies(): Set<string> {
     return new Set(['user-preferences']);
   }
 
-  get defaults() {
+  override get defaults(): Record<string, unknown> {
     return {
       userAgent: null,
       locale: 'en-US,en',
@@ -60,10 +94,10 @@ class Plugin extends PuppeteerExtraPlugin {
     };
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     // Determine the full user agent string, strip the "Headless" part
     let ua =
-      this.opts.userAgent ||
+      (this.opts.userAgent as string) ||
       (await page.browser().userAgent()).replace('HeadlessChrome/', 'Chrome/');
 
     if (
@@ -76,11 +110,11 @@ class Plugin extends PuppeteerExtraPlugin {
 
     // Full version number from Chrome
     const uaVersion = ua.includes('Chrome/')
-      ? ua.match(/Chrome\/([\d|.]+)/)[1]
-      : (await page.browser().version()).match(/\/([\d|.]+)/)[1];
+      ? ua.match(/Chrome\/([\d|.]+)/)![1]!
+      : (await page.browser().version()).match(/\/([\d|.]+)/)![1]!;
 
     // Get platform identifier (short or long version)
-    const _getPlatform = (extended = false) => {
+    const _getPlatform = (extended = false): string => {
       if (ua.includes('Mac OS X')) {
         return extended ? 'Mac OS X' : 'MacIntel';
       } else if (ua.includes('Android')) {
@@ -93,24 +127,29 @@ class Plugin extends PuppeteerExtraPlugin {
     };
 
     // Source in C++: https://source.chromium.org/chromium/chromium/src/+/master:components/embedder_support/user_agent_utils.cc;l=55-100
-    const _getBrands = () => {
-      const seed = uaVersion.split('.')[0]; // the major version number of Chrome
+    const _getBrands = (): UserAgentBrand[] => {
+      const seed = uaVersion.split('.')[0]!; // the major version number of Chrome (as string for CDP)
 
-      const order = [
+      const orderOptions = [
         [0, 1, 2],
         [0, 2, 1],
         [1, 0, 2],
         [1, 2, 0],
         [2, 0, 1],
         [2, 1, 0],
-      ][seed % 6];
+      ];
+      const order = orderOptions[Number.parseInt(seed, 10) % 6] as [
+        number,
+        number,
+        number,
+      ];
       const escapedChars = [' ', ' ', ';'];
 
       const greaseyBrand = `${escapedChars[order[0]]}Not${
         escapedChars[order[1]]
       }A${escapedChars[order[2]]}Brand`;
 
-      const greasedBrandVersionList = [];
+      const greasedBrandVersionList: UserAgentBrand[] = [];
       greasedBrandVersionList[order[0]] = {
         brand: greaseyBrand,
         version: '99',
@@ -128,28 +167,34 @@ class Plugin extends PuppeteerExtraPlugin {
     };
 
     // Return OS version
-    const _getPlatformVersion = () => {
+    const _getPlatformVersion = (): string => {
       if (ua.includes('Mac OS X ')) {
-        return ua.match(/Mac OS X ([^)]+)/)[1];
+        const match = ua.match(/Mac OS X ([^)]+)/);
+        return match?.[1] || '';
       } else if (ua.includes('Android ')) {
-        return ua.match(/Android ([^;]+)/)[1];
+        const match = ua.match(/Android ([^;]+)/);
+        return match?.[1] || '';
       } else if (ua.includes('Windows ')) {
-        return ua.match(/Windows .*?([\d|.]+);?/)[1];
+        const match = ua.match(/Windows .*?([\d|.]+);?/);
+        return match?.[1] || '';
       } else {
         return '';
       }
     };
 
     // Get architecture, this seems to be empty on mobile and x86 on desktop
-    const _getPlatformArch = () => (_getMobile() ? '' : 'x86');
+    const _getPlatformArch = (): string => (_getMobile() ? '' : 'x86');
 
     // Return the Android model, empty on desktop
-    const _getPlatformModel = () =>
-      _getMobile() ? ua.match(/Android.*?;\s([^)]+)/)[1] : '';
+    const _getPlatformModel = (): string => {
+      if (!_getMobile()) return '';
+      const match = ua.match(/Android.*?;\s([^)]+)/);
+      return match?.[1] || '';
+    };
 
-    const _getMobile = () => ua.includes('Android');
+    const _getMobile = (): boolean => ua.includes('Android');
 
-    const override = {
+    const override: UserAgentOverride = {
       userAgent: ua,
       platform: _getPlatform(),
       userAgentMetadata: {
@@ -167,7 +212,7 @@ class Plugin extends PuppeteerExtraPlugin {
     // This is not preferred, as it messed up the header order.
     // On headful, we set the user preference language setting instead.
     if (this._headless) {
-      override.acceptLanguage = this.opts.locale || 'en-US,en';
+      override.acceptLanguage = (this.opts.locale as string) || 'en-US,en';
     }
 
     this.debug('onPageCreated - Will set these user agent options', {
@@ -175,33 +220,40 @@ class Plugin extends PuppeteerExtraPlugin {
       opts: this.opts,
     });
 
+    const pageWithClient = page as PageWithClient;
     const client =
-      typeof page._client === 'function' ? page._client() : page._client;
-    client.send('Network.setUserAgentOverride', override);
+      typeof pageWithClient._client === 'function'
+        ? pageWithClient._client()
+        : pageWithClient._client;
+    // Type assertion needed because CDP send expects Record<string, unknown> but our typed interface doesn't have index signature
+    // biome-ignore lint/suspicious/noExplicitAny: CDP protocol requires dynamic parameters
+    client!.send('Network.setUserAgentOverride', override as any);
   }
 
-  async beforeLaunch(options) {
+  override async beforeLaunch(options: LaunchOptions): Promise<void> {
     // Check if launched headless
-    this._headless = options.headless;
+    this._headless = !!options.headless;
   }
 
-  async beforeConnect() {
+  override async beforeConnect(_options?: ConnectOptions): Promise<void> {
     // Treat browsers using connect() as headless browsers
     this._headless = true;
   }
 
-  get data() {
+  override get data() {
     return [
       {
-        name: 'userPreferences',
+        name: 'userPreferences' as unknown as { [key: string]: unknown },
         value: {
-          intl: { accept_languages: this.opts.locale || 'en-US,en' },
+          intl: {
+            accept_languages: (this.opts.locale as string) || 'en-US,en',
+          },
         },
       },
     ];
   }
 }
 
-export default function (opts) {
+export default function (opts?: Record<string, unknown>): Plugin {
   return new Plugin(opts);
 }

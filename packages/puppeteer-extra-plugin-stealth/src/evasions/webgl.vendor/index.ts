@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-
+import type { Page } from 'puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -12,21 +12,23 @@ import withUtils from '../_utils/withUtils.js';
  * @param {string} [opts.renderer] - The renderer string (default: `Intel Iris OpenGL Engine`)
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/webgl.vendor';
   }
 
   /* global WebGLRenderingContext WebGL2RenderingContext */
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument((utils, opts) => {
-      const getParameterProxyHandler = {
+      const getParameterProxyHandler: ProxyHandler<
+        typeof WebGLRenderingContext.prototype.getParameter
+      > = {
         apply: (target, ctx, args) => {
           const param = (args || [])[0];
-          const result = utils.cache.Reflect.apply(target, ctx, args);
+          const result = utils.cache!.Reflect.apply(target, ctx, args);
           // UNMASKED_VENDOR_WEBGL
           if (param === 37445) {
             return opts.vendor || 'Intel Inc.'; // default in headless: Google Inc.
@@ -42,7 +44,7 @@ class Plugin extends PuppeteerExtraPlugin {
       // There's more than one WebGL rendering context
       // https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext#Browser_compatibility
       // To find out the original values here: Object.getOwnPropertyDescriptors(WebGLRenderingContext.prototype.getParameter)
-      const addProxy = (obj, propName) => {
+      const addProxy = (obj: object, propName: string) => {
         utils.replaceWithProxy(obj, propName, getParameterProxyHandler);
       };
       // For whatever weird reason loops don't play nice with Object.defineProperty, here's the next best thing:
@@ -52,6 +54,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }

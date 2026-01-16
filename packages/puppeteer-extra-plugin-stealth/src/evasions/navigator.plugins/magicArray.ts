@@ -1,5 +1,16 @@
 /* global MimeType MimeTypeArray Plugin PluginArray  */
 
+interface ItemData {
+  [key: string]: unknown;
+  __mimeTypes?: string[];
+}
+
+interface Fns {
+  generateFunctionMocks: ReturnType<
+    typeof import('./functionMocks.js').generateFunctionMocks
+  >;
+}
+
 /**
  * Generate a convincing and functional MimeType or Plugin array from scratch.
  * They're so similar that it makes sense to use a single generator here.
@@ -7,15 +18,19 @@
  * Note: This is meant to be run in the context of the page.
  */
 export const generateMagicArray =
-  (utils, fns) =>
-  (
-    dataArray = [],
-    proto = MimeTypeArray.prototype,
-    itemProto = MimeType.prototype,
+  (utils: typeof import('../_utils/index.js').default, fns: Fns) =>
+  <ProtoType extends object, ItemProtoType extends object>(
+    dataArray: ItemData[] = [],
+    proto: ProtoType = MimeTypeArray.prototype as unknown as ProtoType,
+    itemProto: ItemProtoType = MimeType.prototype as unknown as ItemProtoType,
     itemMainProp = 'type'
   ) => {
     // Quick helper to set props with the same descriptors vanilla is using
-    const defineProp = (obj, prop, value) =>
+    const defineProp = (
+      obj: Record<string, unknown>,
+      prop: string,
+      value: unknown
+    ) =>
       Object.defineProperty(obj, prop, {
         value,
         writable: false,
@@ -24,8 +39,8 @@ export const generateMagicArray =
       });
 
     // Loop over our fake data and construct items
-    const makeItem = data => {
-      const item = {};
+    const makeItem = (data: ItemData) => {
+      const item: Record<string, unknown> = {};
       for (const prop of Object.keys(data)) {
         if (prop.startsWith('__')) {
           continue;
@@ -35,7 +50,7 @@ export const generateMagicArray =
       return patchItem(item, data);
     };
 
-    const patchItem = (item, data) => {
+    const patchItem = (item: Record<string, unknown>, data: ItemData) => {
       let descriptor = Object.getOwnPropertyDescriptors(item);
 
       // Special case: Plugins have a magic length property which is not enumerable
@@ -44,7 +59,7 @@ export const generateMagicArray =
         descriptor = {
           ...descriptor,
           length: {
-            value: data.__mimeTypes.length,
+            value: data.__mimeTypes?.length || 0,
             writable: false,
             enumerable: false,
             configurable: true, // Important to be able to use the ownKeys trap in a Proxy to strip `length`
@@ -59,10 +74,12 @@ export const generateMagicArray =
       const blacklist = [...Object.keys(data), 'length', 'enabledPlugin'];
       return new Proxy(obj, {
         ownKeys(target) {
-          return Reflect.ownKeys(target).filter(k => !blacklist.includes(k));
+          return Reflect.ownKeys(target).filter(
+            k => !blacklist.includes(k as string)
+          );
         },
         getOwnPropertyDescriptor(target, prop) {
-          if (blacklist.includes(prop)) {
+          if (blacklist.includes(prop as string)) {
             return undefined;
           }
           return Reflect.getOwnPropertyDescriptor(target, prop);
@@ -70,7 +87,7 @@ export const generateMagicArray =
       });
     };
 
-    const magicArray = [];
+    const magicArray: unknown[] = [];
 
     // Loop through our fake data and use that to create convincing entities
     dataArray.forEach(data => {
@@ -79,12 +96,18 @@ export const generateMagicArray =
 
     // Add direct property access  based on types (e.g. `obj['application/pdf']`) afterwards
     magicArray.forEach(entry => {
-      defineProp(magicArray, entry[itemMainProp], entry);
+      defineProp(
+        magicArray as unknown as Record<string, unknown>,
+        (entry as Record<string, unknown>)[itemMainProp] as string,
+        entry
+      );
     });
 
     // This is the best way to fake the type to make sure this is false: `Array.isArray(navigator.mimeTypes)`
     const magicArrayObj = Object.create(proto, {
-      ...Object.getOwnPropertyDescriptors(magicArray),
+      ...(Object.getOwnPropertyDescriptors(
+        magicArray
+      ) as unknown as PropertyDescriptorMap),
 
       // There's one ugly quirk we unfortunately need to take care of:
       // The `MimeTypeArray` prototype has an enumerable `length` property,
@@ -99,15 +122,15 @@ export const generateMagicArray =
     });
 
     // Generate our functional function mocks :-)
-    const functionMocks = fns.generateFunctionMocks(utils)(
-      proto,
+    const functionMocks = fns.generateFunctionMocks!(
+      proto as ProtoType & { [Symbol.toStringTag]: string },
       itemMainProp,
-      magicArray
+      magicArray as Array<Record<string, unknown>>
     );
 
     // We need to overlay our custom object with a JS Proxy
     const magicArrayObjProxy = new Proxy(magicArrayObj, {
-      get(_target, key = '') {
+      get(_target, key: string | symbol = '') {
         // Redirect function calls to our custom proxied versions mocking the vanilla behavior
         if (key === 'item') {
           return functionMocks.item;
@@ -119,7 +142,10 @@ export const generateMagicArray =
           return functionMocks.refresh;
         }
         // Everything else can pass through as normal
-        return utils.cache.Reflect.get(...arguments);
+        return utils.cache!.Reflect.get(
+          // biome-ignore lint/complexity/noArguments: Required to forward all arguments to Reflect.get
+          ...(arguments as unknown as Parameters<typeof Reflect.get>)
+        );
       },
       ownKeys(_target) {
         // There are a couple of quirks where the original property demonstrates "magical" behavior that makes no sense
@@ -127,10 +153,16 @@ export const generateMagicArray =
         // My guess is that it has to do with the recent change of not allowing data enumeration and this being implemented weirdly
         // For that reason we just completely fake the available property names based on our data to match what regular Chrome is doing
         // Specific issues when not patching this: `length` property is available, direct `types` props (e.g. `obj['application/pdf']`) are missing
-        const keys = [];
-        const typeProps = magicArray.map(mt => mt[itemMainProp]);
-        typeProps.forEach((_, i) => keys.push(`${i}`));
-        typeProps.forEach(propName => keys.push(propName));
+        const keys: string[] = [];
+        const typeProps = magicArray.map(
+          mt => (mt as Record<string, unknown>)[itemMainProp]
+        ) as string[];
+        typeProps.forEach((_, i) => {
+          keys.push(`${i}`);
+        });
+        typeProps.forEach(propName => {
+          keys.push(propName);
+        });
         return keys;
       },
       getOwnPropertyDescriptor(target, prop) {

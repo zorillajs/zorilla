@@ -1,4 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { Page } from 'puppeteer';
 import withUtils from '../_utils/withUtils.js';
 
 /**
@@ -8,30 +9,32 @@ import withUtils from '../_utils/withUtils.js';
  * @param {Array<string>} [opts.languages] - The languages to use (default: `['en-US', 'en']`)
  */
 class Plugin extends PuppeteerExtraPlugin {
-  constructor(opts = {}) {
+  constructor(opts: Record<string, unknown> = {}) {
     super(opts);
   }
 
-  get name() {
+  override get name(): string {
     return 'stealth/evasions/navigator.languages';
   }
 
-  get defaults() {
+  override get defaults(): Record<string, unknown> {
     return {
       languages: [], // Empty default, otherwise this would be merged with user defined array override
     };
   }
 
-  async onPageCreated(page) {
+  override async onPageCreated(page: Page): Promise<void> {
     await withUtils(page).evaluateOnNewDocument(
       (utils, { opts }) => {
-        const languages = opts.languages.length
-          ? opts.languages
+        const languages = (opts.languages as string[]).length
+          ? (opts.languages as string[])
           : ['en-US', 'en'];
         utils.replaceGetterWithProxy(
           Object.getPrototypeOf(navigator),
           'languages',
-          utils.makeHandler().getterValue(Object.freeze([...languages]))
+          utils
+            .makeHandler()
+            .getterValue(Object.freeze([...(languages as string[])]))
         );
       },
       {
@@ -41,6 +44,6 @@ class Plugin extends PuppeteerExtraPlugin {
   }
 }
 
-export default function (pluginConfig) {
+export default function (pluginConfig?: Record<string, unknown>): Plugin {
   return new Plugin(pluginConfig);
 }
