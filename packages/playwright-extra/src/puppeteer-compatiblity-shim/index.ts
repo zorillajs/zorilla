@@ -181,13 +181,14 @@ export function createPageShim(page: pw.Page | pw.Frame) {
       if (prop === 'browser') {
         if (isPlaywrightPage(page)) {
           return () => {
-            let browser = page.context().browser();
+            const browser = page.context().browser();
             if (!browser) {
               debug(
                 'page.browser() - not available, most likely due to launchPersistentContext'
               );
               // Use a page shim as quick drop-in (so browser.userAgent() still works)
-              browser = page as unknown as pw.Browser;
+              // This works because addPuppeteerCompat accepts Page | Browser
+              return addPuppeteerCompat(page);
             }
             return addPuppeteerCompat(browser);
           };

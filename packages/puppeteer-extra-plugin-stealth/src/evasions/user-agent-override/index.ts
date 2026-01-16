@@ -246,7 +246,7 @@ class Plugin extends PuppeteerExtraPlugin {
   override get data() {
     return [
       {
-        name: 'userPreferences' as unknown as { [key: string]: unknown },
+        name: 'userPreferences',
         value: {
           intl: {
             accept_languages: (this.opts.locale as string) || 'en-US,en',
