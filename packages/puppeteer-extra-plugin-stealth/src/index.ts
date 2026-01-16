@@ -52,28 +52,27 @@ interface BrowserOptions {
  * - dynamic whitelist based on function evaluation
  *
  * @example
- * const puppeteer = require('@zorilla/puppeteer-extra')
+ * import puppeteer from '@zorilla/puppeteer-extra'
+ * import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+ *
  * // Enable stealth plugin with all evasions
- * puppeteer.use(require('@zorilla/puppeteer-extra-plugin-stealth')())
+ * puppeteer.use(StealthPlugin())
  *
+ * // Launch the browser in headless mode and set up a page.
+ * const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: true })
+ * const page = await browser.newPage()
  *
- * ;(async () => {
- *   // Launch the browser in headless mode and set up a page.
- *   const browser = await puppeteer.launch({ args: ['--no-sandbox'], headless: true })
- *   const page = await browser.newPage()
+ * // Navigate to the page that will perform the tests.
+ * const testUrl = 'https://intoli.com/blog/' +
+ *   'not-possible-to-block-chrome-headless/chrome-headless-test.html'
+ * await page.goto(testUrl)
  *
- *   // Navigate to the page that will perform the tests.
- *   const testUrl = 'https://intoli.com/blog/' +
- *     'not-possible-to-block-chrome-headless/chrome-headless-test.html'
- *   await page.goto(testUrl)
+ * // Save a screenshot of the results.
+ * const screenshotPath = '/tmp/headless-test-result.png'
+ * await page.screenshot({ path: screenshotPath })
+ * console.log('have a look at the screenshot:', screenshotPath)
  *
- *   // Save a screenshot of the results.
- *   const screenshotPath = '/tmp/headless-test-result.png'
- *   await page.screenshot({path: screenshotPath})
- *   console.log('have a look at the screenshot:', screenshotPath)
- *
- *   await browser.close()
- * })()
+ * await browser.close()
  *
  * @param {Object} [opts] - Options
  * @param {Set<string>} [opts.enabledEvasions] - Specify which evasions to use (by default all)
@@ -133,7 +132,9 @@ class StealthPlugin extends PuppeteerExtraPlugin {
    * @type {Set<string>} - A Set of all available evasions.
    *
    * @example
-   * const pluginStealth = require('@zorilla/puppeteer-extra-plugin-stealth')()
+   * import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+   *
+   * const pluginStealth = StealthPlugin()
    * console.log(pluginStealth.availableEvasions) // => Set { 'user-agent', 'console.debug' }
    * puppeteer.use(pluginStealth)
    */
@@ -149,8 +150,10 @@ class StealthPlugin extends PuppeteerExtraPlugin {
    * @type {Set<string>} - A Set of all enabled evasions.
    *
    * @example
+   * import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
+   *
    * // Remove specific evasion from enabled ones dynamically
-   * const pluginStealth = require('@zorilla/puppeteer-extra-plugin-stealth')()
+   * const pluginStealth = StealthPlugin()
    * pluginStealth.enabledEvasions.delete('console.debug')
    * puppeteer.use(pluginStealth)
    */

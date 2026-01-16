@@ -73,16 +73,17 @@ interface BrowserLaunchContext {
  * @implements {VanillaPuppeteer}
  *
  * @example
- * const puppeteer = require('@zorilla/puppeteer-extra')
- * puppeteer.use(require('@zorilla/puppeteer-extra-plugin-anonymize-ua')())
- * puppeteer.use(require('@zorilla/puppeteer-extra-plugin-font-size')({defaultFontSize: 18}))
+ * import puppeteer from '@zorilla/puppeteer-extra'
+ * import anonymizeUaPlugin from '@zorilla/puppeteer-extra-plugin-anonymize-ua'
+ * import fontSizePlugin from '@zorilla/puppeteer-extra-plugin-font-size'
  *
- * ;(async () => {
- *   const browser = await puppeteer.launch({headless: false})
- *   const page = await browser.newPage()
- *   await page.goto('http://example.com', {waitUntil: 'domcontentloaded'})
- *   await browser.close()
- * })()
+ * puppeteer.use(anonymizeUaPlugin())
+ * puppeteer.use(fontSizePlugin({ defaultFontSize: 18 }))
+ *
+ * const browser = await puppeteer.launch({ headless: false })
+ * const page = await browser.newPage()
+ * await page.goto('http://example.com', { waitUntil: 'domcontentloaded' })
+ * await browser.close()
  */
 export class PuppeteerExtra implements VanillaPuppeteer {
   private _plugins: PuppeteerExtraPlugin[] = [];
@@ -554,10 +555,6 @@ export class PuppeteerExtra implements VanillaPuppeteer {
  * from the installed dependencies.
  *
  * @example
- * // javascript import
- * const puppeteer = require('@zorilla/puppeteer-extra')
- *
- * // typescript/es6 module import
  * import puppeteer from '@zorilla/puppeteer-extra'
  *
  * // Add plugins
@@ -575,14 +572,11 @@ export default defaultExport;
  * This is useful in case you need multiple puppeteer instances with different plugins or to add plugins to a non-standard puppeteer package.
  *
  * @example
- * // js import
- * const { addExtra } = require('@zorilla/puppeteer-extra')
- *
- * // ts/es6 import
  * import { addExtra } from '@zorilla/puppeteer-extra'
+ * import puppeteerFirefox from 'puppeteer-firefox'
  *
  * // Patch e.g. puppeteer-firefox and add plugins
- * const puppeteer = addExtra(require('puppeteer-firefox'))
+ * const puppeteer = addExtra(puppeteerFirefox)
  * puppeteer.use(...)
  *
  * @param puppeteer Any puppeteer API-compatible puppeteer implementation or version.
