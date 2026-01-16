@@ -138,7 +138,11 @@ class Plugin extends PuppeteerExtraPlugin {
         [2, 0, 1],
         [2, 1, 0],
       ];
-      const order = orderOptions[Number.parseInt(seed, 10) % 6] as [number, number, number];
+      const order = orderOptions[Number.parseInt(seed, 10) % 6] as [
+        number,
+        number,
+        number,
+      ];
       const escapedChars = [' ', ' ', ';'];
 
       const greaseyBrand = `${escapedChars[order[0]]}Not${
