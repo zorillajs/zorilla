@@ -60,7 +60,11 @@ export function ProtectedPage() {
             </section>
 
             <section className="download-section">
-              <button onclick="downloadReport()" className="button">
+              <button
+                type="button"
+                onclick="downloadReport()"
+                className="button"
+              >
                 📥 Download Full Report
               </button>
             </section>
@@ -104,12 +108,16 @@ await page.goto('http://localhost:8787/challenge')
               <h3>What's Next?</h3>
               <ul>
                 <li>
-                  <a href="https://github.com/zorillajs/zorilla">⭐ Star Zorilla on GitHub</a>
+                  <a href="https://github.com/zorillajs/zorilla">
+                    ⭐ Star Zorilla on GitHub
+                  </a>
                 </li>
                 <li>
                   <a href="/">📖 Back to Documentation</a>
                 </li>
-                <li>Try other zorilla plugins (coming soon: recaptcha, adblocker)</li>
+                <li>
+                  Try other zorilla plugins (coming soon: recaptcha, adblocker)
+                </li>
               </ul>
             </section>
           </div>
@@ -157,5 +165,5 @@ await page.goto('http://localhost:8787/challenge')
         />
       </body>
     </html>
-  )
+  );
 }

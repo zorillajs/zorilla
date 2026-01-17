@@ -18,7 +18,9 @@ export function BlockedPage() {
           <header className="blocked-header">
             <h1>🚫 Access Denied</h1>
             <h2>Bot Detected</h2>
-            <p>This is what your automation script sees when detection fails.</p>
+            <p>
+              This is what your automation script sees when detection fails.
+            </p>
           </header>
 
           <section className="failed-checks">
@@ -31,16 +33,17 @@ export function BlockedPage() {
           <section className="explanation">
             <h3>Why Was I Blocked?</h3>
             <p>
-              This page uses multiple bot detection techniques to identify automated browsers. Your
-              browser failed one or more critical checks, indicating it's likely running in
-              automated/headless mode.
+              This page uses multiple bot detection techniques to identify
+              automated browsers. Your browser failed one or more critical
+              checks, indicating it's likely running in automated/headless mode.
             </p>
           </section>
 
           <section className="solution">
             <h3>💡 How to Fix This</h3>
             <p>
-              Try accessing this page using <code>@zorilla/puppeteer-extra-plugin-stealth</code>:
+              Try accessing this page using{' '}
+              <code>@zorilla/puppeteer-extra-plugin-stealth</code>:
             </p>
             <pre>
               <code className="language-javascript">
@@ -61,14 +64,18 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
             <a href="/" className="button">
               ← Back to Documentation
             </a>
-            <a href="https://github.com/zorillajs/zorilla" className="button button-secondary">
+            <a
+              href="https://github.com/zorillajs/zorilla"
+              className="button button-secondary"
+            >
               View on GitHub
             </a>
           </section>
 
           <footer>
             <p className="note">
-              Detection Score: <span id="detection-score">--</span> / 124 (Threshold: 75)
+              Detection Score: <span id="detection-score">--</span> / 124
+              (Threshold: 75)
             </p>
           </footer>
         </div>
@@ -137,5 +144,5 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
         />
       </body>
     </html>
-  )
+  );
 }

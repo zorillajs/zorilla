@@ -19,18 +19,22 @@ export function LandingPage() {
           <header className="hero">
             <h1>🛡️ Try to Scrape Me... I Dare You</h1>
             <p className="subtitle">
-              A hostile website protected by <strong>15+ bot detection techniques</strong>
+              A hostile website protected by{' '}
+              <strong>15+ bot detection techniques</strong>
             </p>
-            <p className="status">You're viewing this in a real browser - welcome, human! 👋</p>
+            <p className="status">
+              You're viewing this in a real browser - welcome, human! 👋
+            </p>
           </header>
 
           <section className="intro">
             <h2>What is this?</h2>
             <p>
-              This website actively detects and blocks automated browsers (Puppeteer, Playwright,
-              Selenium, etc.). It demonstrates the effectiveness of the{' '}
-              <code>@zorilla/puppeteer-extra-plugin-stealth</code> plugin by showing how it can
-              bypass these protections.
+              This website actively detects and blocks automated browsers
+              (Puppeteer, Playwright, Selenium, etc.). It demonstrates the
+              effectiveness of the{' '}
+              <code>@zorilla/puppeteer-extra-plugin-stealth</code> plugin by
+              showing how it can bypass these protections.
             </p>
           </section>
 
@@ -38,15 +42,16 @@ export function LandingPage() {
             <h2>How to Test</h2>
             <ol>
               <li>
-                <strong>Try accessing the protected resource</strong> at <code>/challenge</code>{' '}
-                with Puppeteer → You'll be blocked
+                <strong>Try accessing the protected resource</strong> at{' '}
+                <code>/challenge</code> with Puppeteer → You'll be blocked
               </li>
               <li>
-                <strong>Enable the stealth plugin</strong> and try again → Success!
+                <strong>Enable the stealth plugin</strong> and try again →
+                Success!
               </li>
               <li>
-                <strong>Clone the zorilla repo</strong> and run the demo scripts to see the
-                difference
+                <strong>Clone the zorilla repo</strong> and run the demo scripts
+                to see the difference
               </li>
             </ol>
 
@@ -85,7 +90,8 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
           <section className="protections">
             <h2>Active Protections (15 Detection Tests)</h2>
             <p className="note">
-              Each protection links to its corresponding stealth evasion implementation
+              Each protection links to its corresponding stealth evasion
+              implementation
             </p>
             <div className="protection-grid">
               <div className="protection-item critical">
@@ -93,6 +99,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/navigator.webdriver"
                     target="_blank"
+                    rel="noopener"
                   >
                     navigator.webdriver
                   </a>
@@ -105,6 +112,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/chrome.runtime"
                     target="_blank"
+                    rel="noopener"
                   >
                     Chrome Runtime
                   </a>
@@ -117,6 +125,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/chrome.app"
                     target="_blank"
+                    rel="noopener"
                   >
                     Chrome App
                   </a>
@@ -129,6 +138,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/navigator.plugins"
                     target="_blank"
+                    rel="noopener"
                   >
                     Plugins Array
                   </a>
@@ -141,6 +151,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/webgl.vendor"
                     target="_blank"
+                    rel="noopener"
                   >
                     WebGL Vendor
                   </a>
@@ -153,6 +164,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/webgl.vendor"
                     target="_blank"
+                    rel="noopener"
                   >
                     WebGL Renderer
                   </a>
@@ -165,6 +177,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/user-agent-override"
                     target="_blank"
+                    rel="noopener"
                   >
                     User-Agent Analysis
                   </a>
@@ -177,6 +190,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/navigator.languages"
                     target="_blank"
+                    rel="noopener"
                   >
                     Languages Array
                   </a>
@@ -189,6 +203,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/navigator.plugins"
                     target="_blank"
+                    rel="noopener"
                   >
                     MIME Types
                   </a>
@@ -201,6 +216,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/chrome.csi"
                     target="_blank"
+                    rel="noopener"
                   >
                     Chrome CSI
                   </a>
@@ -213,6 +229,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/chrome.loadTimes"
                     target="_blank"
+                    rel="noopener"
                   >
                     Chrome LoadTimes
                   </a>
@@ -225,6 +242,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/window.outerdimensions"
                     target="_blank"
+                    rel="noopener"
                   >
                     Window Dimensions
                   </a>
@@ -237,6 +255,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/navigator.permissions"
                     target="_blank"
+                    rel="noopener"
                   >
                     Notification Permission
                   </a>
@@ -249,6 +268,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/media.codecs"
                     target="_blank"
+                    rel="noopener"
                   >
                     Media Codecs
                   </a>
@@ -261,6 +281,7 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
                   <a
                     href="https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth/src/evasions/iframe.contentWindow"
                     target="_blank"
+                    rel="noopener"
                   >
                     iframe ContentWindow
                   </a>
@@ -274,9 +295,9 @@ await page.goto('https://zorilla-demo.pages.dev/challenge')
           <section className="demo-scripts">
             <h2>Run Demo Scripts Locally</h2>
             <p>
-              The zorilla repository includes demo scripts to test the stealth plugin
-              effectiveness. These scripts attempt to access <code>/challenge</code> with and
-              without the stealth plugin.
+              The zorilla repository includes demo scripts to test the stealth
+              plugin effectiveness. These scripts attempt to access{' '}
+              <code>/challenge</code> with and without the stealth plugin.
             </p>
 
             <h3>Quick Start</h3>
@@ -303,7 +324,8 @@ pnpm --filter @zorilla/demo-site run demo:compare`}
                 <h4>Puppeteer (No Stealth)</h4>
                 <pre>
                   <code className="language-bash">
-                    pnpm --filter @zorilla/demo-site run demo:puppeteer:no-stealth
+                    pnpm --filter @zorilla/demo-site run
+                    demo:puppeteer:no-stealth
                   </code>
                 </pre>
                 <p className="note">❌ Expected: Blocked (~20-30 points)</p>
@@ -312,16 +334,20 @@ pnpm --filter @zorilla/demo-site run demo:compare`}
                 <h4>Puppeteer (With Stealth)</h4>
                 <pre>
                   <code className="language-bash">
-                    pnpm --filter @zorilla/demo-site run demo:puppeteer:with-stealth
+                    pnpm --filter @zorilla/demo-site run
+                    demo:puppeteer:with-stealth
                   </code>
                 </pre>
-                <p className="note">✅ Expected: Access Granted (~115-124 points)</p>
+                <p className="note">
+                  ✅ Expected: Access Granted (~115-124 points)
+                </p>
               </div>
               <div className="demo-item">
                 <h4>Playwright (No Stealth)</h4>
                 <pre>
                   <code className="language-bash">
-                    pnpm --filter @zorilla/demo-site run demo:playwright:no-stealth
+                    pnpm --filter @zorilla/demo-site run
+                    demo:playwright:no-stealth
                   </code>
                 </pre>
                 <p className="note">❌ Expected: Blocked (~20-30 points)</p>
@@ -330,10 +356,13 @@ pnpm --filter @zorilla/demo-site run demo:compare`}
                 <h4>Playwright (With Stealth)</h4>
                 <pre>
                   <code className="language-bash">
-                    pnpm --filter @zorilla/demo-site run demo:playwright:with-stealth
+                    pnpm --filter @zorilla/demo-site run
+                    demo:playwright:with-stealth
                   </code>
                 </pre>
-                <p className="note">✅ Expected: Access Granted (~115-124 points)</p>
+                <p className="note">
+                  ✅ Expected: Access Granted (~115-124 points)
+                </p>
               </div>
             </div>
 
@@ -344,13 +373,15 @@ pnpm --filter @zorilla/demo-site run demo:compare`}
                 Navigate to the protected resource at <code>/challenge</code>
               </li>
               <li>Run through all 15 detection tests</li>
-              <li>Display the detection score and result (blocked or granted)</li>
+              <li>
+                Display the detection score and result (blocked or granted)
+              </li>
               <li>Generate screenshots showing the results</li>
             </ul>
 
             <p className="note">
-              💡 <strong>Tip:</strong> Run <code>demo:compare</code> to execute all 4 demos and
-              generate a comparison report.
+              💡 <strong>Tip:</strong> Run <code>demo:compare</code> to execute
+              all 4 demos and generate a comparison report.
             </p>
           </section>
 
@@ -360,13 +391,15 @@ pnpm --filter @zorilla/demo-site run demo:compare`}
               Try the Protected Resource →
             </a>
             <p className="note">
-              Or run the demo scripts from the zorilla repository (instructions above)
+              Or run the demo scripts from the zorilla repository (instructions
+              above)
             </p>
           </section>
 
           <footer>
             <p>
-              <a href="https://github.com/zorillajs/zorilla">View on GitHub</a> |{' '}
+              <a href="https://github.com/zorillajs/zorilla">View on GitHub</a>{' '}
+              |{' '}
               <a href="https://github.com/zorillajs/zorilla/tree/main/packages/demo-site">
                 Source Code
               </a>
@@ -375,5 +408,5 @@ pnpm --filter @zorilla/demo-site run demo:compare`}
         </div>
       </body>
     </html>
-  )
+  );
 }
