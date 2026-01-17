@@ -7,7 +7,7 @@ This directory contains TypeScript demo scripts that test the effectiveness of t
 These scripts demonstrate the **before and after** effectiveness of the stealth plugin by:
 
 1. Launching a headless browser (Puppeteer or Playwright)
-2. Navigating to the protected resource at `/api/secret`
+2. Navigating to the protected resource at `/challenge`
 3. Running through **15 client-side detection tests** + server-side checks
 4. Displaying the detection score (out of 124 points)
 5. Showing whether access was **granted** (score ≥ 75) or **blocked** (score < 75)
@@ -95,7 +95,7 @@ This will:
 To test against the live deployed site instead of localhost:
 
 ```bash
-TARGET_URL=https://zorilla-demo.pages.dev/api/secret pnpm --filter @zorilla/demo-site run demo:compare
+TARGET_URL=https://zorilla-demo.pages.dev/challenge pnpm --filter @zorilla/demo-site run demo:compare
 ```
 
 ## Expected Output
@@ -104,7 +104,7 @@ TARGET_URL=https://zorilla-demo.pages.dev/api/secret pnpm --filter @zorilla/demo
 ```
 🤖 Puppeteer WITHOUT stealth plugin
 
-Target: http://localhost:8787/api/secret
+Target: http://localhost:8787/challenge
 
 ❌ REDIRECTED TO BLOCKED PAGE - Bot detected!
 
@@ -130,10 +130,10 @@ Failed detection checks:
 ```
 🥷 Puppeteer WITH stealth plugin
 
-Target: http://localhost:8787/api/secret
+Target: http://localhost:8787/challenge
 
 Response status: 200
-Final URL: http://localhost:8787/api/secret
+Final URL: http://localhost:8787/challenge
 
 ✅ ACCESS GRANTED - Stealth plugin worked!
 

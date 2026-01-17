@@ -6,8 +6,10 @@
     "module": "ES2022",
     "target": "ES2022",
     "moduleResolution": "bundler",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist", "scripts"]
 }
