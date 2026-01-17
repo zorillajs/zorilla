@@ -15,18 +15,19 @@
     "demo:compare": "tsx scripts/stealth/compare.ts"
   },
   "dependencies": {
-    "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/playwright-extra": "workspace:*",
+    "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
-    "puppeteer": "^24.0.0",
-    "playwright": "^1.48.0"
+    "hono": "^4.11.4",
+    "playwright": "^1.48.0",
+    "puppeteer": "^24.0.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241218.0",
     "@playwright/test": "^1.48.0",
     "@types/node": "^24.0.0",
-    "wrangler": "^4.0.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "tsx": "^4.19.2"
+    "wrangler": "^4.0.0"
   }
 }

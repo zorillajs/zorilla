@@ -26,7 +26,7 @@ declare global {
 chromium.use(StealthPlugin());
 
 // Target URL - change to localhost:8787 for local testing
-const TARGET_URL = process.env.TARGET_URL || 'http://localhost:8787/api/secret';
+const TARGET_URL = process.env.TARGET_URL || 'http://localhost:8787/challenge';
 
 console.log('🥷 Playwright WITH stealth plugin\n');
 console.log(`Target: ${TARGET_URL}\n`);
