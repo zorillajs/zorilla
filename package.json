@@ -9,7 +9,7 @@
   ],
   "license": "MIT",
   "main": "packages/puppeteer-extra/index.js",
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.28.1",
   "engines": {
     "node": ">=20"
   },
