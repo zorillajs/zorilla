@@ -9,14 +9,14 @@
   ],
   "license": "MIT",
   "main": "packages/puppeteer-extra/index.js",
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.28.1",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "build": "pnpm -r --workspace-concurrency=1 run build",
     "test": "pnpm -r --workspace-concurrency=1 run test",
-    "prepare": "pnpm -r run prepare",
+    "prepare": "pnpm -r --if-present run prepare",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish",
