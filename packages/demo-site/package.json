@@ -19,12 +19,12 @@
     "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
     "hono": "^4.11.4",
-    "playwright": "^1.48.0",
+    "playwright": "^1.58.0",
     "puppeteer": "^24.0.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241218.0",
-    "@playwright/test": "^1.48.0",
+    "@playwright/test": "^1.58.0",
     "@types/node": "^24.10.9",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
