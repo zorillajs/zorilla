@@ -42,7 +42,7 @@
     "pupeteer"
   ],
   "devDependencies": {
-    "@types/node": "^25.0.6",
+    "@types/node": "^24.10.9",
     "@vitest/coverage-v8": "^4.0.17",
     "@zorilla/puppeteer-extra": "workspace:*",
     "mock-stdin": "^1.0.0",

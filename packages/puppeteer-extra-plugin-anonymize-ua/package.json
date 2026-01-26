@@ -38,7 +38,7 @@
     "pupeteer"
   ],
   "devDependencies": {
-    "@types/node": "^25.0.6",
+    "@types/node": "^24.10.9",
     "@zorilla/puppeteer-extra": "workspace:*",
     "puppeteer": "^24.35.0",
     "vitest": "^4.0.17"

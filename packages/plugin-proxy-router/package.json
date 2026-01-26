@@ -46,7 +46,7 @@
   ],
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "@types/node": "^25.0.6",
+    "@types/node": "^24.10.9",
     "@vitest/coverage-v8": "^4.0.17",
     "playwright-core": "^1.57.0",
     "puppeteer": "^24.35.0",
