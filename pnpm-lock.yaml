@@ -138,8 +138,8 @@ importers:
         specifier: ^10.1.3
         version: 10.1.3
       playwright:
-        specifier: 1.57.0
-        version: 1.57.0
+        specifier: 1.58.0
+        version: 1.58.0
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -154,7 +154,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.57.0)(playwright@1.58.0)
       proxy-chain:
         specifier: ^2.7.0
         version: 2.7.0
@@ -231,7 +231,7 @@ importers:
         version: 3.0.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -305,7 +305,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -333,7 +333,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -361,7 +361,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -413,7 +413,7 @@ importers:
         version: 3.1.1
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -450,7 +450,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -484,7 +484,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -521,7 +521,7 @@ importers:
         version: 3.0.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -561,7 +561,7 @@ importers:
         version: 3.1.1
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -598,7 +598,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -635,7 +635,7 @@ importers:
         version: 4.4.3
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -675,7 +675,7 @@ importers:
         version: 4.3.1
       playwright-extra:
         specifier: '*'
-        version: 4.3.6(playwright-core@1.57.0)(playwright@1.57.0)
+        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
@@ -2960,6 +2960,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  playwright-core@1.58.0:
+    resolution: {integrity: sha512-aaoB1RWrdNi3//rOeKuMiS65UCcgOVljU46At6eFcOFPFHWtd2weHRRow6z/n+Lec0Lvu0k9ZPKJSjPugikirw==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   playwright-extra@4.3.6:
     resolution: {integrity: sha512-q2rVtcE8V8K3vPVF1zny4pvwZveHLH8KBuVU2MoE3Jw4OKVoBWsHI9CH9zPydovHHOCDxjGN2Vg+2m644q3ijA==}
     engines: {node: '>=12'}
@@ -2974,6 +2979,11 @@ packages:
 
   playwright@1.57.0:
     resolution: {integrity: sha512-ilYQj1s8sr2ppEJ2YVadYBN0Mb3mdo9J0wQ+UuDhzYqURwSoW4n1Xs5vs7ORwgDGmyEh33tRMeS8KhdkMoLXQw==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.58.0:
+    resolution: {integrity: sha512-2SVA0sbPktiIY/MCOPX8e86ehA/e+tDNq+e5Y8qjKYti2Z/JG7xnronT/TXTIkKbYGWlCbuucZ6dziEgkoEjQQ==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -5747,18 +5757,35 @@ snapshots:
 
   playwright-core@1.57.0: {}
 
-  playwright-extra@4.3.6(playwright-core@1.57.0)(playwright@1.57.0):
+  playwright-core@1.58.0: {}
+
+  playwright-extra@4.3.6(playwright-core@1.57.0)(playwright@1.58.0):
     dependencies:
       debug: 4.4.3
     optionalDependencies:
-      playwright: 1.57.0
+      playwright: 1.58.0
       playwright-core: 1.57.0
+    transitivePeerDependencies:
+      - supports-color
+
+  playwright-extra@4.3.6(playwright-core@1.58.0)(playwright@1.58.0):
+    dependencies:
+      debug: 4.4.3
+    optionalDependencies:
+      playwright: 1.58.0
+      playwright-core: 1.58.0
     transitivePeerDependencies:
       - supports-color
 
   playwright@1.57.0:
     dependencies:
       playwright-core: 1.57.0
+    optionalDependencies:
+      fsevents: 2.3.3
+
+  playwright@1.58.0:
+    dependencies:
+      playwright-core: 1.58.0
     optionalDependencies:
       fsevents: 2.3.3
 
