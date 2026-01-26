@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/playwright-extra",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Teach playwright new tricks through plugins.",
   "repository": "zorillajs/zorilla",
   "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/playwright-extra#readme",

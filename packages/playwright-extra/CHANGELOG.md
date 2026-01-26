@@ -1,5 +1,15 @@
 # @zorilla/playwright-extra
 
+## 1.0.2
+
+### Patch Changes
+
+- [#28](https://github.com/zorillajs/zorilla/pull/28) [`5e89046`](https://github.com/zorillajs/zorilla/commit/5e8904674dd41d54180384d1c3a8ea5f3afcf220) Thanks [@renovate](https://github.com/apps/renovate)! - Fix Playwright version mismatch that caused CI test failures
+
+  - Update @playwright/test to match playwright version (1.58.0)
+  - Both packages must be the same version to work correctly
+  - Add renovate.json to group Playwright packages for future updates
+
 ## 1.0.1
 
 ### Patch Changes
