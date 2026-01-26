@@ -41,7 +41,7 @@
     "pupeteer"
   ],
   "devDependencies": {
-    "@types/node": "^25.0.6",
+    "@types/node": "^24.10.9",
     "@zorilla/puppeteer-extra": "workspace:*",
     "fpcollect": "^1.0.5",
     "fpscanner": "^0.1.5",
