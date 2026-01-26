@@ -205,7 +205,7 @@ jobs:
 
       - name: Install Chrome for Puppeteer
         if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
-        run: pnpm dlx puppeteer browsers install chrome
+        run: cd packages/${{ matrix.package }} && pnpm exec puppeteer browsers install chrome
 
       - name: Run tests for ${{ matrix.package }}
         run: pnpm --filter @zorilla/${{ matrix.package }} test
