@@ -24,7 +24,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "tscheck": "tsc --pretty --noEmit",
-    "build": "tsc",
+    "build": "tsc && cp src/puppeteer-mods.d.ts src/playwright-mods.d.ts dist/ && node -e \"const fs=require('fs');const content=fs.readFileSync('dist/types.d.ts','utf8');const refs='/// <reference path=\\\"./puppeteer-mods.d.ts\\\" />\\n/// <reference path=\\\"./playwright-mods.d.ts\\\" />\\n';if(!content.startsWith('///')){fs.writeFileSync('dist/types.d.ts',refs+content);}\"",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },
@@ -45,7 +45,7 @@
     "@types/node": "^24.10.9",
     "@vitest/coverage-v8": "^4.0.17",
     "puppeteer": "^24.35.0",
-    "puppeteer-extra": "^3.3.6",
+    "@zorilla/puppeteer-extra": "workspace:*",
     "typescript": "5.9.3",
     "vitest": "^4.0.17"
   },
@@ -55,14 +55,14 @@
     "@zorilla/puppeteer-extra-plugin": "workspace:*"
   },
   "peerDependencies": {
-    "playwright-extra": "*",
-    "puppeteer-extra": "*"
+    "@zorilla/playwright-extra": "*",
+    "@zorilla/puppeteer-extra": "*"
   },
   "peerDependenciesMeta": {
-    "puppeteer-extra": {
+    "@zorilla/puppeteer-extra": {
       "optional": true
     },
-    "playwright-extra": {
+    "@zorilla/playwright-extra": {
       "optional": true
     }
   }

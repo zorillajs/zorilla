@@ -1,8 +1,8 @@
-# puppeteer-extra 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push)](https://github.com/zorillajs/zorilla/actions) 
-[![npm](https://img.shields.io/npm/v/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) 
-[![npm](https://img.shields.io/npm/dt/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra) 
-[![npm](https://img.shields.io/npm/l/puppeteer-extra.svg)](https://www.npmjs.com/package/puppeteer-extra)
+# @zorilla/puppeteer-extra
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push)](https://github.com/zorillajs/zorilla/actions)
+[![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra)
+[![npm](https://img.shields.io/npm/dt/@zorilla/puppeteer-extra.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra)
+[![npm](https://img.shields.io/npm/l/@zorilla/puppeteer-extra.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra)
 
 > A light-weight wrapper around [`puppeteer`](https://github.com/GoogleChrome/puppeteer) and [friends](#more-examples) to enable cool [plugins](#plugins) through a clean interface.
 
@@ -11,10 +11,10 @@
 ## Installation
 
 ```bash
-npm install puppeteer puppeteer-extra
+npm install puppeteer @zorilla/puppeteer-extra
 
-# puppeteer-extra works with any puppeteer version:
-npm i puppeteer@2.0.0 puppeteer-extra
+# @zorilla/puppeteer-extra works with any puppeteer version:
+npm i puppeteer@2.0.0 @zorilla/puppeteer-extra
 ```
 
 ## Quickstart
@@ -56,7 +56,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
 The above example uses the [`stealth`](../puppeteer-extra-plugin-stealth/README.md) and [`adblocker`](../puppeteer-extra-plugin-adblocker/README.md) plugin, which need to be installed as well:
 
 ```bash
-npm install @zorilla/puppeteer-extra-plugin-stealth uppeteer-extra-plugin-adblocker
+npm install @zorilla/puppeteer-extra-plugin-stealth @zorilla/puppeteer-extra-plugin-adblocker
 ```
 
 If you'd like to see debug output just run your script like so:
@@ -550,4 +550,4 @@ puppeteer.use(...)
 
 <!-- Markdown footnotes (for links) -->
 
-[puppeteerextraplugin]: https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin 'PuppeteerExtraPlugin'
+[puppeteerextraplugin]: https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin 'PuppeteerExtraPlugin'

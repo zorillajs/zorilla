@@ -1,4 +1,4 @@
-# playwright-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push)](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/playwright-extra.svg)](https://www.npmjs.com/package/playwright-extra)
+# @zorilla/playwright-extra [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push)](https://github.com/zorillajs/zorilla/actions) [![npm](https://img.shields.io/npm/v/@zorilla/playwright-extra.svg)](https://www.npmjs.com/package/@zorilla/playwright-extra)
 
 > A modular plugin framework for [playwright](https://github.com/microsoft/playwright) to enable cool [plugins](#plugins) through a clean interface.
 
@@ -12,7 +12,7 @@
 ## Installation
 
 ```bash
-npm install playwright playwright-extra
+npm install playwright @zorilla/playwright-extra
 ```
 
 After installing, make sure to install the Playwright browsers:
@@ -26,7 +26,7 @@ npx playwright install
 ```js
 // playwright-extra is a drop-in replacement for playwright,
 // it augments the installed playwright with plugin functionality
-import { chromium } from 'playwright-extra'
+import { chromium } from '@zorilla/playwright-extra'
 
 // Load the stealth plugin and use defaults (all tricks to hide playwright usage)
 // Note: playwright-extra is compatible with most puppeteer-extra plugins
@@ -68,10 +68,10 @@ $env:DEBUG='playwright-extra*,puppeteer-extra-plugin*'; node myscript.js
 <details>
  <summary><strong>TypeScript usage</strong></summary><br/>
 
-`playwright-extra` and most plugins are written in TS, so you get perfect type support out of the box. :)
+`@zorilla/playwright-extra` and most plugins are written in TS, so you get perfect type support out of the box. :)
 
 ```ts
-import { chromium } from 'playwright-extra'
+import { chromium } from '@zorilla/playwright-extra'
 import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 chromium.use(StealthPlugin())
@@ -97,7 +97,7 @@ pnpm init
 pnpm add -D typescript @types/node tsx
 
 # Add dependencies used in the quick start example
-pnpm add playwright playwright-extra @zorilla/puppeteer-extra-plugin-stealth
+pnpm add playwright @zorilla/playwright-extra @zorilla/puppeteer-extra-plugin-stealth
 
 # Create a TypeScript config
 pnpm tsc --init
@@ -118,7 +118,7 @@ pnpm tsx src/index.ts
 
 ```ts
 // Any browser supported by playwright can be used with plugins
-import { chromium, firefox, webkit } from 'playwright-extra'
+import { chromium, firefox, webkit } from '@zorilla/playwright-extra'
 
 chromium.use(plugin)
 firefox.use(plugin)
@@ -130,12 +130,12 @@ webkit.use(plugin)
 <details>
  <summary><strong>Multiple instances with different plugins</strong></summary><br/>
 
-Node.js imports are cached, therefore the default `chromium`, `firefox`, `webkit` exports from `playwright-extra` will always return the same playwright instance.
+Node.js imports are cached, therefore the default `chromium`, `firefox`, `webkit` exports from `@zorilla/playwright-extra` will always return the same playwright instance.
 
 ```ts
 // Use `addExtra` to create fresh and independent instances
 import playwright from 'playwright'
-import { addExtra } from 'playwright-extra'
+import { addExtra } from '@zorilla/playwright-extra'
 
 const chromium1 = addExtra(playwright.chromium)
 const chromium2 = addExtra(playwright.chromium)
@@ -151,7 +151,7 @@ chromium2.use(pluginB)
 
 ## Plugins
 
-The following plugins are compatible with `playwright-extra`:
+The following plugins are compatible with `@zorilla/playwright-extra`:
 
 ### 🔥 [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth)
 
@@ -163,7 +163,7 @@ The following plugins are compatible with `playwright-extra`:
 
 ```js
 // The stealth plugin is optimized for chromium based browsers
-import { chromium } from 'playwright-extra'
+import { chromium } from '@zorilla/playwright-extra'
 import StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth'
 
 chromium.use(StealthPlugin())
@@ -188,7 +188,7 @@ await browser.close()
 
 </details>
 
-### 🏴 [`puppeteer-extra-plugin-recaptcha`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-recaptcha)
+### 🏴 [`@zorilla/puppeteer-extra-plugin-recaptcha`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-recaptcha)
 
 - Solves reCAPTCHAs and hCaptchas automatically, using a single line of code: `page.solveRecaptchas()`
 - Compatible with Puppeteer & Playwright and all browsers (chromium, firefox, webkit)
@@ -198,8 +198,8 @@ await browser.close()
 
 ```js
 // Any browser (chromium, webkit, firefox) can be used
-import { firefox } from 'playwright-extra'
-import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha'
+import { firefox } from '@zorilla/playwright-extra'
+import RecaptchaPlugin from '@zorilla/puppeteer-extra-plugin-recaptcha'
 
 firefox.use(
   RecaptchaPlugin({
@@ -303,15 +303,15 @@ pnpm exec playwright install
 The package exports augmented browser launchers that work as drop-in replacements for playwright:
 
 ```ts
-import { chromium, firefox, webkit } from 'playwright-extra'
+import { chromium, firefox, webkit } from '@zorilla/playwright-extra'
 ```
 
 ### `addExtra(launcher)`
 
-Create a fresh `playwright-extra` instance with its own plugin registry:
+Create a fresh `@zorilla/playwright-extra` instance with its own plugin registry:
 
 ```ts
-import { addExtra } from 'playwright-extra'
+import { addExtra } from '@zorilla/playwright-extra'
 import playwright from 'playwright'
 
 const chromium = addExtra(playwright.chromium)

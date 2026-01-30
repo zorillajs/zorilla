@@ -55,7 +55,7 @@ test('stealth: will have convincing mimeTypes', async () => {
         })(),
         loopResult: (() => {
           let res = '';
-          for (var bK = 0; bK < window.navigator.mimeTypes.length; bK++)
+          for (let bK = 0; bK < window.navigator.mimeTypes.length; bK++)
             bK === window.navigator.mimeTypes.length - 1
               ? (res += window.navigator.mimeTypes[bK].type)
               : (res += window.navigator.mimeTypes[bK].type + ',');
