@@ -1,11 +1,11 @@
-# puppeteer-extra-plugin-click-and-wait
+# @zorilla/puppeteer-extra-plugin-click-and-wait
 
 > A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla).
 
 ### Install
 
 ```bash
-npm install puppeteer-extra-plugin-click-and-wait
+npm install @zorilla/puppeteer-extra-plugin-click-and-wait
 ```
 
 ## API

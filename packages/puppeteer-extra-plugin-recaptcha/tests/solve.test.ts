@@ -1,8 +1,8 @@
-/// <reference path="./puppeteer-mods.d.ts" />
+/// <reference path="../src/puppeteer-mods.d.ts" />
 
-import { addExtra } from 'puppeteer-extra';
+import { addExtra } from '@zorilla/puppeteer-extra';
 import { expect, test } from 'vitest';
-import RecaptchaPlugin from './index.js';
+import RecaptchaPlugin from '../src/index.js';
 
 const PUPPETEER_ARGS = ['--no-sandbox', '--disable-setuid-sandbox'];
 

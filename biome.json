@@ -22,7 +22,8 @@
       "recommended": true,
       "suspicious": {
         "noExplicitAny": "error",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noVar": "error"
       },
       "style": {
         "useTemplate": "off",

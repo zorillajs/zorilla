@@ -5,11 +5,11 @@ import https from 'node:https';
 import querystring from 'node:querystring';
 import url from 'node:url';
 
-var apiKey: string;
-var apiInUrl = 'https://2captcha.com/in.php';
-var apiResUrl = 'https://2captcha.com/res.php';
-var apiMethod = 'base64';
-var SOFT_ID = '2589';
+let apiKey: string;
+const apiInUrl = 'https://2captcha.com/in.php';
+const apiResUrl = 'https://2captcha.com/res.php';
+const apiMethod = 'base64';
+const SOFT_ID = '2589';
 
 interface CaptchaOptions {
   pollingInterval?: number;
@@ -28,7 +28,7 @@ type CaptchaCallback = (
   invalid?: (error?: string | Error) => void
 ) => void;
 
-var defaultOptions: CaptchaOptions = {
+const defaultOptions: CaptchaOptions = {
   pollingInterval: 2000,
   retries: 3,
 };
@@ -40,8 +40,8 @@ function pollCaptcha(
   callback: CaptchaCallback
 ) {
   invalid = invalid.bind({ options: options, captchaId: captchaId });
-  var intervalId = setInterval(() => {
-    var httpsRequestOptions = url.parse(
+  const intervalId = setInterval(() => {
+    const httpsRequestOptions = url.parse(
       apiResUrl +
         '?action=get&soft_id=' +
         SOFT_ID +
@@ -50,10 +50,10 @@ function pollCaptcha(
         '&id=' +
         captchaId
     );
-    var request = https.request(
+    const request = https.request(
       httpsRequestOptions,
       (response: import('http').IncomingMessage) => {
-        var body = '';
+        let body = '';
 
         response.on('data', (chunk: string | Buffer) => {
           body += chunk;
@@ -66,7 +66,7 @@ function pollCaptcha(
 
           clearInterval(intervalId);
 
-          var result = body.split('|');
+          const result = body.split('|');
           if (result[0] !== 'OK') {
             callback(result[0]); //error
           } else {
@@ -107,9 +107,9 @@ export const decode = (
   const opts = options as CaptchaOptions;
   const cb = callback as CaptchaCallback;
 
-  var httpsRequestOptions = { ...url.parse(apiInUrl), method: 'POST' };
+  const httpsRequestOptions = { ...url.parse(apiInUrl), method: 'POST' };
 
-  var postData: Record<string, string | number> = {
+  const postData: Record<string, string | number> = {
     method: apiMethod,
     key: apiKey,
     soft_id: SOFT_ID,
@@ -118,17 +118,17 @@ export const decode = (
 
   const postDataString = querystring.stringify(postData);
 
-  var request = https.request(
+  const request = https.request(
     httpsRequestOptions,
     (response: import('http').IncomingMessage) => {
-      var body = '';
+      let body = '';
 
       response.on('data', (chunk: string | Buffer) => {
         body += chunk;
       });
 
       response.on('end', () => {
-        var result = body.split('|');
+        const result = body.split('|');
         if (result[0] !== 'OK') {
           return cb(result[0]);
         }
@@ -140,7 +140,7 @@ export const decode = (
             this: { options: CaptchaOptions; captchaId: string },
             error?: string | Error
           ) {
-            var callbackToInitialCallback = cb;
+            const callbackToInitialCallback = cb;
 
             report(this.captchaId);
 
@@ -187,9 +187,9 @@ export const decodeReCaptcha = (
   const opts = options as CaptchaOptions;
   const cb = callback as CaptchaCallback;
 
-  var httpsRequestOptions = { ...url.parse(apiInUrl), method: 'POST' };
+  const httpsRequestOptions = { ...url.parse(apiInUrl), method: 'POST' };
 
-  var postData: Record<string, string | number> = {
+  const postData: Record<string, string | number> = {
     method: captchaMethod,
     key: apiKey,
     soft_id: SOFT_ID,
@@ -206,17 +206,17 @@ export const decodeReCaptcha = (
 
   const postDataString2 = querystring.stringify(postData);
 
-  var request = https.request(
+  const request = https.request(
     httpsRequestOptions,
     (response: import('http').IncomingMessage) => {
-      var body = '';
+      let body = '';
 
       response.on('data', (chunk: string | Buffer) => {
         body += chunk;
       });
 
       response.on('end', () => {
-        var result = body.split('|');
+        const result = body.split('|');
         if (result[0] !== 'OK') {
           return cb(result[0]);
         }
@@ -228,7 +228,7 @@ export const decodeReCaptcha = (
             this: { options: CaptchaOptions; captchaId: string },
             error?: string | Error
           ) {
-            var callbackToInitialCallback = cb;
+            const callbackToInitialCallback = cb;
 
             report(this.captchaId);
 
@@ -278,12 +278,12 @@ export const decodeUrl = (
   const opts = options as CaptchaOptions;
   const cb = callback as CaptchaCallback;
 
-  var requestOptions = url.parse(uri);
+  const requestOptions = url.parse(uri);
 
-  var request = https.request(
+  const request = https.request(
     requestOptions,
     (response: import('http').IncomingMessage) => {
-      var body = '';
+      let body = '';
       response.setEncoding('base64');
 
       response.on('data', (chunk: string | Buffer) => {
@@ -318,31 +318,31 @@ export const solveRecaptchaFromHtml = (
     finalOptions = options as CaptchaOptions;
   }
 
-  var googleUrlParts = html.split('/challenge?k=');
+  const googleUrlParts = html.split('/challenge?k=');
   if (googleUrlParts.length < 2 || !googleUrlParts[1])
     return finalCallback('No captcha found in html');
-  var googleUrl = googleUrlParts[1];
-  var quoteSplit = googleUrl.split('"')[0];
+  let googleUrl = googleUrlParts[1];
+  const quoteSplit = googleUrl.split('"')[0];
   if (!quoteSplit) return finalCallback('No captcha found in html');
-  var apostropheSplit = quoteSplit.split("'")[0];
+  const apostropheSplit = quoteSplit.split("'")[0];
   if (!apostropheSplit) return finalCallback('No captcha found in html');
   googleUrl =
     'https://www.google.com/recaptcha/api/challenge?k=' + apostropheSplit;
 
-  var httpsRequestOptions = url.parse(googleUrl);
+  const httpsRequestOptions = url.parse(googleUrl);
 
-  var request = https.request(
+  const request = https.request(
     httpsRequestOptions,
     (response: import('http').IncomingMessage) => {
-      var body = '';
+      let body = '';
       response.on('data', (chunk: Buffer | string) => {
         body += chunk;
       });
 
       response.on('end', () => {
-        var challengeArr = body.split("'");
+        const challengeArr = body.split("'");
         if (!challengeArr[1]) return finalCallback('Parsing captcha failed');
-        var challenge = challengeArr[1];
+        const challenge = challengeArr[1];
         if (challenge.length === 0)
           return finalCallback('Parsing captcha failed');
 
@@ -363,7 +363,7 @@ export const solveRecaptchaFromHtml = (
 };
 
 export const report = (captchaId: string) => {
-  var reportUrl =
+  const reportUrl =
     apiResUrl +
     '?action=reportbad&soft_id=' +
     SOFT_ID +
@@ -371,9 +371,9 @@ export const report = (captchaId: string) => {
     apiKey +
     '&id=' +
     captchaId;
-  var options = url.parse(reportUrl);
+  const options = url.parse(reportUrl);
 
-  var request = https.request(
+  const request = https.request(
     options,
     (_response: import('http').IncomingMessage) => {
       // var body = ''

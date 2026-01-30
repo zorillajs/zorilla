@@ -1,6 +1,6 @@
-# puppeteer-extra-plugin-recaptcha [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![npm](https://img.shields.io/npm/dt/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-recaptcha) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-recaptcha)
+# @zorilla/puppeteer-extra-plugin-recaptcha [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push) [![npm](https://img.shields.io/npm/dt/@zorilla/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-recaptcha) [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-recaptcha.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-recaptcha)
 
-> A [puppeteer-extra](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) and [playwright-extra](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra) plugin to solve reCAPTCHAs and hCaptchas automatically.
+> A [@zorilla/puppeteer-extra](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra) and [@zorilla/playwright-extra](https://github.com/zorillajs/zorilla/tree/main/packages/playwright-extra) plugin to solve reCAPTCHAs and hCaptchas automatically.
 
 ![](https://i.imgur.com/SWrIQw0.gif)
 
@@ -10,10 +10,10 @@
 npm install @zorilla/puppeteer-extra-plugin-recaptcha
 ```
 
-If this is your first [`puppeteer-extra`](https://github.com/zorillajs/zorilla) plugin here's everything you need:
+If this is your first [`@zorilla/puppeteer-extra`](https://github.com/zorillajs/zorilla) plugin here's everything you need:
 
 ```bash
-npm install puppeteer puppeteer-extra puppeteer-extra-plugin-recaptcha
+npm install puppeteer @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-recaptcha
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm install puppeteer puppeteer-extra puppeteer-extra-plugin-recaptcha
 The plugin essentially provides a mighty `page.solveRecaptchas()` method that does everything needed automagically.
 
 ```js
-// puppeteer-extra is a drop-in replacement for puppeteer,
+// @zorilla/puppeteer-extra is a drop-in replacement for puppeteer,
 // it augments the installed puppeteer with plugin functionality
 import puppeteer from '@zorilla/puppeteer-extra'
 
@@ -60,7 +60,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
  <summary><strong>TypeScript usage</strong></summary>
 
 ```ts
-// `puppeteer-extra` and the recaptcha plugin are written in TS,
+// `@zorilla/puppeteer-extra` and the recaptcha plugin are written in TS,
 // hence you get perfect type support out of the box :)
 
 import puppeteer from '@zorilla/puppeteer-extra'
@@ -100,7 +100,7 @@ If you'd like to see debug output just run your script like so:
 DEBUG=puppeteer-extra,puppeteer-extra-plugin:* node myscript.js
 ```
 
-_**Tip:** The recaptcha plugin works really well together with the [stealth plugin](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth)._
+_**Tip:** The recaptcha plugin works really well together with the [stealth plugin](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth)._
 
 ## Motivation 🏴
 
@@ -152,7 +152,7 @@ You can easily use your own provider as well, by providing the plugin a function
 
 ### What about invisible reCAPTCHAs?
 
-- [Invisible reCAPTCHAs](https://developers.google.com/recaptcha/docs/invisible) are supported. They're basically used to compute a score of how likely the user is a bot. Based on that score the site owner can block access to resources or (most often) present the user with a reCAPTCHA challenge (which this plugin can solve). The [stealth plugin](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth) might be of interest here, as it masks the usage of puppeteer.
+- [Invisible reCAPTCHAs](https://developers.google.com/recaptcha/docs/invisible) are supported. They're basically used to compute a score of how likely the user is a bot. Based on that score the site owner can block access to resources or (most often) present the user with a reCAPTCHA challenge (which this plugin can solve). The [stealth plugin](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth) might be of interest here, as it masks the usage of puppeteer.
 - Technically speaking the plugin supports: reCAPTCHA v2, reCAPTCHA v3, invisible reCAPTCHA, hCaptcha, invisible hCaptcha. All of those (multiple as well) are solved when `page.solveRecaptchas()` is called.
 
 ### When should I call `page.solveRecaptchas()`?

@@ -1,6 +1,6 @@
 # extract-stealth-evasions
 
-Extract stealth evasions from [@zorilla/puppeteer-extra-plugin-stealth](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth) to standalone JavaScript files.
+Extract stealth evasions from [@zorilla/puppeteer-extra-plugin-stealth](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth) to standalone JavaScript files.
 
 This tool allows you to:
 - Extract stealth evasion techniques as standalone JavaScript
@@ -221,6 +221,6 @@ The generated file contains standalone JavaScript that can be executed in any br
 
 ## Related
 
-- [`@zorilla/puppeteer-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra)
-- [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-stealth)
-- [`@zorilla/playwright-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra)
+- [`@zorilla/puppeteer-extra`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra)
+- [`@zorilla/puppeteer-extra-plugin-stealth`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-stealth)
+- [`@zorilla/playwright-extra`](https://github.com/zorillajs/zorilla/tree/main/packages/playwright-extra)

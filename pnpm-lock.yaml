@@ -510,6 +510,9 @@ importers:
 
   packages/puppeteer-extra-plugin-recaptcha:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: '*'
+        version: 1.0.2(playwright-core@1.58.0)(playwright@1.58.0)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -519,9 +522,6 @@ importers:
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.58.0)(playwright@1.58.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -532,12 +532,12 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^4.0.17
         version: 4.0.17(vitest@4.0.17(@types/node@24.10.9)(terser@5.44.1)(tsx@4.21.0))
+      '@zorilla/puppeteer-extra':
+        specifier: workspace:*
+        version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.35.0
         version: 24.35.0(typescript@5.9.3)
-      puppeteer-extra:
-        specifier: ^3.3.6
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@5.9.3))(puppeteer-core@24.35.0)(puppeteer@24.35.0(typescript@5.9.3))
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1794,6 +1794,18 @@ packages:
 
   '@vitest/utils@4.0.17':
     resolution: {integrity: sha512-RG6iy+IzQpa9SB8HAFHJ9Y+pTzI+h8553MrciN9eC6TFBErqrQaTas4vG+MVj8S4uKk8uTT2p0vgZPnTdxd96w==}
+
+  '@zorilla/playwright-extra@1.0.2':
+    resolution: {integrity: sha512-dhIG9FHDebZm+m1h2aqz1PUZQQnw2vV8IiRvbwdRRBiFJzy0yDbgDiG0wofAefCVhfJji/80zK6o09Lg6YHvNw==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      playwright: '*'
+      playwright-core: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      playwright-core:
+        optional: true
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -4577,6 +4589,15 @@ snapshots:
     dependencies:
       '@vitest/pretty-format': 4.0.17
       tinyrainbow: 3.0.3
+
+  '@zorilla/playwright-extra@1.0.2(playwright-core@1.58.0)(playwright@1.58.0)':
+    dependencies:
+      debug: 4.4.3
+    optionalDependencies:
+      playwright: 1.58.0
+      playwright-core: 1.58.0
+    transitivePeerDependencies:
+      - supports-color
 
   acorn@8.15.0: {}
 

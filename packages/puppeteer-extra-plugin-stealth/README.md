@@ -1,6 +1,6 @@
-# puppeteer-extra-plugin-stealth [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-stealth)
+# @zorilla/puppeteer-extra-plugin-stealth [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push) [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-stealth.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-stealth)
 
-> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) and [`playwright-extra`](https://github.com/zorillajs/zorilla/tree/master/packages/playwright-extra) to prevent detection.
+> A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra) and [`playwright-extra`](https://github.com/zorillajs/zorilla/tree/main/packages/playwright-extra) to prevent detection.
 
 <p align="center"><img src="https://i.imgur.com/q2xBjqH.png" /></p>
 
@@ -39,7 +39,7 @@ puppeteer.launch({ headless: true }).then(async browser => {
 })
 ```
 
-> Please check out the [puppeteer-extra package](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra) to learn more about `puppeteer-extra` (Firefox usage, other Plugins, etc).
+> Please check out the [puppeteer-extra package](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra) to learn more about `puppeteer-extra` (Firefox usage, other Plugins, etc).
 
 ## Status
 
@@ -98,7 +98,7 @@ Using stealth also seems to help with maintaining a normal [reCAPTCHA v3 score](
 
 Note: The [official test](https://recaptcha-demo.appspot.com/recaptcha-v3-request-scores.php) is to be taken with a grain of salt, as the score is calculated individually per site and multiple other factors (past behaviour, IP address, etc). Based on anecdotal observations it still seems to work as a rough indicator.
 
-_**Tip:** Have a look at the [recaptcha plugin](https://github.com/zorillajs/zorilla/tree/master/packages/puppeteer-extra-plugin-recaptcha) if you have issues with reCAPTCHAs._
+_**Tip:** Have a look at the [recaptcha plugin](https://github.com/zorillajs/zorilla/tree/main/packages/puppeteer-extra-plugin-recaptcha) if you have issues with reCAPTCHAs._
 
 ## API
 

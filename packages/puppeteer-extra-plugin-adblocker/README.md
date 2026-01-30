@@ -1,4 +1,4 @@
-# puppeteer-extra-plugin-adblocker [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=master&event=push) [![npm](https://img.shields.io/npm/v/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/puppeteer-extra-plugin-adblocker)
+# @zorilla/puppeteer-extra-plugin-adblocker [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/zorillajs/zorilla/test.yml?branch=main&event=push) [![npm](https://img.shields.io/npm/v/@zorilla/puppeteer-extra-plugin-adblocker.svg)](https://www.npmjs.com/package/@zorilla/puppeteer-extra-plugin-adblocker)
 
 > A [`puppeteer-extra`](https://github.com/zorillajs/zorilla) plugin to block ads and trackers.
 
@@ -20,7 +20,7 @@ npm install @zorilla/puppeteer-extra-plugin-adblocker
 If this is your first [`puppeteer-extra`](https://github.com/zorillajs/zorilla) plugin here's everything you need:
 
 ```bash
-npm install puppeteer puppeteer-extra puppeteer-extra-plugin-adblocker
+npm install puppeteer @zorilla/puppeteer-extra @zorilla/puppeteer-extra-plugin-adblocker
 ```
 
 ## Usage

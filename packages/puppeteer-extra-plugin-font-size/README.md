@@ -1,11 +1,11 @@
-# puppeteer-extra-plugin-font-size
+# @zorilla/puppeteer-extra-plugin-font-size
 
 > A plugin for [`puppeteer-extra`](https://github.com/zorillajs/zorilla).
 
 ### Install
 
 ```bash
-npm install puppeteer-extra-plugin-font-size
+npm install @zorilla/puppeteer-extra-plugin-font-size
 ```
 
 ## API
