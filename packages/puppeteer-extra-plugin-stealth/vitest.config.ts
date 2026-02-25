@@ -1,4 +1,8 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   test: {
@@ -22,7 +26,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'puppeteer-extra': '../../packages/puppeteer-extra/src/index.ts',
+      'puppeteer-extra': path.resolve(
+        __dirname,
+        '../../packages/puppeteer-extra/dist/index.js'
+      ),
     },
   },
 });
