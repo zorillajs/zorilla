@@ -394,8 +394,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       got:
-        specifier: ^14.6.6
-        version: 14.6.6
+        specifier: ^15.0.0
+        version: 15.0.0
       http-auth:
         specifier: ^4.2.1
         version: 4.2.1
@@ -2118,6 +2118,10 @@ packages:
     peerDependencies:
       devtools-protocol: '*'
 
+  chunk-data@0.1.0:
+    resolution: {integrity: sha512-zFyPtyC0SZ6Zu79b9sOYtXZcgrsXe0RpePrzRyj52hYVFG1+Rk6rBqjjOEk+GNQwc3PIX+86teQMok970pod1g==}
+    engines: {node: '>=20'}
+
   ci-info@3.9.0:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
     engines: {node: '>=8'}
@@ -2523,10 +2527,6 @@ packages:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
-  form-data-encoder@4.1.0:
-    resolution: {integrity: sha512-G6NsmEW15s0Uw9XnCg+33H3ViYRyiM0hMrMhhqQOR8NFc5GhYrI+6I3u7OTw7b91J2g8rtvMBZJDbcGb2YUniw==}
-    engines: {node: '>= 18'}
-
   fpcollect@1.0.5:
     resolution: {integrity: sha512-IZBlcncoRT+NDIGGYIA9TQtvnNA2cKhu/6Q5BhyY+13QskgI5u7URDiHFUjNjeumJbbhpf8/q8YlbhbJ6cN+bA==}
 
@@ -2631,9 +2631,9 @@ packages:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
 
-  got@14.6.6:
-    resolution: {integrity: sha512-QLV1qeYSo5l13mQzWgP/y0LbMr5Plr5fJilgAIwgnwseproEbtNym8xpLsDzeZ6MWXgNE6kdWGBjdh3zT/Qerg==}
-    engines: {node: '>=20'}
+  got@15.0.0:
+    resolution: {integrity: sha512-CUqLG9oFZRis7SZq5Bcxh42LpzxXgXwxWVwNljo60oki8Cq3GXVRpDY2K4GwTzYz3htyXf212nfNg2socz4esQ==}
+    engines: {node: '>=22'}
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
@@ -2878,8 +2878,8 @@ packages:
   jsonfile@4.0.0:
     resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
 
-  keyv@5.5.5:
-    resolution: {integrity: sha512-FA5LmZVF1VziNc0bIdCSA1IoSVnDCqE8HJIZZv2/W8YmoAM50+tnUgJR/gQZwEeIMleuIOnRnHA/UaZRNeV4iQ==}
+  keyv@5.6.0:
+    resolution: {integrity: sha512-CYDD3SOtsHtyXeEORYRx2qBtpDJFjRTGXUtmNEMGyzYOKj1TE3tycdlho7kA1Ufx9OYWZzg52QFBGALTirzDSw==}
 
   kind-of@2.0.1:
     resolution: {integrity: sha512-0u8i1NZ/mg0b+W3MGGw5I7+6Eib2nx72S/QvXa0hYjEkjTknYmEYQJwGu3mLC0BrhtJjtQafTkyRUQ75Kx0LVg==}
@@ -2946,6 +2946,10 @@ packages:
   lowercase-keys@3.0.0:
     resolution: {integrity: sha512-ozCC6gdQ+glXOQsveKD0YsDy8DSQFjDTz4zyzEHNV5+JP5D62LmfDZ6o1cycFx9ouG940M5dE8C8CTewdj2YWQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
+  lowercase-keys@4.0.1:
+    resolution: {integrity: sha512-wI9Nui/L8VfADa/cr/7NQruaASk1k23/Uh1khQ02BCVYiiy8F4AhOGnQzJy3Fl/c44GnYSbZHv8g7EcG3kJ1Qg==}
+    engines: {node: '>=20'}
 
   lru-cache@11.2.4:
     resolution: {integrity: sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==}
@@ -3130,10 +3134,6 @@ packages:
   ow@3.1.1:
     resolution: {integrity: sha512-Hixi5roGFYZuiPV2pnnBi1hXdRG0uqifxE8rCCU6lKeCCQS+VGihuJnYxaJSffDz/clyH+xB2z1hXYRzeIcUMA==}
     engines: {node: '>=20'}
-
-  p-cancelable@4.0.1:
-    resolution: {integrity: sha512-wBowNApzd45EIKdO1LaU+LrMBwAcjfPaYtVzV3lmfM3gf8Z4CHZsiIqlM8TZZ8okYvh5A1cP6gTfCRQtwUpaUg==}
-    engines: {node: '>=14.16'}
 
   p-event@6.0.1:
     resolution: {integrity: sha512-Q6Bekk5wpzW5qIyUP4gdMEujObYstZl6DMMOSenwBvV0BlE5LkDwkjs5yHbZmdCEq2o4RJx4tE1vwxFVf2FG1w==}
@@ -3673,6 +3673,10 @@ packages:
 
   type-fest@5.4.0:
     resolution: {integrity: sha512-wfkA6r0tBpVfGiyO+zbf9e10QkRQSlK9F2UvyfnjoCmrvH2bjHyhPzhugSBOuq1dog3P0+FKckqe+Xf6WKVjwg==}
+    engines: {node: '>=20'}
+
+  type-fest@5.5.0:
+    resolution: {integrity: sha512-PlBfpQwiUvGViBNX84Yxwjsdhd1TUlXr6zjX7eoirtCPIr08NAmxwa+fcYBTeRQxHo9YC9wwF3m9i700sHma8g==}
     engines: {node: '>=20'}
 
   typed-query-selector@2.12.0:
@@ -5188,7 +5192,7 @@ snapshots:
       '@types/http-cache-semantics': 4.0.4
       get-stream: 9.0.1
       http-cache-semantics: 4.2.0
-      keyv: 5.5.5
+      keyv: 5.6.0
       mimic-response: 4.0.0
       normalize-url: 8.1.1
       responselike: 4.0.2
@@ -5245,6 +5249,8 @@ snapshots:
       devtools-protocol: 0.0.1534754
       mitt: 3.0.1
       zod: 3.25.76
+
+  chunk-data@0.1.0: {}
 
   ci-info@3.9.0: {}
 
@@ -5676,8 +5682,6 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  form-data-encoder@4.1.0: {}
-
   fpcollect@1.0.5: {}
 
   fpscanner@1.0.0:
@@ -5808,20 +5812,20 @@ snapshots:
 
   gopd@1.2.0: {}
 
-  got@14.6.6:
+  got@15.0.0:
     dependencies:
       '@sindresorhus/is': 7.2.0
       byte-counter: 0.1.0
       cacheable-lookup: 7.0.0
       cacheable-request: 13.0.18
+      chunk-data: 0.1.0
       decompress-response: 10.0.0
-      form-data-encoder: 4.1.0
       http2-wrapper: 2.2.1
-      keyv: 5.5.5
-      lowercase-keys: 3.0.0
-      p-cancelable: 4.0.1
+      keyv: 5.6.0
+      lowercase-keys: 4.0.1
       responselike: 4.0.2
-      type-fest: 4.41.0
+      type-fest: 5.5.0
+      uint8array-extras: 1.5.0
 
   graceful-fs@4.2.11: {}
 
@@ -6072,7 +6076,7 @@ snapshots:
     optionalDependencies:
       graceful-fs: 4.2.11
 
-  keyv@5.5.5:
+  keyv@5.6.0:
     dependencies:
       '@keyv/serialize': 1.1.1
 
@@ -6152,6 +6156,8 @@ snapshots:
       - supports-color
 
   lowercase-keys@3.0.0: {}
+
+  lowercase-keys@4.0.1: {}
 
   lru-cache@11.2.4: {}
 
@@ -6334,8 +6340,6 @@ snapshots:
       environment: 1.1.0
       fast-equals: 5.4.0
       is-identifier: 1.0.1
-
-  p-cancelable@4.0.1: {}
 
   p-event@6.0.1:
     dependencies:
@@ -6949,6 +6953,10 @@ snapshots:
   type-fest@4.41.0: {}
 
   type-fest@5.4.0:
+    dependencies:
+      tagged-tag: 1.0.0
+
+  type-fest@5.5.0:
     dependencies:
       tagged-tag: 1.0.0
 
