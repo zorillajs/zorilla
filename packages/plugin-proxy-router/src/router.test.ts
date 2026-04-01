@@ -65,8 +65,14 @@ describe('ProxyRouter', () => {
       expect(router.proxyServer.port).toBe(3000);
     });
 
-    test('should default to port 2800 if not specified', () => {
+    test('should preserve port 0 when requesting a random available port', () => {
       router = new ProxyRouter({ proxyServerOpts: { port: 0 } });
+
+      expect(router.proxyServer.port).toBe(0);
+    });
+
+    test('should default to port 2800 when port is not specified', () => {
+      router = new ProxyRouter({ proxyServerOpts: {} });
 
       expect(router.proxyServer.port).toBe(2800);
     });
