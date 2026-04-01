@@ -4,7 +4,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "lib": ["ES2022", "DOM"]
   },
   "include": ["src/**/*"],

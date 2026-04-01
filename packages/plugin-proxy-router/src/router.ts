@@ -107,7 +107,7 @@ export class ProxyRouter {
       ...opts.proxyServerOpts,
       prepareRequestFunction: this.handleProxyServerRequest.bind(this),
     };
-    proxyServerOpts.port = proxyServerOpts.port || 2800;
+    proxyServerOpts.port = proxyServerOpts.port ?? 2800;
 
     this.proxies = opts.proxies || {};
 
@@ -244,24 +244,31 @@ export class ProxyRouter {
       return this.serverStartPromise;
     }
     // biome-ignore lint/suspicious/noAsyncPromiseExecutor: getPort is async and we need to await it
-    this.serverStartPromise = new Promise(async resolve => {
+    this.serverStartPromise = new Promise(async (resolve, reject) => {
       if (this.isListening) {
         debug('server listening already');
         return resolve(this.proxyServer.port);
       }
       const desiredPort = this.proxyServer.port;
-      debug('finding available port', { desiredPort });
-      const availablePort = await getPort({ port: desiredPort });
-      debug('availablePort:', availablePort);
-      this.proxyServer.port = availablePort;
-      this.proxyServer.listen(err => {
-        if (err === null) {
-          debug(`server listening on port ${this.proxyServer.port}`);
-          this.isListening = true;
-          return resolve(this.proxyServer.port);
-        }
-        warn('Unable to start local server:', err);
-      });
+      try {
+        debug('finding available port', { desiredPort });
+        const availablePort = await getPort({ port: desiredPort });
+        debug('availablePort:', availablePort);
+        this.proxyServer.port = availablePort;
+        this.proxyServer.listen(err => {
+          if (err === null) {
+            debug(`server listening on port ${this.proxyServer.port}`);
+            this.isListening = true;
+            return resolve(this.proxyServer.port);
+          }
+          warn('Unable to start local server:', err);
+          this.serverStartPromise = null;
+          return reject(err);
+        });
+      } catch (error) {
+        this.serverStartPromise = null;
+        reject(error);
+      }
     });
     return this.serverStartPromise;
   }

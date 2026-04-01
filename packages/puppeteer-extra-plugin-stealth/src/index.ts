@@ -1,5 +1,5 @@
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
-import type * as Puppeteer from '@zorilla/puppeteer-extra-plugin/dist/puppeteer';
+import type * as Puppeteer from '@zorilla/puppeteer-extra-plugin/puppeteer';
 
 interface PluginOptions {
   enabledEvasions?: Set<string>;
