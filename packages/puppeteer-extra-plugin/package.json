@@ -45,7 +45,7 @@
     "@types/node": "^24.10.9",
     "@vitest/coverage-v8": "^4.0.17",
     "puppeteer": "^24.35.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.0",
     "vitest": "^4.0.17"
   },
   "dependencies": {
