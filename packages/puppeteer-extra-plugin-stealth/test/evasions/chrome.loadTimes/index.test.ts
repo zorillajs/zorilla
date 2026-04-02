@@ -4,7 +4,7 @@ import {
   addExtra,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 /* global chrome */
 
@@ -17,12 +17,16 @@ test('stealth: will add functional chrome.loadTimes function mock', async () => 
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {
-    const loadTimes = window.chrome.loadTimes();
+    type ChromeLoadTimes = Record<string, unknown>;
+    const chromeLoadTimes = (window.chrome as {
+      loadTimes: () => ChromeLoadTimes;
+    }).loadTimes;
+    const loadTimes = chromeLoadTimes();
 
     return {
       loadTimes: {
         exists: window.chrome && 'loadTimes' in window.chrome,
-        toString: chrome.loadTimes.toString(),
+        toString: chromeLoadTimes.toString(),
       },
       dataOK: {
         connectionInfo: 'connectionInfo' in loadTimes,

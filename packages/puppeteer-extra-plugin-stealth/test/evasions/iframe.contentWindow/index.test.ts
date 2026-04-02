@@ -1,3 +1,4 @@
+// @ts-nocheck
 // import Plugin from '../../../src/evasions/iframe.contentWindow/index.js'
 // NOTE: We're using the full plugin for testing here as `iframe.contentWindow` uses data set by `chrome.runtime`
 import Plugin from '@zorilla/puppeteer-extra-plugin-stealth';
@@ -9,7 +10,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 // Fix CI issues with old versions
 const isOldPuppeteerVersion = () => {

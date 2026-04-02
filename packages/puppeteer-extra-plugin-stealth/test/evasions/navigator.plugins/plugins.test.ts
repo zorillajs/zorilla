@@ -4,7 +4,7 @@ import {
   addExtra,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 test('stealth: will have convincing plugins', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());

@@ -4,7 +4,7 @@ import {
   addExtra,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 // Fixed since 2.1.1?
 // test('vanilla: Accept-Language header is missing', async () => {

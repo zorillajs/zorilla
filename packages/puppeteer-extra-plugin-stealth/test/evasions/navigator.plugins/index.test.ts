@@ -6,7 +6,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 test.skip('vanilla: empty plugins, empty mimetypes (requires fpcollect)', async () => {
   const { plugins, mimeTypes } = await getVanillaFingerPrint();

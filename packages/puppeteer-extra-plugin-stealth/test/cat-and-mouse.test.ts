@@ -5,7 +5,7 @@ import {
   compareLooseVersionStrings,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from './util.js';
+} from './util';
 
 // Fix CI issues with old versions
 const isOldPuppeteerVersion = () => {
@@ -41,15 +41,15 @@ test.skip('stealth: will pass Paul Irish (requires user-preferences)', async () 
 });
 
 async function detectHeadless() {
-  const results = {};
+  const results: Record<string, boolean> = {};
 
-  async function test(name, fn) {
+  async function test(name: string, fn: () => boolean | Promise<boolean>) {
     const detectionPassed = await fn();
     if (detectionPassed) console.log(`Chrome headless detected via ${name}`);
     results[name] = detectionPassed;
   }
 
-  await test('userAgent', _ => {
+  await test('userAgent', () => {
     return /HeadlessChrome/.test(window.navigator.userAgent);
   });
 
@@ -57,29 +57,30 @@ async function detectHeadless() {
   if (
     (await compareLooseVersionStrings(navigator.userAgent, '89.0.4339.0')) >= 0
   ) {
-    await test('navigator.webdriver is not false', _ => {
+    await test('navigator.webdriver is not false', () => {
       return navigator.webdriver !== false;
     });
   } else {
     // Detects the --enable-automation || --headless flags
     // Will return true in headful if --enable-automation is provided
-    await test('navigator.webdriver present', _ => {
+    await test('navigator.webdriver present', () => {
       return 'webdriver' in navigator;
     });
 
-    await test('navigator.webdriver not undefined', _ => {
+    await test('navigator.webdriver not undefined', () => {
       return navigator.webdriver !== undefined;
     });
 
-    /* eslint-disable no-proto */
-    await test('navigator.webdriver property overridden', _ => {
+    await test('navigator.webdriver property overridden', () => {
       return (
-        Object.getOwnPropertyDescriptor(navigator.__proto__, 'webdriver') !==
-        undefined
+        Object.getOwnPropertyDescriptor(
+          Object.getPrototypeOf(navigator),
+          'webdriver'
+        ) !== undefined
       );
     });
 
-    await test('navigator.webdriver prop detected', _ => {
+    await test('navigator.webdriver prop detected', () => {
       for (const prop in navigator) {
         if (prop === 'webdriver') {
           return true;
@@ -89,11 +90,11 @@ async function detectHeadless() {
     });
   }
 
-  await test('window.chrome missing', _ => {
+  await test('window.chrome missing', () => {
     return /Chrome/.test(window.navigator.userAgent) && !window.chrome;
   });
 
-  await test('permissions API', async _ => {
+  await test('permissions API', async () => {
     const permissionStatus = await navigator.permissions.query({
       name: 'notifications',
     });
@@ -103,7 +104,7 @@ async function detectHeadless() {
     );
   });
 
-  await test('permissions API overriden', _ => {
+  await test('permissions API overriden', () => {
     const permissions = window.navigator.permissions;
     if (permissions.query.toString() !== 'function query() { [native code] }')
       return true;
@@ -121,15 +122,15 @@ async function detectHeadless() {
     if (Object.hasOwn(permissions, 'query')) return true; // eslint-disable-line
   });
 
-  await test('navigator.plugins empty', _ => {
+  await test('navigator.plugins empty', () => {
     return navigator.plugins.length === 0;
   });
 
-  await test('navigator.languages blank', _ => {
-    return navigator.languages === '';
+  await test('navigator.languages blank', () => {
+    return navigator.languages.length === 0;
   });
 
-  await test('iFrame for fresh window object', _ => {
+  await test('iFrame for fresh window object', () => {
     // evaluateOnNewDocument scripts don't apply within [srcdoc] (or [sandbox]) iframes
     // https://github.com/GoogleChrome/puppeteer/issues/1106#issuecomment-359313898
     const iframe = document.createElement('iframe');
@@ -156,7 +157,7 @@ async function detectHeadless() {
 
   // This detects that a devtools protocol agent is attached.
   // So it will also pass true in headful Chrome if the devtools window is attached
-  await test('toString', _ => {
+  await test('toString', () => {
     let gotYou = 0;
     const spooky = /./;
     spooky.toString = () => {

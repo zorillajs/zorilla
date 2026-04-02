@@ -6,7 +6,11 @@ import {
   addExtra,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
+
+type BrowserCommandLineResponse = {
+  arguments: string[];
+};
 
 test('vanilla: uses args to ignore', async () => {
   const browser = await vanillaPuppeteer.launch({
@@ -16,9 +20,9 @@ test('vanilla: uses args to ignore', async () => {
   const page = await browser.newPage();
   const client =
     typeof page._client === 'function' ? page._client() : page._client;
-  const { arguments: launchArgs } = await client.send(
+  const { arguments: launchArgs } = (await client.send(
     'Browser.getBrowserCommandLine'
-  );
+  )) as BrowserCommandLineResponse;
   const ok = argsToIgnore.every(arg => launchArgs.includes(arg));
   if (!ok) {
     console.log({ argsToIgnore, launchArgs });
@@ -35,9 +39,9 @@ test('stealth: does not use args to ignore', async () => {
   const page = await browser.newPage();
   const client =
     typeof page._client === 'function' ? page._client() : page._client;
-  const { arguments: launchArgs } = await client.send(
+  const { arguments: launchArgs } = (await client.send(
     'Browser.getBrowserCommandLine'
-  );
+  )) as BrowserCommandLineResponse;
   const ok = argsToIgnore.every(arg => !launchArgs.includes(arg));
   if (!ok) {
     console.log({ argsToIgnore, launchArgs });

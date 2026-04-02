@@ -6,7 +6,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 // TODO: Vanilla seems fine, evasion obsolete?
 // Note: We keep it around for now, as we will need this method in a fingerprinting plugin later anyway

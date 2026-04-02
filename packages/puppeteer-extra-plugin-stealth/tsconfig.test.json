@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "types": ["node", "vitest/globals"],
+    "allowJs": false,
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "noUncheckedIndexedAccess": false,
+    "useUnknownInCatchVariables": false
+  },
+  "include": ["test/**/*.ts", "test/**/*.d.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "examples",
+    "test/evasions/_utils/index.test.ts",
+    "test/evasions/chrome.runtime/index.test.ts",
+    "test/fpscanner.test.ts"
+  ]
+}

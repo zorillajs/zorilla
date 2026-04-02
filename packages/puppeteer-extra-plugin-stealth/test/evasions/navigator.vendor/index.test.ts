@@ -4,7 +4,7 @@ import {
   addExtra,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 test('vanilla: navigator.vendor is always Google Inc.', async () => {
   const browser = await vanillaPuppeteer.launch({

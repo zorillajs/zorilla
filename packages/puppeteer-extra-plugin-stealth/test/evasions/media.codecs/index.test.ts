@@ -6,7 +6,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 test.skip('vanilla: doesnt support proprietary codecs (requires fpcollect)', async () => {
   const { videoCodecs, audioCodecs } = await getVanillaFingerPrint();

@@ -7,7 +7,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 const fingerprintFn = page => page.evaluate('navigator.hardwareConcurrency');
 
