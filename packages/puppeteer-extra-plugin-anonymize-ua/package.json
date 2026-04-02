@@ -40,8 +40,8 @@
   "devDependencies": {
     "@types/node": "^24.10.9",
     "@zorilla/puppeteer-extra": "workspace:*",
-    "puppeteer": "^24.35.0",
-    "vitest": "^4.0.17"
+    "puppeteer": "^24.40.0",
+    "vitest": "^4.1.2"
   },
   "dependencies": {
     "@zorilla/puppeteer-extra-plugin": "workspace:*",

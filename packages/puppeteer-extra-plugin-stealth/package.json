@@ -44,10 +44,10 @@
     "@types/node": "^24.10.9",
     "@zorilla/puppeteer-extra": "workspace:*",
     "fpcollect": "^1.0.5",
-    "fpscanner": "^1.0.0",
+    "fpscanner": "^1.0.2",
     "loop": "^3.3.6",
-    "puppeteer": "^24.35.0",
-    "vitest": "^4.0.17"
+    "puppeteer": "^24.40.0",
+    "vitest": "^4.1.2"
   },
   "dependencies": {
     "@zorilla/puppeteer-extra-plugin": "workspace:*",

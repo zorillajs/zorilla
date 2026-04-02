@@ -43,16 +43,16 @@
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "@types/node": "^24.10.9",
-    "@vitest/coverage-v8": "^4.0.17",
-    "puppeteer": "^24.35.0",
+    "@vitest/coverage-v8": "^4.1.2",
     "@zorilla/puppeteer-extra": "workspace:*",
+    "puppeteer": "^24.40.0",
     "typescript": "6.0.2",
-    "vitest": "^4.0.17"
+    "vitest": "^4.1.2"
   },
   "dependencies": {
+    "@zorilla/puppeteer-extra-plugin": "workspace:*",
     "debug": "^4.4.3",
-    "merge-deep": "^3.0.3",
-    "@zorilla/puppeteer-extra-plugin": "workspace:*"
+    "merge-deep": "^3.0.3"
   },
   "peerDependencies": {
     "@zorilla/playwright-extra": "*",
