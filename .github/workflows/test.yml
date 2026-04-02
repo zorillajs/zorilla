@@ -207,7 +207,7 @@ jobs:
 
       - name: Install Playwright browsers
         if: matrix.package == 'playwright-extra'
-        run: cd packages/playwright-extra && pnpm exec playwright install chromium firefox webkit --with-deps
+        run: cd packages/playwright-extra && pnpm exec playwright install chromium chromium-headless-shell firefox webkit --with-deps
 
       - name: Install Chrome for Puppeteer
         if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'

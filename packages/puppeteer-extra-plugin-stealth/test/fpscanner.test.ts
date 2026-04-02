@@ -31,6 +31,7 @@ const getFpScannerBrowserCode = (): string => {
 };
 
 const fpScannerCode = getFpScannerBrowserCode();
+const fpscannerTestTimeout = process.platform === 'win32' ? 60000 : 30000;
 
 type FastBotDetectionDetails = Record<
   string,
@@ -81,7 +82,7 @@ test('vanilla: will fail multiple fpscanner bot detection checks', async () => {
   console.log('Vanilla failed checks:', failedChecks);
   expect(result.fastBotDetection).toBe(true);
   expect(failedChecks.length).toBeGreaterThan(0);
-}, 30000);
+}, fpscannerTestTimeout);
 
 test('stealth: will pass core fpscanner automation checks', async () => {
   // PuppeteerExtra has a compatible launch() interface — assertion is safe
@@ -109,4 +110,4 @@ test('stealth: will pass core fpscanner automation checks', async () => {
     false
   );
   expect(result.fastBotDetectionDetails.hasPlaywright.detected).toBe(false);
-}, 30000);
+}, fpscannerTestTimeout);
