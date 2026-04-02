@@ -18,16 +18,16 @@
     "@zorilla/playwright-extra": "workspace:*",
     "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
-    "hono": "^4.11.4",
-    "playwright": "^1.58.0",
-    "puppeteer": "^24.0.0"
+    "hono": "^4.12.9",
+    "playwright": "^1.59.1",
+    "puppeteer": "^24.40.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241218.0",
-    "@playwright/test": "^1.58.0",
+    "@cloudflare/workers-types": "^4.20260329.1",
+    "@playwright/test": "^1.59.1",
     "@types/node": "^24.10.9",
     "tsx": "^4.19.2",
     "typescript": "^6.0.2",
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.79.0"
   }
 }

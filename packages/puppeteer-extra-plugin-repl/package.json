@@ -43,11 +43,11 @@
   ],
   "devDependencies": {
     "@types/node": "^24.10.9",
-    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/coverage-v8": "^4.1.2",
     "@zorilla/puppeteer-extra": "workspace:*",
     "mock-stdin": "^1.0.0",
-    "puppeteer": "^24.35.0",
-    "vitest": "^4.0.17"
+    "puppeteer": "^24.40.0",
+    "vitest": "^4.1.2"
   },
   "dependencies": {
     "@zorilla/puppeteer-extra-plugin": "workspace:*",

@@ -24,6 +24,8 @@
   "scripts": {
     "clean": "rm -rf dist coverage",
     "build": "tsc",
+    "pretest": "rm -rf ../puppeteer-extra-plugin/dist ../puppeteer-extra-plugin/tsconfig.tsbuildinfo ../puppeteer-extra-plugin-anonymize-ua/dist ../puppeteer-extra-plugin-anonymize-ua/tsconfig.tsbuildinfo ../puppeteer-extra-plugin-recaptcha/dist ../puppeteer-extra-plugin-recaptcha/tsconfig.tsbuildinfo ../puppeteer-extra-plugin-user-preferences/dist ../puppeteer-extra-plugin-user-preferences/tsconfig.tsbuildinfo ../puppeteer-extra-plugin-stealth/dist ../puppeteer-extra-plugin-stealth/tsconfig.tsbuildinfo && pnpm --dir ../.. -r --workspace-concurrency=1 --filter @zorilla/puppeteer-extra-plugin --filter @zorilla/puppeteer-extra-plugin-anonymize-ua --filter @zorilla/puppeteer-extra-plugin-recaptcha --filter @zorilla/puppeteer-extra-plugin-user-preferences --filter @zorilla/puppeteer-extra-plugin-stealth run build && pnpm exec playwright install chromium chromium-headless-shell firefox webkit",
+    "pretest:coverage": "pnpm run pretest",
     "test": "playwright test --config test/playwright.config.ts",
     "test:coverage": "NODE_V8_COVERAGE=coverage playwright test --config test/playwright.config.ts && c8 report"
   },
@@ -41,7 +43,7 @@
     "node": ">=20"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.0",
+    "@playwright/test": "^1.59.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^24.10.9",
     "@zorilla/puppeteer-extra-plugin": "workspace:*",
@@ -51,7 +53,8 @@
     "@zorilla/puppeteer-extra-plugin-user-data-dir": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-user-preferences": "workspace:*",
     "c8": "^11.0.0",
-    "playwright": "^1.58.0",
+    "playwright": "^1.59.1",
+    "playwright-core": "^1.59.1",
     "typescript": "6.0.2"
   },
   "dependencies": {

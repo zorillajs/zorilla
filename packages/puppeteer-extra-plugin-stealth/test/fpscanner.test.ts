@@ -31,6 +31,7 @@ const getFpScannerBrowserCode = (): string => {
 };
 
 const fpScannerCode = getFpScannerBrowserCode();
+const fpscannerTestTimeout = process.platform === 'win32' ? 60000 : 30000;
 
 type FastBotDetectionDetails = Record<
   string,
@@ -72,41 +73,49 @@ const getFpScannerResult = async (
   }
 };
 
-test('vanilla: will fail multiple fpscanner bot detection checks', async () => {
-  const result = await getFpScannerResult(vanillaPuppeteer);
-  const failedChecks = Object.entries(result.fastBotDetectionDetails)
-    .filter(([_name, val]) => val.detected)
-    .map(([name]) => name);
+test(
+  'vanilla: will fail multiple fpscanner bot detection checks',
+  async () => {
+    const result = await getFpScannerResult(vanillaPuppeteer);
+    const failedChecks = Object.entries(result.fastBotDetectionDetails)
+      .filter(([_name, val]) => val.detected)
+      .map(([name]) => name);
 
-  console.log('Vanilla failed checks:', failedChecks);
-  expect(result.fastBotDetection).toBe(true);
-  expect(failedChecks.length).toBeGreaterThan(0);
-}, 30000);
+    console.log('Vanilla failed checks:', failedChecks);
+    expect(result.fastBotDetection).toBe(true);
+    expect(failedChecks.length).toBeGreaterThan(0);
+  },
+  fpscannerTestTimeout
+);
 
-test('stealth: will pass core fpscanner automation checks', async () => {
-  // PuppeteerExtra has a compatible launch() interface — assertion is safe
-  const stealthPuppeteer = addExtra(vanillaPuppeteer).use(
-    Plugin()
-  ) as unknown as LaunchablePuppeteer;
-  const result = await getFpScannerResult(stealthPuppeteer);
-  const failedChecks = Object.entries(result.fastBotDetectionDetails)
-    .filter(([_name, val]) => val.detected)
-    .map(([name]) => name);
+test(
+  'stealth: will pass core fpscanner automation checks',
+  async () => {
+    // PuppeteerExtra has a compatible launch() interface — assertion is safe
+    const stealthPuppeteer = addExtra(vanillaPuppeteer).use(
+      Plugin()
+    ) as unknown as LaunchablePuppeteer;
+    const result = await getFpScannerResult(stealthPuppeteer);
+    const failedChecks = Object.entries(result.fastBotDetectionDetails)
+      .filter(([_name, val]) => val.detected)
+      .map(([name]) => name);
 
-  if (failedChecks.length) {
-    console.warn('The following checks failed:', failedChecks);
-  }
+    if (failedChecks.length) {
+      console.warn('The following checks failed:', failedChecks);
+    }
 
-  // These are the automation signals that the stealth plugin explicitly addresses.
-  // Stealth overrides navigator.webdriver → hasWebdriver should not fire.
-  expect(result.fastBotDetectionDetails.hasWebdriver.detected).toBe(false);
-  // Stealth injects chrome.* objects → hasMissingChromeObject should not fire.
-  expect(result.fastBotDetectionDetails.hasMissingChromeObject.detected).toBe(
-    false
-  );
-  // Neither Selenium nor Playwright markers are present in a Puppeteer session.
-  expect(result.fastBotDetectionDetails.hasSeleniumProperty.detected).toBe(
-    false
-  );
-  expect(result.fastBotDetectionDetails.hasPlaywright.detected).toBe(false);
-}, 30000);
+    // These are the automation signals that the stealth plugin explicitly addresses.
+    // Stealth overrides navigator.webdriver → hasWebdriver should not fire.
+    expect(result.fastBotDetectionDetails.hasWebdriver.detected).toBe(false);
+    // Stealth injects chrome.* objects → hasMissingChromeObject should not fire.
+    expect(result.fastBotDetectionDetails.hasMissingChromeObject.detected).toBe(
+      false
+    );
+    // Neither Selenium nor Playwright markers are present in a Puppeteer session.
+    expect(result.fastBotDetectionDetails.hasSeleniumProperty.detected).toBe(
+      false
+    );
+    expect(result.fastBotDetectionDetails.hasPlaywright.detected).toBe(false);
+  },
+  fpscannerTestTimeout
+);
