@@ -44,7 +44,6 @@
     "@types/http-auth": "^4.1.4",
     "@types/http-proxy": "^1.17.17",
     "@types/node": "^24.10.9",
-    "@zorilla/puppeteer-extra": "workspace:*",
     "puppeteer": "^24.35.0",
     "vitest": "^4.0.17"
   },
@@ -52,7 +51,6 @@
     "@zorilla/puppeteer-extra-plugin": "workspace:*",
     "debug": "^4.4.3",
     "get-port": "^7.1.0",
-    "got": "^14.6.6",
     "http-auth": "^4.2.1",
     "http-proxy": "^1.18.1",
     "http-proxy-response-rewrite": "^0.0.1",

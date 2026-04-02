@@ -1,4 +1,4 @@
-import type { Browser } from 'puppeteer';
+import type { Browser } from '@zorilla/puppeteer-extra-plugin/puppeteer';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 // Store event handlers for testing
@@ -24,10 +24,12 @@ vi.mock('get-port', () => ({
   default: vi.fn(() => Promise.resolve(portCounter++)),
 }));
 
-vi.mock('got', () => ({
-  default: vi.fn((url: string, _options?: any) =>
-    Promise.resolve({
-      body: url.includes('/json/version')
+const mockFetch = vi.fn((url: string | URL) =>
+  Promise.resolve({
+    ok: true,
+    status: 200,
+    json: vi.fn().mockResolvedValue(
+      `${url}`.includes('/json/version')
         ? { Browser: 'Chrome/91.0', 'Protocol-Version': '1.3' }
         : [
             {
@@ -36,10 +38,11 @@ vi.mock('got', () => ({
               url: 'about:blank',
               webSocketDebuggerUrl: 'ws://localhost:9222/devtools/page/page1',
             },
-          ],
-    })
-  ),
-}));
+          ]
+    ),
+  } as unknown as Response)
+);
+vi.stubGlobal('fetch', mockFetch);
 
 describe('Mocked integration tests', () => {
   beforeEach(() => {

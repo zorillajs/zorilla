@@ -2,7 +2,6 @@ import crypto from 'node:crypto';
 import http from 'node:http';
 import debugLib from 'debug';
 import getPort from 'get-port';
-import got from 'got';
 import httpAuth from 'http-auth';
 import httpProxy from 'http-proxy';
 import modifyResponse from 'http-proxy-response-rewrite';
@@ -21,6 +20,14 @@ interface DevToolsOptions {
   auth?: { user: string | null; pass: string | null };
   localtunnel?: Partial<LocaltunnelOptions>;
   [key: string]: unknown;
+}
+
+async function fetchJson(url: string): Promise<unknown> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}: ${url}`);
+  }
+  return response.json();
 }
 
 /**
@@ -48,21 +55,11 @@ class DevToolsCommon {
   }
 
   async fetchVersion(): Promise<unknown> {
-    const { body } = await got(
-      `http://${this.wsHost}:${this.wsPort}/json/version`,
-      {
-        json: true,
-      } as Record<string, unknown>
-    );
-    return body;
+    return fetchJson(`http://${this.wsHost}:${this.wsPort}/json/version`);
   }
 
   async fetchList(): Promise<unknown> {
-    const { body } = await got(
-      `http://${this.wsHost}:${this.wsPort}/json/list`,
-      { json: true } as Record<string, unknown>
-    );
-    return body;
+    return fetchJson(`http://${this.wsHost}:${this.wsPort}/json/list`);
   }
 }
 
@@ -308,8 +305,13 @@ class DevToolsTunnel extends DevToolsCommon {
       debug('upgrade request', req.url);
       this.proxyServer.ws(req, socket, head);
     });
-    server.listen(port);
-    return server;
+    return await new Promise<http.Server>((resolve, reject) => {
+      server.once('error', reject);
+      server.listen(port, () => {
+        server.off('error', reject);
+        resolve(server);
+      });
+    });
   }
 
   async _createTunnel(options: LocaltunnelOptions): Promise<Tunnel> {

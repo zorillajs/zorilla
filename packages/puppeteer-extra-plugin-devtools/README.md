@@ -48,7 +48,7 @@ This plugin is written in TypeScript and includes full type definitions. No addi
 ```typescript
 import puppeteer from '@zorilla/puppeteer-extra';
 import devtoolsPlugin from '@zorilla/puppeteer-extra-plugin-devtools';
-import type { Browser } from 'puppeteer';
+import type { Browser } from '@zorilla/puppeteer-extra-plugin/puppeteer';
 
 const devtools = devtoolsPlugin({
   auth: { user: 'admin', pass: 'secret123' },
