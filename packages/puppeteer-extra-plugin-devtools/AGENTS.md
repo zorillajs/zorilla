@@ -82,7 +82,7 @@ Test suite achieves **100% coverage** across 5 test files (74 tests total):
    - Auth credential management
    - Browser session caching
 
-2. **`test/RemoteDevTools.test.ts`**: Core library unit tests (27 tests)
+2. **`test/RemoteDevTools.test.ts`**: Core library unit tests (28 tests)
    - URL parsing and host normalization
    - Response body modification logic
    - Subdomain generation
@@ -94,7 +94,7 @@ Test suite achieves **100% coverage** across 5 test files (74 tests total):
    - Tunnel closure workflow
 
 4. **`test/mocked.test.ts`**: Network-dependent flows with mocks (11 tests)
-   - Full tunnel creation with mocked `localtunnel`, `get-port`, and `got`
+   - Full tunnel creation with mocked `localtunnel`, `get-port`, and `fetch`
    - Multi-browser scenarios
    - Event handler registration
 

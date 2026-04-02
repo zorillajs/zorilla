@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { Browser, Page } from '@zorilla/puppeteer-extra-plugin/puppeteer';
 import ow from 'ow';
-import type { Browser, Page } from 'puppeteer';
 import * as RemoteDevTools from './lib/RemoteDevTools.js';
 
 interface AuthCredentials {

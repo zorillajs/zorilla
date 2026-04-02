@@ -40,19 +40,53 @@ describe('RemoteDevTools', () => {
 
     test('fetchVersion returns version info', async () => {
       const instance = new DevToolsCommon(webSocketDebuggerUrl);
-      // Mock the got module to avoid actual network calls
-      const mockGot = vi.fn().mockResolvedValue({
-        body: { Browser: 'Chrome', 'Protocol-Version': '1.3' },
-      });
-      vi.doMock('got', () => ({ default: mockGot }));
+      const mockFetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: vi
+          .fn()
+          .mockResolvedValue({ Browser: 'Chrome', 'Protocol-Version': '1.3' }),
+      } as unknown as Response);
+      vi.stubGlobal('fetch', mockFetch);
 
-      // Since we can't easily mock got in this context, we'll just check the method exists
-      expect(typeof instance.fetchVersion).toBe('function');
+      await expect(instance.fetchVersion()).resolves.toEqual({
+        Browser: 'Chrome',
+        'Protocol-Version': '1.3',
+      });
+      expect(mockFetch).toHaveBeenCalledWith(
+        'http://localhost:9222/json/version'
+      );
+      vi.unstubAllGlobals();
     });
 
     test('fetchList returns list of targets', async () => {
       const instance = new DevToolsCommon(webSocketDebuggerUrl);
-      expect(typeof instance.fetchList).toBe('function');
+      const mockFetch = vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        json: vi.fn().mockResolvedValue([{ id: 'page1', type: 'page' }]),
+      } as unknown as Response);
+      vi.stubGlobal('fetch', mockFetch);
+
+      await expect(instance.fetchList()).resolves.toEqual([
+        { id: 'page1', type: 'page' },
+      ]);
+      expect(mockFetch).toHaveBeenCalledWith('http://localhost:9222/json/list');
+      vi.unstubAllGlobals();
+    });
+
+    test('fetchVersion rejects on non-2xx responses', async () => {
+      const instance = new DevToolsCommon(webSocketDebuggerUrl);
+      const mockFetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 503,
+      } as unknown as Response);
+      vi.stubGlobal('fetch', mockFetch);
+
+      await expect(instance.fetchVersion()).rejects.toThrow(
+        'Request failed with status 503'
+      );
+      vi.unstubAllGlobals();
     });
   });
 
