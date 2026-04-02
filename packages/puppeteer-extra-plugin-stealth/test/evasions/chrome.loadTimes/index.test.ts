@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/chrome.loadTimes/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 /* global chrome */
 
@@ -18,9 +14,11 @@ test('stealth: will add functional chrome.loadTimes function mock', async () => 
 
   const results = await page.evaluate(() => {
     type ChromeLoadTimes = Record<string, unknown>;
-    const chromeLoadTimes = (window.chrome as {
-      loadTimes: () => ChromeLoadTimes;
-    }).loadTimes;
+    const chromeLoadTimes = (
+      window.chrome as {
+        loadTimes: () => ChromeLoadTimes;
+      }
+    ).loadTimes;
     const loadTimes = chromeLoadTimes();
 
     return {

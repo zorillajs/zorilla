@@ -2,11 +2,7 @@ import { expect, test } from 'vitest';
 import Plugin, {
   argsToIgnore,
 } from '../../../src/evasions/defaultArgs/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 type BrowserCommandLineResponse = {
   arguments: string[];

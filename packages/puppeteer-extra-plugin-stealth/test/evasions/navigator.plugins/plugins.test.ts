@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.plugins/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 test('stealth: will have convincing plugins', async () => {
   const puppeteer = addExtra(vanillaPuppeteer).use(Plugin());

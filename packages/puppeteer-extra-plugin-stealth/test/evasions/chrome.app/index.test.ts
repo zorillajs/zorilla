@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/chrome.app/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 /* global chrome */
 

@@ -116,9 +116,7 @@ function detectFingerprint() {
   const canvasOffscreenWebgl = new OffscreenCanvas(256, 256);
   const contextWebgl = canvasOffscreenWebgl.getContext('webgl');
   if (contextWebgl) {
-    const rendererInfo = contextWebgl.getExtension(
-      'WEBGL_debug_renderer_info'
-    );
+    const rendererInfo = contextWebgl.getExtension('WEBGL_debug_renderer_info');
     if (rendererInfo) {
       results.webglVendor = String(
         contextWebgl.getParameter(rendererInfo.UNMASKED_VENDOR_WEBGL)

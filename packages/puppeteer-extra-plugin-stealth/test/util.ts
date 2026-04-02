@@ -2,10 +2,10 @@ import assert from 'node:assert';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
+import type { Page } from 'puppeteer';
 import vanillaPuppeteer from 'puppeteer';
 import { addExtra } from 'puppeteer-extra';
-import type { Page } from 'puppeteer';
-import type { PuppeteerExtraPlugin } from '@zorilla/puppeteer-extra-plugin';
 
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -42,7 +42,7 @@ type Launchable = {
 const getFingerPrint = async (
   puppeteer: Launchable,
   pageFn?: ((page: Page) => Promise<unknown> | unknown) | null
-): Promise<Record<string, any> & { pageFnResult: any }> => {
+): Promise<Record<string, unknown> & { pageFnResult: unknown }> => {
   if (!fpCollectPath) {
     throw new Error('fpcollect not available - dist needs to be built');
   }
@@ -55,7 +55,7 @@ const getFingerPrint = async (
   await page.addScriptTag({ path: fpCollectPath });
   const fingerPrint = await getFingerPrintFromPage(page);
 
-  let pageFnResult: any = null;
+  let pageFnResult: unknown = null;
   if (pageFn) {
     pageFnResult = await pageFn(page);
   }
@@ -66,8 +66,7 @@ const getFingerPrint = async (
 
 const getVanillaFingerPrint = async (
   pageFn?: ((page: Page) => Promise<unknown> | unknown) | null
-) =>
-  getFingerPrint(vanillaPuppeteer, pageFn);
+) => getFingerPrint(vanillaPuppeteer, pageFn);
 const getStealthFingerPrint = async (
   Plugin: (opts?: unknown) => PuppeteerExtraPlugin,
   pageFn?: ((page: Page) => Promise<unknown> | unknown) | null,
