@@ -2,7 +2,9 @@ import 'puppeteer';
 
 declare global {
   const fpCollect: {
-    generateFingerprint(): Record<string, unknown>;
+    generateFingerprint<
+      TFingerprint extends Record<string, unknown>,
+    >(): TFingerprint;
   };
 
   const chrome: Record<string, unknown>;

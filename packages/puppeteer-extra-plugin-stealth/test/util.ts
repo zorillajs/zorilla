@@ -19,8 +19,12 @@ try {
   console.warn('Warning: fpcollect dist not found, some tests may be skipped');
 }
 
-const getFingerPrintFromPage = async (page: Page) => {
-  return page.evaluate(() => fpCollect.generateFingerprint()); // eslint-disable-line
+const getFingerPrintFromPage = async <
+  TFingerprint extends Record<string, unknown>,
+>(
+  page: Page
+): Promise<TFingerprint> => {
+  return page.evaluate(() => fpCollect.generateFingerprint<TFingerprint>()); // eslint-disable-line
 };
 
 const dummyHTMLPath = path.join(__dirname, './fixtures/dummy.html');
@@ -39,10 +43,13 @@ type Launchable = {
   launch: typeof vanillaPuppeteer.launch;
 };
 
-const getFingerPrint = async (
+const getFingerPrint = async <
+  TFingerprint extends Record<string, unknown> = Record<string, unknown>,
+  TPageFnResult = unknown,
+>(
   puppeteer: Launchable,
-  pageFn?: ((page: Page) => Promise<unknown> | unknown) | null
-): Promise<Record<string, unknown> & { pageFnResult: unknown }> => {
+  pageFn?: ((page: Page) => Promise<TPageFnResult> | TPageFnResult) | null
+): Promise<TFingerprint & { pageFnResult: TPageFnResult | null }> => {
   if (!fpCollectPath) {
     throw new Error('fpcollect not available - dist needs to be built');
   }
@@ -53,9 +60,9 @@ const getFingerPrint = async (
   const page = await browser.newPage();
   await page.goto('file://' + dummyHTMLPath);
   await page.addScriptTag({ path: fpCollectPath });
-  const fingerPrint = await getFingerPrintFromPage(page);
+  const fingerPrint = await getFingerPrintFromPage<TFingerprint>(page);
 
-  let pageFnResult: unknown = null;
+  let pageFnResult: TPageFnResult | null = null;
   if (pageFn) {
     pageFnResult = await pageFn(page);
   }
@@ -64,15 +71,24 @@ const getFingerPrint = async (
   return { ...fingerPrint, pageFnResult };
 };
 
-const getVanillaFingerPrint = async (
-  pageFn?: ((page: Page) => Promise<unknown> | unknown) | null
-) => getFingerPrint(vanillaPuppeteer, pageFn);
-const getStealthFingerPrint = async (
+const getVanillaFingerPrint = async <
+  TFingerprint extends Record<string, unknown> = Record<string, unknown>,
+  TPageFnResult = unknown,
+>(
+  pageFn?: ((page: Page) => Promise<TPageFnResult> | TPageFnResult) | null
+) => getFingerPrint<TFingerprint, TPageFnResult>(vanillaPuppeteer, pageFn);
+const getStealthFingerPrint = async <
+  TFingerprint extends Record<string, unknown> = Record<string, unknown>,
+  TPageFnResult = unknown,
+>(
   Plugin: (opts?: unknown) => PuppeteerExtraPlugin,
-  pageFn?: ((page: Page) => Promise<unknown> | unknown) | null,
+  pageFn?: ((page: Page) => Promise<TPageFnResult> | TPageFnResult) | null,
   pluginOptions: unknown = null
 ) =>
-  getFingerPrint(addExtra(vanillaPuppeteer).use(Plugin(pluginOptions)), pageFn);
+  getFingerPrint<TFingerprint, TPageFnResult>(
+    addExtra(vanillaPuppeteer).use(Plugin(pluginOptions)),
+    pageFn
+  );
 
 // Expecting the input string to be in one of these formats:
 // - The UA string
