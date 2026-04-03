@@ -6,7 +6,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 // FIXME: This changed in more recent chrome versions
 // test('vanilla: videoCard is Google Inc', async () => {
@@ -64,7 +64,7 @@ async function extendedTests() {
   // Make sure we not reveal our proxy through errors
   await test('errorOK', _ => {
     try {
-      return context.getParameter();
+      return (context as WebGLRenderingContext).getParameter(undefined as any);
     } catch (err) {
       return !err.stack.includes(`at Object.apply`);
     }
@@ -118,8 +118,13 @@ test.skip('stealth: webgl is native (requires fpcollect)', async () => {
  * @see https://stackoverflow.com/questions/49267764/how-to-get-the-video-card-driver-name-using-javascript-browser-side
  * @returns {Object}
  */
-function getVideoCardInfo(context = 'webgl') {
-  const gl = document.createElement('canvas').getContext(context);
+function getVideoCardInfo(
+  context: 'webgl' | 'webgl2' | 'experimental-webgl' = 'webgl'
+) {
+  const gl = document.createElement('canvas').getContext(context) as
+    | WebGLRenderingContext
+    | WebGL2RenderingContext
+    | null;
   if (!gl) {
     return {
       error: 'no webgl',

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import utils from '../../../src/evasions/_utils/index.js';
 import withUtils from '../../../src/evasions/_utils/withUtils.js';
-import { getDefaultLaunchArgs, vanillaPuppeteer } from '../../util.js';
+import { getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 /* global HTMLMediaElement WebGLRenderingContext */
 

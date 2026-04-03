@@ -205,6 +205,9 @@ jobs:
       - name: Build packages
         run: pnpm build
 
+      - name: Typecheck ${{ matrix.package }}
+        run: pnpm --filter @zorilla/${{ matrix.package }} run --if-present typecheck
+
       - name: Install Playwright browsers
         if: matrix.package == 'playwright-extra'
         run: cd packages/playwright-extra && pnpm exec playwright install chromium chromium-headless-shell firefox webkit --with-deps

@@ -21,6 +21,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc && node scripts/fix-imports.js",
+    "typecheck": "tsc --project tsconfig.test.json --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint --ext .js,.ts ."

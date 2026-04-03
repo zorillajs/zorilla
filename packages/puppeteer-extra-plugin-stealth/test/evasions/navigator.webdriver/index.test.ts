@@ -5,7 +5,7 @@ import {
   compareLooseVersionStrings,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 function getExpectedValue(looseVersionString) {
   if (compareLooseVersionStrings(looseVersionString, '89.0.4339.0') >= 0) {

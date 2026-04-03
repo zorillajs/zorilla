@@ -7,7 +7,7 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
 
 test.skip('vanilla: is prompt (requires fpcollect)', async () => {
   const { permissions } = await getVanillaFingerPrint();

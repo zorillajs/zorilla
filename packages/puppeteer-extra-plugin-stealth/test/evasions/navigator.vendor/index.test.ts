@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/navigator.vendor/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util.js';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 test('vanilla: navigator.vendor is always Google Inc.', async () => {
   const browser = await vanillaPuppeteer.launch({

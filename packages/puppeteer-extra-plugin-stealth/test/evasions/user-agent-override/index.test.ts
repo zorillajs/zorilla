@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/user-agent-override/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util.js';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 // Fixed since 2.1.1?
 // test('vanilla: Accept-Language header is missing', async () => {

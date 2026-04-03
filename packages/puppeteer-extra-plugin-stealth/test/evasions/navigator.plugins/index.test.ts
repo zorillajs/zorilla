@@ -6,10 +6,20 @@ import {
   getStealthFingerPrint,
   getVanillaFingerPrint,
   vanillaPuppeteer,
-} from '../../util.js';
+} from '../../util';
+
+type FingerPrintWithPlugins = {
+  plugins: {
+    length: number;
+  };
+  mimeTypes: {
+    length: number;
+  };
+};
 
 test.skip('vanilla: empty plugins, empty mimetypes (requires fpcollect)', async () => {
-  const { plugins, mimeTypes } = await getVanillaFingerPrint();
+  const { plugins, mimeTypes } =
+    await getVanillaFingerPrint<FingerPrintWithPlugins>();
   expect(plugins.length).toBe(0);
   expect(mimeTypes.length).toBe(0);
 });
@@ -35,7 +45,8 @@ test('vanilla: will not have modifications', async () => {
 });
 
 test.skip('stealth: has plugin, has mimetypes (requires fpcollect)', async () => {
-  const { plugins, mimeTypes } = await getStealthFingerPrint(Plugin);
+  const { plugins, mimeTypes } =
+    await getStealthFingerPrint<FingerPrintWithPlugins>(Plugin);
   expect(plugins.length).toBe(3);
   expect(mimeTypes.length).toBe(4);
 });

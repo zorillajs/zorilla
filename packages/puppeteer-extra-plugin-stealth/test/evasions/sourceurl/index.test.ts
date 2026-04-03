@@ -2,11 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/sourceurl/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util.js';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

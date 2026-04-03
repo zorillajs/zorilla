@@ -1,10 +1,12 @@
 import fs from 'node:fs';
 import http from 'node:http';
+import type { AddressInfo } from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { Browser, Page, Target, WebWorker } from 'puppeteer';
 import { afterAll, beforeAll, expect, test } from 'vitest';
 import Plugin from '../dist/index.js';
-import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from './util.js';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from './util';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,10 +33,13 @@ const httpServer = async () => {
     })
     .listen(0); // random free port
 
-  return `http://127.0.0.1:${server.address().port}/`;
+  const address = server.address() as AddressInfo;
+  return `http://127.0.0.1:${address.port}/`;
 };
 
-let browser, page, worker;
+let browser: Browser;
+let page: Page;
+let worker: WebWorker;
 
 beforeAll(async () => {
   const address = await httpServer();
@@ -45,16 +50,21 @@ beforeAll(async () => {
     .launch({ headless: true, args: getDefaultLaunchArgs() });
   page = await browser.newPage();
 
-  worker = new Promise(resolve => {
-    browser.on('targetcreated', async target => {
+  const workerPromise = new Promise<WebWorker>((resolve, reject) => {
+    browser.on('targetcreated', async (target: Target) => {
       if (target.type() === 'service_worker') {
-        resolve(target.worker());
+        const serviceWorker = await target.worker();
+        if (serviceWorker) {
+          resolve(serviceWorker);
+        } else {
+          reject(new Error('Target did not expose a service worker'));
+        }
       }
     });
   });
 
   await page.goto(address);
-  worker = await worker;
+  worker = await workerPromise;
 });
 
 afterAll(async () => {
@@ -82,9 +92,16 @@ test.skip('stealth: creepjs has good trust score', async () => {
 
 /* global OffscreenCanvas */
 function detectFingerprint() {
-  const results = {};
+  const results: Record<string, string> = {};
 
-  const props = [
+  const props: Array<
+    | 'userAgent'
+    | 'language'
+    | 'hardwareConcurrency'
+    | 'deviceMemory'
+    | 'languages'
+    | 'platform'
+  > = [
     'userAgent',
     'language',
     'hardwareConcurrency',
@@ -92,19 +109,23 @@ function detectFingerprint() {
     'languages',
     'platform',
   ];
-  props.forEach(el => {
-    results[el] = navigator[el].toString();
+  props.forEach(prop => {
+    results[prop] = String(navigator[prop]);
   });
 
   const canvasOffscreenWebgl = new OffscreenCanvas(256, 256);
   const contextWebgl = canvasOffscreenWebgl.getContext('webgl');
-  const rendererInfo = contextWebgl.getExtension('WEBGL_debug_renderer_info');
-  results.webglVendor = contextWebgl.getParameter(
-    rendererInfo.UNMASKED_VENDOR_WEBGL
-  );
-  results.webglRenderer = contextWebgl.getParameter(
-    rendererInfo.UNMASKED_RENDERER_WEBGL
-  );
+  if (contextWebgl) {
+    const rendererInfo = contextWebgl.getExtension('WEBGL_debug_renderer_info');
+    if (rendererInfo) {
+      results.webglVendor = String(
+        contextWebgl.getParameter(rendererInfo.UNMASKED_VENDOR_WEBGL)
+      );
+      results.webglRenderer = String(
+        contextWebgl.getParameter(rendererInfo.UNMASKED_RENDERER_WEBGL)
+      );
+    }
+  }
 
   results.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 

@@ -8,7 +8,7 @@ import {
   dummyHTMLPath,
   getDefaultLaunchArgs,
   vanillaPuppeteer,
-} from './util.js';
+} from './util';
 
 const require = createRequire(import.meta.url);
 

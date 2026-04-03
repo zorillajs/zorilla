@@ -49,7 +49,7 @@ class Plugin extends PuppeteerExtraPlugin {
     ): Promise<T> {
       const next = async (): Promise<T> => {
         try {
-          return await originalSend<T>(method, paramArgs);
+          return (await originalSend(method, paramArgs)) as T;
         } catch (error) {
           // This seems to happen sometimes when redirects cause other outstanding requests to be cut short
           if (

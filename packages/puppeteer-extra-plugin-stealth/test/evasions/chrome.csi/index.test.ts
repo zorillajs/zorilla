@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest';
 import Plugin from '../../../src/evasions/chrome.csi/index.js';
-import {
-  addExtra,
-  getDefaultLaunchArgs,
-  vanillaPuppeteer,
-} from '../../util.js';
+import { addExtra, getDefaultLaunchArgs, vanillaPuppeteer } from '../../util';
 
 /* global chrome */
 
@@ -21,13 +17,20 @@ test('stealth: will add functional chrome.csi function mock', async () => {
   const page = await browser.newPage();
 
   const results = await page.evaluate(() => {
+    type ChromeCsi = {
+      onloadT: number;
+      startE: number;
+      pageT: number;
+      tran: number;
+    };
+    const chromeCsi = (window.chrome as { csi: () => ChromeCsi }).csi;
     const { timing } = window.performance;
-    const csi = window.chrome.csi();
+    const csi = chromeCsi();
 
     return {
       csi: {
         exists: window.chrome && 'csi' in window.chrome,
-        toString: chrome.csi.toString(),
+        toString: chromeCsi.toString(),
       },
       dataOK: {
         onloadT: csi.onloadT === timing.domContentLoadedEventEnd,
