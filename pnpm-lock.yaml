@@ -6,7 +6,7 @@ settings:
 
 overrides:
   fsevents: ^2.1.2
-  localtunnel>axios: 1.14.0
+  localtunnel>axios: 1.15.0
 
 importers:
 
@@ -2084,8 +2084,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.14.0:
-    resolution: {integrity: sha512-3Y8yrqLSwjuzpXuZ0oIYZ/XGgLwUIBU3uLvbcpb0pidD9ctpShJd43KSlEEkVQg6DS0G9NKyzOvBfUtDKEyHvQ==}
+  axios@1.15.0:
+    resolution: {integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==}
 
   b4a@1.7.3:
     resolution: {integrity: sha512-5Q2mfq2WfGuFp3uS//0s6baOJLMoVduPYVeNmDYxu5OUA1/cBfvr2RIS7vi62LdNj/urk1hfmj867I3qt6uZ7Q==}
@@ -5362,7 +5362,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios@1.14.0(debug@4.3.2):
+  axios@1.15.0(debug@4.3.2):
     dependencies:
       follow-redirects: 1.15.11(debug@4.3.2)
       form-data: 4.0.5
@@ -6422,7 +6422,7 @@ snapshots:
 
   localtunnel@2.0.2:
     dependencies:
-      axios: 1.14.0(debug@4.3.2)
+      axios: 1.15.0(debug@4.3.2)
       debug: 4.3.2
       openurl: 1.1.1
       yargs: 17.1.1
