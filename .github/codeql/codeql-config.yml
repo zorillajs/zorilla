@@ -1,0 +1,10 @@
+name: Zorilla CodeQL
+
+queries:
+  - uses: security-extended
+
+paths-ignore:
+  - '**/*.d.ts'
+  - '**/test/fixtures/**'
+  - '**/test/stealth/_results/**'
+  - 'packages/demo-site/src/static/detector.js'
