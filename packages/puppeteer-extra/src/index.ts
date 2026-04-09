@@ -7,6 +7,11 @@ import type { Browser, Page, PuppeteerNode } from 'puppeteer';
 const debug = Debug('puppeteer-extra');
 
 import merge from 'deepmerge';
+import {
+  extractDependencyPackageName,
+  resolveDependencyImportPath,
+  resolveDependencyPackageName,
+} from './dependency-resolution.js';
 
 const require = createRequire(import.meta.url);
 
@@ -392,34 +397,16 @@ export class PuppeteerExtra implements VanillaPuppeteer {
         );
         continue;
       }
-      // We follow a plugin naming convention, but let's rather enforce it <3
-      // Handle both scoped (@scope/puppeteer-extra-plugin-*) and unscoped (puppeteer-extra-plugin-*) packages
-      const hasPluginPrefix = name.includes('puppeteer-extra-plugin');
-      if (!hasPluginPrefix) {
-        // If the name doesn't start with a scope, add our @zorilla scope
-        const scope = name.startsWith('@') ? '' : '@zorilla/';
-        name = `${scope}puppeteer-extra-plugin-${name}`;
-      }
+      name = resolveDependencyPackageName(name);
       // In case a module sub resource is requested print out the main package name
       // e.g. puppeteer-extra-plugin-stealth/evasions/console.debug => puppeteer-extra-plugin-stealth
       // For scoped packages: @zorilla/puppeteer-extra-plugin-foo/bar => @zorilla/puppeteer-extra-plugin-foo
-      const parts = name.split('/');
-      const packageName = name.startsWith('@')
-        ? `${parts[0]}/${parts[1]}`
-        : parts[0];
+      const packageName = extractDependencyPackageName(name);
       let dep = null;
       try {
         // Try to dynamically import and instantiate the stated dependency (ESM compatible)
         // For workspace packages, convert to relative path since ESM dynamic imports don't resolve workspace packages well
-        let importPath = name;
-        if (name.startsWith('@zorilla/puppeteer-extra-plugin-')) {
-          // Convert @zorilla/puppeteer-extra-plugin-foo/bar/baz to ../../puppeteer-extra-plugin-foo/dist/bar/baz/index.js
-          const withoutScope = name.replace('@zorilla/', '');
-          const pathParts = withoutScope.split('/');
-          const packageName = pathParts[0]; // puppeteer-extra-plugin-stealth
-          const subpath = pathParts.slice(1).join('/'); // evasions/chrome.app
-          importPath = `../../${packageName}/dist/${subpath}/index.js`;
-        }
+        const importPath = resolveDependencyImportPath(name);
         const module = await import(importPath);
         dep = (module.default || module)();
         // Register it with `puppeteer-extra` as plugin
