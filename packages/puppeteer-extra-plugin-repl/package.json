@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-repl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Start an interactive REPL in your puppeteer code.",
   "type": "module",
   "main": "./dist/index.js",

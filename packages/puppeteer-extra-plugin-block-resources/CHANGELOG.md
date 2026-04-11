@@ -1,5 +1,12 @@
 # @zorilla/puppeteer-extra-plugin-block-resources
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`4c37634`](https://github.com/zorillajs/zorilla/commit/4c37634704c8f412e97d90a54d810cbd6aa38c42)]:
+  - @zorilla/puppeteer-extra-plugin@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
