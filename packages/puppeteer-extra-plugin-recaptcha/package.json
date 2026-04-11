@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-recaptcha",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A puppeteer-extra plugin to solve reCAPTCHAs and hCaptchas automatically.",
   "type": "module",
   "main": "dist/index.js",

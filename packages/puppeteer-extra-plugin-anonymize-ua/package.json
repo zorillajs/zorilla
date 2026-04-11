@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-anonymize-ua",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Anonymize User-Agent in puppeteer.",
   "type": "module",
   "main": "./dist/index.js",
