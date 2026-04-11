@@ -3,6 +3,10 @@
   "extends": ["config:base", ":disableDependencyDashboard"],
   "pinVersions": false,
   "rebaseStalePrs": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "automerge": true
+  },
   "packageRules": [
     {
       "groupName": "playwright monorepo",
