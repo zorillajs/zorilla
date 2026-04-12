@@ -34,7 +34,7 @@ class Plugin extends PuppeteerExtraPlugin {
           codecs = codecStr
             .trim()
             .replace(`codecs="`, '')
-            .replace(`"`, '')
+            .replace(/"$/u, '')
             .trim()
             .split(',')
             .filter(x => !!x)
