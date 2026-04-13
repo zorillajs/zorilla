@@ -101,7 +101,7 @@ const parseInput = arg => {
     codecs = codecStr
       .trim()
       .replace(`codecs="`, '')
-      .replace(`"`, '')
+      .replace(/"$/u, '')
       .trim()
       .split(',')
       .filter(x => !!x)
@@ -138,7 +138,7 @@ async onPageCreated(page) {
         codecs = codecStr
           .trim()
           .replace(`codecs="`, '')
-          .replace(`"`, '')
+          .replace(/"$/u, '')
           .trim()
           .split(',')
           .filter(x => !!x)
