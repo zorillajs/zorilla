@@ -96,5 +96,9 @@ await browser.close()
 
 We welcome contributions! **[Read the Contributing Guide →](./CONTRIBUTING.md)**
 
+## 🔒 Security
+
+To report a vulnerability, please follow the **[Security Policy](./SECURITY.md)** and avoid filing public issues for suspected security problems.
+
 ## License
 [MIT](./LICENSE)
