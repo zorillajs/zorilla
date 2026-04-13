@@ -13,6 +13,22 @@ const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 // Replace '/' with '-' to avoid invalid filesystem paths when package name has a scope
 const engineCacheFilename = `${pkg.name.replace(/\//g, '-')}-${pkg.version}-engine.bin`;
+const defaultCacheRoot = (() => {
+  if (process.platform === 'win32') {
+    return process.env.LOCALAPPDATA
+      ? path.join(process.env.LOCALAPPDATA, 'zorilla')
+      : path.join(os.homedir(), 'AppData', 'Local', 'zorilla');
+  }
+
+  if (process.platform === 'darwin') {
+    return path.join(os.homedir(), 'Library', 'Caches', 'zorilla');
+  }
+
+  return path.join(
+    process.env.XDG_CACHE_HOME ?? path.join(os.homedir(), '.cache'),
+    'zorilla'
+  );
+})();
 
 /** Available plugin options */
 export interface PluginOptions {
@@ -56,7 +72,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
   }
 
   get engineCacheFile() {
-    const cacheDir = (this.opts as PluginOptions).cacheDir || os.tmpdir();
+    const cacheDir = (this.opts as PluginOptions).cacheDir ?? defaultCacheRoot;
     return path.join(cacheDir, engineCacheFilename);
   }
 
@@ -70,6 +86,10 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
       return;
     }
     this.debug('persist to cache', this.engineCacheFile);
+    await fs.mkdir(path.dirname(this.engineCacheFile), {
+      recursive: true,
+      mode: 0o700,
+    });
     await fs.writeFile(this.engineCacheFile, blocker.serialize());
   }
 
