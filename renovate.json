@@ -1,6 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base", ":disableDependencyDashboard"],
+  "extends": [
+    "config:base",
+    ":disableDependencyDashboard",
+    "helpers:pinGitHubActionDigestsToSemver"
+  ],
   "pinVersions": false,
   "rebaseStalePrs": true,
   "vulnerabilityAlerts": {

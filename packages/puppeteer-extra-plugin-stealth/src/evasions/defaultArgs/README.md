@@ -219,7 +219,7 @@ Disabling these changes how Chrome behaves internally.
 ## References
 
 - [Puppeteer API: LaunchOptions](https://pptr.dev/api/puppeteer.launchoptions)
-- [Chromium Command Line Switches](https://peter.sh/experiments/chromium-command-line-switches/)
+- [Run Chromium with command-line switches](https://www.chromium.org/developers/how-tos/run-chromium-with-flags)
 - [Chrome Extensions Architecture](https://www.chromium.org/developers/design-documents/extensions/)
 
 ## API
