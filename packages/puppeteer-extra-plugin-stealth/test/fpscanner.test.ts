@@ -31,7 +31,9 @@ const getFpScannerBrowserCode = (): string => {
 };
 
 const fpScannerCode = getFpScannerBrowserCode();
-const fpscannerTestTimeout = process.platform === 'win32' ? 60000 : 30000;
+// GitHub's Windows runners can take over a minute to launch Chromium, inject
+// fpscanner, and finish the vanilla baseline collection.
+const fpscannerTestTimeout = process.platform === 'win32' ? 90000 : 30000;
 
 type FastBotDetectionDetails = Record<
   string,
