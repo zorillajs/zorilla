@@ -81,7 +81,7 @@ importers:
         version: link:../puppeteer-extra-plugin-stealth
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       terser:
         specifier: ^5.44.1
         version: 5.44.1
@@ -142,8 +142,8 @@ importers:
         specifier: ^1.59.1
         version: 1.59.1
       typescript:
-        specifier: 6.0.2
-        version: 6.0.2
+        specifier: 6.0.3
+        version: 6.0.3
 
   packages/plugin-proxy-router:
     dependencies:
@@ -260,7 +260,7 @@ importers:
     dependencies:
       '@cliqz/adblocker-puppeteer':
         specifier: 1.34.0
-        version: 1.34.0(puppeteer@24.40.0(typescript@6.0.2))
+        version: 1.34.0(puppeteer@24.40.0(typescript@6.0.3))
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -272,7 +272,7 @@ importers:
         version: 24.35.0
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.35.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.35.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -288,10 +288,10 @@ importers:
         version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       typescript:
-        specifier: 6.0.2
-        version: 6.0.2
+        specifier: 6.0.3
+        version: 6.0.3
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -309,7 +309,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -319,7 +319,7 @@ importers:
         version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -337,7 +337,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -347,7 +347,7 @@ importers:
         version: 4.1.2(vitest@4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0)))
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -365,7 +365,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -378,7 +378,7 @@ importers:
         version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -414,7 +414,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -430,7 +430,7 @@ importers:
         version: 24.10.9
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -448,7 +448,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -464,7 +464,7 @@ importers:
         version: link:../puppeteer-extra-plugin-user-preferences
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -482,7 +482,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -498,7 +498,7 @@ importers:
         version: link:../puppeteer-extra-plugin-user-preferences
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -532,10 +532,10 @@ importers:
         version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       typescript:
-        specifier: 6.0.2
-        version: 6.0.2
+        specifier: 6.0.3
+        version: 6.0.3
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -559,7 +559,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -575,7 +575,7 @@ importers:
         version: 1.0.0
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -596,7 +596,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -615,7 +615,7 @@ importers:
         version: 3.3.6
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -633,7 +633,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -649,7 +649,7 @@ importers:
         version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -673,7 +673,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3))
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -689,7 +689,7 @@ importers:
         version: link:../puppeteer-extra
       puppeteer:
         specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        version: 24.40.0(typescript@6.0.3)
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -3863,6 +3863,11 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
   ua-parser-js@0.7.41:
     resolution: {integrity: sha512-O3oYyCMPYgNNHuO7Jjk3uacJWZF8loBgwrfd/5LE/HyZ3lUIOdniQ7DNXJcIgZbwioZxk0fLfI4EVnetdiX5jg==}
     hasBin: true
@@ -4474,11 +4479,11 @@ snapshots:
 
   '@cliqz/adblocker-extended-selectors@1.34.0': {}
 
-  '@cliqz/adblocker-puppeteer@1.34.0(puppeteer@24.40.0(typescript@6.0.2))':
+  '@cliqz/adblocker-puppeteer@1.34.0(puppeteer@24.40.0(typescript@6.0.3))':
     dependencies:
       '@cliqz/adblocker': 1.34.0
       '@cliqz/adblocker-content': 1.34.0
-      puppeteer: 24.40.0(typescript@6.0.2)
+      puppeteer: 24.40.0(typescript@6.0.3)
       tldts-experimental: 6.1.86
 
   '@cliqz/adblocker@1.34.0':
@@ -5158,6 +5163,19 @@ snapshots:
       - utf-8-validate
     optional: true
 
+  '@types/puppeteer@7.0.4(typescript@6.0.3)':
+    dependencies:
+      puppeteer: 24.40.0(typescript@6.0.3)
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - bare-buffer
+      - bufferutil
+      - react-native-b4a
+      - supports-color
+      - typescript
+      - utf-8-validate
+    optional: true
+
   '@types/validator@13.15.10': {}
 
   '@types/yargs-parser@21.0.3': {}
@@ -5645,6 +5663,15 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 6.0.2
+
+  cosmiconfig@9.0.1(typescript@6.0.3):
+    dependencies:
+      env-paths: 2.2.1
+      import-fresh: 3.3.1
+      js-yaml: 4.1.1
+      parse-json: 5.2.0
+    optionalDependencies:
+      typescript: 6.0.3
 
   cross-spawn@7.0.6:
     dependencies:
@@ -6855,18 +6882,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.35.0)(puppeteer@24.40.0(typescript@6.0.2)):
-    dependencies:
-      '@types/debug': 4.1.12
-      debug: 4.4.3
-      deepmerge: 4.3.1
-    optionalDependencies:
-      '@types/puppeteer': 7.0.4(typescript@6.0.2)
-      puppeteer: 24.40.0(typescript@6.0.2)
-      puppeteer-core: 24.35.0
-    transitivePeerDependencies:
-      - supports-color
-
   puppeteer-extra@3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2)):
     dependencies:
       '@types/debug': 4.1.12
@@ -6879,11 +6894,52 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.35.0)(puppeteer@24.40.0(typescript@6.0.3)):
+    dependencies:
+      '@types/debug': 4.1.12
+      debug: 4.4.3
+      deepmerge: 4.3.1
+    optionalDependencies:
+      '@types/puppeteer': 7.0.4(typescript@6.0.3)
+      puppeteer: 24.40.0(typescript@6.0.3)
+      puppeteer-core: 24.35.0
+    transitivePeerDependencies:
+      - supports-color
+
+  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4(typescript@6.0.3))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.3)):
+    dependencies:
+      '@types/debug': 4.1.12
+      debug: 4.4.3
+      deepmerge: 4.3.1
+    optionalDependencies:
+      '@types/puppeteer': 7.0.4(typescript@6.0.3)
+      puppeteer: 24.40.0(typescript@6.0.3)
+      puppeteer-core: 24.40.0
+    transitivePeerDependencies:
+      - supports-color
+
   puppeteer@24.40.0(typescript@6.0.2):
     dependencies:
       '@puppeteer/browsers': 2.13.0
       chromium-bidi: 14.0.0(devtools-protocol@0.0.1581282)
       cosmiconfig: 9.0.1(typescript@6.0.2)
+      devtools-protocol: 0.0.1581282
+      puppeteer-core: 24.40.0
+      typed-query-selector: 2.12.1
+    transitivePeerDependencies:
+      - bare-abort-controller
+      - bare-buffer
+      - bufferutil
+      - react-native-b4a
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  puppeteer@24.40.0(typescript@6.0.3):
+    dependencies:
+      '@puppeteer/browsers': 2.13.0
+      chromium-bidi: 14.0.0(devtools-protocol@0.0.1581282)
+      cosmiconfig: 9.0.1(typescript@6.0.3)
       devtools-protocol: 0.0.1581282
       puppeteer-core: 24.40.0
       typed-query-selector: 2.12.1
@@ -7346,6 +7402,8 @@ snapshots:
   typedarray@0.0.6: {}
 
   typescript@6.0.2: {}
+
+  typescript@6.0.3: {}
 
   ua-parser-js@0.7.41: {}
 
