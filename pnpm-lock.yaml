@@ -142,7 +142,7 @@ importers:
         specifier: ^1.59.1
         version: 1.59.1
       typescript:
-        specifier: 6.0.2
+        specifier: ^6.0.2
         version: 6.0.2
 
   packages/plugin-proxy-router:
@@ -290,7 +290,7 @@ importers:
         specifier: ^24.40.0
         version: 24.40.0(typescript@6.0.2)
       typescript:
-        specifier: 6.0.2
+        specifier: ^6.0.2
         version: 6.0.2
       vitest:
         specifier: ^4.1.2
@@ -534,7 +534,7 @@ importers:
         specifier: ^24.40.0
         version: 24.40.0(typescript@6.0.2)
       typescript:
-        specifier: 6.0.2
+        specifier: ^6.0.2
         version: 6.0.2
       vitest:
         specifier: ^4.1.2
