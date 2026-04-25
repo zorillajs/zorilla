@@ -9,7 +9,7 @@
 - Effectively blocks all types of ads and tracking
 - Small and minimal (only 64KB minified and gzipped)
 
-> Thanks to [@remusao](https://github.com/remusao) for contributing this sweet plugin and [adblocker engine](https://github.com/cliqz-oss/adblocker)! 👏
+> Thanks to [@remusao](https://github.com/remusao) for contributing this sweet plugin and [adblocker engine](https://github.com/ghostery/adblocker)! 👏
 
 ## Installation
 
