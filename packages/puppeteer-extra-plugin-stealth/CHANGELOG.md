@@ -1,5 +1,11 @@
 # @zorilla/puppeteer-extra-plugin-stealth
 
+## 1.0.4
+
+### Patch Changes
+
+- [#65](https://github.com/zorillajs/zorilla/pull/65) [`b6933f2`](https://github.com/zorillajs/zorilla/commit/b6933f28277f2daef8c23e94bd19f7e486015629) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Fix the media.codecs parser to remove only the trailing wrapper quote, addressing a CodeQL sanitization alert without changing intended codec detection behavior.
+
 ## 1.0.3
 
 ### Patch Changes

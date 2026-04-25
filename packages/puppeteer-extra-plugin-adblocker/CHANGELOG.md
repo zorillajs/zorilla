@@ -1,5 +1,16 @@
 # @zorilla/puppeteer-extra-plugin-adblocker
 
+## 1.0.3
+
+### Patch Changes
+
+- [#67](https://github.com/zorillajs/zorilla/pull/67) [`c56da66`](https://github.com/zorillajs/zorilla/commit/c56da6654782c24ff55c4123dad06834ebcdc6b9) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Move the default serialized adblocker cache out of the OS temp directory and
+  into a user-specific cache location to avoid insecure temporary file creation.
+
+- [#76](https://github.com/zorillajs/zorilla/pull/76) [`d484fb2`](https://github.com/zorillajs/zorilla/commit/d484fb2080d7e6382d2af80e8382cc0209a416c6) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Replace the deprecated `@cliqz/adblocker-puppeteer` dependency with
+  `@ghostery/adblocker-puppeteer` and refresh the lockfile to remove the retired
+  `@cliqz/*` adblocker packages from the plugin dependency graph.
+
 ## 1.0.2
 
 ### Patch Changes
