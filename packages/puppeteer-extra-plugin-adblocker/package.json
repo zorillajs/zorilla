@@ -49,7 +49,7 @@
     "vitest": "^4.1.2"
   },
   "dependencies": {
-    "@ghostery/adblocker-puppeteer": "2.14.1",
+    "@ghostery/adblocker-puppeteer": "^2.14.1",
     "@zorilla/puppeteer-extra-plugin": "workspace:*",
     "debug": "^4.4.3"
   },

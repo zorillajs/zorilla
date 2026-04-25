@@ -259,7 +259,7 @@ importers:
   packages/puppeteer-extra-plugin-adblocker:
     dependencies:
       '@ghostery/adblocker-puppeteer':
-        specifier: 2.14.1
+        specifier: ^2.14.1
         version: 2.14.1(puppeteer@24.40.0(typescript@6.0.2))
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
