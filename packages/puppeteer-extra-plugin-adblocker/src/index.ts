@@ -126,7 +126,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
       hasFilters: !!this.opts.filters,
       merge: this.opts.merge,
     });
-    
+
     let blocker: PuppeteerBlocker;
     if (this.opts.blockTrackersAndAnnoyances === true) {
       blocker = await PuppeteerBlocker.fromPrebuiltFull(fetch);
