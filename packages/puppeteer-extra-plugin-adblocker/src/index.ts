@@ -113,6 +113,16 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     );
   }
 
+  private normalizeFilters(filters: unknown): string {
+    if (!filters) {
+      return '';
+    }
+    if (Array.isArray(filters)) {
+      return filters.join('\n').trim();
+    }
+    return String(filters).trim();
+  }
+
   /**
    * Initialize instance of `PuppeteerBlocker` from remote (either by fetching
    * a serialized version of the engine when available, or by downloading raw
@@ -120,7 +130,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
    * blocker).
    */
   private async loadFromRemote(): Promise<PuppeteerBlocker> {
-    const customFilters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n').trim() : (this.opts.filters || '').trim();
+    const customFilters = this.normalizeFilters(this.opts.filters);
     const hasCustomFilters = customFilters.length > 0;
 
     this.debug('load from remote', {
