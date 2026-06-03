@@ -139,7 +139,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     if (this.opts.filters) {
       const filters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n') : this.opts.filters;
       const customBlocker = PuppeteerBlocker.parse(filters);
-      if (this.opts.merge === true ) {
+      if (this.opts.merge === true) {
         blocker = PuppeteerBlocker.merge([blocker, customBlocker]);
       } else {
         blocker = customBlocker;
