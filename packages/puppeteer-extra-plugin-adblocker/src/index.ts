@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
 
-import { PuppeteerBlocker } from '@ghostery/adblocker-puppeteer';
+import { PuppeteerBlocker, parseFilters } from '@ghostery/adblocker-puppeteer';
 import {
   type Puppeteer,
   PuppeteerExtraPlugin,
@@ -138,12 +138,11 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
 
     if (this.opts.filters) {
       const filters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n') : this.opts.filters;
-      const customBlocker = PuppeteerBlocker.parse(filters);
-      if (this.opts.mergeFilters === true) {
-        blocker = PuppeteerBlocker.merge([blocker, customBlocker]);
-      } else {
-        blocker = customBlocker;
+      const parsed = parseFilters(filters);
+      if (this.opts.mergeFilters === false) {
+        blocker = PuppeteerBlocker.empty();
       }
+      blocker.update({ newNetworkFilters: parsed.networkFilters, newCosmeticFilters: parsed.cosmeticFilters });
     }
 
     return blocker;
