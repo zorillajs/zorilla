@@ -72,6 +72,8 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
       useCache: true,
       cacheDir: undefined,
       interceptResolutionPriority: undefined,
+      filters: undefined,
+      merge: false,
     };
   }
 
