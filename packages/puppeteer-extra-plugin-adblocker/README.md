@@ -106,7 +106,7 @@ interface PluginOptions {
   /** Optional custom filters for the adblocker. Default: undefined */
   filters?: string | string[]
   /** Whether or not to merge custom filters with prebuilt ones. Default: false */
-  merge?: boolean
+  mergeFilters?: boolean
 }
 ```
 
