@@ -103,6 +103,8 @@ interface PluginOptions {
   useCache: boolean
   /** Optional custom directory for adblocker cache files. Default: undefined */
   cacheDir?: string
+  /** Optional custom filters for the adblocker. Default: undefined */
+  filters?: string
 }
 ```
 

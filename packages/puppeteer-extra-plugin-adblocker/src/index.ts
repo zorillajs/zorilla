@@ -43,6 +43,8 @@ export interface PluginOptions {
   cacheDir?: string;
   /** Optional custom priority for interception resolution. Default: undefined */
   interceptResolutionPriority?: number;
+  /** Optional custom filters for the adblocker. Default: undefined */
+  filters?: string;
   [key: string]: unknown;
 }
 
@@ -117,7 +119,11 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     this.debug('load from remote', {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
+      filters: this.opts.filters,
     });
+    if (this.opts.filters) {
+      PuppeteerBlocker.parse(this.opts.filters);
+    }
     if (this.opts.blockTrackersAndAnnoyances === true) {
       return PuppeteerBlocker.fromPrebuiltFull(fetch);
     } else if (this.opts.blockTrackers === true) {
