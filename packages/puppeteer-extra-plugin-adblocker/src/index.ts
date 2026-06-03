@@ -123,7 +123,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     this.debug('load from remote', {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
-      filters: this.opts.filters,
+      hasFilters: !!this.opts.filters,
       merge: this.opts.merge,
     });
     
