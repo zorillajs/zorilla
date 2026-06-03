@@ -124,16 +124,15 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
   }
 
   /**
-   * Initialize instance of `PuppeteerBlocker` from remote (either by fetching
-   * a serialized version of the engine when available, or by downloading raw
-   * lists for filters such as EasyList then parsing them to initialize
-   * blocker).
+   * Create an instance of `PuppeteerBlocker` (either by fetching
+   * a serialized version of the engine when available, or by building one
+   * directly from provided custom filters).
    */
-  private async loadFromRemote(): Promise<PuppeteerBlocker> {
+  private async buildBlocker(): Promise<PuppeteerBlocker> {
     const customFilters = this.normalizeFilters(this.opts.filters);
     const hasCustomFilters = customFilters.length > 0;
 
-    this.debug('load from remote', {
+    this.debug('building blocker', {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
       hasCustomFilters,
@@ -171,7 +170,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
         this.blocker = await this.loadFromCache();
         this.setRequestInterceptionPriority();
       } catch (_ex) {
-        this.blocker = await this.loadFromRemote();
+        this.blocker = await this.buildBlocker();
         this.setRequestInterceptionPriority();
         await this.persistToCache(this.blocker);
       }
