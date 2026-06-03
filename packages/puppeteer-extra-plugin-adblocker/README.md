@@ -114,7 +114,7 @@ interface PluginOptions {
 
 You can provide your own Adblock Plus (ABP) style filters using the `filters` option. The `mergeFilters` option controls how your custom filters interact with the prebuilt adblocker list (which is governed by the `blockTrackers` and `blockTrackersAndAnnoyances` options).
 
-* **Replace prebuilt lists (Default)**: By default, `mergeFilters` is `false`. When `filters` are provided, the plugin will skip downloading or using the prebuilt lists entirely. The `blockTrackers` and `blockTrackersAndAnnoyances` options are ignored, and **only** the custom filters are used. This avoids unnecessary network I/O and speeds up browser launch time.
+* **Replace prebuilt lists (Default)**: By default, `mergeFilters` is `false`. When **non-empty** `filters` are provided (e.g. a string with text or an array with at least one valid entry), the plugin will skip downloading or using the prebuilt lists entirely. The `blockTrackers` and `blockTrackersAndAnnoyances` options are ignored, and **only** the custom filters are used. This avoids unnecessary network I/O and speeds up browser launch time. Providing empty filters (like `""` or `[]`) will cause the plugin to fall back to using the prebuilt lists as if `filters` were undefined.
 * **Merge with prebuilt lists**: If `mergeFilters` is `true`, the plugin will fetch the regular prebuilt list and then append your custom filters to it.
 
 **Example 1: Replacing prebuilt lists with custom filters**
