@@ -110,6 +110,43 @@ interface PluginOptions {
 }
 ```
 
+### Custom Filters
+
+You can provide your own Adblock Plus (ABP) style filters using the `filters` option. The `mergeFilters` option controls how your custom filters interact with the prebuilt adblocker list (which is governed by the `blockTrackers` and `blockTrackersAndAnnoyances` options).
+
+* **Replace prebuilt lists (Default)**: By default, `mergeFilters` is `false`. When `filters` are provided, the plugin will skip downloading or using the prebuilt lists entirely. The `blockTrackers` and `blockTrackersAndAnnoyances` options are ignored, and **only** the custom filters are used. This avoids unnecessary network I/O and speeds up browser launch time.
+* **Merge with prebuilt lists**: If `mergeFilters` is `true`, the plugin will fetch the regular prebuilt list and then append your custom filters to it.
+
+**Example 1: Replacing prebuilt lists with custom filters**
+```js
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker';
+
+puppeteer.use(
+  AdblockerPlugin({
+    filters: [
+      '||example.com^',      // block example.com
+      '@@||example.com/allow' // except for this specific path
+    ]
+    // mergeFilters option is false by default, so prebuilt lists are skipped
+  })
+)
+```
+
+**Example 2: Merging custom filters alongside prebuilt lists**
+```js
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker';
+
+puppeteer.use(
+  AdblockerPlugin({
+    blockTrackers: true,       // use the prebuilt trackers + ads list
+    filters: [
+      '||my-custom-annoyance.com^'
+    ],
+    mergeFilters: true        // merge custom filters into the prebuilt list
+  })
+)
+```
+
 ## Motivation
 
 Ads and trackers are on most pages and often cost a lot of bandwidth and time
