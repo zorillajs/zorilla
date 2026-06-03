@@ -128,7 +128,9 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     });
 
     let blocker: PuppeteerBlocker;
-    if (this.opts.blockTrackersAndAnnoyances === true) {
+    if (this.opts.filters && this.opts.mergeFilters === false) {
+      blocker = PuppeteerBlocker.empty();
+    } else if (this.opts.blockTrackersAndAnnoyances === true) {
       blocker = await PuppeteerBlocker.fromPrebuiltFull(fetch);
     } else if (this.opts.blockTrackers === true) {
       blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
@@ -139,9 +141,6 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     if (this.opts.filters) {
       const filters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n') : this.opts.filters;
       const parsed = parseFilters(filters);
-      if (this.opts.mergeFilters === false) {
-        blocker = PuppeteerBlocker.empty();
-      }
       blocker.update({ newNetworkFilters: parsed.networkFilters, newCosmeticFilters: parsed.cosmeticFilters });
     }
 
