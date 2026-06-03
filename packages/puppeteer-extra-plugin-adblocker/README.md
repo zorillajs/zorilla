@@ -103,6 +103,11 @@ interface PluginOptions {
   useCache: boolean
   /** Optional custom directory for adblocker cache files. Default: undefined */
   cacheDir?: string
+    /** Optional parse function of FiltersEngine to add custom filters. Default: undefined */
+  filtersEngineParse?: {
+    filters: string
+    options?: Partial<Config>
+  }
 }
 ```
 

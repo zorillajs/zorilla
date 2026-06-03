@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
 
-import { PuppeteerBlocker } from '@ghostery/adblocker-puppeteer';
+import { PuppeteerBlocker, type Config } from '@ghostery/adblocker-puppeteer';
 import {
   type Puppeteer,
   PuppeteerExtraPlugin,
@@ -43,6 +43,11 @@ export interface PluginOptions {
   cacheDir?: string;
   /** Optional custom priority for interception resolution. Default: undefined */
   interceptResolutionPriority?: number;
+  /** Optional parse function of FiltersEngine to add custom filters. Default: undefined */
+  filtersEngineParse?: {
+    filters: string;
+    options?: Partial<Config>;
+  };
   [key: string]: unknown;
 }
 
@@ -117,7 +122,11 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     this.debug('load from remote', {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
+      filtersEngineParse: this.opts.filtersEngineParse,
     });
+    if (typeof this.opts.filtersEngineParse === 'object') {
+      PuppeteerBlocker.parse(this.opts.filtersEngineParse.filters, this.opts.filtersEngineParse.options);
+    }
     if (this.opts.blockTrackersAndAnnoyances === true) {
       return PuppeteerBlocker.fromPrebuiltFull(fetch);
     } else if (this.opts.blockTrackers === true) {
