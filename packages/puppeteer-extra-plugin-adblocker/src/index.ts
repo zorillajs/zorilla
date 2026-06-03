@@ -120,15 +120,18 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
    * blocker).
    */
   private async loadFromRemote(): Promise<PuppeteerBlocker> {
+    const customFilters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n').trim() : (this.opts.filters || '').trim();
+    const hasCustomFilters = customFilters.length > 0;
+
     this.debug('load from remote', {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
-      hasFilters: !!this.opts.filters,
+      hasCustomFilters,
       mergeFilters: this.opts.mergeFilters,
     });
 
     let blocker: PuppeteerBlocker;
-    if (this.opts.filters && this.opts.mergeFilters === false) {
+    if (hasCustomFilters && this.opts.mergeFilters === false) {
       blocker = PuppeteerBlocker.empty();
     } else if (this.opts.blockTrackersAndAnnoyances === true) {
       blocker = await PuppeteerBlocker.fromPrebuiltFull(fetch);
@@ -138,9 +141,8 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
       blocker = await PuppeteerBlocker.fromPrebuiltAdsOnly(fetch);
     }
 
-    if (this.opts.filters) {
-      const filters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n') : this.opts.filters;
-      const parsed = parseFilters(filters);
+    if (hasCustomFilters) {
+      const parsed = parseFilters(customFilters);
       blocker.update({ newNetworkFilters: parsed.networkFilters, newCosmeticFilters: parsed.cosmeticFilters });
     }
 
