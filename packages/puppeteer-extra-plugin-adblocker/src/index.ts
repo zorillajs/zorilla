@@ -45,6 +45,8 @@ export interface PluginOptions {
   interceptResolutionPriority?: number;
   /** Optional custom filters for the adblocker. Default: undefined */
   filters?: string;
+  /** Whether or not to merge custom filters with prebuilt ones. Default: false */
+  merge: boolean;
   [key: string]: unknown;
 }
 
@@ -120,17 +122,28 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
       filters: this.opts.filters,
+      merge: this.opts.merge,
     });
-    if (this.opts.filters) {
-      PuppeteerBlocker.parse(this.opts.filters);
-    }
+    
+    let blocker: PuppeteerBlocker;
     if (this.opts.blockTrackersAndAnnoyances === true) {
-      return PuppeteerBlocker.fromPrebuiltFull(fetch);
+      blocker = await PuppeteerBlocker.fromPrebuiltFull(fetch);
     } else if (this.opts.blockTrackers === true) {
-      return PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
+      blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
     } else {
-      return PuppeteerBlocker.fromPrebuiltAdsOnly(fetch);
+      blocker = await PuppeteerBlocker.fromPrebuiltAdsOnly(fetch);
     }
+
+    if (this.opts.filters) {
+      const customBlocker = PuppeteerBlocker.parse(this.opts.filters as string);
+      if (this.opts.merge === true ) {
+        blocker = PuppeteerBlocker.merge([blocker, customBlocker]);
+      } else {
+        blocker = customBlocker;
+      }
+    }
+
+    return blocker;
   }
 
   /**
