@@ -44,7 +44,7 @@ export interface PluginOptions {
   /** Optional custom priority for interception resolution. Default: undefined */
   interceptResolutionPriority?: number;
   /** Optional custom filters for the adblocker. Default: undefined */
-  filters?: string;
+  filters?: string | string[];
   /** Whether or not to merge custom filters with prebuilt ones. Default: false */
   merge?: boolean;
   [key: string]: unknown;
@@ -137,7 +137,8 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     }
 
     if (this.opts.filters) {
-      const customBlocker = PuppeteerBlocker.parse(this.opts.filters as string);
+      const filters = Array.isArray(this.opts.filters) ? this.opts.filters.join('\n') : this.opts.filters;
+      const customBlocker = PuppeteerBlocker.parse(filters);
       if (this.opts.merge === true ) {
         blocker = PuppeteerBlocker.merge([blocker, customBlocker]);
       } else {
