@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import { createRequire } from 'node:module';
+import crypto from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -12,7 +13,7 @@ import {
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 // Replace '/' with '-' to avoid invalid filesystem paths when package name has a scope
-const engineCacheFilename = `${pkg.name.replace(/\//g, '-')}-${pkg.version}-engine.bin`;
+const cacheFilenamePrefix = `${pkg.name.replace(/\//g, '-')}-${pkg.version}`;
 const defaultCacheRoot = (() => {
   if (process.platform === 'win32') {
     return process.env.LOCALAPPDATA
@@ -79,7 +80,14 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
 
   get engineCacheFile() {
     const cacheDir = (this.opts as PluginOptions).cacheDir ?? defaultCacheRoot;
-    return path.join(cacheDir, engineCacheFilename);
+    const customFilters = this.normalizeFilters(this.opts.filters);
+    const hash = crypto.createHash('md5').update(JSON.stringify({
+      t: this.opts.blockTrackers,
+      ta: this.opts.blockTrackersAndAnnoyances,
+      m: this.opts.mergeFilters,
+      f: customFilters,
+    })).digest('hex');
+    return path.join(cacheDir, `${cacheFilenamePrefix}-${hash}-engine.bin`);
   }
 
   /**
