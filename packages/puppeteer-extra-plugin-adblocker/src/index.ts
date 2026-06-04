@@ -159,8 +159,12 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     }
 
     if (hasCustomFilters) {
-      const parsed = parseFilters(customFilters);
-      blocker.update({ newNetworkFilters: parsed.networkFilters, newCosmeticFilters: parsed.cosmeticFilters });
+      try {
+        const parsed = parseFilters(customFilters);
+        blocker.update({ newNetworkFilters: parsed.networkFilters, newCosmeticFilters: parsed.cosmeticFilters });
+      } catch (err) {
+        throw new Error('Failed to parse custom filters provided in PluginOptions.filters', { cause: err });
+      }
     }
 
     return blocker;
