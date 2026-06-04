@@ -1,6 +1,6 @@
 import { promises as fs } from 'node:fs';
 import { createRequire } from 'node:module';
-import crypto from 'node:crypto';
+import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -81,7 +81,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
   get engineCacheFile() {
     const cacheDir = (this.opts as PluginOptions).cacheDir ?? defaultCacheRoot;
     const customFilters = this.normalizeFilters(this.opts.filters);
-    const hash = crypto.createHash('md5').update(JSON.stringify({
+    const hash = createHash('md5').update(JSON.stringify({
       t: this.opts.blockTrackers,
       ta: this.opts.blockTrackersAndAnnoyances,
       m: this.opts.mergeFilters,
