@@ -81,7 +81,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
   get engineCacheFile() {
     const cacheDir = (this.opts as PluginOptions).cacheDir ?? defaultCacheRoot;
     const customFilters = this.normalizeFilters(this.opts.filters);
-    const hash = createHash('md5').update(JSON.stringify({
+    const hash = createHash('sha256').update(JSON.stringify({
       t: this.opts.blockTrackers,
       ta: this.opts.blockTrackersAndAnnoyances,
       m: this.opts.mergeFilters,
