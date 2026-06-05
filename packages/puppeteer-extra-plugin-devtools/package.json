@@ -44,7 +44,7 @@
     "@types/http-auth": "^4.1.4",
     "@types/http-proxy": "^1.17.17",
     "@types/node": "^24.10.9",
-    "puppeteer": "^24.40.0",
+    "puppeteer": "^25.0.0",
     "vitest": "^4.1.2"
   },
   "dependencies": {

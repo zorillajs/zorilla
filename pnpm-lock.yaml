@@ -49,8 +49,8 @@ importers:
         specifier: ^1.59.1
         version: 1.59.1
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20260329.1
@@ -80,8 +80,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin-stealth
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       terser:
         specifier: ^5.44.1
         version: 5.44.1
@@ -161,7 +161,7 @@ importers:
         version: 2.7.0
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -176,8 +176,8 @@ importers:
         specifier: ^1.58.0
         version: 1.58.0
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -210,8 +210,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -235,7 +235,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.28.6
@@ -247,8 +247,8 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2(vitest@4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0)))
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -260,7 +260,7 @@ importers:
     dependencies:
       '@ghostery/adblocker-puppeteer':
         specifier: ^2.14.1
-        version: 2.14.1(puppeteer@24.40.0(typescript@6.0.2))
+        version: 2.14.1(puppeteer@25.1.0)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -272,7 +272,7 @@ importers:
         version: 24.35.0
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.35.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@24.35.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -287,8 +287,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -309,7 +309,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -318,8 +318,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -337,7 +337,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -346,8 +346,8 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2(vitest@4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0)))
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -365,7 +365,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -377,8 +377,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -414,7 +414,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -429,8 +429,8 @@ importers:
         specifier: ^24.10.9
         version: 24.10.9
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -448,7 +448,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -463,8 +463,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin-user-preferences
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -482,7 +482,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -497,8 +497,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin-user-preferences
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -531,8 +531,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       typescript:
         specifier: ^6.0.2
         version: 6.0.2
@@ -559,7 +559,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -574,8 +574,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -596,7 +596,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -614,8 +614,8 @@ importers:
         specifier: ^3.3.6
         version: 3.3.6
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -633,7 +633,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -648,8 +648,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -673,7 +673,7 @@ importers:
         version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
       puppeteer-extra:
         specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2))
+        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -688,8 +688,8 @@ importers:
         specifier: workspace:*
         version: link:../puppeteer-extra
       puppeteer:
-        specifier: ^24.40.0
-        version: 24.40.0(typescript@6.0.2)
+        specifier: ^25.0.0
+        version: 25.1.0
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
@@ -1680,10 +1680,15 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@puppeteer/browsers@2.13.0':
-    resolution: {integrity: sha512-46BZJYJjc/WwmKjsvDFykHtXrtomsCIrwYQPOP7VfMJoZY2bsDF9oROBABR3paDjDcmkUye1Pb1BqdcdiipaWA==}
-    engines: {node: '>=18'}
+  '@puppeteer/browsers@3.0.4':
+    resolution: {integrity: sha512-HGM8iAmGTf+Y7t0373szVbTmt3d7vPkYL/1bpOkOFO0YUYLgSeuYBCzESklogNPvOBnZ/MRD5f07OkpqH1trtA==}
+    engines: {node: '>=22.12.0'}
     hasBin: true
+    peerDependencies:
+      proxy-agent: '>=8.0.1'
+    peerDependenciesMeta:
+      proxy-agent:
+        optional: true
 
   '@remusao/guess-url-type@2.1.0':
     resolution: {integrity: sha512-zI3dlTUxpjvx2GCxp9nLOSK5yEIqDCpxlAVGwb2Y49RKkS72oeNaxxo+VWS5+XQ5+Mf8Zfp9ZXIlk+G5eoEN8A==}
@@ -2082,14 +2087,6 @@ packages:
       react-native-b4a:
         optional: true
 
-  b4a@1.8.0:
-    resolution: {integrity: sha512-qRuSmNSkGQaHwNbM7J78Wwy+ghLEYF1zNrSeMxj4Kgw6y33O3mXcQ6Ie9fRvfU/YnxWkOchPXbaLb73TkIsfdg==}
-    peerDependencies:
-      react-native-b4a: '*'
-    peerDependenciesMeta:
-      react-native-b4a:
-        optional: true
-
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
@@ -2114,35 +2111,12 @@ packages:
       bare-buffer:
         optional: true
 
-  bare-fs@4.5.6:
-    resolution: {integrity: sha512-1QovqDrR80Pmt5HPAsMsXTCFcDYr+NSUKW6nd6WO5v0JBmnItc/irNRzm2KOQ5oZ69P37y+AMujNyNtG+1Rggw==}
-    engines: {bare: '>=1.16.0'}
-    peerDependencies:
-      bare-buffer: '*'
-    peerDependenciesMeta:
-      bare-buffer:
-        optional: true
-
   bare-os@3.6.2:
     resolution: {integrity: sha512-T+V1+1srU2qYNBmJCXZkUY5vQ0B4FSlL3QDROnKQYOqeiQR8UbjNHlPa+TIbM4cuidiN9GaTaOZgSEgsvPbh5A==}
     engines: {bare: '>=1.14.0'}
 
   bare-path@3.0.0:
     resolution: {integrity: sha512-tyfW2cQcB5NN8Saijrhqn0Zh7AnFNsnczRcuWODH0eYAXBsJ5gVxAUuNr7tsHSC6IZ77cA0SitzT+s47kot8Mw==}
-
-  bare-stream@2.12.0:
-    resolution: {integrity: sha512-w28i8lkBgREV3rPXGbgK+BO66q+ZpKqRWrZLiCdmmUlLPrQ45CzkvRhN+7lnv00Gpi2zy5naRxnUFAxCECDm9g==}
-    peerDependencies:
-      bare-abort-controller: '*'
-      bare-buffer: '*'
-      bare-events: '*'
-    peerDependenciesMeta:
-      bare-abort-controller:
-        optional: true
-      bare-buffer:
-        optional: true
-      bare-events:
-        optional: true
 
   bare-stream@2.7.0:
     resolution: {integrity: sha512-oyXQNicV1y8nc2aKffH+BUHFRXmx6VrPzlnaEvMhram0nPBrKcEdcyBg5r08D0i8VxngHFAiVyn1QKXpSG0B8A==}
@@ -2157,9 +2131,6 @@ packages:
 
   bare-url@2.3.2:
     resolution: {integrity: sha512-ZMq4gd9ngV5aTMa5p9+UfY0b3skwhHELaDkhEHetMdX0LRkW9kzaym4oo/Eh+Ghm0CCDuMTsRIGM/ytUc1ZYmw==}
-
-  bare-url@2.4.0:
-    resolution: {integrity: sha512-NSTU5WN+fy/L0DDenfE8SXQna4voXuW0FHM7wH8i3/q9khUSchfPbPezO4zSFMnDGIf9YE+mt/RWhZgNRKRIXA==}
 
   baseline-browser-mapping@2.9.14:
     resolution: {integrity: sha512-B0xUquLkiGLgHhpPBqvl7GWegWBUNuujQ6kXd/r1U38ElPT6Ok8KZ8e+FpUGEc2ZoRQUzq/aUnaKFc/svWUGSg==}
@@ -2229,10 +2200,6 @@ packages:
     resolution: {integrity: sha512-+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg==}
     engines: {node: '>= 0.4'}
 
-  callsites@3.1.0:
-    resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
-    engines: {node: '>=6'}
-
   callsites@4.2.0:
     resolution: {integrity: sha512-kfzR4zzQtAE9PC7CzZsjl3aBNbXWuXiSeOCdLcPpBfGW8YuCqQHcRPFDbr/BPVmd3EEPVpuFzLyuT/cUhPr4OQ==}
     engines: {node: '>=12.20'}
@@ -2278,8 +2245,9 @@ packages:
     peerDependencies:
       devtools-protocol: '*'
 
-  chromium-bidi@14.0.0:
-    resolution: {integrity: sha512-9gYlLtS6tStdRWzrtXaTMnqcM4dudNegMXJxkR0I/CXObHalYeYcAMPrL19eroNZHtJ8DQmu1E+ZNOYu/IXMXw==}
+  chromium-bidi@16.0.1:
+    resolution: {integrity: sha512-J63PGu/9PpeCwLIcKYyzWP6yaVL5pxuBc0shlYCYM8BaAkmlwiQboXO1iNbOgSDbVklEyYFfNEcHD8oOAWacUA==}
+    engines: {node: '>=20.19.0 <22.0.0 || >=22.12.0'}
     peerDependencies:
       devtools-protocol: '*'
 
@@ -2352,15 +2320,6 @@ packages:
 
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
-
-  cosmiconfig@9.0.1:
-    resolution: {integrity: sha512-hr4ihw+DBqcvrsEDioRO31Z17x71pUYoNe/4h6Z0wB72p7MU7/9gH8Q3s12NFhHPfYBBOV3qyfUxmr/Yn3shnQ==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=4.9.5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -2443,8 +2402,8 @@ packages:
   devtools-protocol@0.0.1534754:
     resolution: {integrity: sha512-26T91cV5dbOYnXdJi5qQHoTtUoNEqwkHcAyu/IKtjIAxiEqPMrDiRkDOPWVsGfNZGmlQVHQbZRSjD8sxagWVsQ==}
 
-  devtools-protocol@0.0.1581282:
-    resolution: {integrity: sha512-nv7iKtNZQshSW2hKzYNr46nM/Cfh5SEvE2oV0/SEGgc9XupIY5ggf84Cz8eJIkBce7S3bmTAauFD6aysMpnqsQ==}
+  devtools-protocol@0.0.1624250:
+    resolution: {integrity: sha512-YFAat/lOiIk0ARmBweG+ygrEcbZrq5B9urRyUoeQKp53MlidHXE2TmTbxKcaXoQj7u/aX+jebDO4BW55rs0WwA==}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -2502,10 +2461,6 @@ packages:
     resolution: {integrity: sha512-TWrgLOFUQTH994YUyl1yT4uyavY5nNB5muff+RtWaqNVCAK408b5ZnnbNAUEWLTCpum9w6arT70i1XdQ4UeOPA==}
     engines: {node: '>=0.12'}
 
-  env-paths@2.2.1:
-    resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
-    engines: {node: '>=6'}
-
   env-paths@3.0.0:
     resolution: {integrity: sha512-dtJUTepzMW3Lm/NPxRf3wP4642UWhjL2sQxc+ym2YMj1m/H2zDNQOlezafzkHwn6sMstjHTwG6iQQsctDW/b1A==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -2513,9 +2468,6 @@ packages:
   environment@1.1.0:
     resolution: {integrity: sha512-xUtoPkMggbz0MPyPiIWr1Kp4aeWJjDZ6SMvURhimjdZgsRuDplF5/s9hcgGhyXMhs+6vpnuoiZ2kFiu3FMnS8Q==}
     engines: {node: '>=18'}
-
-  error-ex@1.3.4:
-    resolution: {integrity: sha512-sqQamAnR14VgCr1A618A3sGrygcpK+HEbenA/HiEAkkUwcZIIB/tgWqHFxWgOyDh4nB4JCRimh79dR5Ywc9MDQ==}
 
   error-stack-parser-es@1.0.5:
     resolution: {integrity: sha512-5qucVt2XcuGMcEGgWI7i+yZpmpByQ8J1lHhcL7PwqCwu9FPP3VUXzT4ltHe5i2z9dePwEHcDVOAfSnHsOlCXRA==}
@@ -2889,10 +2841,6 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
-  import-fresh@3.3.1:
-    resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
-    engines: {node: '>=6'}
-
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
@@ -2909,9 +2857,6 @@ packages:
   is-arguments@1.2.0:
     resolution: {integrity: sha512-7bVbi0huj/wrIAOzb8U1aszg9kdi3KN/CyU19CTI7tAoZYEZoL9yCDXpbXN+uPsuWnP02cyug1gleqq+TU+YCA==}
     engines: {node: '>= 0.4'}
-
-  is-arrayish@0.2.1:
-    resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
 
   is-buffer@1.1.6:
     resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
@@ -3033,9 +2978,6 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  json-parse-even-better-errors@2.3.1:
-    resolution: {integrity: sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w==}
-
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
@@ -3077,8 +3019,9 @@ packages:
   libphonenumber-js@1.12.37:
     resolution: {integrity: sha512-rDU6bkpuMs8YRt/UpkuYEAsYSoNuDEbrE41I3KNvmXREGH6DGBJ8Wbak4by29wNOQ27zk4g4HL82zf0OGhwRuw==}
 
-  lines-and-columns@1.2.4:
-    resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
+  lilconfig@3.1.3:
+    resolution: {integrity: sha512-/vlFKAoH5Cgt3Ie+JLhRbwOsCQePABiU3tJ1egGvyQ+33R/vcwM2Zl2QR/LzjsBeItPt3oSVXapn+m4nQDvpzw==}
+    engines: {node: '>=14'}
 
   linkinator@7.6.1:
     resolution: {integrity: sha512-+VzKKZXA8wyCW1x0B0YeQvyuenDu3vZGIWMdzK1yEK0HlBfmEKopt87+Judt4VdPOGRMioKzJK0+X8ifIvOc5Q==}
@@ -3225,6 +3168,10 @@ packages:
   mock-stdin@1.0.0:
     resolution: {integrity: sha512-tukRdb9Beu27t6dN+XztSRHq9J0B/CoAOySGzHfn8UTfmqipA5yNT/sDUEyYdAV3Hpka6Wx6kOMxuObdOex60Q==}
 
+  modern-tar@0.7.6:
+    resolution: {integrity: sha512-sweCIVXzx1aIGTCdzcMlSZt1h8k5Tmk08VNAuRk3IU28XamGiOH5ypi11g6De2CH7PhYqSSnGy2A/EFhbWnVKg==}
+    engines: {node: '>=18.0.0'}
+
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -3342,14 +3289,6 @@ packages:
 
   package-manager-detector@0.2.11:
     resolution: {integrity: sha512-BEnLolu+yuz22S56CU1SUKq3XC3PkwD5wv4ikR4MfGvnRVcmzXR9DwSlW2fEamyTPyXHomBJRzgapeuBvRNzJQ==}
-
-  parent-module@1.0.1:
-    resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
-    engines: {node: '>=6'}
-
-  parse-json@5.2.0:
-    resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
-    engines: {node: '>=8'}
 
   parse-passwd@1.0.0:
     resolution: {integrity: sha512-1Y1A//QUXEZK7YKz+rD9WydcE1+EuPr6ZBgKecAB8tmoW6UFv0NREVJe1p+jRxtThkcbbKkfwIbWJe/IeE6m2Q==}
@@ -3475,16 +3414,13 @@ packages:
   pump@3.0.3:
     resolution: {integrity: sha512-todwxLMY7/heScKmntwQG8CXVkWUOdYxIvY2s0VWAAMh/nd8SoYiRaKjlr7+iCs984f2P8zvrfWcDDYVb73NfA==}
 
-  pump@3.0.4:
-    resolution: {integrity: sha512-VS7sjc6KR7e1ukRFhQSY5LM2uBWAUPiOPa/A3mkKmiMwSmRFUITt0xuj+/lesgnCv+dPIEYlkzrcyXgquIHMcA==}
-
   puppeteer-core@24.35.0:
     resolution: {integrity: sha512-vt1zc2ME0kHBn7ZDOqLvgvrYD5bqNv5y2ZNXzYnCv8DEtZGw/zKhljlrGuImxptZ4rq+QI9dFGrUIYqG4/IQzA==}
     engines: {node: '>=18'}
 
-  puppeteer-core@24.40.0:
-    resolution: {integrity: sha512-MWL3XbUCfVgGR0gRsidzT6oKJT2QydPLhMITU6HoVWiiv4gkb6gJi3pcdAa8q4HwjBTbqISOWVP4aJiiyUJvag==}
-    engines: {node: '>=18'}
+  puppeteer-core@25.1.0:
+    resolution: {integrity: sha512-jKzy5y4WG6uNuFbTWgW1D7mqoT9o0nllc/6a1DGF775T1mPmgw3scdFEtEq67yVFikavQmbYq6NLfbTfxHSlqQ==}
+    engines: {node: '>=22.12.0'}
 
   puppeteer-extra@3.3.6:
     resolution: {integrity: sha512-rsLBE/6mMxAjlLd06LuGacrukP2bqbzKCLzV1vrhHFavqQE/taQ2UXv3H5P0Ls7nsrASa+6x3bDbXHpqMwq+7A==}
@@ -3501,9 +3437,9 @@ packages:
       puppeteer-core:
         optional: true
 
-  puppeteer@24.40.0:
-    resolution: {integrity: sha512-IxQbDq93XHVVLWHrAkFP7F7iHvb9o0mgfsSIMlhHb+JM+JjM1V4v4MNSQfcRWJopx9dsNOr9adYv0U5fm9BJBQ==}
-    engines: {node: '>=18'}
+  puppeteer@25.1.0:
+    resolution: {integrity: sha512-7L6/0JM7XStK99lIL4xQySyNEXNfII6pk0BxkI5kKBTOhR7AsoQiv067YTsE/rIXxQiq9ajlO4WcqBjS/FWK1A==}
+    engines: {node: '>=22.12.0'}
     hasBin: true
 
   quansync@0.2.11:
@@ -3543,10 +3479,6 @@ packages:
   resolve-dir@1.0.1:
     resolution: {integrity: sha512-R7uiTjECzvOsWSfdM0QKFNBVFcK27aHOUwdvK53BcW8zqnGdYp0Fbj82cy54+2A4P2tFM22J5kRfe1R+lM/1yg==}
     engines: {node: '>=0.10.0'}
-
-  resolve-from@4.0.0:
-    resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
-    engines: {node: '>=4'}
 
   resolve-from@5.0.0:
     resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
@@ -3689,9 +3621,6 @@ packages:
   streamx@2.23.0:
     resolution: {integrity: sha512-kn+e44esVfn2Fa/O0CPFcex27fjIL6MkVae0Mm6q+E6f0hWv578YCERbv+4m02cjxvDsPKLnmxral/rR6lBMAg==}
 
-  streamx@2.25.0:
-    resolution: {integrity: sha512-0nQuG6jf1w+wddNEEXCF4nTg3LtufWINB5eFEN+5TNZW7KWJp6x87+JFL43vaAUPyCfH1wID+mNVyW6OHtFamg==}
-
   string-template@1.0.0:
     resolution: {integrity: sha512-SLqR3GBUXuoPP5MmYtD7ompvXiG87QjT6lzOszyXjTM86Uu7At7vNnt2xgyTLq5o9T4IxTYFyGxcULqpsmsfdg==}
 
@@ -3754,17 +3683,8 @@ packages:
   tar-fs@3.1.1:
     resolution: {integrity: sha512-LZA0oaPOc2fVo82Txf3gw+AkEd38szODlptMYejQUhndHMLQ9M059uXR+AfS7DNo0NpINvSqDsvyaCrBVkptWg==}
 
-  tar-fs@3.1.2:
-    resolution: {integrity: sha512-QGxxTxxyleAdyM3kpFs14ymbYmNFrfY+pHj7Z8FgtbZ7w2//VAgLMac7sT6nRpIHjppXO2AwwEOg0bPFVRcmXw==}
-
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
-
-  tar-stream@3.1.8:
-    resolution: {integrity: sha512-U6QpVRyCGHva435KoNWy9PRoi2IFYCgtEhq9nmrPPpbRacPs9IH4aJ3gbrFC8dPcXvdSZ4XXfXT5Fshbp2MtlQ==}
-
-  teex@1.0.1:
-    resolution: {integrity: sha512-eYE6iEI62Ni1H8oIa7KlDU6uQBtqr4Eajni3wX7rpfXD8ysFx8z0+dri+KWEPWpBsxXfxu58x/0jvTVT1ekOSg==}
 
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
@@ -3786,9 +3706,6 @@ packages:
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
-
-  text-decoder@1.2.7:
-    resolution: {integrity: sha512-vlLytXkeP4xvEq2otHeJfSQIRyWxo/oZGEbXrtEEF9Hnmrdly59sUbzZ/QgyWuLYHctCHxFF4tRQZNQ9k60ExQ==}
 
   throttleit@2.1.0:
     resolution: {integrity: sha512-nt6AMGKW1p/70DF/hGBdJB57B8Tspmbp5gfJ8ilhLnt7kkr2ye7hzD6NVG8GGErk2HWF34igrL2CXmNIkzKqKw==}
@@ -3857,8 +3774,8 @@ packages:
   typed-query-selector@2.12.0:
     resolution: {integrity: sha512-SbklCd1F0EiZOyPiW192rrHZzZ5sBijB6xM+cpmrwDqObvdtunOHHIk9fCGsoK5JVIYXoyEp4iEdE3upFH3PAg==}
 
-  typed-query-selector@2.12.1:
-    resolution: {integrity: sha512-uzR+FzI8qrUEIu96oaeBJmd9E7CFEiQ3goA5qCVgc4s5llSubcfGHq9yUstZx/k4s9dXHVKsE35YWoFyvEqEHA==}
+  typed-query-selector@2.12.2:
+    resolution: {integrity: sha512-EOPFbyIub4ngnEdqi2yOcNeDLaX/0jcE1JoAXQDDMIthap7FoN795lc/SHfIq2d416VufXpM8z/lD+WRm2gfOQ==}
 
   typedarray@0.0.6:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
@@ -4006,8 +3923,8 @@ packages:
   webdriver-bidi-protocol@0.3.10:
     resolution: {integrity: sha512-5LAE43jAVLOhB/QqX4bwSiv0Hg1HBfMmOuwBSXHdvg4GMGu9Y0lIq7p4R/yySu6w74WmaR4GM4H9t2IwLW7hgw==}
 
-  webdriver-bidi-protocol@0.4.1:
-    resolution: {integrity: sha512-ARrjNjtWRRs2w4Tk7nqrf2gBI0QXWuOmMCx2hU+1jUt6d00MjMxURrhxhGbrsoiZKJrhTSTzbIrc554iKI10qw==}
+  webdriver-bidi-protocol@0.4.2:
+    resolution: {integrity: sha512-VSV+fzfChirL3e7jay2yUC7B4HQCGtEWEg/MSSQbK+qWbqeGlRLlXTzPpYr3XGUvbpDHumWZBJxgesg4N7dbtA==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -4097,8 +4014,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.20.0:
-    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
+  ws@8.21.0:
+    resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -4747,11 +4664,11 @@ snapshots:
 
   '@ghostery/adblocker-extended-selectors@2.14.1': {}
 
-  '@ghostery/adblocker-puppeteer@2.14.1(puppeteer@24.40.0(typescript@6.0.2))':
+  '@ghostery/adblocker-puppeteer@2.14.1(puppeteer@25.1.0)':
     dependencies:
       '@ghostery/adblocker': 2.14.1
       '@ghostery/adblocker-content': 2.14.1
-      puppeteer: 24.40.0(typescript@6.0.2)
+      puppeteer: 25.1.0
       tldts-experimental: 7.0.28
 
   '@ghostery/adblocker@2.14.1':
@@ -4985,20 +4902,10 @@ snapshots:
       - react-native-b4a
       - supports-color
 
-  '@puppeteer/browsers@2.13.0':
+  '@puppeteer/browsers@3.0.4':
     dependencies:
-      debug: 4.4.3
-      extract-zip: 2.0.1
-      progress: 2.0.3
-      proxy-agent: 6.5.0
-      semver: 7.7.4
-      tar-fs: 3.1.2
+      modern-tar: 0.7.6
       yargs: 17.7.2
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-      - supports-color
 
   '@remusao/guess-url-type@2.1.0': {}
 
@@ -5140,16 +5047,12 @@ snapshots:
       undici-types: 7.16.0
     optional: true
 
-  '@types/puppeteer@7.0.4(typescript@6.0.2)':
+  '@types/puppeteer@7.0.4':
     dependencies:
-      puppeteer: 24.40.0(typescript@6.0.2)
+      puppeteer: 25.1.0
     transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
       - bufferutil
-      - react-native-b4a
-      - supports-color
-      - typescript
+      - proxy-agent
       - utf-8-validate
     optional: true
 
@@ -5368,8 +5271,6 @@ snapshots:
 
   b4a@1.7.3: {}
 
-  b4a@1.8.0: {}
-
   balanced-match@1.0.2: {}
 
   balanced-match@4.0.4: {}
@@ -5388,31 +5289,13 @@ snapshots:
       - react-native-b4a
     optional: true
 
-  bare-fs@4.5.6:
-    dependencies:
-      bare-events: 2.8.2
-      bare-path: 3.0.0
-      bare-stream: 2.12.0(bare-events@2.8.2)
-      bare-url: 2.4.0
-      fast-fifo: 1.3.2
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - react-native-b4a
-
-  bare-os@3.6.2: {}
+  bare-os@3.6.2:
+    optional: true
 
   bare-path@3.0.0:
     dependencies:
       bare-os: 3.6.2
-
-  bare-stream@2.12.0(bare-events@2.8.2):
-    dependencies:
-      streamx: 2.25.0
-      teex: 1.0.1
-    optionalDependencies:
-      bare-events: 2.8.2
-    transitivePeerDependencies:
-      - react-native-b4a
+    optional: true
 
   bare-stream@2.7.0(bare-events@2.8.2):
     dependencies:
@@ -5428,10 +5311,6 @@ snapshots:
     dependencies:
       bare-path: 3.0.0
     optional: true
-
-  bare-url@2.4.0:
-    dependencies:
-      bare-path: 3.0.0
 
   baseline-browser-mapping@2.9.14: {}
 
@@ -5503,8 +5382,6 @@ snapshots:
       call-bind-apply-helpers: 1.0.2
       get-intrinsic: 1.3.0
 
-  callsites@3.1.0: {}
-
   callsites@4.2.0: {}
 
   camelcase@5.3.1: {}
@@ -5539,9 +5416,9 @@ snapshots:
       mitt: 3.0.1
       zod: 3.25.76
 
-  chromium-bidi@14.0.0(devtools-protocol@0.0.1581282):
+  chromium-bidi@16.0.1(devtools-protocol@0.0.1624250):
     dependencies:
-      devtools-protocol: 0.0.1581282
+      devtools-protocol: 0.0.1624250
       mitt: 3.0.1
       zod: 3.25.76
 
@@ -5632,15 +5509,6 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cosmiconfig@9.0.1(typescript@6.0.2):
-    dependencies:
-      env-paths: 2.2.1
-      import-fresh: 3.3.1
-      js-yaml: 4.1.1
-      parse-json: 5.2.0
-    optionalDependencies:
-      typescript: 6.0.2
-
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -5701,7 +5569,7 @@ snapshots:
 
   devtools-protocol@0.0.1534754: {}
 
-  devtools-protocol@0.0.1581282: {}
+  devtools-protocol@0.0.1624250: {}
 
   dir-glob@3.0.1:
     dependencies:
@@ -5758,15 +5626,9 @@ snapshots:
 
   entities@7.0.1: {}
 
-  env-paths@2.2.1: {}
-
   env-paths@3.0.0: {}
 
   environment@1.1.0: {}
-
-  error-ex@1.3.4:
-    dependencies:
-      is-arrayish: 0.2.1
 
   error-stack-parser-es@1.0.5: {}
 
@@ -6226,11 +6088,6 @@ snapshots:
 
   ignore@5.3.2: {}
 
-  import-fresh@3.3.1:
-    dependencies:
-      parent-module: 1.0.1
-      resolve-from: 4.0.0
-
   inherits@2.0.4: {}
 
   ini@1.3.8: {}
@@ -6248,8 +6105,6 @@ snapshots:
     dependencies:
       call-bound: 1.0.4
       has-tostringtag: 1.0.2
-
-  is-arrayish@0.2.1: {}
 
   is-buffer@1.1.6: {}
 
@@ -6375,8 +6230,6 @@ snapshots:
 
   jsesc@3.1.0: {}
 
-  json-parse-even-better-errors@2.3.1: {}
-
   json-schema-traverse@1.0.0: {}
 
   json-schema-typed@8.0.2: {}
@@ -6408,7 +6261,7 @@ snapshots:
 
   libphonenumber-js@1.12.37: {}
 
-  lines-and-columns@1.2.4: {}
+  lilconfig@3.1.3: {}
 
   linkinator@7.6.1:
     dependencies:
@@ -6574,6 +6427,8 @@ snapshots:
 
   mock-stdin@1.0.0: {}
 
+  modern-tar@0.7.6: {}
+
   mri@1.2.0: {}
 
   ms@2.1.2: {}
@@ -6698,17 +6553,6 @@ snapshots:
     dependencies:
       quansync: 0.2.11
 
-  parent-module@1.0.1:
-    dependencies:
-      callsites: 3.1.0
-
-  parse-json@5.2.0:
-    dependencies:
-      '@babel/code-frame': 7.28.6
-      error-ex: 1.3.4
-      json-parse-even-better-errors: 2.3.1
-      lines-and-columns: 1.2.4
-
   parse-passwd@1.0.0: {}
 
   path-exists@3.0.0: {}
@@ -6818,11 +6662,6 @@ snapshots:
       end-of-stream: 1.4.5
       once: 1.4.0
 
-  pump@3.0.4:
-    dependencies:
-      end-of-stream: 1.4.5
-      once: 1.4.0
-
   puppeteer-core@24.35.0:
     dependencies:
       '@puppeteer/browsers': 2.11.1
@@ -6840,62 +6679,54 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  puppeteer-core@24.40.0:
+  puppeteer-core@25.1.0:
     dependencies:
-      '@puppeteer/browsers': 2.13.0
-      chromium-bidi: 14.0.0(devtools-protocol@0.0.1581282)
-      debug: 4.4.3
-      devtools-protocol: 0.0.1581282
-      typed-query-selector: 2.12.1
-      webdriver-bidi-protocol: 0.4.1
-      ws: 8.20.0
+      '@puppeteer/browsers': 3.0.4
+      chromium-bidi: 16.0.1(devtools-protocol@0.0.1624250)
+      devtools-protocol: 0.0.1624250
+      typed-query-selector: 2.12.2
+      webdriver-bidi-protocol: 0.4.2
+      ws: 8.21.0
     transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
       - bufferutil
-      - react-native-b4a
-      - supports-color
+      - proxy-agent
       - utf-8-validate
 
-  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.35.0)(puppeteer@24.40.0(typescript@6.0.2)):
+  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@24.35.0)(puppeteer@25.1.0):
     dependencies:
       '@types/debug': 4.1.12
       debug: 4.4.3
       deepmerge: 4.3.1
     optionalDependencies:
-      '@types/puppeteer': 7.0.4(typescript@6.0.2)
-      puppeteer: 24.40.0(typescript@6.0.2)
+      '@types/puppeteer': 7.0.4
+      puppeteer: 25.1.0
       puppeteer-core: 24.35.0
     transitivePeerDependencies:
       - supports-color
 
-  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4(typescript@6.0.2))(puppeteer-core@24.40.0)(puppeteer@24.40.0(typescript@6.0.2)):
+  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0):
     dependencies:
       '@types/debug': 4.1.12
       debug: 4.4.3
       deepmerge: 4.3.1
     optionalDependencies:
-      '@types/puppeteer': 7.0.4(typescript@6.0.2)
-      puppeteer: 24.40.0(typescript@6.0.2)
-      puppeteer-core: 24.40.0
+      '@types/puppeteer': 7.0.4
+      puppeteer: 25.1.0
+      puppeteer-core: 25.1.0
     transitivePeerDependencies:
       - supports-color
 
-  puppeteer@24.40.0(typescript@6.0.2):
+  puppeteer@25.1.0:
     dependencies:
-      '@puppeteer/browsers': 2.13.0
-      chromium-bidi: 14.0.0(devtools-protocol@0.0.1581282)
-      cosmiconfig: 9.0.1(typescript@6.0.2)
-      devtools-protocol: 0.0.1581282
-      puppeteer-core: 24.40.0
-      typed-query-selector: 2.12.1
+      '@puppeteer/browsers': 3.0.4
+      chromium-bidi: 16.0.1(devtools-protocol@0.0.1624250)
+      devtools-protocol: 0.0.1624250
+      lilconfig: 3.1.3
+      puppeteer-core: 25.1.0
+      typed-query-selector: 2.12.2
     transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
       - bufferutil
-      - react-native-b4a
-      - supports-color
-      - typescript
+      - proxy-agent
       - utf-8-validate
 
   quansync@0.2.11: {}
@@ -6935,8 +6766,6 @@ snapshots:
     dependencies:
       expand-tilde: 2.0.2
       global-modules: 1.0.0
-
-  resolve-from@4.0.0: {}
 
   resolve-from@5.0.0: {}
 
@@ -7130,15 +6959,6 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  streamx@2.25.0:
-    dependencies:
-      events-universal: 1.0.1
-      fast-fifo: 1.3.2
-      text-decoder: 1.2.7
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - react-native-b4a
-
   string-template@1.0.0: {}
 
   string-width@3.1.0:
@@ -7213,41 +7033,11 @@ snapshots:
       - bare-buffer
       - react-native-b4a
 
-  tar-fs@3.1.2:
-    dependencies:
-      pump: 3.0.4
-      tar-stream: 3.1.8
-    optionalDependencies:
-      bare-fs: 4.5.6
-      bare-path: 3.0.0
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-
   tar-stream@3.1.7:
     dependencies:
       b4a: 1.7.3
       fast-fifo: 1.3.2
       streamx: 2.23.0
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - react-native-b4a
-
-  tar-stream@3.1.8:
-    dependencies:
-      b4a: 1.8.0
-      bare-fs: 4.5.6
-      fast-fifo: 1.3.2
-      streamx: 2.25.0
-    transitivePeerDependencies:
-      - bare-abort-controller
-      - bare-buffer
-      - react-native-b4a
-
-  teex@1.0.1:
-    dependencies:
-      streamx: 2.25.0
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
@@ -7277,12 +7067,6 @@ snapshots:
   text-decoder@1.2.3:
     dependencies:
       b4a: 1.7.3
-    transitivePeerDependencies:
-      - react-native-b4a
-
-  text-decoder@1.2.7:
-    dependencies:
-      b4a: 1.8.0
     transitivePeerDependencies:
       - react-native-b4a
 
@@ -7343,7 +7127,7 @@ snapshots:
 
   typed-query-selector@2.12.0: {}
 
-  typed-query-selector@2.12.1: {}
+  typed-query-selector@2.12.2: {}
 
   typedarray@0.0.6: {}
 
@@ -7522,7 +7306,7 @@ snapshots:
 
   webdriver-bidi-protocol@0.3.10: {}
 
-  webdriver-bidi-protocol@0.4.1: {}
+  webdriver-bidi-protocol@0.4.2: {}
 
   webidl-conversions@3.0.1: {}
 
@@ -7609,7 +7393,7 @@ snapshots:
 
   ws@8.19.0: {}
 
-  ws@8.20.0: {}
+  ws@8.21.0: {}
 
   y18n@4.0.3: {}
 

@@ -46,7 +46,7 @@
     "@vitest/coverage-v8": "^4.1.2",
     "@zorilla/puppeteer-extra": "workspace:*",
     "mock-stdin": "^1.0.0",
-    "puppeteer": "^24.40.0",
+    "puppeteer": "^25.0.0",
     "vitest": "^4.1.2"
   },
   "dependencies": {

@@ -30,11 +30,17 @@ class Plugin extends PuppeteerExtraPlugin {
           const param = (args || [])[0];
           const result = utils.cache!.Reflect.apply(target, ctx, args);
           // UNMASKED_VENDOR_WEBGL
-          if (param === 37445) {
+          if (
+            param === 37445 ||
+            (typeof result === 'string' && result.startsWith('Google Inc.'))
+          ) {
             return opts.vendor || 'Intel Inc.'; // default in headless: Google Inc.
           }
           // UNMASKED_RENDERER_WEBGL
-          if (param === 37446) {
+          if (
+            param === 37446 ||
+            (typeof result === 'string' && result.startsWith('ANGLE'))
+          ) {
             return opts.renderer || 'Intel Iris OpenGL Engine'; // default in headless: Google SwiftShader
           }
           return result;
@@ -44,8 +50,22 @@ class Plugin extends PuppeteerExtraPlugin {
       // There's more than one WebGL rendering context
       // https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext#Browser_compatibility
       // To find out the original values here: Object.getOwnPropertyDescriptors(WebGLRenderingContext.prototype.getParameter)
+      const getPrototypeWithProperty = (
+        obj: object,
+        propName: string
+      ): object | null => {
+        if (Object.hasOwn(obj, propName)) {
+          return obj;
+        }
+        const proto = Object.getPrototypeOf(obj) as object | null;
+        return proto ? getPrototypeWithProperty(proto, propName) : null;
+      };
       const addProxy = (obj: object, propName: string) => {
-        utils.replaceWithProxy(obj, propName, getParameterProxyHandler);
+        const proto = getPrototypeWithProperty(obj, propName);
+        if (!proto) {
+          return;
+        }
+        utils.replaceWithProxy(proto, propName, getParameterProxyHandler);
       };
       // For whatever weird reason loops don't play nice with Object.defineProperty, here's the next best thing:
       addProxy(WebGLRenderingContext.prototype, 'getParameter');

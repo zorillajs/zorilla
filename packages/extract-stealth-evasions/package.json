@@ -33,7 +33,7 @@
   "dependencies": {
     "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-stealth": "workspace:*",
-    "puppeteer": "^24.40.0",
+    "puppeteer": "^25.0.0",
     "terser": "^5.44.1",
     "yargs": "^18.0.0"
   },

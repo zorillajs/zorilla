@@ -2,7 +2,13 @@
 
 import { createRequire } from 'node:module';
 import Debug from 'debug';
-import type { Browser, Page, PuppeteerNode } from 'puppeteer';
+import type {
+  Browser,
+  ChromeReleaseChannel,
+  LaunchOptions,
+  Page,
+  PuppeteerNode,
+} from 'puppeteer';
 
 const debug = Debug('puppeteer-extra');
 
@@ -48,7 +54,10 @@ export interface PuppeteerExtraPlugin {
  * @private
  */
 interface BrowserInternals extends Browser {
-  _createPageInContext(contextId?: string): Promise<Page>;
+  _createPageInContext(
+    contextId?: string,
+    options?: Record<string, unknown>
+  ): Promise<Page>;
 }
 
 /**
@@ -61,9 +70,10 @@ interface BrowserLaunchContext {
     | Parameters<VanillaPuppeteer['launch']>[0]
     | Parameters<VanillaPuppeteer['connect']>[0];
   defaultArgs?:
-    | string[]
     | ReturnType<VanillaPuppeteer['defaultArgs']>
-    | ((options?: Parameters<VanillaPuppeteer['defaultArgs']>[0]) => string[]);
+    | ((
+        options?: Parameters<VanillaPuppeteer['defaultArgs']>[0]
+      ) => ReturnType<VanillaPuppeteer['defaultArgs']>);
 }
 
 /**
@@ -92,6 +102,7 @@ interface BrowserLaunchContext {
  */
 export class PuppeteerExtra implements VanillaPuppeteer {
   private _plugins: PuppeteerExtraPlugin[] = [];
+  private _pageCreatedPluginsCalled = new WeakSet<Page>();
 
   constructor(
     private _pptr?: VanillaPuppeteer,
@@ -256,9 +267,20 @@ export class PuppeteerExtra implements VanillaPuppeteer {
     return this.pptr.defaultArgs(options);
   }
 
+  executablePath(
+    channel: ChromeReleaseChannel
+  ): ReturnType<VanillaPuppeteer['executablePath']>;
+  executablePath(
+    options: LaunchOptions
+  ): ReturnType<VanillaPuppeteer['executablePath']>;
+  executablePath(): ReturnType<VanillaPuppeteer['executablePath']>;
   /** Path where Puppeteer expects to find bundled Chromium. */
-  executablePath(): string {
-    return this.pptr.executablePath();
+  executablePath(
+    optionsOrChannel?: ChromeReleaseChannel | LaunchOptions
+  ): ReturnType<VanillaPuppeteer['executablePath']> {
+    return this.pptr.executablePath(
+      optionsOrChannel as LaunchOptions
+    ) as ReturnType<VanillaPuppeteer['executablePath']>;
   }
 
   /**
@@ -307,8 +329,10 @@ export class PuppeteerExtra implements VanillaPuppeteer {
       return;
     }
     browser._createPageInContext = (
-      (originalMethod, context) => async (contextId?: string) => {
-        const page = await originalMethod.call(context, contextId);
+      (originalMethod, context) =>
+      async (contextId?: string, options?: Record<string, unknown>) => {
+        const page = await originalMethod.call(context, contextId, options);
+        await this.callOnPageCreated(page);
         await page.goto('about:blank');
         return page;
       }
@@ -488,6 +512,21 @@ export class PuppeteerExtra implements VanillaPuppeteer {
         }
       }
     }
+  }
+
+  /**
+   * Call page creation plugins exactly once per page.
+   *
+   * Puppeteer 25 can emit target events too late for evaluateOnNewDocument
+   * setup on a newly created page, so the page creation patch invokes these
+   * hooks directly while the page is still at its initial about:blank document.
+   */
+  private async callOnPageCreated(page: Page) {
+    if (this._pageCreatedPluginsCalled.has(page)) {
+      return;
+    }
+    this._pageCreatedPluginsCalled.add(page);
+    await this.callPlugins('onPageCreated', page);
   }
 
   /**

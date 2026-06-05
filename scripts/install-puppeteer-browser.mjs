@@ -1,5 +1,6 @@
 import { appendFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -49,6 +50,30 @@ const withTimeout = async (promise, timeoutMs, onTimeout) => {
   }
 };
 
+const getPuppeteerConfiguration = async puppeteerApi => {
+  if (typeof puppeteerApi.configuration === 'function') {
+    return await puppeteerApi.configuration();
+  }
+
+  return puppeteerApi.configuration ?? {};
+};
+
+const getPuppeteerChromeBuildId = (puppeteer, configuration) => {
+  const puppeteerApi = puppeteer.default.default ?? puppeteer.default;
+  const configuredChromeVersion = configuration.chrome?.version;
+  const defaultBrowserRevision = puppeteerApi.defaultBrowserRevision;
+  const revisionChromeVersion = puppeteer.PUPPETEER_REVISIONS?.chrome;
+
+  const buildId =
+    configuredChromeVersion ?? defaultBrowserRevision ?? revisionChromeVersion;
+
+  if (!buildId) {
+    throw new Error('Unable to determine Puppeteer-pinned Chrome build ID');
+  }
+
+  return buildId;
+};
+
 const main = async () => {
   const require = createRequire(join(process.cwd(), 'package.json'));
   const puppeteerRequire = createRequire(
@@ -59,17 +84,19 @@ const main = async () => {
   );
   const puppeteer = await import(pathToFileURL(require.resolve('puppeteer')));
   const puppeteerApi = puppeteer.default.default ?? puppeteer.default;
+  const configuration = await getPuppeteerConfiguration(puppeteerApi);
 
   const cacheDir =
     process.env.PUPPETEER_CACHE_DIR ??
-    puppeteerApi.configuration.cacheDirectory;
+    configuration.cacheDirectory ??
+    join(homedir(), '.cache', 'puppeteer');
   const platform = detectBrowserPlatform();
 
   if (!platform) {
     throw new Error('Unable to detect browser platform');
   }
 
-  const buildId = puppeteerApi.defaultBrowserRevision;
+  const buildId = getPuppeteerChromeBuildId(puppeteer, configuration);
   console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
   const abortController = new AbortController();
 
