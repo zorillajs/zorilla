@@ -38,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -211,14 +211,19 @@ jobs:
         run: pnpm --filter @zorilla/${{ matrix.package }} run --if-present typecheck
 
       - name: Install Playwright browsers
-        if: matrix.package == 'playwright-extra'
+        if: matrix.package == 'playwright-extra' && (matrix.node != 24 || matrix.os != 'ubuntu-latest')
         run: cd packages/playwright-extra && pnpm exec playwright install chromium firefox webkit --with-deps
 
       - name: Install Chrome for Puppeteer
         if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
-        run: |
-          pnpm --dir packages/${{ matrix.package }} exec puppeteer browsers install chrome
-          pnpm --dir packages/${{ matrix.package }} exec node -e "import fs from 'node:fs'; import puppeteer from 'puppeteer'; const path = puppeteer.executablePath(); console.log(path); if (!fs.existsSync(path)) process.exit(1)"
+        run: pnpm --dir packages/${{ matrix.package }} exec node ../../scripts/install-puppeteer-browser.mjs
 
       - name: Run tests for ${{ matrix.package }}
+        if: matrix.package != 'playwright-extra' || matrix.node != 24 || matrix.os != 'ubuntu-latest'
         run: pnpm --filter @zorilla/${{ matrix.package }} test
+
+      - name: Run Chromium tests for ${{ matrix.package }}
+        if: matrix.package == 'playwright-extra' && matrix.node == 24 && matrix.os == 'ubuntu-latest'
+        env:
+          PLAYWRIGHT_CHROMIUM_CHANNEL: chrome
+        run: pnpm --dir packages/playwright-extra exec playwright test --config test/playwright.config.ts --project=chromium

@@ -22,7 +22,7 @@
     "release": "pnpm build && changeset publish",
     "fix": "biome check --write .",
     "check": "biome check .",
-    "links": "node scripts/check-links.mjs"
+    "links": "linkinator \"**/*.md\" --config linkinator.config.json"
   },
   "workspaces": [
     "packages/*"
