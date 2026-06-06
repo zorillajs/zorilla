@@ -13,6 +13,11 @@
   },
   "packageRules": [
     {
+      "description": "Limit GitHub Actions digest updates to quarterly",
+      "matchManagers": ["github-actions"],
+      "schedule": ["before 5am on the first day of the quarter"]
+    },
+    {
       "groupName": "playwright monorepo",
       "matchPackagePatterns": ["^playwright", "^@playwright/"]
     }
