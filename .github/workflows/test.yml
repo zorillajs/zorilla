@@ -217,9 +217,8 @@ jobs:
       - name: Install Chrome for Puppeteer
         if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
         run: |
-          cd packages/${{ matrix.package }}
-          pnpm exec puppeteer browsers install chrome
-          node -e "import fs from 'node:fs'; import puppeteer from 'puppeteer'; const path = puppeteer.executablePath(); console.log(path); if (!fs.existsSync(path)) process.exit(1)"
+          pnpm --dir packages/${{ matrix.package }} exec puppeteer browsers install chrome
+          pnpm --dir packages/${{ matrix.package }} exec node -e "import fs from 'node:fs'; import puppeteer from 'puppeteer'; const path = puppeteer.executablePath(); console.log(path); if (!fs.existsSync(path)) process.exit(1)"
 
       - name: Run tests for ${{ matrix.package }}
         run: pnpm --filter @zorilla/${{ matrix.package }} test
