@@ -18,6 +18,8 @@ on:
 env:
   CI: 'true'
   FORCE_COLOR: 'true'
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/playwright
+  PUPPETEER_CACHE_DIR: ${{ github.workspace }}/.cache/puppeteer
 
 jobs:
   lint:
@@ -36,7 +38,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '24'
+          node-version: '22'
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -208,22 +210,16 @@ jobs:
       - name: Typecheck ${{ matrix.package }}
         run: pnpm --filter @zorilla/${{ matrix.package }} run --if-present typecheck
 
-      - name: Install test browsers
-        shell: bash
+      - name: Install Playwright browsers
+        if: matrix.package == 'playwright-extra'
+        run: cd packages/playwright-extra && pnpm exec playwright install chromium firefox webkit --with-deps
+
+      - name: Install Chrome for Puppeteer
+        if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
         run: |
-          case "${{ matrix.package }}" in
-            playwright-extra)
-              cd packages/playwright-extra
-              pnpm exec playwright install chromium chromium-headless-shell firefox webkit --with-deps
-              ;;
-            plugin-proxy-router|puppeteer*)
-              cd packages/${{ matrix.package }}
-              pnpm exec puppeteer browsers install chrome
-              ;;
-            *)
-              echo "No browser install needed for ${{ matrix.package }}"
-              ;;
-          esac
+          cd packages/${{ matrix.package }}
+          pnpm exec puppeteer browsers install chrome
+          node -e "import fs from 'node:fs'; import puppeteer from 'puppeteer'; const path = puppeteer.executablePath(); console.log(path); if (!fs.existsSync(path)) process.exit(1)"
 
       - name: Run tests for ${{ matrix.package }}
         run: pnpm --filter @zorilla/${{ matrix.package }} test
