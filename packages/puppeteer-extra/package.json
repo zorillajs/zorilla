@@ -56,6 +56,9 @@
     "deepmerge": "^4.3.1"
   },
   "peerDependencies": {
+    "@zorilla/puppeteer-extra-plugin-stealth": "*",
+    "@zorilla/puppeteer-extra-plugin-user-data-dir": "*",
+    "@zorilla/puppeteer-extra-plugin-user-preferences": "*",
     "puppeteer": "*",
     "puppeteer-core": "*"
   },
