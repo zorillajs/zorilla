@@ -1,5 +1,17 @@
+import { createRequire } from 'node:module';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
 const DEFAULT_PLUGIN_SCOPE = '@zorilla';
 const PLUGIN_PREFIX = 'puppeteer-extra-plugin-';
+
+interface PnpApi {
+  resolveRequest(request: string, issuer: string): string | null;
+}
+
+export interface ResolveDependencyImportPathOptions {
+  issuerUrl?: string;
+  pnpApi?: PnpApi;
+}
 
 export function resolveDependencyPackageName(name: string): string {
   if (name.includes(PLUGIN_PREFIX)) {
@@ -32,8 +44,20 @@ export function extractDependencyPackageName(name: string): string {
   return parts[0] || resolvedName;
 }
 
-export function resolveDependencyImportPath(name: string): string {
+export function resolveDependencyImportPath(
+  name: string,
+  opts: ResolveDependencyImportPathOptions = {}
+): string {
   const resolvedName = resolveDependencyPackageName(name);
+  const pnpApi = opts.pnpApi || getPnpApi();
+  const issuerPath = opts.issuerUrl ? urlToPath(opts.issuerUrl) : undefined;
+
+  if (pnpApi && issuerPath) {
+    const resolvedPath = pnpApi.resolveRequest(resolvedName, issuerPath);
+    if (resolvedPath) {
+      return pathToFileURL(resolvedPath).href;
+    }
+  }
 
   // In Plug'n'Play environments (like Yarn PnP), bypass relative path rewriting
   // and rely on the package manager's strict resolution mechanism instead.
@@ -53,4 +77,20 @@ export function resolveDependencyImportPath(name: string): string {
     : `../../${packageName}/dist/index.js`;
 
   return new URL(relativePath, import.meta.url).href;
+}
+
+function getPnpApi(): PnpApi | undefined {
+  if (!process.versions.pnp) {
+    return undefined;
+  }
+
+  try {
+    return createRequire(import.meta.url)('pnpapi') as PnpApi;
+  } catch {
+    return undefined;
+  }
+}
+
+function urlToPath(urlOrPath: string): string {
+  return urlOrPath.startsWith('file://') ? fileURLToPath(urlOrPath) : urlOrPath;
 }

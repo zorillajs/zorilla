@@ -68,6 +68,8 @@ export interface BrowserEventOptions {
  */
 export abstract class PuppeteerExtraPlugin {
   /** @private */
+  readonly _dependencyBaseUrl?: string;
+  /** @private */
   private _debugBase: Debugger;
   /** @private */
   private _opts: PluginOptions;
@@ -76,12 +78,25 @@ export abstract class PuppeteerExtraPlugin {
 
   constructor(opts?: PluginOptions) {
     this._childClassMembers = [];
+    this._dependencyBaseUrl = this._inferDependencyBaseUrl();
 
     this._opts = merge(this.defaults, opts || {});
 
     this._debugBase = debug(`puppeteer-extra-plugin:base:${this.name}`);
 
     this._debugBase('Initialized.');
+  }
+
+  private _inferDependencyBaseUrl(): string | undefined {
+    const stack = new Error().stack;
+    if (!stack) {
+      return undefined;
+    }
+
+    const fileUrls = stack.match(/file:\/\/[^\s)]+/g) || [];
+    return fileUrls
+      .map(url => url.replace(/:\d+:\d+$/, ''))
+      .find(url => url !== import.meta.url);
   }
 
   /**
