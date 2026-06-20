@@ -35,11 +35,11 @@ export function extractDependencyPackageName(name: string): string {
 export function resolveDependencyImportPath(name: string): string {
   const resolvedName = resolveDependencyPackageName(name);
 
+  // In Plug'n'Play environments (like Yarn PnP), bypass relative path rewriting
+  // and rely on the package manager's strict resolution mechanism instead.
   if (
-    !resolvedName.startsWith(`${DEFAULT_PLUGIN_SCOPE}/${PLUGIN_PREFIX}`)
-    // In Plug'n'Play environments (like Yarn PnP), bypass relative path rewriting
-    // and rely on the package manager's strict resolution mechanism instead.
-    || process?.versions?.pnp
+    !resolvedName.startsWith(`${DEFAULT_PLUGIN_SCOPE}/${PLUGIN_PREFIX}`) ||
+    process.versions.pnp
   ) {
     return resolvedName;
   }

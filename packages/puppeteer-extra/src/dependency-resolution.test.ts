@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import {
   extractDependencyPackageName,
@@ -8,6 +8,10 @@ import {
 } from './dependency-resolution.js';
 
 describe('dependency resolution helpers', () => {
+  afterEach(() => {
+    delete (process.versions as Record<string, string | undefined>).pnp;
+  });
+
   it('adds the zorilla scope to unscoped plugin dependencies', () => {
     expect(resolveDependencyPackageName('user-preferences')).toBe(
       '@zorilla/puppeteer-extra-plugin-user-preferences'
@@ -50,6 +54,17 @@ describe('dependency resolution helpers', () => {
           import.meta.url
         )
       )
+    );
+  });
+
+  it('keeps zorilla plugin dependencies as bare import paths under Yarn PnP', () => {
+    Object.defineProperty(process.versions, 'pnp', {
+      configurable: true,
+      value: '1',
+    });
+
+    expect(resolveDependencyImportPath('stealth/evasions/chrome.app')).toBe(
+      '@zorilla/puppeteer-extra-plugin-stealth/evasions/chrome.app'
     );
   });
 
