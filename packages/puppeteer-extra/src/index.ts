@@ -35,6 +35,11 @@ export interface VanillaPuppeteer
     | 'createBrowserFetcher'
   > {}
 
+type PluginDependencyResolver = (
+  plugins: PuppeteerExtraPlugin[]
+) => Set<string>;
+type PluginMethod = (...args: unknown[]) => unknown;
+
 /**
  * Minimal plugin interface
  * @private
@@ -46,8 +51,8 @@ export interface PuppeteerExtraPlugin {
   requirements?: Set<string>;
   data?: unknown;
   _register?: (prototype: object) => void;
-  _getMissingDependencies?: (plugins: PuppeteerExtraPlugin[]) => Set<string>;
-  [propName: string]: unknown;
+  _getMissingDependencies?: unknown;
+  getDataFromPlugins?: (name?: string) => unknown[];
 }
 
 /**
@@ -388,6 +393,14 @@ export class PuppeteerExtra implements VanillaPuppeteer {
     return this._plugins.filter(plugin => prop in plugin);
   }
 
+  private getPluginMethod(
+    plugin: PuppeteerExtraPlugin,
+    prop: string
+  ): PluginMethod | undefined {
+    const value = (plugin as unknown as Record<string, unknown>)[prop];
+    return typeof value === 'function' ? (value as PluginMethod) : undefined;
+  }
+
   /**
    * Lightweight plugin dependency management to require plugins and code mods on demand.
    *
@@ -400,11 +413,15 @@ export class PuppeteerExtra implements VanillaPuppeteer {
   private async resolvePluginDependencies() {
     // Request missing dependencies from all plugins and keep the declaring
     // plugin as the module-resolution issuer for strict package managers.
-    const missingPlugins = this._plugins.flatMap(plugin =>
-      Array.from(
-        plugin._getMissingDependencies?.(this._plugins) || new Set<string>()
-      ).map(name => ({ issuerUrl: plugin._dependencyBaseUrl, name }))
-    );
+    const missingPlugins = this._plugins.flatMap(plugin => {
+      const getMissingDependencies =
+        typeof plugin._getMissingDependencies === 'function'
+          ? (plugin._getMissingDependencies as PluginDependencyResolver)
+          : undefined;
+      return Array.from(
+        getMissingDependencies?.call(plugin, this._plugins) || new Set<string>()
+      ).map(name => ({ issuerUrl: plugin._dependencyBaseUrl, name }));
+    });
     if (!missingPlugins.length) {
       debug('no dependencies are missing');
       return;
@@ -541,8 +558,8 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    */
   private async callPlugins(prop: string, ...values: unknown[]) {
     for (const plugin of this.getPluginsByProp(prop)) {
-      const method = plugin[prop];
-      if (typeof method === 'function') {
+      const method = this.getPluginMethod(plugin, prop);
+      if (method) {
         await method.apply(plugin, values);
       }
     }
@@ -562,8 +579,8 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    */
   private async callPluginsWithValue(prop: string, value: unknown) {
     for (const plugin of this.getPluginsByProp(prop)) {
-      const method = plugin[prop];
-      if (typeof method === 'function') {
+      const method = this.getPluginMethod(plugin, prop);
+      if (method) {
         const newValue = await method.call(plugin, value);
         if (newValue) {
           value = newValue;
