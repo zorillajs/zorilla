@@ -1,6 +1,6 @@
+import { createHash } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import { createRequire } from 'node:module';
-import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 
@@ -81,12 +81,16 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
   get engineCacheFile() {
     const cacheDir = (this.opts as PluginOptions).cacheDir ?? defaultCacheRoot;
     const customFilters = this.normalizeFilters(this.opts.filters);
-    const hash = createHash('sha256').update(JSON.stringify({
-      t: this.opts.blockTrackers,
-      ta: this.opts.blockTrackersAndAnnoyances,
-      m: this.opts.mergeFilters,
-      f: customFilters,
-    })).digest('hex');
+    const hash = createHash('sha256')
+      .update(
+        JSON.stringify({
+          t: this.opts.blockTrackers,
+          ta: this.opts.blockTrackersAndAnnoyances,
+          m: this.opts.mergeFilters,
+          f: customFilters,
+        })
+      )
+      .digest('hex');
     return path.join(cacheDir, `${cacheFilenamePrefix}-${hash}-engine.bin`);
   }
 
@@ -149,7 +153,14 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
 
     let blocker: PuppeteerBlocker;
     if (hasCustomFilters && this.opts.mergeFilters === false) {
-      blocker = PuppeteerBlocker.empty();
+      try {
+        return PuppeteerBlocker.parse(customFilters);
+      } catch (err) {
+        throw new Error(
+          'Failed to parse custom filters provided in PluginOptions.filters',
+          { cause: err }
+        );
+      }
     } else if (this.opts.blockTrackersAndAnnoyances === true) {
       blocker = await PuppeteerBlocker.fromPrebuiltFull(fetch);
     } else if (this.opts.blockTrackers === true) {
@@ -161,9 +172,16 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     if (hasCustomFilters) {
       try {
         const parsed = parseFilters(customFilters);
-        blocker.update({ newNetworkFilters: parsed.networkFilters, newCosmeticFilters: parsed.cosmeticFilters });
+        blocker.update({
+          newNetworkFilters: parsed.networkFilters,
+          newCosmeticFilters: parsed.cosmeticFilters,
+          newPreprocessors: parsed.preprocessors,
+        });
       } catch (err) {
-        throw new Error('Failed to parse custom filters provided in PluginOptions.filters', { cause: err });
+        throw new Error(
+          'Failed to parse custom filters provided in PluginOptions.filters',
+          { cause: err }
+        );
       }
     }
 
