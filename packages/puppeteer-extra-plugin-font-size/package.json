@@ -40,7 +40,7 @@
     "@vitest/coverage-v8": "^4.1.2",
     "@zorilla/puppeteer-extra": "workspace:*",
     "@zorilla/puppeteer-extra-plugin-user-preferences": "workspace:*",
-    "puppeteer": "^24.40.0",
+    "puppeteer": "^25.0.0",
     "vitest": "^4.1.2"
   },
   "dependencies": {
