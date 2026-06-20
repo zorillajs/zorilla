@@ -14,20 +14,6 @@ const exportExecutablePath = executablePath => {
   }
 };
 
-const withTimeout = async (promise, message) => {
-  let timeout;
-
-  const timeoutPromise = new Promise((_, reject) => {
-    timeout = setTimeout(() => reject(new Error(message)), 120_000);
-  });
-
-  try {
-    return await Promise.race([promise, timeoutPromise]);
-  } finally {
-    clearTimeout(timeout);
-  }
-};
-
 const main = async () => {
   const require = createRequire(join(process.cwd(), 'package.json'));
   const puppeteerRequire = createRequire(
@@ -51,15 +37,12 @@ const main = async () => {
   const buildId = puppeteerApi.defaultBrowserRevision;
   console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
 
-  const installedBrowser = await withTimeout(
-    install({
-      browser: Browser.CHROME,
-      buildId,
-      cacheDir,
-      platform,
-    }),
-    `Timed out installing Puppeteer-pinned Chrome ${buildId}`
-  );
+  const installedBrowser = await install({
+    browser: Browser.CHROME,
+    buildId,
+    cacheDir,
+    platform,
+  });
 
   if (
     !installedBrowser.executablePath ||
