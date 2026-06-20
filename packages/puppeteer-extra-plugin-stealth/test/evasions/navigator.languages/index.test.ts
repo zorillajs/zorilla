@@ -21,17 +21,22 @@ test('vanilla: will not have modifications', async () => {
     headless: true,
     args: getDefaultLaunchArgs(),
   });
-  const page = await browser.newPage();
 
-  const test1 = await page.evaluate(
-    () => Object.getOwnPropertyDescriptor(navigator, 'languages') // Must be undefined if native
-  );
-  expect(test1).toBe(undefined);
+  try {
+    const page = await browser.newPage();
 
-  const test2 = await page.evaluate(
-    () => Object.getOwnPropertyNames(navigator) // Must be an empty array if native
-  );
-  expect(test2.includes('languages')).toBe(false);
+    const test1 = await page.evaluate(
+      () => Object.getOwnPropertyDescriptor(navigator, 'languages') // Must be undefined if native
+    );
+    expect(test1).toBe(undefined);
+
+    const test2 = await page.evaluate(
+      () => Object.getOwnPropertyNames(navigator) // Must be an empty array if native
+    );
+    expect(test2.includes('languages')).toBe(false);
+  } finally {
+    await browser.close();
+  }
 });
 
 test.skip('stealth: is array with en-US (requires fpcollect)', async () => {
@@ -53,17 +58,22 @@ test('stealth: will not leak modifications', async () => {
     headless: true,
     args: getDefaultLaunchArgs(),
   });
-  const page = await browser.newPage();
 
-  const test1 = await page.evaluate(
-    () => Object.getOwnPropertyDescriptor(navigator, 'languages') // Must be undefined if native
-  );
-  expect(test1).toBe(undefined);
+  try {
+    const page = await browser.newPage();
 
-  const test2 = await page.evaluate(
-    () => Object.getOwnPropertyNames(navigator) // Must be an empty array if native
-  );
-  expect(test2.includes('languages')).toBe(false);
+    const test1 = await page.evaluate(
+      () => Object.getOwnPropertyDescriptor(navigator, 'languages') // Must be undefined if native
+    );
+    expect(test1).toBe(undefined);
+
+    const test2 = await page.evaluate(
+      () => Object.getOwnPropertyNames(navigator) // Must be an empty array if native
+    );
+    expect(test2.includes('languages')).toBe(false);
+  } finally {
+    await browser.close();
+  }
 });
 
 test('stealth: does patch getters properly', async () => {
@@ -72,40 +82,45 @@ test('stealth: does patch getters properly', async () => {
     headless: true,
     args: getDefaultLaunchArgs(),
   });
-  const page = await browser.newPage();
 
-  const results = await page.evaluate(() => {
-    const hasInvocationError = (() => {
-      try {
-        // eslint-disable-next-line dot-notation
-        Object.seal(Object.getPrototypeOf(navigator).languages);
-        return false;
-      } catch (_err) {
-        return true;
-      }
-    })();
-    const hasPushError = (() => {
-      try {
-        // eslint-disable-next-line dot-notation
-        navigator.languages.push(null);
-        return false;
-      } catch (_err) {
-        return true;
-      }
-    })();
-    return {
-      hasInvocationError,
-      hasPushError,
-      toString: Object.getOwnPropertyDescriptor(
-        Object.getPrototypeOf(navigator),
-        'languages'
-      ).get.toString(),
-    };
-  });
+  try {
+    const page = await browser.newPage();
 
-  expect(results).toEqual({
-    hasInvocationError: true,
-    hasPushError: true,
-    toString: 'function get languages() { [native code] }',
-  });
+    const results = await page.evaluate(() => {
+      const hasInvocationError = (() => {
+        try {
+          // eslint-disable-next-line dot-notation
+          Object.seal(Object.getPrototypeOf(navigator).languages);
+          return false;
+        } catch (_err) {
+          return true;
+        }
+      })();
+      const hasPushError = (() => {
+        try {
+          // eslint-disable-next-line dot-notation
+          navigator.languages.push(null);
+          return false;
+        } catch (_err) {
+          return true;
+        }
+      })();
+      return {
+        hasInvocationError,
+        hasPushError,
+        toString: Object.getOwnPropertyDescriptor(
+          Object.getPrototypeOf(navigator),
+          'languages'
+        ).get.toString(),
+      };
+    });
+
+    expect(results).toEqual({
+      hasInvocationError: true,
+      hasPushError: true,
+      toString: 'function get languages() { [native code] }',
+    });
+  } finally {
+    await browser.close();
+  }
 });
