@@ -158,7 +158,7 @@ await writeOutputFile('custom-stealth.js', output);
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 22+
 - pnpm >= 8
 
 ### Setup

@@ -21,7 +21,7 @@ Zorilla is a monorepo managed with [pnpm workspaces](https://pnpm.io/workspaces)
 
 ### Prerequisites
 
-- Node.js 20 or higher
+- Node.js 22 or higher
 - pnpm 9 or higher
 
 ### Initial Setup
@@ -385,7 +385,7 @@ Configuration is in `biome.json` at the repo root.
 
 - **Coverage requirement:** Most packages require 90-100% coverage
 - **Test framework:** Vitest (most packages) or @playwright/test (playwright-extra)
-- Tests must pass on Node 20 and 22, across Linux, macOS, and Windows
+- Tests must pass on Node 22, 24, and 26, across Linux, macOS, and Windows
 
 ### File Structure
 
@@ -474,7 +474,7 @@ docs: update contributing guide
 
 ### What Happens Next
 
-1. Automated tests run on your PR (Linux, macOS, Windows × Node 20, 22)
+1. Automated tests run on your PR (Linux, macOS, Windows × Node 22, 24, 26)
 2. Maintainers review your code
 3. Once approved and merged, the release process kicks in automatically
 4. Your contribution will be included in the next release with proper changelog entry

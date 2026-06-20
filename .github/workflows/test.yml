@@ -81,13 +81,13 @@ jobs:
         include:
           # puppeteer-extra
           - package: puppeteer-extra
-            node: 20
-            os: ubuntu-latest
-          - package: puppeteer-extra
             node: 22
             os: ubuntu-latest
           - package: puppeteer-extra
             node: 24
+            os: ubuntu-latest
+          - package: puppeteer-extra
+            node: 26
             os: ubuntu-latest
           - package: puppeteer-extra
             node: 22
@@ -98,13 +98,13 @@ jobs:
 
           # playwright-extra
           - package: playwright-extra
-            node: 20
-            os: ubuntu-latest
-          - package: playwright-extra
             node: 22
             os: ubuntu-latest
           - package: playwright-extra
             node: 24
+            os: ubuntu-latest
+          - package: playwright-extra
+            node: 26
             os: ubuntu-latest
           - package: playwright-extra
             node: 22
@@ -120,13 +120,13 @@ jobs:
 
           # stealth plugin - important, test on all platforms
           - package: puppeteer-extra-plugin-stealth
-            node: 20
-            os: ubuntu-latest
-          - package: puppeteer-extra-plugin-stealth
             node: 22
             os: ubuntu-latest
           - package: puppeteer-extra-plugin-stealth
             node: 24
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-stealth
+            node: 26
             os: ubuntu-latest
           - package: puppeteer-extra-plugin-stealth
             node: 22

@@ -163,7 +163,7 @@ await repl.repl(page); // or any object/class instance
 
 ## Requirements
 
-- Node.js 20+
+- Node.js 22+
 - Puppeteer or Puppeteer-Core
 
 ## License

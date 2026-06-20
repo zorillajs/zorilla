@@ -6,7 +6,7 @@
 
 ## Requirements
 
-- Node.js 20+ (ESM only)
+- Node.js 22+ (ESM only)
 - Playwright 1.x
 
 ## Installation
