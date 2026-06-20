@@ -10,7 +10,7 @@
   "license": "MIT",
   "main": "packages/puppeteer-extra/index.js",
   "engines": {
-    "node": ">=20",
+    "node": ">=22",
     "pnpm": ">=10 <11"
   },
   "scripts": {

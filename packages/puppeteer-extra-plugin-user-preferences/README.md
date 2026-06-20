@@ -20,7 +20,7 @@ npm install @zorilla/puppeteer-extra-plugin-user-preferences
 
 ## Requirements
 
-- Node.js 20+
+- Node.js 22+
 - `@zorilla/puppeteer-extra` or `@zorilla/playwright-extra`
 - Automatically requires @zorilla/puppeteer-extra-plugin-user-data-dir
 

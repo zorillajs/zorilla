@@ -81,13 +81,13 @@ jobs:
         include:
           # puppeteer-extra
           - package: puppeteer-extra
-            node: 20
-            os: ubuntu-latest
-          - package: puppeteer-extra
             node: 22
             os: ubuntu-latest
           - package: puppeteer-extra
             node: 24
+            os: ubuntu-latest
+          - package: puppeteer-extra
+            node: 26
             os: ubuntu-latest
           - package: puppeteer-extra
             node: 22
@@ -98,13 +98,13 @@ jobs:
 
           # playwright-extra
           - package: playwright-extra
-            node: 20
-            os: ubuntu-latest
-          - package: playwright-extra
             node: 22
             os: ubuntu-latest
           - package: playwright-extra
             node: 24
+            os: ubuntu-latest
+          - package: playwright-extra
+            node: 26
             os: ubuntu-latest
           - package: playwright-extra
             node: 22
@@ -120,13 +120,13 @@ jobs:
 
           # stealth plugin - important, test on all platforms
           - package: puppeteer-extra-plugin-stealth
-            node: 20
-            os: ubuntu-latest
-          - package: puppeteer-extra-plugin-stealth
             node: 22
             os: ubuntu-latest
           - package: puppeteer-extra-plugin-stealth
             node: 24
+            os: ubuntu-latest
+          - package: puppeteer-extra-plugin-stealth
+            node: 26
             os: ubuntu-latest
           - package: puppeteer-extra-plugin-stealth
             node: 22
@@ -208,13 +208,22 @@ jobs:
       - name: Typecheck ${{ matrix.package }}
         run: pnpm --filter @zorilla/${{ matrix.package }} run --if-present typecheck
 
-      - name: Install Playwright browsers
-        if: matrix.package == 'playwright-extra'
-        run: cd packages/playwright-extra && pnpm exec playwright install chromium chromium-headless-shell firefox webkit --with-deps
-
-      - name: Install Chrome for Puppeteer
-        if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
-        run: cd packages/${{ matrix.package }} && pnpm exec puppeteer browsers install chrome
+      - name: Install test browsers
+        shell: bash
+        run: |
+          case "${{ matrix.package }}" in
+            playwright-extra)
+              cd packages/playwright-extra
+              pnpm exec playwright install chromium chromium-headless-shell firefox webkit --with-deps
+              ;;
+            plugin-proxy-router|puppeteer*)
+              cd packages/${{ matrix.package }}
+              pnpm exec puppeteer browsers install chrome
+              ;;
+            *)
+              echo "No browser install needed for ${{ matrix.package }}"
+              ;;
+          esac
 
       - name: Run tests for ${{ matrix.package }}
         run: pnpm --filter @zorilla/${{ matrix.package }} test

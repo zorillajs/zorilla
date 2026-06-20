@@ -256,7 +256,7 @@ await page.goto('https://example.com')
 - ✅ **`@zorilla/puppeteer-extra`**: Latest version
 - ✅ **Headless modes**: Both headless and headful
 - ✅ **Cooperative Intercept Mode**: Puppeteer v15+ (optional feature)
-- ✅ **Node.js**: 20+
+- ✅ **Node.js**: 22+
 - ✅ **TypeScript**: Full type definitions included
 
 ## Test Coverage

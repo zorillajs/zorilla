@@ -183,7 +183,7 @@ The `user-agent-override` evasion handles `Accept-Language` header to ensure con
 
 - [MDN: Navigator.languages](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages)
 - [MDN: Navigator.language](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language)
-- [BCP 47 Language Tags](https://www.rfc-editor.org/rfc/bcp/bcp47.txt)
+- [BCP 47 Language Tags](https://www.rfc-editor.org/info/bcp47)
 - [Accept-Language Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language)
 
 ## API
