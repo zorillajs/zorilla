@@ -209,6 +209,7 @@ jobs:
         run: pnpm --filter @zorilla/${{ matrix.package }} run --if-present typecheck
 
       - name: Install test browsers
+        shell: bash
         run: |
           case "${{ matrix.package }}" in
             playwright-extra)
