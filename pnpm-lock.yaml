@@ -157,8 +157,8 @@ importers:
         specifier: '*'
         version: 4.3.6(playwright-core@1.58.0)(playwright@1.59.1)
       proxy-chain:
-        specifier: ^2.7.0
-        version: 2.7.0
+        specifier: ^3.0.0
+        version: 3.0.0
       puppeteer-extra:
         specifier: '*'
         version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
@@ -3408,9 +3408,9 @@ packages:
     resolution: {integrity: sha512-TmatMXdr2KlRiA2CyDu8GqR8EjahTG3aY3nXjdzFyoZbmB8hrBsTyMezhULIXKnC0jpfjlmiZ3+EaCzoInSu/A==}
     engines: {node: '>= 14'}
 
-  proxy-chain@2.7.0:
-    resolution: {integrity: sha512-1zAxsRfcgmaIwg8rV22AAjee+WDJYekbUSLDmYNUjkOmedQCXZ9hlITi1JrRERvoZIYiU7vayRlB3kLoWbNyMg==}
-    engines: {node: '>=14'}
+  proxy-chain@3.0.0:
+    resolution: {integrity: sha512-p9DbNWMUCn8FJz9u+RTO82fwD3NFoYZgax5vtxd0FYPQ6IwpxX65WxeL64Fm/hZQVS2+bWB+XRy3+iDVaBsUeg==}
+    engines: {node: '>=20.11'}
 
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
@@ -6668,7 +6668,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  proxy-chain@2.7.0:
+  proxy-chain@3.0.0:
     dependencies:
       socks: 2.8.7
       socks-proxy-agent: 8.0.5

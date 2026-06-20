@@ -56,7 +56,7 @@
   "dependencies": {
     "@zorilla/puppeteer-extra-plugin": "workspace:*",
     "debug": "^4.4.3",
-    "proxy-chain": "^2.7.0"
+    "proxy-chain": "^3.0.0"
   },
   "peerDependencies": {
     "playwright-extra": "*",

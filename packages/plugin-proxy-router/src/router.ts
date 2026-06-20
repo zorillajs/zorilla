@@ -243,11 +243,10 @@ export class ProxyRouter {
       debug('server start promise exists already');
       return this.serverStartPromise;
     }
-    // biome-ignore lint/suspicious/noAsyncPromiseExecutor: getPort is async and we need to await it
-    this.serverStartPromise = new Promise(async (resolve, reject) => {
+    this.serverStartPromise = (async () => {
       if (this.isListening) {
         debug('server listening already');
-        return resolve(this.proxyServer.port);
+        return this.proxyServer.port;
       }
       const desiredPort = this.proxyServer.port;
       try {
@@ -255,39 +254,36 @@ export class ProxyRouter {
         const availablePort = await getPort({ port: desiredPort });
         debug('availablePort:', availablePort);
         this.proxyServer.port = availablePort;
-        this.proxyServer.listen(err => {
-          if (err === null) {
-            debug(`server listening on port ${this.proxyServer.port}`);
-            this.isListening = true;
-            return resolve(this.proxyServer.port);
-          }
-          warn('Unable to start local server:', err);
-          this.serverStartPromise = null;
-          return reject(err);
-        });
+        await this.proxyServer.listen();
+        debug(`server listening on port ${this.proxyServer.port}`);
+        this.isListening = true;
+        return this.proxyServer.port;
       } catch (error) {
+        warn('Unable to start local server:', error);
         this.serverStartPromise = null;
-        reject(error);
+        throw error;
       }
-    });
+    })();
     return this.serverStartPromise;
   }
 
   /** Stop the local proxy server */
   public async close(): Promise<NodeJS.ErrnoException | null> {
     debug('closing..');
-    return new Promise(resolve => {
-      this.proxyServer.close(true, err => {
-        this.isListening = false;
-        this.serverStartPromise = null;
-        if (err === null) {
-          debug('closed without error');
-          return resolve(null);
-        }
-        debug('closed with error', err);
-        return resolve(err);
-      });
-    });
+    try {
+      await this.proxyServer.close(true);
+      this.isListening = false;
+      this.serverStartPromise = null;
+      debug('closed without error');
+      return null;
+    } catch (error) {
+      this.isListening = false;
+      this.serverStartPromise = null;
+      const closeError =
+        error instanceof Error ? error : new Error(String(error));
+      debug('closed with error', closeError);
+      return closeError;
+    }
   }
 
   public getProxyForName(name: ProxyName): string | null {
