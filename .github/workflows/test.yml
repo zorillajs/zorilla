@@ -212,6 +212,10 @@ jobs:
       - name: Build package graph
         run: pnpm --filter "{./packages/${{ matrix.package }}}..." run build
 
+      - name: Build puppeteer-extra test plugin graph
+        if: matrix.package == 'puppeteer-extra'
+        run: pnpm --filter "{./packages/puppeteer-extra-plugin-stealth}..." run build
+
       - name: Typecheck ${{ matrix.package }}
         run: pnpm --filter "{./packages/${{ matrix.package }}}" run --if-present typecheck
 
