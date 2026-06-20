@@ -10,6 +10,7 @@
     "packages/.*/(?:$|\\?)"
   ],
   "markdown": true,
+  "port": 45678,
   "timeout": 10000,
   "retry": true,
   "retryErrors": true,

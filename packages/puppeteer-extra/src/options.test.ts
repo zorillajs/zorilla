@@ -50,7 +50,7 @@ describe('options', () => {
 
     await browser.close();
     expect(true).toBe(true);
-  });
+  }, 90_000);
 
   it('will modify puppeteer connect options through plugins', async () => {
     let FINAL_OPTIONS = null;

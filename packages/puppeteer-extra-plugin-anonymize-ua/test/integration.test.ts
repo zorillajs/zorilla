@@ -1,12 +1,13 @@
 import { addExtra } from '@zorilla/puppeteer-extra';
+import type { Browser, Target } from 'puppeteer';
 import puppeteer from 'puppeteer';
 import { beforeEach, describe, expect, test } from 'vitest';
 import Plugin from '../dist/index.js';
 
 const PUPPETEER_ARGS = ['--no-sandbox', '--disable-setuid-sandbox'];
 
-const waitEvent = (emitter: any, eventName: string) =>
-  new Promise(resolve => emitter.once(eventName, resolve));
+const waitEvent = (emitter: Browser, eventName: 'targetcreated') =>
+  new Promise<Target>(resolve => emitter.once(eventName, resolve));
 
 describe('Headless mode (with plugin)', () => {
   let puppeteerExtra: ReturnType<typeof addExtra>;
@@ -22,13 +23,10 @@ describe('Headless mode (with plugin)', () => {
       headless: true,
     });
     const page = await browser.newPage();
-    await page.goto('https://httpbin.org/headers', {
-      waitUntil: 'domcontentloaded',
-    });
 
-    const content = await page.content();
-    expect(content.includes('Windows NT 10.0')).toBe(true);
-    expect(content.includes('HeadlessChrome')).toBe(false);
+    const ua = await page.evaluate(() => window.navigator.userAgent);
+    expect(ua.includes('Windows NT 10.0')).toBe(true);
+    expect(ua.includes('HeadlessChrome')).toBe(false);
 
     await browser.close();
   });
@@ -41,13 +39,10 @@ describe('Headless mode (with plugin)', () => {
 
     const context = await browser.createBrowserContext();
     const page = await context.newPage();
-    await page.goto('https://httpbin.org/headers', {
-      waitUntil: 'domcontentloaded',
-    });
 
-    const content = await page.content();
-    expect(content.includes('Windows NT 10.0')).toBe(true);
-    expect(content.includes('HeadlessChrome')).toBe(false);
+    const ua = await page.evaluate(() => window.navigator.userAgent);
+    expect(ua.includes('Windows NT 10.0')).toBe(true);
+    expect(ua.includes('HeadlessChrome')).toBe(false);
 
     await browser.close();
   });
@@ -65,15 +60,12 @@ describe('Headless mode (with plugin)', () => {
       headless: true,
     });
     const page = await browser.newPage();
-    await page.goto('https://httpbin.org/headers', {
-      waitUntil: 'domcontentloaded',
-    });
 
-    const content = await page.content();
-    expect(content.includes('Windows NT 10.0')).toBe(true);
-    expect(content.includes('HeadlessChrome')).toBe(false);
-    expect(content.includes('MyCoolAgent/Mozilla')).toBe(true);
-    expect(content.includes('Beer/')).toBe(true);
+    const ua = await page.evaluate(() => window.navigator.userAgent);
+    expect(ua.includes('Windows NT 10.0')).toBe(true);
+    expect(ua.includes('HeadlessChrome')).toBe(false);
+    expect(ua.includes('MyCoolAgent/Mozilla')).toBe(true);
+    expect(ua.includes('Beer/')).toBe(true);
 
     await browser.close();
   });
@@ -94,15 +86,13 @@ describe('Disabled options', () => {
       args: PUPPETEER_ARGS,
       headless: true,
     });
+    const browserUa = await browser.userAgent();
     const page = await browser.newPage();
-    await page.goto('https://httpbin.org/headers', {
-      waitUntil: 'domcontentloaded',
-    });
 
-    const content = await page.content();
-    expect(content.includes('HeadlessChrome')).toBe(true);
-    expect(content.includes('MyCoolAgent/Mozilla')).toBe(false);
-    expect(content.includes('Beer/')).toBe(false);
+    const ua = await page.evaluate(() => window.navigator.userAgent);
+    expect(ua).toBe(browserUa);
+    expect(ua.includes('MyCoolAgent/Mozilla')).toBe(false);
+    expect(ua.includes('Beer/')).toBe(false);
 
     await browser.close();
   });
