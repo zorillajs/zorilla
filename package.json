@@ -22,6 +22,7 @@
     "release": "pnpm build && changeset publish",
     "fix": "biome check --write .",
     "check": "biome check .",
+    "renovate:validate": "pnpm --package=renovate@43.214.2 dlx renovate-config-validator --strict --no-global renovate.json",
     "links": "linkinator \"**/*.md\" --config linkinator.config.json"
   },
   "workspaces": [
