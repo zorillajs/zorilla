@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -70,13 +70,16 @@ describe('dependency resolution helpers', () => {
   });
 
   it('resolves dependencies from the declaring plugin under Plug and Play', () => {
-    const resolvedPath =
-      '/virtual/@zorilla/puppeteer-extra-plugin-user-preferences/dist/index.js';
+    const resolvedPath = resolve(
+      '/virtual/@zorilla/puppeteer-extra-plugin-user-preferences/dist/index.js'
+    );
+    const issuerPath = resolve(
+      '/virtual/@zorilla/puppeteer-extra-plugin-stealth/dist/evasions/user-agent-override/index.js'
+    );
     const calls: Array<[string, string]> = [];
 
     const importPath = resolveDependencyImportPath('user-preferences', {
-      issuerUrl:
-        'file:///virtual/@zorilla/puppeteer-extra-plugin-stealth/dist/evasions/user-agent-override/index.js',
+      issuerUrl: pathToFileURL(issuerPath).href,
       pnpApi: {
         resolveRequest(request, issuer) {
           calls.push([request, issuer]);
@@ -87,10 +90,7 @@ describe('dependency resolution helpers', () => {
 
     expect(importPath).toBe(pathToFileURL(resolvedPath).href);
     expect(calls).toEqual([
-      [
-        '@zorilla/puppeteer-extra-plugin-user-preferences',
-        '/virtual/@zorilla/puppeteer-extra-plugin-stealth/dist/evasions/user-agent-override/index.js',
-      ],
+      ['@zorilla/puppeteer-extra-plugin-user-preferences', issuerPath],
     ]);
   });
 
