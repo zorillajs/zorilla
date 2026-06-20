@@ -45,7 +45,7 @@
     "pupeteer"
   ],
   "devDependencies": {
-    "@babel/core": "^7.28.6",
+    "@babel/core": "^8.0.0",
     "@types/node": "^24.10.9",
     "@vitest/coverage-v8": "^4.1.2",
     "puppeteer": "^25.0.0",
