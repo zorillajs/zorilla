@@ -108,12 +108,6 @@ jobs:
             node: 22
             os: ubuntu-latest
           - package: playwright-extra
-            node: 24
-            os: ubuntu-latest
-          - package: playwright-extra
-            node: 26
-            os: ubuntu-latest
-          - package: playwright-extra
             node: 22
             os: macos-latest
           - package: playwright-extra
@@ -208,6 +202,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
 
       - name: Build package graph
         run: pnpm --filter "{./packages/${{ matrix.package }}}..." run build
@@ -220,20 +216,16 @@ jobs:
         run: pnpm --filter "{./packages/${{ matrix.package }}}" run --if-present typecheck
 
       - name: Install Playwright browsers
-        if: matrix.package == 'playwright-extra' && (matrix.os != 'ubuntu-latest' || matrix.node == 22)
+        if: matrix.package == 'playwright-extra'
+        shell: bash
         timeout-minutes: 10
-        run: cd packages/playwright-extra && pnpm exec playwright install chromium firefox webkit --with-deps
-
-      - name: Use system Chrome for Playwright
-        if: matrix.package == 'playwright-extra' && matrix.os == 'ubuntu-latest' && matrix.node != 22
         run: |
-          chrome_path="$(command -v google-chrome || command -v google-chrome-stable || true)"
-          if [ -z "$chrome_path" ]; then
-            echo "Unable to find system Chrome on the runner"
-            exit 1
+          cd packages/playwright-extra
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            pnpm exec playwright install chromium chromium-headless-shell firefox
+          else
+            pnpm exec playwright install chromium chromium-headless-shell firefox webkit
           fi
-          echo "PLAYWRIGHT_EXTRA_CHROMIUM_ONLY=true" >> "$GITHUB_ENV"
-          echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$chrome_path" >> "$GITHUB_ENV"
 
       - name: Use system Chrome for Puppeteer
         if: (contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router') && matrix.os == 'ubuntu-latest' && matrix.node != 22
@@ -252,7 +244,13 @@ jobs:
 
       - name: Run Playwright tests
         if: matrix.package == 'playwright-extra'
-        run: pnpm --dir packages/playwright-extra exec playwright test --config test/playwright.config.ts
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            pnpm --dir packages/playwright-extra exec playwright test --config test/playwright.config.ts --project=chromium --project=firefox
+          else
+            pnpm --dir packages/playwright-extra exec playwright test --config test/playwright.config.ts
+          fi
 
       - name: Run tests for ${{ matrix.package }}
         if: matrix.package != 'playwright-extra'

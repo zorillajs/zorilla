@@ -35,11 +35,5 @@
     "linkinator": "^7.6.1",
     "typescript": "^6.0.2"
   },
-  "pnpm": {
-    "overrides": {
-      "fsevents": "^2.1.2",
-      "localtunnel>axios": "1.16.0"
-    }
-  },
   "version": "0.0.0"
 }

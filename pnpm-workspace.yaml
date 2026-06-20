@@ -1,2 +1,18 @@
 packages:
   - 'packages/*'
+
+overrides:
+  fsevents: ^2.1.2
+  localtunnel>axios: 1.16.0
+
+onlyBuiltDependencies:
+  - esbuild
+  - puppeteer
+  - sharp
+  - workerd
+
+allowBuilds:
+  esbuild: true
+  puppeteer: true
+  sharp: true
+  workerd: true
