@@ -14,6 +14,41 @@ const exportExecutablePath = executablePath => {
   }
 };
 
+const getInstallTimeoutMs = () => {
+  const timeoutMs = Number.parseInt(
+    process.env.PUPPETEER_BROWSER_INSTALL_TIMEOUT_MS ?? '240000',
+    10
+  );
+
+  if (!Number.isFinite(timeoutMs) || timeoutMs <= 0) {
+    throw new Error(
+      `Invalid PUPPETEER_BROWSER_INSTALL_TIMEOUT_MS value: ${process.env.PUPPETEER_BROWSER_INSTALL_TIMEOUT_MS}`
+    );
+  }
+
+  return timeoutMs;
+};
+
+const withTimeout = async (promise, timeoutMs, onTimeout) => {
+  let timeoutId;
+
+  const timeoutPromise = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => {
+      onTimeout();
+      reject(
+        new Error(`Timed out installing Puppeteer browser after ${timeoutMs}ms`)
+      );
+    }, timeoutMs);
+    timeoutId.unref?.();
+  });
+
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
+
 const main = async () => {
   const require = createRequire(join(process.cwd(), 'package.json'));
   const puppeteerRequire = createRequire(
@@ -36,13 +71,19 @@ const main = async () => {
 
   const buildId = puppeteerApi.defaultBrowserRevision;
   console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
+  const abortController = new AbortController();
 
-  const installedBrowser = await install({
-    browser: Browser.CHROME,
-    buildId,
-    cacheDir,
-    platform,
-  });
+  const installedBrowser = await withTimeout(
+    install({
+      browser: Browser.CHROME,
+      buildId,
+      cacheDir,
+      platform,
+      signal: abortController.signal,
+    }),
+    getInstallTimeoutMs(),
+    () => abortController.abort()
+  );
 
   if (
     !installedBrowser.executablePath ||
@@ -60,11 +101,17 @@ const main = async () => {
 // temporarily unsettled between async phases.
 const keepAlive = setInterval(() => {}, 1000);
 
+let failed = false;
+
 try {
   await main();
 } catch (error) {
+  failed = true;
   console.error(error);
-  process.exitCode = 1;
 } finally {
   clearInterval(keepAlive);
+}
+
+if (failed) {
+  process.exit(1);
 }

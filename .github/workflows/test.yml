@@ -15,6 +15,10 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CI: 'true'
   FORCE_COLOR: 'true'
@@ -75,6 +79,7 @@ jobs:
   test:
     name: ${{ matrix.package }} (Node ${{ matrix.node }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
 
     strategy:
       fail-fast: false
@@ -204,19 +209,26 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build packages
-        run: pnpm build
+      - name: Build package graph
+        run: pnpm --filter "{./packages/${{ matrix.package }}}..." run build
 
       - name: Typecheck ${{ matrix.package }}
-        run: pnpm --filter @zorilla/${{ matrix.package }} run --if-present typecheck
+        run: pnpm --filter "{./packages/${{ matrix.package }}}" run --if-present typecheck
 
       - name: Install Playwright browsers
         if: matrix.package == 'playwright-extra'
+        timeout-minutes: 10
         run: cd packages/playwright-extra && pnpm exec playwright install chromium firefox webkit --with-deps
 
       - name: Install Chrome for Puppeteer
         if: contains(matrix.package, 'puppeteer') || matrix.package == 'plugin-proxy-router'
+        timeout-minutes: 5
         run: pnpm --dir packages/${{ matrix.package }} exec node ../../scripts/install-puppeteer-browser.mjs
 
+      - name: Run Playwright tests
+        if: matrix.package == 'playwright-extra'
+        run: pnpm --dir packages/playwright-extra exec playwright test --config test/playwright.config.ts
+
       - name: Run tests for ${{ matrix.package }}
-        run: pnpm --filter @zorilla/${{ matrix.package }} test
+        if: matrix.package != 'playwright-extra'
+        run: pnpm --filter "{./packages/${{ matrix.package }}}" test
