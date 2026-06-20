@@ -7,30 +7,19 @@ const require = createRequire(join(process.cwd(), 'package.json'));
 const puppeteerRequire = createRequire(
   require.resolve('puppeteer/package.json')
 );
-const { Browser, BrowserTag, detectBrowserPlatform, install, resolveBuildId } =
-  await import(pathToFileURL(puppeteerRequire.resolve('@puppeteer/browsers')));
+const { Browser, detectBrowserPlatform, install } = await import(
+  pathToFileURL(puppeteerRequire.resolve('@puppeteer/browsers'))
+);
 const puppeteer = await import(pathToFileURL(require.resolve('puppeteer')));
+const puppeteerApi = puppeteer.default.default ?? puppeteer.default;
 
 const cacheDir =
-  process.env.PUPPETEER_CACHE_DIR ?? join(process.cwd(), '.cache', 'puppeteer');
+  process.env.PUPPETEER_CACHE_DIR ?? puppeteerApi.configuration.cacheDirectory;
 const platform = detectBrowserPlatform();
 
 if (!platform) {
   throw new Error('Unable to detect browser platform');
 }
-
-const installChrome = async (buildId, label) => {
-  console.log(`Installing ${label} Chrome ${buildId}`);
-  const installedBrowser = await install({
-    browser: Browser.CHROME,
-    buildId,
-    cacheDir,
-    platform,
-    downloadProgressCallback: 'default',
-  });
-
-  return installedBrowser.executablePath;
-};
 
 const exportExecutablePath = executablePath => {
   console.log(executablePath);
@@ -43,65 +32,24 @@ const exportExecutablePath = executablePath => {
   }
 };
 
-const systemChromeCandidates = [
-  '/usr/bin/google-chrome',
-  '/usr/bin/google-chrome-stable',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  join(
-    process.env.ProgramFiles ?? 'C:\\Program Files',
-    'Google\\Chrome\\Application\\chrome.exe'
-  ),
-  join(
-    process.env['ProgramFiles(x86)'] ?? 'C:\\Program Files (x86)',
-    'Google\\Chrome\\Application\\chrome.exe'
-  ),
-  join(
-    process.env.LocalAppData ?? '',
-    'Google\\Chrome\\Application\\chrome.exe'
-  ),
-];
+const buildId = puppeteerApi.defaultBrowserRevision;
+console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
 
-const defaultPath = puppeteer.default.executablePath();
-if (existsSync(defaultPath)) {
-  exportExecutablePath(defaultPath);
-  process.exit(0);
-}
-
-const systemChromePath = systemChromeCandidates.find(candidate =>
-  existsSync(candidate)
-);
-if (systemChromePath) {
-  exportExecutablePath(systemChromePath);
-  process.exit(0);
-}
-
-try {
-  await installChrome(
-    puppeteer.default.defaultBrowserRevision,
-    'Puppeteer pinned'
-  );
-} catch (error) {
-  console.warn(error);
-}
-
-if (existsSync(defaultPath)) {
-  exportExecutablePath(defaultPath);
-  process.exit(0);
-}
-
-console.warn(
-  `Puppeteer's pinned Chrome was not installed at ${defaultPath}; installing Chrome stable instead.`
-);
-const stableBuildId = await resolveBuildId(
-  Browser.CHROME,
+const installedBrowser = await install({
+  browser: Browser.CHROME,
+  buildId,
+  cacheDir,
   platform,
-  BrowserTag.STABLE
-);
-const stablePath = await installChrome(stableBuildId, 'stable');
-if (!stablePath || !existsSync(stablePath)) {
+  downloadProgressCallback: 'default',
+});
+
+if (
+  !installedBrowser.executablePath ||
+  !existsSync(installedBrowser.executablePath)
+) {
   throw new Error(
-    `Chrome stable was not installed at ${stablePath ?? '<unknown>'}`
+    `Chrome was not installed at ${installedBrowser.executablePath ?? '<unknown>'}`
   );
 }
 
-exportExecutablePath(stablePath);
+exportExecutablePath(installedBrowser.executablePath);

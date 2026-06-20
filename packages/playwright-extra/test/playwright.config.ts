@@ -13,7 +13,6 @@ const config: PlaywrightTestConfig = {
       name: 'chromium',
       use: {
         browserName: 'chromium',
-        channel: process.env.PLAYWRIGHT_CHROMIUM_CHANNEL,
         launchOptions: {
           chromiumSandbox: !process.env.CI,
           args: process.env.CI
