@@ -103,7 +103,50 @@ interface PluginOptions {
   useCache: boolean
   /** Optional custom directory for adblocker cache files. Default: undefined */
   cacheDir?: string
+  /** Optional custom filters for the adblocker. Default: undefined */
+  filters?: string | string[]
+  /** Whether or not to merge custom filters with prebuilt ones. Default: false */
+  mergeFilters?: boolean
 }
+```
+
+### Custom Filters
+
+You can provide your own Adblock Plus (ABP) style filters using the `filters` option. The `mergeFilters` option controls how your custom filters interact with the prebuilt adblocker list (which is governed by the `blockTrackers` and `blockTrackersAndAnnoyances` options).
+
+* **Replace prebuilt lists (Default)**: By default, `mergeFilters` is `false`. When **non-empty** `filters` are provided (e.g. a string with text or an array with at least one valid entry), the plugin will skip downloading or using the prebuilt lists entirely. The `blockTrackers` and `blockTrackersAndAnnoyances` options are ignored, and **only** the custom filters are used. This avoids unnecessary network I/O and speeds up browser launch time. Providing empty filters (like `""` or `[]`) will cause the plugin to fall back to using the prebuilt lists as if `filters` were undefined.
+* **Merge with prebuilt lists**: If `mergeFilters` is `true`, the plugin will fetch the regular prebuilt list and then append your custom filters to it.
+
+> **Note on caching**: The adblocker persists a compiled engine cache to disk to speed up subsequent launches. The cache filename is generated using a hash of your plugin configuration (`filters`, `blockTrackers`, `blockTrackersAndAnnoyances`, and `mergeFilters`). This ensures that if you change your custom filters or toggle options, the plugin safely creates a new cache without accidentally loading an older, incompatible config.
+
+**Example 1: Replacing prebuilt lists with custom filters**
+```js
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker';
+
+puppeteer.use(
+  AdblockerPlugin({
+    filters: [
+      '||example.com^',      // block example.com
+      '@@||example.com/allow' // except for this specific path
+    ]
+    // mergeFilters option is false by default, so prebuilt lists are skipped
+  })
+)
+```
+
+**Example 2: Merging custom filters alongside prebuilt lists**
+```js
+import AdblockerPlugin from '@zorilla/puppeteer-extra-plugin-adblocker';
+
+puppeteer.use(
+  AdblockerPlugin({
+    blockTrackers: true,       // use the prebuilt trackers + ads list
+    filters: [
+      '||my-custom-annoyance.com^'
+    ],
+    mergeFilters: true        // merge custom filters into the prebuilt list
+  })
+)
 ```
 
 ## Motivation

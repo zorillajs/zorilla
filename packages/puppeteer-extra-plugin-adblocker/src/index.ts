@@ -1,9 +1,10 @@
+import { createHash } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import { createRequire } from 'node:module';
 import os from 'node:os';
 import path from 'node:path';
 
-import { PuppeteerBlocker } from '@ghostery/adblocker-puppeteer';
+import { PuppeteerBlocker, parseFilters } from '@ghostery/adblocker-puppeteer';
 import {
   type Puppeteer,
   PuppeteerExtraPlugin,
@@ -12,7 +13,7 @@ import {
 const require = createRequire(import.meta.url);
 const pkg = require('../package.json');
 // Replace '/' with '-' to avoid invalid filesystem paths when package name has a scope
-const engineCacheFilename = `${pkg.name.replace(/\//g, '-')}-${pkg.version}-engine.bin`;
+const cacheFilenamePrefix = `${pkg.name.replace(/\//g, '-')}-${pkg.version}`;
 const defaultCacheRoot = (() => {
   if (process.platform === 'win32') {
     return process.env.LOCALAPPDATA
@@ -43,6 +44,10 @@ export interface PluginOptions {
   cacheDir?: string;
   /** Optional custom priority for interception resolution. Default: undefined */
   interceptResolutionPriority?: number;
+  /** Optional custom filters for the adblocker. Default: undefined */
+  filters?: string | string[];
+  /** Whether or not to merge custom filters with prebuilt ones. Default: false */
+  mergeFilters?: boolean;
   [key: string]: unknown;
 }
 
@@ -68,12 +73,25 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
       useCache: true,
       cacheDir: undefined,
       interceptResolutionPriority: undefined,
+      filters: undefined,
+      mergeFilters: false,
     };
   }
 
   get engineCacheFile() {
     const cacheDir = (this.opts as PluginOptions).cacheDir ?? defaultCacheRoot;
-    return path.join(cacheDir, engineCacheFilename);
+    const customFilters = this.normalizeFilters(this.opts.filters);
+    const hash = createHash('sha256')
+      .update(
+        JSON.stringify({
+          t: this.opts.blockTrackers,
+          ta: this.opts.blockTrackersAndAnnoyances,
+          m: this.opts.mergeFilters,
+          f: customFilters,
+        })
+      )
+      .digest('hex');
+    return path.join(cacheDir, `${cacheFilenamePrefix}-${hash}-engine.bin`);
   }
 
   /**
@@ -107,24 +125,67 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
     );
   }
 
+  private normalizeFilters(filters: unknown): string {
+    if (!filters) {
+      return '';
+    }
+    if (Array.isArray(filters)) {
+      return filters.join('\n').trim();
+    }
+    return String(filters).trim();
+  }
+
   /**
-   * Initialize instance of `PuppeteerBlocker` from remote (either by fetching
-   * a serialized version of the engine when available, or by downloading raw
-   * lists for filters such as EasyList then parsing them to initialize
-   * blocker).
+   * Create an instance of `PuppeteerBlocker` (either by fetching
+   * a serialized version of the engine when available, or by building one
+   * directly from provided custom filters).
    */
-  private async loadFromRemote(): Promise<PuppeteerBlocker> {
-    this.debug('load from remote', {
+  private async buildBlocker(): Promise<PuppeteerBlocker> {
+    const customFilters = this.normalizeFilters(this.opts.filters);
+    const hasCustomFilters = customFilters.length > 0;
+
+    this.debug('building blocker', {
       blockTrackers: this.opts.blockTrackers,
       blockTrackersAndAnnoyances: this.opts.blockTrackersAndAnnoyances,
+      hasCustomFilters,
+      mergeFilters: this.opts.mergeFilters,
     });
-    if (this.opts.blockTrackersAndAnnoyances === true) {
-      return PuppeteerBlocker.fromPrebuiltFull(fetch);
+
+    let blocker: PuppeteerBlocker;
+    if (hasCustomFilters && this.opts.mergeFilters === false) {
+      try {
+        return PuppeteerBlocker.parse(customFilters);
+      } catch (err) {
+        throw new Error(
+          'Failed to parse custom filters provided in PluginOptions.filters',
+          { cause: err }
+        );
+      }
+    } else if (this.opts.blockTrackersAndAnnoyances === true) {
+      blocker = await PuppeteerBlocker.fromPrebuiltFull(fetch);
     } else if (this.opts.blockTrackers === true) {
-      return PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
+      blocker = await PuppeteerBlocker.fromPrebuiltAdsAndTracking(fetch);
     } else {
-      return PuppeteerBlocker.fromPrebuiltAdsOnly(fetch);
+      blocker = await PuppeteerBlocker.fromPrebuiltAdsOnly(fetch);
     }
+
+    if (hasCustomFilters) {
+      try {
+        const parsed = parseFilters(customFilters);
+        blocker.update({
+          newNetworkFilters: parsed.networkFilters,
+          newCosmeticFilters: parsed.cosmeticFilters,
+          newPreprocessors: parsed.preprocessors,
+        });
+      } catch (err) {
+        throw new Error(
+          'Failed to parse custom filters provided in PluginOptions.filters',
+          { cause: err }
+        );
+      }
+    }
+
+    return blocker;
   }
 
   /**
@@ -139,7 +200,7 @@ export class PuppeteerExtraPluginAdblocker extends PuppeteerExtraPlugin {
         this.blocker = await this.loadFromCache();
         this.setRequestInterceptionPriority();
       } catch (_ex) {
-        this.blocker = await this.loadFromRemote();
+        this.blocker = await this.buildBlocker();
         this.setRequestInterceptionPriority();
         await this.persistToCache(this.blocker);
       }
