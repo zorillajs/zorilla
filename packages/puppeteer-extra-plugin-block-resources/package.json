@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra-plugin-block-resources",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Block resources (images, media, etc.) in puppeteer.",
   "type": "module",
   "main": "./dist/index.js",

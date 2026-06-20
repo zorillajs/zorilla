@@ -1,5 +1,18 @@
 # @zorilla/puppeteer-extra-plugin-recaptcha
 
+## 2.0.0
+
+### Major Changes
+
+- [#104](https://github.com/zorillajs/zorilla/pull/104) [`bdc2f6d`](https://github.com/zorillajs/zorilla/commit/bdc2f6dae9710448b78f092bcd5ce3e526c65650) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Drop support for Node.js 20 and require Node.js 22 or newer.
+
+### Patch Changes
+
+- Updated dependencies [[`bdc2f6d`](https://github.com/zorillajs/zorilla/commit/bdc2f6dae9710448b78f092bcd5ce3e526c65650), [`6d055e2`](https://github.com/zorillajs/zorilla/commit/6d055e20d97e96ede0fd0d6768aa2404e7636f40), [`7df2df0`](https://github.com/zorillajs/zorilla/commit/7df2df0a586c69c3958c2fd3941f2b402cdcc448), [`f49407e`](https://github.com/zorillajs/zorilla/commit/f49407e97b9aa06852c458c811f63ebf8bf41870)]:
+  - @zorilla/playwright-extra@2.0.0
+  - @zorilla/puppeteer-extra@2.0.0
+  - @zorilla/puppeteer-extra-plugin@2.0.0
+
 ## 1.0.2
 
 ### Patch Changes
