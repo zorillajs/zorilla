@@ -3,24 +3,6 @@ import { createRequire } from 'node:module';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const require = createRequire(join(process.cwd(), 'package.json'));
-const puppeteerRequire = createRequire(
-  require.resolve('puppeteer/package.json')
-);
-const { Browser, detectBrowserPlatform, install } = await import(
-  pathToFileURL(puppeteerRequire.resolve('@puppeteer/browsers'))
-);
-const puppeteer = await import(pathToFileURL(require.resolve('puppeteer')));
-const puppeteerApi = puppeteer.default.default ?? puppeteer.default;
-
-const cacheDir =
-  process.env.PUPPETEER_CACHE_DIR ?? puppeteerApi.configuration.cacheDirectory;
-const platform = detectBrowserPlatform();
-
-if (!platform) {
-  throw new Error('Unable to detect browser platform');
-}
-
 const exportExecutablePath = executablePath => {
   console.log(executablePath);
 
@@ -32,24 +14,66 @@ const exportExecutablePath = executablePath => {
   }
 };
 
-const buildId = puppeteerApi.defaultBrowserRevision;
-console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
+const withTimeout = async (promise, message) => {
+  let timeout;
 
-const installedBrowser = await install({
-  browser: Browser.CHROME,
-  buildId,
-  cacheDir,
-  platform,
-  downloadProgressCallback: 'default',
-});
+  const timeoutPromise = new Promise((_, reject) => {
+    timeout = setTimeout(() => reject(new Error(message)), 120_000);
+  });
 
-if (
-  !installedBrowser.executablePath ||
-  !existsSync(installedBrowser.executablePath)
-) {
-  throw new Error(
-    `Chrome was not installed at ${installedBrowser.executablePath ?? '<unknown>'}`
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+const main = async () => {
+  const require = createRequire(join(process.cwd(), 'package.json'));
+  const puppeteerRequire = createRequire(
+    require.resolve('puppeteer/package.json')
   );
-}
+  const { Browser, detectBrowserPlatform, install } = await import(
+    pathToFileURL(puppeteerRequire.resolve('@puppeteer/browsers'))
+  );
+  const puppeteer = await import(pathToFileURL(require.resolve('puppeteer')));
+  const puppeteerApi = puppeteer.default.default ?? puppeteer.default;
 
-exportExecutablePath(installedBrowser.executablePath);
+  const cacheDir =
+    process.env.PUPPETEER_CACHE_DIR ??
+    puppeteerApi.configuration.cacheDirectory;
+  const platform = detectBrowserPlatform();
+
+  if (!platform) {
+    throw new Error('Unable to detect browser platform');
+  }
+
+  const buildId = puppeteerApi.defaultBrowserRevision;
+  console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
+
+  const installedBrowser = await withTimeout(
+    install({
+      browser: Browser.CHROME,
+      buildId,
+      cacheDir,
+      platform,
+    }),
+    `Timed out installing Puppeteer-pinned Chrome ${buildId}`
+  );
+
+  if (
+    !installedBrowser.executablePath ||
+    !existsSync(installedBrowser.executablePath)
+  ) {
+    throw new Error(
+      `Chrome was not installed at ${installedBrowser.executablePath ?? '<unknown>'}`
+    );
+  }
+
+  exportExecutablePath(installedBrowser.executablePath);
+};
+
+main().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});
