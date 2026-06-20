@@ -1,7 +1,7 @@
+import { execFileSync } from 'node:child_process';
 import { appendFileSync, existsSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
 
 const exportExecutablePath = executablePath => {
   console.log(executablePath);
@@ -14,49 +14,36 @@ const exportExecutablePath = executablePath => {
   }
 };
 
-const main = async () => {
+const main = () => {
   const require = createRequire(join(process.cwd(), 'package.json'));
   const puppeteerRequire = createRequire(
     require.resolve('puppeteer/package.json')
   );
-  const { Browser, detectBrowserPlatform, install } = await import(
-    pathToFileURL(puppeteerRequire.resolve('@puppeteer/browsers'))
+  const cliPath = puppeteerRequire.resolve(
+    'puppeteer/lib/cjs/puppeteer/node/cli.js'
   );
-  const puppeteer = await import(pathToFileURL(require.resolve('puppeteer')));
-  const puppeteerApi = puppeteer.default.default ?? puppeteer.default;
+  const executablePath = execFileSync(
+    process.execPath,
+    [cliPath, 'browsers', 'install', 'chrome', '--format', '{{path}}'],
+    {
+      encoding: 'utf8',
+      env: process.env,
+      stdio: ['ignore', 'pipe', 'inherit'],
+    }
+  ).trim();
 
-  const cacheDir =
-    process.env.PUPPETEER_CACHE_DIR ??
-    puppeteerApi.configuration.cacheDirectory;
-  const platform = detectBrowserPlatform();
-
-  if (!platform) {
-    throw new Error('Unable to detect browser platform');
-  }
-
-  const buildId = puppeteerApi.defaultBrowserRevision;
-  console.log(`Installing Puppeteer-pinned Chrome ${buildId}`);
-
-  const installedBrowser = await install({
-    browser: Browser.CHROME,
-    buildId,
-    cacheDir,
-    platform,
-  });
-
-  if (
-    !installedBrowser.executablePath ||
-    !existsSync(installedBrowser.executablePath)
-  ) {
+  if (!executablePath || !existsSync(executablePath)) {
     throw new Error(
-      `Chrome was not installed at ${installedBrowser.executablePath ?? '<unknown>'}`
+      `Chrome was not installed at ${executablePath || '<none>'}`
     );
   }
 
-  exportExecutablePath(installedBrowser.executablePath);
+  exportExecutablePath(executablePath);
 };
 
-main().catch(error => {
+try {
+  main();
+} catch (error) {
   console.error(error);
   process.exitCode = 1;
-});
+}
