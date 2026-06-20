@@ -72,6 +72,7 @@ test('should have the internal class members', async () => {
   const instance = new Plugin();
 
   expect(instance._getMissingDependencies instanceof Function).toBe(true);
+  expect(instance._dependencyBaseUrl).toMatch(/^file:\/\//);
   expect(instance._bindBrowserEvents instanceof Function).toBe(true);
   expect(instance._onTargetCreated instanceof Function).toBe(true);
   expect(instance._register instanceof Function).toBe(true);

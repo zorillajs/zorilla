@@ -1,4 +1,5 @@
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import {
@@ -66,6 +67,31 @@ describe('dependency resolution helpers', () => {
     expect(resolveDependencyImportPath('stealth/evasions/chrome.app')).toBe(
       '@zorilla/puppeteer-extra-plugin-stealth/evasions/chrome.app'
     );
+  });
+
+  it('resolves dependencies from the declaring plugin under Plug and Play', () => {
+    const resolvedPath = resolve(
+      '/virtual/@zorilla/puppeteer-extra-plugin-user-preferences/dist/index.js'
+    );
+    const issuerPath = resolve(
+      '/virtual/@zorilla/puppeteer-extra-plugin-stealth/dist/evasions/user-agent-override/index.js'
+    );
+    const calls: Array<[string, string]> = [];
+
+    const importPath = resolveDependencyImportPath('user-preferences', {
+      issuerUrl: pathToFileURL(issuerPath).href,
+      pnpApi: {
+        resolveRequest(request, issuer) {
+          calls.push([request, issuer]);
+          return resolvedPath;
+        },
+      },
+    });
+
+    expect(importPath).toBe(pathToFileURL(resolvedPath).href);
+    expect(calls).toEqual([
+      ['@zorilla/puppeteer-extra-plugin-user-preferences', issuerPath],
+    ]);
   });
 
   it('keeps non-zorilla scoped dependencies as bare import paths', () => {

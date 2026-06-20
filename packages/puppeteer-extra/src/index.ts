@@ -41,6 +41,7 @@ export interface VanillaPuppeteer
  */
 export interface PuppeteerExtraPlugin {
   _isPuppeteerExtraPlugin: boolean;
+  _dependencyBaseUrl?: string;
   name?: string;
   requirements?: Set<string>;
   data?: unknown;
@@ -397,22 +398,21 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    * @private
    */
   private async resolvePluginDependencies() {
-    // Request missing dependencies from all plugins and flatten to a single Set
-    const missingPlugins = this._plugins
-      .map(p => p._getMissingDependencies?.(this._plugins) || new Set<string>())
-      .reduce((combined, list) => {
-        for (const item of list) {
-          combined.add(item);
-        }
-        return combined;
-      }, new Set<string>());
-    if (!missingPlugins.size) {
+    // Request missing dependencies from all plugins and keep the declaring
+    // plugin as the module-resolution issuer for strict package managers.
+    const missingPlugins = this._plugins.flatMap(plugin =>
+      Array.from(
+        plugin._getMissingDependencies?.(this._plugins) || new Set<string>()
+      ).map(name => ({ issuerUrl: plugin._dependencyBaseUrl, name }))
+    );
+    if (!missingPlugins.length) {
       debug('no dependencies are missing');
       return;
     }
     debug('dependencies missing', missingPlugins);
     // Loop through all dependencies declared missing by plugins
-    for (let name of [...missingPlugins]) {
+    for (const missingPlugin of missingPlugins) {
+      let { name } = missingPlugin;
       // Check if the dependency hasn't been registered as plugin already.
       // This might happen when multiple plugins have nested dependencies.
       if (this.pluginNames.includes(name)) {
@@ -430,7 +430,9 @@ export class PuppeteerExtra implements VanillaPuppeteer {
       try {
         // Try to dynamically import and instantiate the stated dependency (ESM compatible)
         // For workspace packages, convert to relative path since ESM dynamic imports don't resolve workspace packages well
-        const importPath = resolveDependencyImportPath(name);
+        const importPath = resolveDependencyImportPath(name, {
+          issuerUrl: missingPlugin.issuerUrl,
+        });
         const module = await import(importPath);
         dep = (module.default || module)();
         // Register it with `puppeteer-extra` as plugin
