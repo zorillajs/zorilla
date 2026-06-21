@@ -1,5 +1,11 @@
 # @zorilla/playwright-extra
 
+## 2.0.0
+
+### Major Changes
+
+- [#104](https://github.com/zorillajs/zorilla/pull/104) [`bdc2f6d`](https://github.com/zorillajs/zorilla/commit/bdc2f6dae9710448b78f092bcd5ce3e526c65650) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Drop support for Node.js 20 and require Node.js 22 or newer.
+
 ## 1.0.3
 
 ### Patch Changes

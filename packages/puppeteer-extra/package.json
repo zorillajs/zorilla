@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/puppeteer-extra",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "type": "module",
   "description": "Teach puppeteer new tricks through plugins.",
   "repository": "zorillajs/zorilla",

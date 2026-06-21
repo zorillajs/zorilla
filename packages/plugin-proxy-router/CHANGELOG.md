@@ -1,5 +1,18 @@
 # @zorilla/proxy-router
 
+## 2.0.0
+
+### Major Changes
+
+- [#104](https://github.com/zorillajs/zorilla/pull/104) [`bdc2f6d`](https://github.com/zorillajs/zorilla/commit/bdc2f6dae9710448b78f092bcd5ce3e526c65650) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Drop support for Node.js 20 and require Node.js 22 or newer.
+
+### Patch Changes
+
+- [#89](https://github.com/zorillajs/zorilla/pull/89) [`2922e9f`](https://github.com/zorillajs/zorilla/commit/2922e9f1fcf37b6f237a09ddd3cce0a1aa3e580c) Thanks [@renovate](https://github.com/apps/renovate)! - Update proxy-chain v3 compatibility for starting and stopping the local proxy router.
+
+- Updated dependencies [[`bdc2f6d`](https://github.com/zorillajs/zorilla/commit/bdc2f6dae9710448b78f092bcd5ce3e526c65650), [`7df2df0`](https://github.com/zorillajs/zorilla/commit/7df2df0a586c69c3958c2fd3941f2b402cdcc448)]:
+  - @zorilla/puppeteer-extra-plugin@2.0.0
+
 ## 1.0.2
 
 ### Patch Changes
