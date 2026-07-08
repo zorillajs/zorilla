@@ -23,7 +23,7 @@
     "puppeteer": "^25.0.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260329.1",
+    "@cloudflare/workers-types": "^5.0.0",
     "@playwright/test": "^1.59.1",
     "@types/node": "^24.10.9",
     "tsx": "^4.19.2",
