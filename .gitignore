@@ -42,3 +42,4 @@ testing/
 tsconfig.tsbuildinfo
 .claude
 coverage/
+packages/stealth-tests/results/

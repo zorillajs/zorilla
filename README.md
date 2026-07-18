@@ -52,6 +52,14 @@
 |---------|-------------|---------|
 | [`@zorilla/extract-stealth-evasions`](./packages/extract-stealth-evasions/) | Extract stealth evasions as standalone JavaScript | [![npm](https://img.shields.io/npm/v/@zorilla/extract-stealth-evasions.svg)](https://www.npmjs.com/package/@zorilla/extract-stealth-evasions) |
 
+### Conformance testing
+
+[`@zorilla/stealth-tests`](./packages/stealth-tests/) provides deterministic,
+Zorilla-owned stealth probes for Chromium through Puppeteer and Playwright. CI
+release-gates these probes and publishes versioned JSON plus human-readable
+Markdown reports. See the [stealth test documentation](./packages/stealth-tests/README.md)
+for local commands and the result metadata contract.
+
 ---
 
 ## 🚀 Quick Start

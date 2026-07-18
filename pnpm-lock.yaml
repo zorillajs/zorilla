@@ -694,6 +694,36 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
 
+  packages/stealth-tests:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.9
+        version: 24.10.9
+      '@vitest/coverage-v8':
+        specifier: ^4.1.2
+        version: 4.1.2(vitest@4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0)))
+      '@zorilla/playwright-extra':
+        specifier: workspace:*
+        version: link:../playwright-extra
+      '@zorilla/puppeteer-extra':
+        specifier: workspace:*
+        version: link:../puppeteer-extra
+      '@zorilla/puppeteer-extra-plugin-stealth':
+        specifier: workspace:*
+        version: link:../puppeteer-extra-plugin-stealth
+      playwright:
+        specifier: ^1.59.1
+        version: 1.59.1
+      puppeteer:
+        specifier: ^25.0.0
+        version: 25.1.0
+      typescript:
+        specifier: ^7.0.0
+        version: 7.0.2
+      vitest:
+        specifier: ^4.1.2
+        version: 4.1.2(@types/node@24.10.9)(vite@7.3.1(@types/node@24.10.9)(terser@5.46.0)(tsx@4.21.0))
+
 packages:
 
   '@babel/code-frame@8.0.0':
