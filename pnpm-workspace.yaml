@@ -3,7 +3,7 @@ packages:
 
 overrides:
   fsevents: ^2.1.2
-  localtunnel>axios: 1.18.0
+  localtunnel>axios: 1.18.1
 
 onlyBuiltDependencies:
   - esbuild
