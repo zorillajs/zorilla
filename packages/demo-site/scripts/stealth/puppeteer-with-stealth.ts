@@ -23,7 +23,6 @@ declare global {
 }
 
 // Enable stealth plugin
-// @ts-expect-error - StealthPlugin type compatibility issue between puppeteer-extra and plugin base class
 puppeteer.use(StealthPlugin());
 
 // Target URL - change to localhost:8787 for local testing
