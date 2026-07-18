@@ -255,3 +255,7 @@ jobs:
       - name: Run tests for ${{ matrix.package }}
         if: matrix.package != 'playwright-extra'
         run: pnpm --filter "{./packages/${{ matrix.package }}}" test
+
+      - name: Test packed packages in an isolated pnpm consumer
+        if: matrix.package == 'puppeteer-extra' && matrix.os == 'ubuntu-latest' && matrix.node == 22
+        run: pnpm test:pnpm-consumer

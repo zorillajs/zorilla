@@ -94,6 +94,30 @@ describe('dependency resolution helpers', () => {
     ]);
   });
 
+  it('resolves dependencies from the declaring plugin under strict node_modules layouts', () => {
+    const issuerPath = fileURLToPath(
+      new URL(
+        '../../puppeteer-extra-plugin-stealth/dist/index.js',
+        import.meta.url
+      )
+    );
+
+    expect(
+      fileURLToPath(
+        resolveDependencyImportPath('stealth/evasions/chrome.app', {
+          issuerUrl: pathToFileURL(issuerPath).href,
+        })
+      )
+    ).toBe(
+      fileURLToPath(
+        new URL(
+          '../../puppeteer-extra-plugin-stealth/dist/evasions/chrome.app/index.js',
+          import.meta.url
+        )
+      )
+    );
+  });
+
   it('keeps non-zorilla scoped dependencies as bare import paths', () => {
     expect(
       resolveDependencyImportPath('@acme/puppeteer-extra-plugin-custom-plugin')
