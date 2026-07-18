@@ -168,6 +168,14 @@ Sizes are relative and intentionally exclude ongoing browser-version maintenance
 
 ### 1. Stealth conformance suite — P0
 
+**Status:** In progress. The initial release-gated foundation landed in July
+2026 as `@zorilla/stealth-tests`. It includes a deterministic fixture, a
+versioned result model, six initial probes, structured JSON and Markdown
+reports, and standard Chromium coverage through both Puppeteer and Playwright.
+The reusable probe/report library is held to 100% test coverage. Remaining
+scope includes broader signal coverage, headful and supported-version matrices,
+Firefox/WebKit where meaningful, and additional backends as their adapters land.
+
 **Problem:** Stealth behavior is currently difficult to compare across browser,
 framework, version, launch mode, and backend. Without a baseline, changes risk
 fixing one surface while making another identity inconsistent.
