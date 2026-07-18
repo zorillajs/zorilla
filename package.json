@@ -34,7 +34,7 @@
     "@changesets/cli": "^2.30.0",
     "@vitest/coverage-v8": "^4.1.2",
     "linkinator": "^7.6.1",
-    "typescript": "^6.0.2"
+    "typescript": "^7.0.0"
   },
   "version": "0.0.0"
 }
