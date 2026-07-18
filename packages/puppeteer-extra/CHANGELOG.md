@@ -1,5 +1,13 @@
 # @zorilla/puppeteer-extra
 
+## 2.0.1
+
+### Patch Changes
+
+- [#112](https://github.com/zorillajs/zorilla/pull/112) [`5c43dc0`](https://github.com/zorillajs/zorilla/commit/5c43dc0d37abe49df0f03c31df683638016070dc) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Fix plugin type compatibility when package managers load plugin packages through separate base-plugin instances.
+
+- [#121](https://github.com/zorillajs/zorilla/pull/121) [`b25d34e`](https://github.com/zorillajs/zorilla/commit/b25d34e87a6cf2c8fb20e5fe12ee3e676737ea56) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Resolve plugin dependencies from the package that declared them so nested stealth dependencies load under pnpm's strict node_modules layout.
+
 ## 2.0.0
 
 ### Major Changes

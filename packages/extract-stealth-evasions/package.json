@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/extract-stealth-evasions",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Extract stealth evasions from puppeteer-extra-plugin-stealth",
   "type": "module",
   "main": "dist/index.js",
