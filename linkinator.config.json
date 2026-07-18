@@ -7,6 +7,7 @@
     ".changeset",
     ".git",
     "pnpm-lock.yaml",
+    "https://arh\\.antoinevastel\\.com/.*",
     "packages/.*/(?:$|\\?)"
   ],
   "markdown": true,
