@@ -1,6 +1,5 @@
-import { describe, expect, it } from 'vitest';
-
-import puppeteer from './index';
+import { describe, expect, it, vi } from 'vitest';
+import puppeteer, { addExtra, type VanillaPuppeteer } from './index';
 
 describe('basic', () => {
   it('is an object', async () => {
@@ -33,5 +32,37 @@ describe('basic', () => {
     expect(puppeteer.executablePath instanceof Function).toBe(true);
     expect(puppeteer.defaultArgs instanceof Function).toBe(true);
     expect(puppeteer.createBrowserFetcher instanceof Function).toBe(true);
+  });
+
+  it('reports when legacy createBrowserFetcher is unavailable', () => {
+    const vanilla = {
+      connect: async () => {
+        throw new Error('not used');
+      },
+      defaultArgs: () => [],
+      executablePath: () => '',
+      launch: async () => {
+        throw new Error('not used');
+      },
+    } as VanillaPuppeteer;
+
+    expect(() => addExtra(vanilla).createBrowserFetcher()).toThrow(
+      'createBrowserFetcher is not available in this version of Puppeteer.'
+    );
+  });
+
+  it('forwards legacy createBrowserFetcher when available', () => {
+    const createBrowserFetcher = vi.fn(() => ({ legacy: true }));
+    const extra = addExtra({
+      ...puppeteer,
+      createBrowserFetcher,
+    });
+
+    expect(extra.createBrowserFetcher({ path: '/tmp/browser-cache' })).toEqual({
+      legacy: true,
+    });
+    expect(createBrowserFetcher).toHaveBeenCalledWith({
+      path: '/tmp/browser-cache',
+    });
   });
 });

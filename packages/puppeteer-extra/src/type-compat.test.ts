@@ -1,5 +1,6 @@
-import { describe, expect, test } from 'vitest';
-import type { PuppeteerExtraPlugin } from './index.js';
+import puppeteer from 'puppeteer';
+import { describe, expect, expectTypeOf, test } from 'vitest';
+import { addExtra, type PuppeteerExtraPlugin } from './index.js';
 
 declare class ExternalPuppeteerExtraPlugin {
   private _debugBase;
@@ -20,5 +21,12 @@ type _ExternalPluginIsAccepted = AssertAssignable<ExternalPuppeteerExtraPlugin>;
 describe('type compatibility', () => {
   test('accepts plugins typed from a separate base package instance', () => {
     expect(true).toBe(true);
+  });
+
+  test('accepts current Puppeteer versions without createBrowserFetcher', () => {
+    const extra = addExtra(puppeteer);
+
+    expectTypeOf(extra).toMatchTypeOf<ReturnType<typeof addExtra>>();
+    expect(extra.pptr).toBe(puppeteer);
   });
 });
