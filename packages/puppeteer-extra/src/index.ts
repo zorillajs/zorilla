@@ -1,5 +1,3 @@
-/// <reference path="./puppeteer-legacy.d.ts" />
-
 import { createRequire } from 'node:module';
 import Debug from 'debug';
 import type {
@@ -28,12 +26,12 @@ const require = createRequire(import.meta.url);
 export interface VanillaPuppeteer
   extends Pick<
     PuppeteerNode,
-    | 'connect'
-    | 'defaultArgs'
-    | 'executablePath'
-    | 'launch'
-    | 'createBrowserFetcher'
+    'connect' | 'defaultArgs' | 'executablePath' | 'launch'
   > {}
+
+interface LegacyPuppeteer {
+  createBrowserFetcher?: (options?: unknown) => unknown;
+}
 
 type PluginDependencyResolver = (
   plugins: PuppeteerExtraPlugin[]
@@ -294,10 +292,16 @@ export class PuppeteerExtra implements VanillaPuppeteer {
    *
    * @param options - See [puppeteer docs](https://github.com/puppeteer/puppeteer/blob/master/docs/api.md#puppeteercreatebrowserfetcheroptions).
    */
-  createBrowserFetcher(
-    options: Parameters<VanillaPuppeteer['createBrowserFetcher']>[0]
-  ): ReturnType<VanillaPuppeteer['createBrowserFetcher']> {
-    return this.pptr.createBrowserFetcher(options);
+  createBrowserFetcher(options?: unknown): unknown {
+    // This API was removed from modern Puppeteer, so it cannot be part of the
+    // required VanillaPuppeteer contract. Keep a runtime bridge for old clients.
+    const legacyPuppeteer = this.pptr as unknown as LegacyPuppeteer;
+    if (!legacyPuppeteer.createBrowserFetcher) {
+      throw new Error(
+        'createBrowserFetcher is not available in this version of Puppeteer.'
+      );
+    }
+    return legacyPuppeteer.createBrowserFetcher(options);
   }
 
   /**

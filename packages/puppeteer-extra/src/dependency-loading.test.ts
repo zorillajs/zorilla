@@ -12,11 +12,6 @@ const fakeVanillaPuppeteer: VanillaPuppeteer = {
   connect: async () => {
     throw new Error('connect should not be called in dependency-loading tests');
   },
-  createBrowserFetcher: () => {
-    throw new Error(
-      'createBrowserFetcher should not be called in dependency-loading tests'
-    );
-  },
   defaultArgs: () => [],
   executablePath: () => '',
   launch: async () => {

@@ -15,6 +15,7 @@ const repositoryRoot = resolve(fileURLToPath(import.meta.url), '../..');
 const temporaryRoot = mkdtempSync(join(tmpdir(), 'zorilla-pnpm-consumer-'));
 const tarballDirectory = join(temporaryRoot, 'tarballs');
 const consumerDirectory = join(temporaryRoot, 'consumer');
+const puppeteerVersion = process.env.PUPPETEER_VERSION || '^25.0.0';
 
 const packageNames = [
   '@zorilla/puppeteer-extra-plugin',
@@ -73,9 +74,18 @@ try {
         dependencies: {
           '@zorilla/puppeteer-extra': `file:${tarballs['@zorilla/puppeteer-extra']}`,
           '@zorilla/puppeteer-extra-plugin-stealth': `file:${tarballs['@zorilla/puppeteer-extra-plugin-stealth']}`,
-          puppeteer: '^25.0.0',
+          puppeteer: puppeteerVersion,
         },
         devDependencies: {
+          '@types/node': JSON.parse(
+            readFileSync(
+              join(
+                repositoryRoot,
+                'packages/puppeteer-extra/node_modules/@types/node/package.json'
+              ),
+              'utf8'
+            )
+          ).version,
           typescript: JSON.parse(
             readFileSync(
               join(repositoryRoot, 'node_modules/typescript/package.json'),
@@ -108,9 +118,10 @@ try {
         compilerOptions: {
           module: 'NodeNext',
           moduleResolution: 'NodeNext',
-          skipLibCheck: true,
+          skipLibCheck: false,
           strict: true,
           target: 'ES2022',
+          types: ['node'],
         },
         include: ['typecheck.ts'],
       },
@@ -121,7 +132,7 @@ try {
 
   writeFileSync(
     join(consumerDirectory, 'typecheck.ts'),
-    `import puppeteer from '@zorilla/puppeteer-extra';\nimport StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth';\n\npuppeteer.use(StealthPlugin());\n`
+    `import vanillaPuppeteer from 'puppeteer';\nimport puppeteer, { addExtra } from '@zorilla/puppeteer-extra';\nimport StealthPlugin from '@zorilla/puppeteer-extra-plugin-stealth';\n\naddExtra(vanillaPuppeteer);\npuppeteer.use(StealthPlugin());\n`
   );
 
   writeFileSync(
