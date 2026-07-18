@@ -1,5 +1,13 @@
 # @zorilla/extract-stealth-evasions
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`5c43dc0`](https://github.com/zorillajs/zorilla/commit/5c43dc0d37abe49df0f03c31df683638016070dc), [`b25d34e`](https://github.com/zorillajs/zorilla/commit/b25d34e87a6cf2c8fb20e5fe12ee3e676737ea56)]:
+  - @zorilla/puppeteer-extra@2.0.1
+  - @zorilla/puppeteer-extra-plugin-stealth@2.0.0
+
 ## 2.0.0
 
 ### Major Changes
