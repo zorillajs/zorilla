@@ -8,10 +8,14 @@ on:
       - opened
       - synchronize
       - reopened
+    paths-ignore:
+      - '**/*.md'
   push:
     branches:
       - main
       - 'test/*'
+    paths-ignore:
+      - '**/*.md'
   schedule:
     - cron: '23 5 * * 1'
   workflow_dispatch:
