@@ -59,6 +59,19 @@ export function resolveDependencyImportPath(
     }
   }
 
+  // Resolve from the plugin that declared the dependency. This matters for
+  // strict node_modules layouts such as pnpm, where the dependency is visible
+  // from the declaring plugin but not necessarily from puppeteer-extra.
+  if (issuerPath) {
+    try {
+      return pathToFileURL(
+        createRequire(opts.issuerUrl || issuerPath).resolve(resolvedName)
+      ).href;
+    } catch {
+      // Fall through to the workspace/bare-specifier compatibility paths.
+    }
+  }
+
   // In Plug'n'Play environments (like Yarn PnP), bypass relative path rewriting
   // and rely on the package manager's strict resolution mechanism instead.
   if (
