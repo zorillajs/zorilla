@@ -56,7 +56,7 @@
   "peerDependencies": {
     "puppeteer": "*",
     "puppeteer-core": "*",
-    "puppeteer-extra": "*"
+    "@zorilla/puppeteer-extra": "^2.0.0"
   },
   "peerDependenciesMeta": {
     "puppeteer": {
@@ -65,7 +65,7 @@
     "puppeteer-core": {
       "optional": true
     },
-    "puppeteer-extra": {
+    "@zorilla/puppeteer-extra": {
       "optional": true
     }
   }

@@ -58,14 +58,14 @@
     "ow": "^3.1.1"
   },
   "peerDependencies": {
-    "playwright-extra": "*",
-    "puppeteer-extra": "*"
+    "@zorilla/playwright-extra": "^2.0.0",
+    "@zorilla/puppeteer-extra": "^2.0.0"
   },
   "peerDependenciesMeta": {
-    "puppeteer-extra": {
+    "@zorilla/puppeteer-extra": {
       "optional": true
     },
-    "playwright-extra": {
+    "@zorilla/playwright-extra": {
       "optional": true
     }
   }
