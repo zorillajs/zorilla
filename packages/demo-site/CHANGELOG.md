@@ -1,5 +1,14 @@
 # @zorilla/demo-site
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`152bd6d`](https://github.com/zorillajs/zorilla/commit/152bd6d431d6ab53effc1bfaaa41ab8bc031113e), [`2d35891`](https://github.com/zorillajs/zorilla/commit/2d35891f07b8d72831197db8d1e411fc3d17d835)]:
+  - @zorilla/puppeteer-extra-plugin-stealth@2.0.1
+  - @zorilla/puppeteer-extra@2.0.2
+  - @zorilla/playwright-extra@2.0.0
+
 ## 1.1.4
 
 ### Patch Changes
