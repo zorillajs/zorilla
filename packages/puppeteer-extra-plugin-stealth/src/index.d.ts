@@ -2,7 +2,7 @@ export = defaultExport;
 declare function defaultExport(opts?: {
   enabledEvasions?: Set<string>;
 }): StealthPlugin;
-declare const StealthPlugin_base: typeof import('puppeteer-extra-plugin').PuppeteerExtraPlugin;
+declare const StealthPlugin_base: typeof import('@zorilla/puppeteer-extra-plugin').PuppeteerExtraPlugin;
 /**
  * Stealth mode: Applies various techniques to make detection of headless puppeteer harder. 💯
  *
