@@ -149,10 +149,10 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.58.0)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra':
-        specifier: ^2.0.0
-        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
+        specifier: ^2.0.2
+        version: link:../puppeteer-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -226,10 +226,10 @@ importers:
         version: 4.1.12
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra':
-        specifier: ^2.0.0
-        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
+        specifier: ^2.0.2
+        version: link:../puppeteer-extra
       debug:
         specifier: ^4.4.3
         version: 4.4.3
@@ -297,7 +297,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -322,10 +322,10 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra':
-        specifier: ^2.0.0
-        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
+        specifier: ^2.0.2
+        version: link:../puppeteer-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -350,7 +350,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -378,10 +378,10 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra':
-        specifier: ^2.0.0
-        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
+        specifier: ^2.0.2
+        version: link:../puppeteer-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -430,7 +430,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -461,7 +461,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -492,7 +492,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -529,7 +529,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -566,7 +566,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -603,7 +603,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -634,7 +634,7 @@ importers:
     dependencies:
       '@zorilla/playwright-extra':
         specifier: ^2.0.0
-        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+        version: link:../playwright-extra
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -1923,30 +1923,6 @@ packages:
 
   '@vitest/utils@4.1.2':
     resolution: {integrity: sha512-xw2/TiX82lQHA06cgbqRKFb5lCAy3axQ4H4SoUFhUsg+wztiet+co86IAMDtF6Vm1hc7J6j09oh/rgDn+JdKIQ==}
-
-  '@zorilla/playwright-extra@2.0.0':
-    resolution: {integrity: sha512-FXeIBhQhmMRPP963eaQVX4AZpZQoUQge+JVSGCrc/u3KKOPJZ7RpURH6p+jr5q9yQN40809iHAlVoethyQn1eg==}
-    engines: {node: '>=22'}
-    peerDependencies:
-      playwright: '*'
-      playwright-core: '*'
-    peerDependenciesMeta:
-      playwright:
-        optional: true
-      playwright-core:
-        optional: true
-
-  '@zorilla/puppeteer-extra@2.0.1':
-    resolution: {integrity: sha512-gmY7D3c12NruX9X3CSJBUqW98vHLvrbAocYEqHXxrP3Jl6gn1wbi2GBY2OuHwIws1H4Qneo6Spn+atknjLUGCQ==}
-    engines: {node: '>=22'}
-    peerDependencies:
-      puppeteer: '*'
-      puppeteer-core: '*'
-    peerDependenciesMeta:
-      puppeteer:
-        optional: true
-      puppeteer-core:
-        optional: true
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -5075,35 +5051,6 @@ snapshots:
       '@vitest/pretty-format': 4.1.2
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
-
-  '@zorilla/playwright-extra@2.0.0(playwright-core@1.58.0)(playwright@1.59.1)':
-    dependencies:
-      debug: 4.4.3
-    optionalDependencies:
-      playwright: 1.59.1
-      playwright-core: 1.58.0
-    transitivePeerDependencies:
-      - supports-color
-
-  '@zorilla/playwright-extra@2.0.0(playwright-core@1.59.1)(playwright@1.59.1)':
-    dependencies:
-      debug: 4.4.3
-    optionalDependencies:
-      playwright: 1.59.1
-      playwright-core: 1.59.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@zorilla/puppeteer-extra@2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)':
-    dependencies:
-      '@types/debug': 4.1.12
-      debug: 4.4.3
-      deepmerge: 4.3.1
-    optionalDependencies:
-      puppeteer: 25.1.0
-      puppeteer-core: 25.1.0
-    transitivePeerDependencies:
-      - supports-color
 
   acorn@8.15.0: {}
 
