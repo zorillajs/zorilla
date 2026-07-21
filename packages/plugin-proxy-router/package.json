@@ -1,6 +1,6 @@
 {
   "name": "@zorilla/proxy-router",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A plugin for playwright & puppeteer to route proxies dynamically.",
   "repository": "zorillajs/zorilla",
   "homepage": "https://github.com/zorillajs/zorilla/tree/main/packages/plugin-proxy-router",
@@ -60,7 +60,7 @@
   },
   "peerDependencies": {
     "@zorilla/playwright-extra": "^2.0.0",
-    "@zorilla/puppeteer-extra": "^2.0.0"
+    "@zorilla/puppeteer-extra": "^2.0.2"
   },
   "peerDependenciesMeta": {
     "@zorilla/puppeteer-extra": {

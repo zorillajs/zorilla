@@ -1,5 +1,17 @@
 # @zorilla/puppeteer-extra-plugin-font-size
 
+## 2.0.1
+
+### Patch Changes
+
+- [#129](https://github.com/zorillajs/zorilla/pull/129) [`152bd6d`](https://github.com/zorillajs/zorilla/commit/152bd6d431d6ab53effc1bfaaa41ab8bc031113e) Thanks [@JustinBeckwith](https://github.com/JustinBeckwith)! - Use the scoped Zorilla framework packages for optional plugin peer dependencies so
+  package managers do not install the upstream `puppeteer-extra` or
+  `playwright-extra` packages.
+- Updated dependencies [[`152bd6d`](https://github.com/zorillajs/zorilla/commit/152bd6d431d6ab53effc1bfaaa41ab8bc031113e), [`2d35891`](https://github.com/zorillajs/zorilla/commit/2d35891f07b8d72831197db8d1e411fc3d17d835)]:
+  - @zorilla/puppeteer-extra-plugin@2.0.1
+  - @zorilla/puppeteer-extra@2.0.2
+  - @zorilla/playwright-extra@2.0.0
+
 ## 2.0.0
 
 ### Major Changes
