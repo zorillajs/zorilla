@@ -147,21 +147,21 @@ importers:
 
   packages/plugin-proxy-router:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.58.0)(playwright@1.59.1)
+      '@zorilla/puppeteer-extra':
+        specifier: ^2.0.0
+        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.58.0)(playwright@1.59.1)
       proxy-chain:
         specifier: ^3.0.0
         version: 3.0.0
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -224,18 +224,18 @@ importers:
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+      '@zorilla/puppeteer-extra':
+        specifier: ^2.0.0
+        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
       debug:
         specifier: ^4.4.3
         version: 4.4.3
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@babel/core':
         specifier: ^8.0.0
@@ -270,9 +270,6 @@ importers:
       puppeteer-core:
         specifier: '*'
         version: 24.35.0
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@24.35.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -298,18 +295,15 @@ importers:
 
   packages/puppeteer-extra-plugin-anonymize-ua:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -326,18 +320,18 @@ importers:
 
   packages/puppeteer-extra-plugin-block-resources:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+      '@zorilla/puppeteer-extra':
+        specifier: ^2.0.0
+        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -354,18 +348,15 @@ importers:
 
   packages/puppeteer-extra-plugin-click-and-wait:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -385,6 +376,12 @@ importers:
 
   packages/puppeteer-extra-plugin-devtools:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
+      '@zorilla/puppeteer-extra':
+        specifier: ^2.0.0
+        version: 2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -409,12 +406,6 @@ importers:
       ow:
         specifier: ^3.1.1
         version: 3.1.1
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -437,18 +428,15 @@ importers:
 
   packages/puppeteer-extra-plugin-flash:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -471,18 +459,15 @@ importers:
 
   packages/puppeteer-extra-plugin-font-size:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -506,8 +491,8 @@ importers:
   packages/puppeteer-extra-plugin-recaptcha:
     dependencies:
       '@zorilla/playwright-extra':
-        specifier: '*'
-        version: 1.0.2(playwright-core@1.59.1)(playwright@1.59.1)
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -542,6 +527,9 @@ importers:
 
   packages/puppeteer-extra-plugin-repl:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -554,12 +542,6 @@ importers:
       ow:
         specifier: ^3.1.1
         version: 3.1.1
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -582,6 +564,9 @@ importers:
 
   packages/puppeteer-extra-plugin-stealth:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -591,12 +576,6 @@ importers:
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
@@ -622,18 +601,15 @@ importers:
 
   packages/puppeteer-extra-plugin-user-data-dir:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
       debug:
         specifier: ^4.4.3
         version: 4.4.3
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -656,6 +632,9 @@ importers:
 
   packages/puppeteer-extra-plugin-user-preferences:
     dependencies:
+      '@zorilla/playwright-extra':
+        specifier: ^2.0.0
+        version: 2.0.0(playwright-core@1.59.1)(playwright@1.59.1)
       '@zorilla/puppeteer-extra-plugin':
         specifier: workspace:*
         version: link:../puppeteer-extra-plugin
@@ -668,12 +647,6 @@ importers:
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
-      playwright-extra:
-        specifier: '*'
-        version: 4.3.6(playwright-core@1.59.1)(playwright@1.59.1)
-      puppeteer-extra:
-        specifier: '*'
-        version: 3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0)
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -1777,10 +1750,6 @@ packages:
   '@types/node@25.0.9':
     resolution: {integrity: sha512-/rpCXHlCWeqClNBwUhDcusJxXYDjZTyE8v5oTO7WbL8eij2nKhUeU89/6xgjU7N4/Vh3He0BtyhJdQbDyhiXAw==}
 
-  '@types/puppeteer@7.0.4':
-    resolution: {integrity: sha512-ja78vquZc8y+GM2al07GZqWDKQskQXygCDiu0e3uO0DMRKqE0MjrFBFmTulfPYzLB6WnL7Kl2tFPy0WXSpPomg==}
-    deprecated: This is a stub types definition. puppeteer provides its own type definitions, so you do not need this installed.
-
   '@types/validator@13.15.10':
     resolution: {integrity: sha512-T8L6i7wCuyoK8A/ZeLYt1+q0ty3Zb9+qbSSvrIVitzT3YjZqkTZ40IbRsPanlB4h1QB3JVL1SYCdR6ngtFYcuA==}
 
@@ -1955,9 +1924,9 @@ packages:
   '@vitest/utils@4.1.2':
     resolution: {integrity: sha512-xw2/TiX82lQHA06cgbqRKFb5lCAy3axQ4H4SoUFhUsg+wztiet+co86IAMDtF6Vm1hc7J6j09oh/rgDn+JdKIQ==}
 
-  '@zorilla/playwright-extra@1.0.2':
-    resolution: {integrity: sha512-dhIG9FHDebZm+m1h2aqz1PUZQQnw2vV8IiRvbwdRRBiFJzy0yDbgDiG0wofAefCVhfJji/80zK6o09Lg6YHvNw==}
-    engines: {node: '>=20'}
+  '@zorilla/playwright-extra@2.0.0':
+    resolution: {integrity: sha512-FXeIBhQhmMRPP963eaQVX4AZpZQoUQge+JVSGCrc/u3KKOPJZ7RpURH6p+jr5q9yQN40809iHAlVoethyQn1eg==}
+    engines: {node: '>=22'}
     peerDependencies:
       playwright: '*'
       playwright-core: '*'
@@ -1965,6 +1934,18 @@ packages:
       playwright:
         optional: true
       playwright-core:
+        optional: true
+
+  '@zorilla/puppeteer-extra@2.0.1':
+    resolution: {integrity: sha512-gmY7D3c12NruX9X3CSJBUqW98vHLvrbAocYEqHXxrP3Jl6gn1wbi2GBY2OuHwIws1H4Qneo6Spn+atknjLUGCQ==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      puppeteer: '*'
+      puppeteer-core: '*'
+    peerDependenciesMeta:
+      puppeteer:
+        optional: true
+      puppeteer-core:
         optional: true
 
   acorn@8.15.0:
@@ -3354,18 +3335,6 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright-extra@4.3.6:
-    resolution: {integrity: sha512-q2rVtcE8V8K3vPVF1zny4pvwZveHLH8KBuVU2MoE3Jw4OKVoBWsHI9CH9zPydovHHOCDxjGN2Vg+2m644q3ijA==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      playwright: '*'
-      playwright-core: '*'
-    peerDependenciesMeta:
-      playwright:
-        optional: true
-      playwright-core:
-        optional: true
-
   playwright@1.59.1:
     resolution: {integrity: sha512-C8oWjPR3F81yljW9o5OxcWzfh6avkVwDD2VYdwIGqTkl+OGFISgypqzfu7dOe4QNLL2aqcWBmI3PMtLIK233lw==}
     engines: {node: '>=18'}
@@ -3427,21 +3396,6 @@ packages:
   puppeteer-core@25.1.0:
     resolution: {integrity: sha512-jKzy5y4WG6uNuFbTWgW1D7mqoT9o0nllc/6a1DGF775T1mPmgw3scdFEtEq67yVFikavQmbYq6NLfbTfxHSlqQ==}
     engines: {node: '>=22.12.0'}
-
-  puppeteer-extra@3.3.6:
-    resolution: {integrity: sha512-rsLBE/6mMxAjlLd06LuGacrukP2bqbzKCLzV1vrhHFavqQE/taQ2UXv3H5P0Ls7nsrASa+6x3bDbXHpqMwq+7A==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      '@types/puppeteer': '*'
-      puppeteer: '*'
-      puppeteer-core: '*'
-    peerDependenciesMeta:
-      '@types/puppeteer':
-        optional: true
-      puppeteer:
-        optional: true
-      puppeteer-core:
-        optional: true
 
   puppeteer@25.1.0:
     resolution: {integrity: sha512-7L6/0JM7XStK99lIL4xQySyNEXNfII6pk0BxkI5kKBTOhR7AsoQiv067YTsE/rIXxQiq9ajlO4WcqBjS/FWK1A==}
@@ -4956,15 +4910,6 @@ snapshots:
       undici-types: 7.16.0
     optional: true
 
-  '@types/puppeteer@7.0.4':
-    dependencies:
-      puppeteer: 25.1.0
-    transitivePeerDependencies:
-      - bufferutil
-      - proxy-agent
-      - utf-8-validate
-    optional: true
-
   '@types/validator@13.15.10': {}
 
   '@types/yargs-parser@21.0.3': {}
@@ -5131,12 +5076,32 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@zorilla/playwright-extra@1.0.2(playwright-core@1.59.1)(playwright@1.59.1)':
+  '@zorilla/playwright-extra@2.0.0(playwright-core@1.58.0)(playwright@1.59.1)':
+    dependencies:
+      debug: 4.4.3
+    optionalDependencies:
+      playwright: 1.59.1
+      playwright-core: 1.58.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@zorilla/playwright-extra@2.0.0(playwright-core@1.59.1)(playwright@1.59.1)':
     dependencies:
       debug: 4.4.3
     optionalDependencies:
       playwright: 1.59.1
       playwright-core: 1.59.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@zorilla/puppeteer-extra@2.0.1(puppeteer-core@25.1.0)(puppeteer@25.1.0)':
+    dependencies:
+      '@types/debug': 4.1.12
+      debug: 4.4.3
+      deepmerge: 4.3.1
+    optionalDependencies:
+      puppeteer: 25.1.0
+      puppeteer-core: 25.1.0
     transitivePeerDependencies:
       - supports-color
 
@@ -6535,24 +6500,6 @@ snapshots:
 
   playwright-core@1.59.1: {}
 
-  playwright-extra@4.3.6(playwright-core@1.58.0)(playwright@1.59.1):
-    dependencies:
-      debug: 4.4.3
-    optionalDependencies:
-      playwright: 1.59.1
-      playwright-core: 1.58.0
-    transitivePeerDependencies:
-      - supports-color
-
-  playwright-extra@4.3.6(playwright-core@1.59.1)(playwright@1.59.1):
-    dependencies:
-      debug: 4.4.3
-    optionalDependencies:
-      playwright: 1.59.1
-      playwright-core: 1.59.1
-    transitivePeerDependencies:
-      - supports-color
-
   playwright@1.59.1:
     dependencies:
       playwright-core: 1.59.1
@@ -6640,30 +6587,6 @@ snapshots:
       - bufferutil
       - proxy-agent
       - utf-8-validate
-
-  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@24.35.0)(puppeteer@25.1.0):
-    dependencies:
-      '@types/debug': 4.1.12
-      debug: 4.4.3
-      deepmerge: 4.3.1
-    optionalDependencies:
-      '@types/puppeteer': 7.0.4
-      puppeteer: 25.1.0
-      puppeteer-core: 24.35.0
-    transitivePeerDependencies:
-      - supports-color
-
-  puppeteer-extra@3.3.6(@types/puppeteer@7.0.4)(puppeteer-core@25.1.0)(puppeteer@25.1.0):
-    dependencies:
-      '@types/debug': 4.1.12
-      debug: 4.4.3
-      deepmerge: 4.3.1
-    optionalDependencies:
-      '@types/puppeteer': 7.0.4
-      puppeteer: 25.1.0
-      puppeteer-core: 25.1.0
-    transitivePeerDependencies:
-      - supports-color
 
   puppeteer@25.1.0:
     dependencies:

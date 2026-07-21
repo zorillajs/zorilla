@@ -36,6 +36,31 @@ function run(command, args, cwd = repositoryRoot) {
   });
 }
 
+function capture(command, args, cwd = repositoryRoot) {
+  return execFileSync(command, args, {
+    cwd,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      PUPPETEER_SKIP_DOWNLOAD: 'true',
+    },
+    stdio: ['ignore', 'pipe', 'inherit'],
+  });
+}
+
+function containsPackage(value, packageName) {
+  if (Array.isArray(value)) {
+    return value.some(entry => containsPackage(entry, packageName));
+  }
+  if (value && typeof value === 'object') {
+    if (value.name === packageName) return true;
+    return Object.values(value).some(entry =>
+      containsPackage(entry, packageName)
+    );
+  }
+  return false;
+}
+
 function findTarball(packageName) {
   const filenamePrefix = packageName.replace('@', '').replaceAll('/', '-');
   const filename = readdirSync(tarballDirectory).find(
@@ -141,6 +166,12 @@ try {
   );
 
   run('pnpm', ['install', '--ignore-scripts'], consumerDirectory);
+  const upstreamWhy = JSON.parse(
+    capture('pnpm', ['why', 'puppeteer-extra', '--json'], consumerDirectory)
+  );
+  if (containsPackage(upstreamWhy, 'puppeteer-extra')) {
+    throw new Error('The upstream puppeteer-extra package was installed');
+  }
   run('pnpm', ['exec', 'tsc', '--noEmit'], consumerDirectory);
   run('node', ['runtime.mjs'], consumerDirectory);
 } finally {

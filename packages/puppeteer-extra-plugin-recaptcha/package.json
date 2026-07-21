@@ -55,8 +55,8 @@
     "merge-deep": "^3.0.3"
   },
   "peerDependencies": {
-    "@zorilla/playwright-extra": "*",
-    "@zorilla/puppeteer-extra": "*"
+    "@zorilla/playwright-extra": "^2.0.0",
+    "@zorilla/puppeteer-extra": "^2.0.0"
   },
   "peerDependenciesMeta": {
     "@zorilla/puppeteer-extra": {
