@@ -45,7 +45,7 @@
     "@types/http-proxy": "^1.17.17",
     "@types/node": "^24.10.9",
     "puppeteer": "^25.0.0",
-    "vitest": "^4.1.2"
+    "vitest": "^5.0.0"
   },
   "dependencies": {
     "@zorilla/puppeteer-extra-plugin": "workspace:*",
