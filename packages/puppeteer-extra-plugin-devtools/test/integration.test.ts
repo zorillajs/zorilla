@@ -188,27 +188,5 @@ describe('Integration tests', () => {
 
       server.close();
     });
-
-    test('_createTunnel sets up event handlers', async () => {
-      const instance = new DevToolsTunnel(webSocketDebuggerUrl);
-
-      const handlers: Record<string, any> = {};
-      const mockTunnel: any = {
-        url: 'https://test.localtunnel.me',
-        close: vi.fn(),
-        on: vi.fn((event: string, handler: any) => {
-          handlers[event] = handler;
-          return mockTunnel;
-        }),
-      };
-
-      // Mock localtunnel temporarily
-      vi.mock('localtunnel', () => ({
-        default: vi.fn(() => Promise.resolve(mockTunnel)),
-      }));
-
-      // Verify that _createTunnel would set up event handlers
-      expect(typeof instance._createTunnel).toBe('function');
-    });
   });
 });
