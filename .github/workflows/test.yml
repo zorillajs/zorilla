@@ -148,6 +148,10 @@ jobs:
     name: ${{ matrix.package }} (Node ${{ matrix.node }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
+    defaults:
+      run:
+        # Use the same pnpm invocation on Windows as the browser/test steps.
+        shell: bash
 
     strategy:
       fail-fast: false
