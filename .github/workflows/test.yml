@@ -53,9 +53,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
 
       - name: Install Chromium
         run: pnpm --filter @zorilla/stealth-tests exec playwright install --with-deps chromium
+
+      - name: Install Chrome for Puppeteer
+        timeout-minutes: 5
+        run: pnpm --dir packages/stealth-tests exec node ../../scripts/install-puppeteer-browser.mjs
 
       - name: Build conformance package graph
         run: pnpm --filter "@zorilla/stealth-tests..." run build
