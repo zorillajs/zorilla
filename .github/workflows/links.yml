@@ -44,4 +44,6 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Check links in markdown files
+        # source.chromium.org rejects automated requests with HTTP 401;
+        # its reference links are excluded in linkinator.config.json.
         run: pnpm links

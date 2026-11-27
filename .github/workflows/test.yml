@@ -32,7 +32,8 @@ env:
 jobs:
   stealth-conformance:
     name: Stealth conformance (Chromium)
-    runs-on: ubuntu-latest
+    # The locked Playwright version does not support Ubuntu 26.04 yet.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -167,7 +168,8 @@ jobs:
           # playwright-extra
           - package: playwright-extra
             node: 22
-            os: ubuntu-latest
+            # Keep in sync with the supported OS used by stealth-conformance.
+            os: ubuntu-24.04
           - package: playwright-extra
             node: 22
             os: macos-latest

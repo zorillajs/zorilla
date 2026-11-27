@@ -8,6 +8,7 @@
     ".git",
     "pnpm-lock.yaml",
     "https://arh\\.antoinevastel\\.com/.*",
+    "^https://source\\.chromium\\.org/",
     "packages/.*/(?:$|\\?)"
   ],
   "markdown": true,
